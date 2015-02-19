@@ -1,3 +1,4 @@
+package jumpingalien.model;
 /**
  * A POD class representing a transform in a 2D world.
  * The transform bundles a position (x and y coordinate)

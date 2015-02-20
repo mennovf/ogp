@@ -76,4 +76,14 @@ public class Mazub {
 								 this.sprites[8] : this.sprites[9+m];
 		}
 	}
+	
+	@Basic
+	public int getHeight(){
+		return this.currentSprite.getHeight();
+	}
+
+	@Basic
+	public int getWidth(){
+		return this.currentSprite.getWidth();
+	}
 }

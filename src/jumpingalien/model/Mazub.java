@@ -10,14 +10,15 @@ public class Mazub {
 	
 	private final double vxInit;
 	private final double vxMax;
+	private final double vxMaxDuck = 1;
 	private static final double ax = 0.9;
 	
 	boolean isMoving = false, isJumping = false, isDucking = false;
 	double currentTime = 0;
 	double endMovingTime = 0;
 	
-	double vx = 0, vy = 0;
-	int posx = 0, posy = 0;
+	// Speed and position use meters.
+	private Vector2D<Double> speed, position;
 	
 	public Mazub(Sprite[] sprites, double vxInit, double vxMax){
 		this.sprites = sprites;
@@ -29,6 +30,16 @@ public class Mazub {
 	@Basic
 	public Sprite getCurrentSprite(){
 		return currentSprite;
+	}
+	
+	@Basic
+	public Vector2D getCurrentSpeed(){
+		return this.speed;
+	}
+	
+	@Basic
+	public Vector2D getCurrentPosition(){
+		return this.position;
 	}
 	
 	

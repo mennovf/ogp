@@ -1,6 +1,7 @@
 package jumpingalien.part1.facade;
 
 import jumpingalien.model.Mazub;
+import jumpingalien.model.Vector2D;
 import jumpingalien.util.Sprite;
 
 public class Facade implements IFacade {
@@ -19,7 +20,7 @@ public class Facade implements IFacade {
 
 	@Override
 	public double[] getVelocity(Mazub alien) {
-		// TODO Auto-generated method stub
+		Vector2D speed = alien.getCurrentSpeed();
 		return null;
 	}
 

@@ -8,4 +8,8 @@ public class Vector2D <T> {
 		this.x = x;
 		this.y = y;
 	}
+	
+	public T[] values() {
+		return null;
+	}
 }

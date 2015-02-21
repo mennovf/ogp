@@ -8,14 +8,22 @@ public class Mazub {
 	private Sprite[] sprites;
 	private Sprite currentSprite;
 	
+	private final double vxInit;
+	private final double vxMax;
+	private static final double ax = 0.9;
 	
 	boolean isMoving = false, isJumping = false, isDucking = false;
 	double currentTime = 0;
 	double endMovingTime = 0;
 	
-	public Mazub(Sprite[] sprites){
+	double vx = 0, vy = 0;
+	int posx = 0, posy = 0;
+	
+	public Mazub(Sprite[] sprites, double vxInit, double vxMax){
 		this.sprites = sprites;
 		this.currentSprite = sprites[0];
+		this.vxInit = vxInit;
+		this.vxMax = vxMax;
 	}
 	
 	@Basic
@@ -27,7 +35,7 @@ public class Mazub {
 	/**
 	 * @param dt
 	 * 			The time that has passed in the game world since last calling this method.
-	 * @throws IllegalArgumentException
+	 * @throws	IllegalArgumentException
 	 * 			| (dt < 0) || (dt > 0.2)
 	 */
 	public void advanceTime(double dt) throws IllegalArgumentException{
@@ -85,5 +93,60 @@ public class Mazub {
 	@Basic
 	public int getWidth(){
 		return this.currentSprite.getWidth();
+	}
+	
+	/**
+	 * Starts this Mazub's movement in the given direction.
+	 * Nominally
+	 * 
+	 * @param direction
+	 * 			The direction to start moving in.
+	 */
+	public void startMove(Transform.Direction direction) {
+		
+		
+	}
+	
+	/**
+	 * Ends this Mazub's movement.
+	 */
+	public void endMove() {
+		
+		
+	}
+	
+	
+	/**
+	 * Starts the jump of this Mazub.
+	 * Defensively
+	 */
+	public void startJump() {
+		
+		
+	}
+	
+	/**
+	 * Ends the jump of this Mazub.
+	 * Defensively
+	 */
+	public void endJump() {
+		
+		
+	}
+	
+	
+	/**
+	 * Defensively
+	 */
+	public void startDuck() {
+		
+		
+	}
+	
+	/**
+	 * Defensively
+	 */
+	public void endDuck() {
+		
 	}
 }

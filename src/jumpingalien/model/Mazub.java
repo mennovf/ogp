@@ -116,16 +116,15 @@ public class Mazub {
 	 * 			The direction to start moving in.
 	 */
 	public void startMove(Transform.Direction direction) {
-		
-		
+		this.isMoving = true;
+		this.transform.facing = direction;
 	}
 	
 	/**
 	 * Ends this Mazub's movement.
 	 */
 	public void endMove() {
-		
-		
+		this.isMoving = false;
 	}
 	
 	
@@ -134,8 +133,7 @@ public class Mazub {
 	 * Defensively
 	 */
 	public void startJump() {
-		
-		
+		this.isJumping = true;
 	}
 	
 	/**
@@ -143,8 +141,7 @@ public class Mazub {
 	 * Defensively
 	 */
 	public void endJump() {
-		
-		
+		this.isJumping = false;
 	}
 	
 	
@@ -152,14 +149,13 @@ public class Mazub {
 	 * Defensively
 	 */
 	public void startDuck() {
-		
-		
+		this.isDucking = true;
 	}
 	
 	/**
 	 * Defensively
 	 */
 	public void endDuck() {
-		
+		this.isDucking = false;
 	}
 }

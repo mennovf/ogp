@@ -11,7 +11,7 @@ public class Facade implements IFacade {
 	public Mazub createMazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites) {
 		double x = pixelLeftX * 0.01;
 		double y = pixelBottomY * 0.01;
-		return new Mazub(x, y, sprites, 1.0, 3.0);
+		return new Mazub(x, y, sprites, 1.0, 3.0, Transform.Direction.RIGHT);
 	}
 
 	@Override

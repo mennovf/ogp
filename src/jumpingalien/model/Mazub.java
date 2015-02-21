@@ -11,7 +11,6 @@ public class Mazub {
 	private final double vxInit;
 	private final double vxMax;
 	private final double vxMaxDuck = 1;
-	private static final double ax = 0.9;
 	
 	boolean isMoving = false, isJumping = false, isDucking = false;
 	double currentTime = 0;
@@ -19,6 +18,7 @@ public class Mazub {
 	
 	// Speed and position use meters.
 	private Vector2D<Double> speed, position;
+	private static final Vector2D<Double> acceleration = new Vector2D<>(0.9, -10.0);
 	
 	public Mazub(double x, double y, Sprite[] sprites, double vxInit, double vxMax, Transform.Direction direction){
 		this.position = new Vector2D<>(x, y);
@@ -159,5 +159,17 @@ public class Mazub {
 	 */
 	public void endDuck() {
 		this.isDucking = false;
+	}
+	
+	
+	public Vector2D<Double> getAcceleration(){
+		Vector2D<Double> acc = new Vector2D<>(0.0, 0.0);
+		if (isMoving){
+			acc.x = Mazub.acceleration.x;
+		}
+		if (isJumping){
+			acc.y = Mazub.acceleration.y;
+		}
+		return acc;
 	}
 }

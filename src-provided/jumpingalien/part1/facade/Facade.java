@@ -31,8 +31,9 @@ public class Facade implements IFacade {
 
 	@Override
 	public double[] getAcceleration(Mazub alien) {
-		// TODO Auto-generated method stub
-		return null;
+		Vector2D<Double> acc = alien.getAcceleration();
+		double[] accArray = {acc.x, acc.y};
+		return accArray;
 	}
 
 	@Override

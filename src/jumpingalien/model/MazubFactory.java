@@ -15,7 +15,7 @@ public class MazubFactory {
 	}
 	
 	public Mazub build() {
-		return new Mazub(null, this.vxInit, this.vxMax);
+		return new Mazub(0, 0, null, this.vxInit, this.vxMax);
 	}
 }
 

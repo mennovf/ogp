@@ -1,24 +1,35 @@
 package jumpingalien.model;
 
+import jumpingalien.util.Sprite;
+
 public class MazubFactory {
 
-	private double vxInit, vxMax;
+	private double vxInit = 1, vxMax = 3;
+	private Vector2D<Double> position = new Vector2D<>(0.0, 0.0);
+	private Sprite[] sprites;
+	private Transform.Direction direction = Transform.Direction.RIGHT;
 	
-	public MazubFactory setVxInit(double vxInit) {
+	public MazubFactory vxInit(double vxInit) {
 		this.vxInit = vxInit;
 		return this;
 	}
 	
-	public MazubFactory setVxMax(double vxMax) {
+	public MazubFactory vxMax(double vxMax) {
 		this.vxMax = vxMax;
 		return this;
 	}
 	
+	public MazubFactory position(Vector2D<Double> position) {
+		this.position = position;
+		return this;
+	}
+	
+	public MazubFactory sprites(Sprite[] sprites) {
+		this.sprites = sprites;
+		return this;
+	}
+	
 	public Mazub build() {
-		return new Mazub(0, 0, null, this.vxInit, this.vxMax);
+		return new Mazub(position.x, position.y, sprites, vxInit, vxMax, direction);
 	}
 }
-
-/* Example usage:
- * Mazub mazub = new MazubFactor().setVxInit(1.0).setVxMax(3.0).build();
- */

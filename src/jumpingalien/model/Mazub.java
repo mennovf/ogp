@@ -20,9 +20,10 @@ public class Mazub {
 	// Speed and position use meters.
 	private Vector2D<Double> speed, position;
 	
-	public Mazub(double x, double y, Sprite[] sprites, double vxInit, double vxMax){
-		this.position.x = x;
-		this.position.y = y;
+	public Mazub(double x, double y, Sprite[] sprites, double vxInit, double vxMax, Transform.Direction direction){
+		this.position = new Vector2D<>(x, y);
+		this.speed = new Vector2D<>(0.0, 0.0);
+		this.transform = new Transform(x, y, direction);
 		this.sprites = sprites;
 		this.currentSprite = sprites[0];
 		this.vxInit = vxInit;

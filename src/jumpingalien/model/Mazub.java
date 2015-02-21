@@ -96,6 +96,15 @@ public class Mazub {
 		}
 	}
 	
+	@Basic
+	public int getHeight(){
+		return this.currentSprite.getHeight();
+	}
+
+	@Basic
+	public int getWidth(){
+		return this.currentSprite.getWidth();
+	}
 	
 	/**
 	 * Starts this Mazub's movement in the given direction.
@@ -149,7 +158,6 @@ public class Mazub {
 	 * Defensively
 	 */
 	public void endDuck() {
-		
 		
 	}
 }

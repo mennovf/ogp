@@ -8,11 +8,12 @@ public class Transform {
 	public enum Direction{
 		LEFT, RIGHT
 	}
-	public Vector2D<Double> position = new Vector2D(0,0);
+	
+	public Vector2D<Double> position = new Vector2D<>(0.0, 0.0);
 	public Direction facing;
 	
 	public Transform(double x, double y, Direction dir){
-		this.position = new Vector2D(x, y);
+		this.position = new Vector2D<>(x, y);
 		this.facing = dir;
 	}
 }

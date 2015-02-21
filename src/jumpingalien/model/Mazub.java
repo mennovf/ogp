@@ -2,6 +2,7 @@ package jumpingalien.model;
 
 import be.kuleuven.cs.som.annotate.Basic;
 import jumpingalien.util.Sprite;
+import jumpingalien.util.Util;
 
 public class Mazub {
 	private Transform transform;
@@ -63,8 +64,23 @@ public class Mazub {
 		this.currentTime += dt;
 		//TODO Add other time related stuff in here
 		
+		updateMovement(dt);
 		//currentSprite gets determined AFTER Mazub's state has been updated
 		this.determineCurrentSprite();
+	}
+
+	private void updateMovement(double dt) {
+		Vector2D<Double> acc = getAcceleration();
+		this.position.y = this.speed.y*dt + acc.y * dt * dt / 2.0;
+		this.speed.y += acc.y * dt;
+		if (this.position.y <= 0){
+			this.position.y = 0.0;
+			this.speed.y = 0.0;
+			if (isJumping){
+				endJump();
+			}
+		}
+		
 	}
 
 	private void determineCurrentSprite() {
@@ -84,7 +100,7 @@ public class Mazub {
 		if (!isMoving && isDucking && (!recentlyMoved)){
 			this.currentSprite = this.sprites[1];
 		}
-		if (isMoving && isJumping && !isDucking){
+		if (isMoving && ! onGround() && !isDucking){
 			this.currentSprite = this.transform.facing == Transform.Direction.RIGHT ?
 								 this.sprites[4] : this.sprites[5];
 		}
@@ -92,7 +108,7 @@ public class Mazub {
 			this.currentSprite = this.transform.facing == Transform.Direction.RIGHT ?
 								 this.sprites[6] : this.sprites[7];
 		}
-		if (!(isJumping || isDucking) && isMoving){
+		if (!(! onGround() || isDucking) && isMoving){
 			//TODO Implement the animation
 			this.currentSprite = this.transform.facing == Transform.Direction.RIGHT ?
 								 this.sprites[8] : this.sprites[9+m];
@@ -135,7 +151,10 @@ public class Mazub {
 	 * Defensively
 	 */
 	public void startJump() {
-		this.isJumping = true;
+		if (this.onGround() && !isJumping){
+			this.isJumping = true;
+			this.speed.y = 8.0;
+		}
 	}
 	
 	/**
@@ -167,9 +186,13 @@ public class Mazub {
 		if (isMoving){
 			acc.x = Mazub.acceleration.x;
 		}
-		if (isJumping){
+		if (!onGround()){
 			acc.y = Mazub.acceleration.y;
 		}
 		return acc;
+	}
+	
+	public boolean onGround(){
+		return Util.fuzzyEquals(this.position.y, 0.0);
 	}
 }

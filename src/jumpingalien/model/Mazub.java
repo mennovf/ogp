@@ -125,6 +125,7 @@ public class Mazub {
 	 */
 	public void endMove() {
 		this.isMoving = false;
+		this.endMovingTime = this.currentTime;
 	}
 	
 	

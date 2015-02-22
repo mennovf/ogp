@@ -71,7 +71,21 @@ public class Mazub {
 
 	private void updateMovement(double dt) {
 		Vector2D<Double> acc = getAcceleration();
-		this.position.y = this.speed.y*dt + acc.y * dt * dt / 2.0;
+		
+		this.position.x += this.speed.x * dt + acc.x * dt * dt / 2.0;
+		this.speed.x += acc.x * dt;
+		if (this.position.x < 0) {
+			this.position.x = 0.0;
+		} else if (this.position.x >= 10.24) {
+			this.position.x = 10.23;
+		}
+		if (this.speed.x <= -this.getMaxHorizontalSpeed()) {
+			this.speed.x = -this.getMaxHorizontalSpeed();
+		} else if (this.speed.x >= this.getMaxHorizontalSpeed()) {
+			this.speed.x = this.getMaxHorizontalSpeed();
+		}
+		
+		this.position.y += this.speed.y*dt + acc.y * dt * dt / 2.0;
 		this.speed.y += acc.y * dt;
 		if (this.position.y <= 0){
 			this.position.y = 0.0;
@@ -135,6 +149,7 @@ public class Mazub {
 	public void startMove(Transform.Direction direction) {
 		this.isMoving = true;
 		this.transform.facing = direction;
+		this.speed.x = direction == Transform.Direction.RIGHT ? 1.0 : -1.0;
 	}
 	
 	/**
@@ -143,6 +158,7 @@ public class Mazub {
 	public void endMove() {
 		this.isMoving = false;
 		this.endMovingTime = this.currentTime;
+		this.speed.x = 0.0;
 	}
 	
 	
@@ -184,12 +200,16 @@ public class Mazub {
 	public Vector2D<Double> getAcceleration(){
 		Vector2D<Double> acc = new Vector2D<>(0.0, 0.0);
 		if (isMoving){
-			acc.x = Mazub.acceleration.x;
+			acc.x = (transform.facing == Transform.Direction.RIGHT ? 1.0 : -1.0) * Mazub.acceleration.x;
 		}
 		if (!onGround()){
 			acc.y = Mazub.acceleration.y;
 		}
 		return acc;
+	}
+	
+	public double getMaxHorizontalSpeed(){
+		return this.isDucking ? 1.0 : this.vxMax;
 	}
 	
 	public boolean onGround(){

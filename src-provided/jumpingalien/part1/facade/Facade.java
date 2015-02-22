@@ -15,15 +15,14 @@ public class Facade implements IFacade {
 
 	@Override
 	public int[] getLocation(Mazub alien) {
-		Vector2D<Double> position = alien.getCurrentPosition();
+		Vector2D<Double> position = alien.getPosition();
 		int[] worldPosition = {metersToPixels(position.x), metersToPixels(position.y)};
 		return worldPosition;
 	}
 
 	@Override
 	public double[] getVelocity(Mazub alien) {
-		Vector2D<Double> speed = alien.getCurrentSpeed();
-		//Assuming they expect speed to be in m/s, not pixels/s.
+		Vector2D<Double> speed = alien.getSpeed();
 		double[] speedArray = {speed.x, speed.y};
 		return speedArray;
 	}
@@ -92,10 +91,12 @@ public class Facade implements IFacade {
 	}
 	
 	/**
-	 * @param m
-	 * 		  The value to convert from meters to pixels.
-	 * @return m converted to pixels.
-	 * @post m has to be positive
+	 * @param	m
+	 * 			The value to convert from meters to pixels.
+	 * 
+	 * @return	m converted to pixels.
+	 * 
+	 * @post	m has to be positive
 	 * 			| m >= 0
 	 */
 	private static int metersToPixels(double m){

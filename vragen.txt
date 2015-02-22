@@ -1,1 +1,2 @@
 - Mogen variabelen zonder getters en setters gebruikt worden?
+- Jump methods defensively?

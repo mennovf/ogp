@@ -4,6 +4,10 @@ import be.kuleuven.cs.som.annotate.Basic;
 import jumpingalien.util.Sprite;
 import jumpingalien.util.Util;
 
+/**
+ * @author Rugen Heidbuchel & Menno Vanfrachem
+ * @version 1.0
+ */
 public class Mazub {
 	private Sprite[] sprites;
 	private Sprite currentSprite;
@@ -22,10 +26,10 @@ public class Mazub {
 	private static final Vector2D<Double> acceleration = new Vector2D<>(0.9, -10.0);
 	
 	public Mazub(double x, double y, Sprite[] sprites, double vxInit, double vxMax, double direction){
-		this.position = new Vector2D<>(x, y);
-		this.speed = new Vector2D<>(0.0, 0.0);
+		this.setPosition(new Vector2D<>(x, y));
+		this.setSpeed(new Vector2D<>(0.0, 0.0));
 		this.sprites = sprites;
-		this.currentSprite = sprites[0];
+		this.setCurrentSprite(sprites[0]);
 		this.vxInit = vxInit;
 		this.vxMax = vxMax;
 		this.setFacing(direction);
@@ -37,8 +41,19 @@ public class Mazub {
 	 * @return This Mazub's current sprite as a Sprite.
 	 */
 	@Basic
-	public Sprite getCurrentSprite(){
+	public Sprite getCurrentSprite() {
 		return currentSprite;
+	}
+	
+	/**
+	 * Sets this Mazub's current sprite to the given sprite.
+	 * 
+	 * @param currentSprite
+	 * 			The current sprite to set.
+	 */
+	@Basic
+	private void setCurrentSprite(Sprite currentSprite) {
+		this.currentSprite = currentSprite;
 	}
 	
 	/**
@@ -47,8 +62,19 @@ public class Mazub {
 	 * @return This Mazub's speed as a 2D vector.
 	 */
 	@Basic
-	public Vector2D<Double> getCurrentSpeed(){
+	public Vector2D<Double> getSpeed(){
 		return this.speed;
+	}
+	
+	/**
+	 * Sets this Mazub's speed to the given speed.
+	 * 
+	 * @param speed
+	 * 			The speed to set.
+	 */
+	@Basic
+	private void setSpeed(Vector2D<Double> speed) {
+		this.speed = speed;
 	}
 	
 	/**
@@ -57,8 +83,19 @@ public class Mazub {
 	 * @return This Mazub's position as a 2D vector.
 	 */
 	@Basic
-	public Vector2D<Double> getCurrentPosition(){
+	public Vector2D<Double> getPosition(){
 		return this.position;
+	}
+	
+	/**
+	 * Sets this Mazub's position to the given position.
+	 * 
+	 * @param position
+	 * 			The position to set.
+	 */
+	@Basic
+	private void setPosition(Vector2D<Double> position) {
+		this.position = position;
 	}
 	
 	/**
@@ -92,6 +129,26 @@ public class Mazub {
 		this.facing = facing == 0 ? 1 : facing / Math.abs(facing);
 	}
 	
+	/**
+	 * Returns this Mazub's height in pixels.
+	 * 
+	 * @return	This Mazub's height in pixels.
+	 */
+	@Basic
+	public int getHeight(){
+		return this.currentSprite.getHeight();
+	}
+
+	/**
+	 * Returns this Mazub's width in pixels.
+	 * 
+	 * @return	This Mazub's width in pixels.
+	 */
+	@Basic
+	public int getWidth(){
+		return this.currentSprite.getWidth();
+	}
+	
 	
 	/**
 	 * @param dt
@@ -116,6 +173,12 @@ public class Mazub {
 		this.determineCurrentSprite();
 	}
 
+	/**
+	 * Updates this Mazub's position and speed using the given time interval.
+	 * 
+	 * @param dt
+	 * 			The passed time interval since the last update in seconds.
+	 */
 	private void updateMovement(double dt) {
 		Vector2D<Double> acc = getAcceleration();
 		
@@ -173,16 +236,6 @@ public class Mazub {
 		}
 	}
 	
-	@Basic
-	public int getHeight(){
-		return this.currentSprite.getHeight();
-	}
-
-	@Basic
-	public int getWidth(){
-		return this.currentSprite.getWidth();
-	}
-	
 	/**
 	 * Starts this Mazub's movement in the given direction.
 	 * Nominally
@@ -209,10 +262,11 @@ public class Mazub {
 	
 	/**
 	 * Starts the jump of this Mazub.
-	 * Defensively
+	 * 
+	 * @pre		This Mazub should not be in the air.
 	 */
 	public void startJump() {
-		//assert this.onGround();
+		assert this.onGround();
 		if (this.onGround()){
 			this.speed.y = 8.0;
 		}

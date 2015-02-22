@@ -150,7 +150,7 @@ public class Mazub {
 	public void startMove(Transform.Direction direction) {
 		this.isMoving = true;
 		this.transform.facing = direction;
-		this.speed.x = direction == Transform.Direction.RIGHT ? 1.0 : -1.0;
+		this.speed.x = (direction == Transform.Direction.RIGHT ? 1.0 : -1.0) * this.vxInit;
 	}
 	
 	/**
@@ -211,7 +211,7 @@ public class Mazub {
 	}
 	
 	public double getMaxHorizontalSpeed(){
-		return this.isDucking ? 1.0 : this.vxMax;
+		return this.isDucking ? this.vxMaxDuck : this.vxMax;
 	}
 	
 	public boolean onGround(){

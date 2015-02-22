@@ -3,7 +3,6 @@ package jumpingalien.part1.facade;
 import jumpingalien.model.Mazub;
 import jumpingalien.model.Vector2D;
 import jumpingalien.util.Sprite;
-import jumpingalien.model.Transform;
 
 public class Facade implements IFacade {
 
@@ -11,7 +10,7 @@ public class Facade implements IFacade {
 	public Mazub createMazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites) {
 		double x = pixelLeftX * 0.01;
 		double y = pixelBottomY * 0.01;
-		return new Mazub(x, y, sprites, 1.0, 3.0, Transform.Direction.RIGHT);
+		return new Mazub(x, y, sprites, 1.0, 3.0, 1.0);
 	}
 
 	@Override
@@ -59,7 +58,7 @@ public class Facade implements IFacade {
 
 	@Override
 	public void startMoveLeft(Mazub alien) {
-		alien.startMove(Transform.Direction.LEFT);
+		alien.startMove(-1);
 	}
 
 	@Override
@@ -69,7 +68,7 @@ public class Facade implements IFacade {
 
 	@Override
 	public void startMoveRight(Mazub alien) {
-		alien.startMove(Transform.Direction.RIGHT);
+		alien.startMove(1);
 	}
 
 	@Override

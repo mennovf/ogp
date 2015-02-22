@@ -5,7 +5,6 @@ import jumpingalien.util.Sprite;
 import jumpingalien.util.Util;
 
 public class Mazub {
-	private Transform transform;
 	private Sprite[] sprites;
 	private Sprite currentSprite;
 	
@@ -13,23 +12,24 @@ public class Mazub {
 	private final double vxMax;
 	private final double vxMaxDuck = 1;
 	
-	boolean isMoving = false, isJumping = false, isDucking = false;
-	double currentTime = 0;
-	double startMovingTime = 0;
-	double endMovingTime = 0;
+	private boolean isMoving = false, isJumping = false, isDucking = false;
+	private double currentTime = 0;
+	private double startMovingTime = 0;
+	private double endMovingTime = 0;
 	
 	// Speed and position use meters.
 	private Vector2D<Double> speed, position;
+	private double facing;
 	private static final Vector2D<Double> acceleration = new Vector2D<>(0.9, -10.0);
 	
-	public Mazub(double x, double y, Sprite[] sprites, double vxInit, double vxMax, Transform.Direction direction){
+	public Mazub(double x, double y, Sprite[] sprites, double vxInit, double vxMax, double direction){
 		this.position = new Vector2D<>(x, y);
 		this.speed = new Vector2D<>(0.0, 0.0);
-		this.transform = new Transform(x, y, direction);
 		this.sprites = sprites;
 		this.currentSprite = sprites[0];
 		this.vxInit = vxInit;
 		this.vxMax = vxMax;
+		this.setFacing(direction);
 	}
 	
 	@Basic
@@ -47,6 +47,37 @@ public class Mazub {
 		return this.position;
 	}
 	
+	/**
+	 * Returns the facing of this Mazub.
+	 * 
+	 * @return The facing of this Mazub. This is either 1.0 if it's facing right or -1.0 if it's facing left.
+	 */
+	@Basic
+	public double getFacing() {
+		return this.facing;
+	}
+	
+	/**
+	 * Sets this Mazub's facing to -1.0 if facing < 0 (left facing) or to 1.0 if facing >= 0 (right facing).
+	 * 
+	 * @param facing
+	 * 			The facing to set.
+	 * 
+	 * @post	If facing is negative, this Mazub's facing is set to -1.0.
+	 * 			| if (facing < 0)
+	 * 			|	new.facing == -1
+	 * 
+	 * @post	If facing is not negative, this Mazub's facing is set to 1.0.
+	 * 			| if (facing >= 0)
+	 * 			|	new.facing == 1
+	 * 
+	 * Totally
+	 */
+	@Basic
+	public void setFacing(double facing) {
+		this.facing = facing == 0 ? 1 : facing / Math.abs(facing);
+	}
+	
 	
 	/**
 	 * @param dt
@@ -61,11 +92,12 @@ public class Mazub {
 		if (dt < 0){
 			throw new IllegalArgumentException("Delta time has to be non-negative.");
 		}
+		
 		//TODO Account for overflow somehow?
 		this.currentTime += dt;
-		//TODO Add other time related stuff in here
 		
 		updateMovement(dt);
+		
 		//currentSprite gets determined AFTER Mazub's state has been updated
 		this.determineCurrentSprite();
 	}
@@ -108,7 +140,7 @@ public class Mazub {
 				this.currentSprite = this.sprites[0];
 			}
 			else{
-				this.currentSprite = this.transform.facing == Transform.Direction.RIGHT ?
+				this.currentSprite = this.getFacing() == 1 ?
 									 this.sprites[2] : this.sprites[3];
 			}
 		}
@@ -116,16 +148,16 @@ public class Mazub {
 			this.currentSprite = this.sprites[1];
 		}
 		if (isMoving && ! onGround() && !isDucking){
-			this.currentSprite = this.transform.facing == Transform.Direction.RIGHT ?
+			this.currentSprite = this.getFacing() == 1 ?
 								 this.sprites[4] : this.sprites[5];
 		}
 		if (isDucking && (isMoving || recentlyMoved)){
-			this.currentSprite = this.transform.facing == Transform.Direction.RIGHT ?
+			this.currentSprite = this.getFacing() == 1 ?
 								 this.sprites[6] : this.sprites[7];
 		}
 		if (!(! onGround() || isDucking) && isMoving){
 			int spriteIndex = ((int)((this.currentTime - this.startMovingTime)/0.075)) % m;
-			this.currentSprite = this.transform.facing == Transform.Direction.RIGHT ?
+			this.currentSprite = this.getFacing() == 1 ?
 								 this.sprites[8+spriteIndex] : this.sprites[9+m+spriteIndex];
 		}
 	}
@@ -147,10 +179,10 @@ public class Mazub {
 	 * @param direction
 	 * 			The direction to start moving in.
 	 */
-	public void startMove(Transform.Direction direction) {
+	public void startMove(double direction) {
 		this.isMoving = true;
-		this.transform.facing = direction;
-		this.speed.x = (direction == Transform.Direction.RIGHT ? 1.0 : -1.0) * this.vxInit;
+		this.setFacing(direction);
+		this.speed.x = direction * this.vxInit;
 		this.startMovingTime = this.currentTime;
 	}
 	
@@ -202,7 +234,7 @@ public class Mazub {
 	public Vector2D<Double> getAcceleration(){
 		Vector2D<Double> acc = new Vector2D<>(0.0, 0.0);
 		if (isMoving){
-			acc.x = (transform.facing == Transform.Direction.RIGHT ? 1.0 : -1.0) * Mazub.acceleration.x;
+			acc.x = this.getFacing() * Mazub.acceleration.x;
 		}
 		if (!onGround()){
 			acc.y = Mazub.acceleration.y;

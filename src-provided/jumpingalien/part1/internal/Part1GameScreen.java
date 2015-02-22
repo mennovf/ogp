@@ -58,10 +58,6 @@ public class Part1GameScreen extends
 				throw new IllegalStateException(
 						"Screen must be wider than world");
 			}
-			if (screenHeight < worldHeight) {
-				throw new IllegalStateException(
-						"Screen must be higher than world");
-			}
 
 			int screenX = (screenWidth - worldWidth) / 2;
 			int screenY = (screenHeight - worldHeight) / 2;

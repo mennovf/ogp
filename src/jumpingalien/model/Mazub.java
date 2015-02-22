@@ -13,7 +13,7 @@ public class Mazub {
 	private final double vxMax;
 	private final double vxMaxDuck = 1;
 	
-	boolean isMoving = false, isJumping = false, isDucking = false;
+	boolean isMoving = false, isDucking = false;
 	double currentTime = 0;
 	double startMovingTime = 0;
 	double endMovingTime = 0;
@@ -91,9 +91,6 @@ public class Mazub {
 		if (this.position.y <= 0){
 			this.position.y = 0.0;
 			this.speed.y = 0.0;
-			if (isJumping){
-				endJump();
-			}
 		}
 		
 	}
@@ -169,8 +166,7 @@ public class Mazub {
 	 * Defensively
 	 */
 	public void startJump() {
-		if (this.onGround() && !isJumping){
-			this.isJumping = true;
+		if (this.onGround()){
 			this.speed.y = 8.0;
 		}
 	}
@@ -180,7 +176,7 @@ public class Mazub {
 	 * Defensively
 	 */
 	public void endJump() {
-		this.isJumping = false;
+		return;
 	}
 	
 	

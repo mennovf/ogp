@@ -31,6 +31,11 @@ public class Mazub {
 		this.setFacing(direction);
 	}
 	
+	/**
+	 * Returns this Mazub's current sprite.
+	 * 
+	 * @return This Mazub's current sprite as a Sprite.
+	 */
 	@Basic
 	public Sprite getCurrentSprite(){
 		return currentSprite;
@@ -207,6 +212,7 @@ public class Mazub {
 	 * Defensively
 	 */
 	public void startJump() {
+		//assert this.onGround();
 		if (this.onGround()){
 			this.speed.y = 8.0;
 		}
@@ -214,10 +220,16 @@ public class Mazub {
 	
 	/**
 	 * Ends the jump of this Mazub.
-	 * Defensively
+	 * 
+	 * @pre		The vertical speed of this Mazub should be bigger than 0.
+	 * 			| this.speed.y > 0
+	 * 
+	 * @post	The vertical speed of this Mazub will be 0.
+	 * 			| new.speed.y == 0
 	 */
 	public void endJump() {
-		return;
+		assert this.speed.y > 0;
+		this.speed.y = 0.0;
 	}
 	
 	

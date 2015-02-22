@@ -12,10 +12,10 @@ public class Mazub {
 	private final double vxMax;
 	private final double vxMaxDuck = 1;
 	
-	private boolean isMoving = false, isJumping = false, isDucking = false;
-	private double currentTime = 0;
-	private double startMovingTime = 0;
-	private double endMovingTime = 0;
+	boolean isMoving = false, isDucking = false;
+	double currentTime = 0;
+	double startMovingTime = 0;
+	double endMovingTime = 0;
 	
 	private Vector2D<Double> speed, position;
 	private double facing;
@@ -132,9 +132,6 @@ public class Mazub {
 		if (this.position.y <= 0){
 			this.position.y = 0.0;
 			this.speed.y = 0.0;
-			if (isJumping){
-				endJump();
-			}
 		}
 		
 	}
@@ -210,8 +207,7 @@ public class Mazub {
 	 * Defensively
 	 */
 	public void startJump() {
-		if (this.onGround() && !isJumping){
-			this.isJumping = true;
+		if (this.onGround()){
 			this.speed.y = 8.0;
 		}
 	}
@@ -221,7 +217,7 @@ public class Mazub {
 	 * Defensively
 	 */
 	public void endJump() {
-		this.isJumping = false;
+		return;
 	}
 	
 	
@@ -240,6 +236,9 @@ public class Mazub {
 	}
 	
 	
+	/**
+	 * @return A 2-dimensional vector of this Mzaub's acceleration in m/s.
+	 */
 	public Vector2D<Double> getAcceleration(){
 		Vector2D<Double> acc = new Vector2D<>(0.0, 0.0);
 		if (isMoving){
@@ -251,10 +250,19 @@ public class Mazub {
 		return acc;
 	}
 	
+	/**
+	 * @return The maximum horizontal speed of this Mazub.
+	 */
 	public double getMaxHorizontalSpeed(){
 		return this.isDucking ? this.vxMaxDuck : this.vxMax;
 	}
 	
+	/**
+	 * @return Returns whether this Mazub is touching the ground or not.
+	 * 			| if (this.getCurrentPosition().y == 0.0)
+	 * 			| then true
+	 * 			| else false
+	 */
 	public boolean onGround(){
 		return Util.fuzzyEquals(this.position.y, 0.0);
 	}

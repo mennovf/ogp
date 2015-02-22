@@ -8,7 +8,6 @@ public class Mazub {
 	private Transform transform;
 	private Sprite[] sprites;
 	private Sprite currentSprite;
-	private int spriteIndex;
 	
 	private final double vxInit;
 	private final double vxMax;
@@ -16,6 +15,7 @@ public class Mazub {
 	
 	boolean isMoving = false, isJumping = false, isDucking = false;
 	double currentTime = 0;
+	double startMovingTime = 0;
 	double endMovingTime = 0;
 	
 	// Speed and position use meters.
@@ -124,9 +124,9 @@ public class Mazub {
 								 this.sprites[6] : this.sprites[7];
 		}
 		if (!(! onGround() || isDucking) && isMoving){
+			int spriteIndex = ((int)((this.currentTime - this.startMovingTime)/0.075)) % m;
 			this.currentSprite = this.transform.facing == Transform.Direction.RIGHT ?
-								 this.sprites[8+this.spriteIndex] : this.sprites[9+m+this.spriteIndex];
-			this.spriteIndex = (this.spriteIndex + 1) % m;
+								 this.sprites[8+spriteIndex] : this.sprites[9+m+spriteIndex];
 		}
 	}
 	
@@ -151,6 +151,7 @@ public class Mazub {
 		this.isMoving = true;
 		this.transform.facing = direction;
 		this.speed.x = (direction == Transform.Direction.RIGHT ? 1.0 : -1.0) * this.vxInit;
+		this.startMovingTime = this.currentTime;
 	}
 	
 	/**
@@ -160,7 +161,6 @@ public class Mazub {
 		this.isMoving = false;
 		this.endMovingTime = this.currentTime;
 		this.speed.x = 0.0;
-		this.spriteIndex = 0;
 	}
 	
 	

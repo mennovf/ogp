@@ -1,5 +1,7 @@
 package jumpingalien.model;
 
+import org.junit.experimental.theories.Theory;
+
 import be.kuleuven.cs.som.annotate.Basic;
 import jumpingalien.util.Sprite;
 import jumpingalien.util.Util;
@@ -16,7 +18,7 @@ public class Mazub {
 	private final double vxMax;
 	private final double vxMaxDuck = 1;
 	
-	boolean isMoving = false, isDucking = false;
+	boolean isMoving = false, isDucking = false, hasMoved = false;
 	double currentTime = 0;
 	double startMovingTime = 0;
 	double endMovingTime = 0;
@@ -122,11 +124,16 @@ public class Mazub {
 	 * 			| if (facing >= 0)
 	 * 			|	new.facing == 1
 	 * 
-	 * Totally
+	 * @throws IllegalArgumentException
+	 * 
+	 * Nominally
 	 */
 	@Basic
-	public void setFacing(double facing) {
-		this.facing = facing == 0 ? 1 : facing / Math.abs(facing);
+	public void setFacing(double facing) throws IllegalArgumentException {
+		if (!(facing == -1 || facing == 1)) {
+			throw new IllegalArgumentException("Facing should be -1 or 1.");
+		}
+		this.facing = facing;
 	}
 	
 	/**
@@ -167,7 +174,7 @@ public class Mazub {
 		//TODO Account for overflow somehow?
 		this.currentTime += dt;
 		
-		updateMovement(dt);
+		this.updateMovement(dt);
 		
 		//currentSprite gets determined AFTER Mazub's state has been updated
 		this.determineCurrentSprite();
@@ -208,7 +215,7 @@ public class Mazub {
 		//TODO Check of 'm' klopt
 		int m = (sprites.length - 9) / 2;
 		double timeSinceMoving = this.currentTime - this.endMovingTime;
-		boolean recentlyMoved = timeSinceMoving < 1;
+		boolean recentlyMoved = timeSinceMoving < 1 && this.hasMoved;
 		if (!(isMoving || isDucking)){
 			if (!recentlyMoved){
 				this.currentSprite = this.sprites[0];
@@ -242,8 +249,22 @@ public class Mazub {
 	 * 
 	 * @param direction
 	 * 			The direction to start moving in.
+	 * 
+	 * @pre		This Mazub should not be moving.
+	 * 			| !this.isMoving
+	 * 
+	 * @pre		Direction should be -1 or 1.
+	 * 			| direction == -1 || direction == 1
+	 * 
+	 * @post	The horizontal speed shall be set to +- vxInit.
+	 * 			| new.getSpeed().x == direction * this.vxInit
+	 * 
+	 * @post	isMoving shall be set to true.
+	 * 			| new.isMoving == true
 	 */
 	public void startMove(double direction) {
+		assert !this.isMoving;
+		assert direction == -1 || direction == 1;
 		this.isMoving = true;
 		this.setFacing(direction);
 		this.speed.x = direction * this.vxInit;
@@ -257,6 +278,7 @@ public class Mazub {
 		this.isMoving = false;
 		this.endMovingTime = this.currentTime;
 		this.speed.x = 0.0;
+		this.hasMoved = true;
 	}
 	
 	
@@ -264,6 +286,7 @@ public class Mazub {
 	 * Starts the jump of this Mazub.
 	 * 
 	 * @pre		This Mazub should not be in the air.
+	 * 			| this.onGround()
 	 */
 	public void startJump() {
 		assert this.onGround();
@@ -283,7 +306,9 @@ public class Mazub {
 	 */
 	public void endJump() {
 		assert this.speed.y > 0;
-		this.speed.y = 0.0;
+		if (this.speed.y > 0) {
+			this.speed.y = 0.0;
+		}
 	}
 	
 	

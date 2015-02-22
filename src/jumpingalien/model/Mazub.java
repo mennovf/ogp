@@ -17,7 +17,6 @@ public class Mazub {
 	private double startMovingTime = 0;
 	private double endMovingTime = 0;
 	
-	// Speed and position use meters.
 	private Vector2D<Double> speed, position;
 	private double facing;
 	private static final Vector2D<Double> acceleration = new Vector2D<>(0.9, -10.0);
@@ -37,11 +36,21 @@ public class Mazub {
 		return currentSprite;
 	}
 	
+	/**
+	 * Returns this Mazub's speed in meters/second.
+	 * 
+	 * @return This Mazub's speed as a 2D vector.
+	 */
 	@Basic
 	public Vector2D<Double> getCurrentSpeed(){
 		return this.speed;
 	}
 	
+	/**
+	 * Returns this Mazub's position in meters.
+	 * 
+	 * @return This Mazub's position as a 2D vector.
+	 */
 	@Basic
 	public Vector2D<Double> getCurrentPosition(){
 		return this.position;

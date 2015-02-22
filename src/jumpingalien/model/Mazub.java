@@ -8,6 +8,7 @@ public class Mazub {
 	private Transform transform;
 	private Sprite[] sprites;
 	private Sprite currentSprite;
+	private int spriteIndex;
 	
 	private final double vxInit;
 	private final double vxMax;
@@ -123,9 +124,9 @@ public class Mazub {
 								 this.sprites[6] : this.sprites[7];
 		}
 		if (!(! onGround() || isDucking) && isMoving){
-			//TODO Implement the animation
 			this.currentSprite = this.transform.facing == Transform.Direction.RIGHT ?
-								 this.sprites[8] : this.sprites[9+m];
+								 this.sprites[8+this.spriteIndex] : this.sprites[9+m+this.spriteIndex];
+			this.spriteIndex = (this.spriteIndex + 1) % m;
 		}
 	}
 	
@@ -159,6 +160,7 @@ public class Mazub {
 		this.isMoving = false;
 		this.endMovingTime = this.currentTime;
 		this.speed.x = 0.0;
+		this.spriteIndex = 0;
 	}
 	
 	

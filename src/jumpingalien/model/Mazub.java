@@ -199,6 +199,9 @@ public class Mazub {
 	}
 	
 	
+	/**
+	 * @return A 2-dimensional vector of this Mzaub's acceleration in m/s.
+	 */
 	public Vector2D<Double> getAcceleration(){
 		Vector2D<Double> acc = new Vector2D<>(0.0, 0.0);
 		if (isMoving){
@@ -210,10 +213,19 @@ public class Mazub {
 		return acc;
 	}
 	
+	/**
+	 * @return The maximum horizontal speed of this Mazub.
+	 */
 	public double getMaxHorizontalSpeed(){
 		return this.isDucking ? this.vxMaxDuck : this.vxMax;
 	}
 	
+	/**
+	 * @return Returns whether this Mazub is touching the ground or not.
+	 * 			| if (this.getCurrentPosition().y == 0.0)
+	 * 			| then true
+	 * 			| else false
+	 */
 	public boolean onGround(){
 		return Util.fuzzyEquals(this.position.y, 0.0);
 	}

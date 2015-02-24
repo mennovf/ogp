@@ -1,2 +1,12 @@
-- Mogen variabelen zonder getters en setters gebruikt worden?
-- Jump methods defensively?
+- Can we use private fields that are only meant for the implementation without getters and setters?
+- Jump methods have to be implemented 'defensively' but there's no wrong input or state.
+- The provided source does a check for the screen resolution:
+			if (screenHeight < worldHeight) {
+				throw new IllegalStateException(
+						"Screen must be higher than world");
+			}
+  , my screen is the exact height of the world, which causes the exception to be thrown. I can run the game
+  when I remove the check but (of course) part of the game is hidden behind Windows' interface.
+  Is it possible to create a smaller window for the game?
+- The specification says that the vertical speed has to be set to 0 when endJump is called. endJump gets
+  called when then user releases the 'up' arrow. This can happen mid-jump and causes unnatural behavior.

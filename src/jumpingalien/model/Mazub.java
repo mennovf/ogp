@@ -18,10 +18,10 @@ public class Mazub {
 	private final double vxMax;
 	private final double vxMaxDuck = 1;
 	
-	boolean isMoving = false, isDucking = false, hasMoved = false;
-	double currentTime = 0;
-	double startMovingTime = 0;
-	double endMovingTime = 0;
+	private boolean isMoving = false, isDucking = false, hasMoved = false;
+	private double currentTime = 0;
+	private double startMovingTime = 0;
+	private double endMovingTime = 0;
 	
 	private Vector2D<Double> speed, position;
 	private double facing;
@@ -289,10 +289,7 @@ public class Mazub {
 	 * 			| this.onGround()
 	 */
 	public void startJump() {
-		assert this.onGround();
-		if (this.onGround()){
-			this.speed.y = 8.0;
-		}
+		this.speed.y = 8.0;
 	}
 	
 	/**

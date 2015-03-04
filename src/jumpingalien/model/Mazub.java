@@ -13,6 +13,7 @@ import jumpingalien.util.Util;
  * 			| Mazub.isValidPosition(this.getPosition())
  * 
  * @invar Mazub's horizontal speed does not exceed the maximum speed.
+ * 			| Mazub.isValidSpeed(this.getSpeed())
  * 
  * @author Rugen Heidbuchel & Menno Vanfrachem
  * @version 1.0
@@ -55,6 +56,16 @@ public class Mazub {
 	public static boolean isValidPosition(Vector2D<Double> pos){
 		return (pos.x >= 0) && (pos.x <= bounds.x)
 			&& (pos.y >= 0) && (pos.y <= bounds.y);
+	}
+	
+	
+	/**
+	 * @param speed
+	 * @return Whether speed.x's magnitude doesn't exceed the maximum horizontal speed.
+	 * 			| Math.abs(speed.x) < this.getMaxHorizontalSpeed()
+	 */
+	public boolean isValidSpeed(Vector2D<Double> speed){
+		return Math.abs(speed.x) < this.getMaxHorizontalSpeed();
 	}
 	/**
 	 * Returns this Mazub's current sprite.
@@ -312,9 +323,6 @@ public class Mazub {
 	 * @param direction
 	 * 			The direction to start moving in.
 	 * 
-	 * @pre		This Mazub should not be moving.
-	 * 			| !this.isMoving
-	 * 
 	 * @pre		Direction should be -1 or 1.
 	 * 			| direction == -1 || direction == 1
 	 * 
@@ -325,7 +333,6 @@ public class Mazub {
 	 * 			| new.isMoving == true
 	 */
 	public void startMove(double direction) {
-		assert !this.isMoving;
 		assert direction == -1 || direction == 1;
 		this.isMoving = true;
 		this.setFacing(direction);

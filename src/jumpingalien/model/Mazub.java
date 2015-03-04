@@ -216,6 +216,9 @@ public class Mazub {
 	 * 			| (dt < 0) || (dt > 0.2)
 	 */
 	public void advanceTime(double dt) throws IllegalArgumentException{
+		if (Double.isNaN(dt)) {
+			throw new IllegalArgumentException("Delta time can not be NaN.");
+		}
 		if (dt > 0.2){
 			throw new IllegalArgumentException("Delta time may not exceed 0.2s.");
 		}

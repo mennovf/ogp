@@ -313,9 +313,6 @@ public class Mazub {
 	 * @param direction
 	 * 			The direction to start moving in.
 	 * 
-	 * @pre		This Mazub should not be moving.
-	 * 			| !this.isMoving
-	 * 
 	 * @pre		Direction should be -1 or 1.
 	 * 			| direction == -1 || direction == 1
 	 * 
@@ -326,7 +323,6 @@ public class Mazub {
 	 * 			| new.isMoving == true
 	 */
 	public void startMove(double direction) {
-		assert !this.isMoving;
 		assert direction == -1 || direction == 1;
 		this.isMoving = true;
 		this.setFacing(direction);

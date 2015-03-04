@@ -9,6 +9,11 @@ import jumpingalien.util.Util;
 /**
  * A class representing a single Mazub.
  * 
+ * @invar Mazub's bottom-left position remains within the bounds of the world.
+ * 			| Mazub.isValidPosition(this.getPosition())
+ * 
+ * @invar Mazub's horizontal speed does not exceed the maximum speed.
+ * 
  * @author Rugen Heidbuchel & Menno Vanfrachem
  * @version 1.0
  */
@@ -29,6 +34,8 @@ public class Mazub {
 	private double facing;
 	private static final Vector2D<Double> acceleration = new Vector2D<>(0.9, -10.0);
 	
+	private static final Vector2D<Double> bounds = new Vector2D<>(10.24, 7.68);
+	
 	public Mazub(double x, double y, Sprite[] sprites, double vxInit, double vxMax, double direction) {
 		this.setPosition(new Vector2D<>(x, y));
 		this.setSpeed(new Vector2D<>(0.0, 0.0));
@@ -39,6 +46,16 @@ public class Mazub {
 		this.setFacing(direction);
 	}
 	
+	/**
+	 * @param pos
+	 * @return Whether pos is valid (is inside the bounds of the world)
+	 * 			| (pos.x >= 0) && (pos.x < bounds.x)
+	 *			 && (pos.y >= 0) && (pos.y < bounds.y)
+	 */
+	public static boolean isValidPosition(Vector2D<Double> pos){
+		return (pos.x >= 0) && (pos.x < bounds.x)
+			&& (pos.y >= 0) && (pos.y < bounds.y);
+	}
 	/**
 	 * Returns this Mazub's current sprite.
 	 * 

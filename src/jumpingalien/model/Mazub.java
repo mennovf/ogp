@@ -49,12 +49,12 @@ public class Mazub {
 	/**
 	 * @param pos
 	 * @return Whether pos is valid (is inside the bounds of the world)
-	 * 			| (pos.x >= 0) && (pos.x < bounds.x)
-	 *			 && (pos.y >= 0) && (pos.y < bounds.y)
+	 * 			| (pos.x >= 0) && (pos.x <= bounds.x)
+	 *			 && (pos.y >= 0) && (pos.y <= bounds.y)
 	 */
 	public static boolean isValidPosition(Vector2D<Double> pos){
-		return (pos.x >= 0) && (pos.x < bounds.x)
-			&& (pos.y >= 0) && (pos.y < bounds.y);
+		return (pos.x >= 0) && (pos.x <= bounds.x)
+			&& (pos.y >= 0) && (pos.y <= bounds.y);
 	}
 	/**
 	 * Returns this Mazub's current sprite.
@@ -241,26 +241,33 @@ public class Mazub {
 	private void updateMovement(double dt) {
 		Vector2D<Double> acc = getAcceleration();
 		
-		this.position.x += this.speed.x * dt + acc.x * dt * dt / 2.0;
-		this.speed.x += acc.x * dt;
-		if (this.position.x < 0) {
-			this.position.x = 0.0;
-		} else if (this.position.x >= 10.24) {
-			this.position.x = 10.23;
-		}
-		if (this.speed.x <= -this.getMaxHorizontalSpeed()) {
-			this.speed.x = -this.getMaxHorizontalSpeed();
-		} else if (this.speed.x >= this.getMaxHorizontalSpeed()) {
-			this.speed.x = this.getMaxHorizontalSpeed();
+		this.getPosition().x += this.speed.x * dt + acc.x * dt * dt / 2.0;
+		this.getSpeed().x += acc.x * dt;
+		
+		// Keep x position in bounds
+		this.getPosition().x = clipInRange(0, bounds.x, this.getPosition().x);
+		
+		// Keep horizontal speed in bounds
+		this.getSpeed().x = clipInRange(-this.getMaxHorizontalSpeed(),
+										this.getMaxHorizontalSpeed(),
+										this.getSpeed().x);
+		
+		this.getPosition().y += this.getSpeed().y*dt + acc.y * dt * dt / 2.0;
+		this.getSpeed().y += acc.y * dt;
+		
+		// Keep y position in bounds
+		this.getPosition().y = clipInRange(0, bounds.y, this.getPosition().y);
+		
+	}
+	
+	private static double clipInRange(double min, double max, double value) {
+		if (value < min) {
+			return min;
+		} else if (value > max) {
+			return max;
 		}
 		
-		this.position.y += this.speed.y*dt + acc.y * dt * dt / 2.0;
-		this.speed.y += acc.y * dt;
-		if (this.position.y <= 0){
-			this.position.y = 0.0;
-			this.speed.y = 0.0;
-		}
-		
+		return value;
 	}
 
 	private void determineCurrentSprite() {

@@ -245,7 +245,6 @@ public class Mazub {
 		} else {
 			this.timeSinceMoving += dt;
 		}
-		//TODO Account for overflow somehow?
 		
 		this.updateMovement(dt);
 		

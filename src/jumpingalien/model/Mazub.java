@@ -409,7 +409,6 @@ public class Mazub {
 	 * 			| new.speed.y == 0
 	 */
 	public void endJump() {
-		assert this.speed.y > 0;
 		if (this.speed.y > 0) {
 			this.speed.y = 0.0;
 		}

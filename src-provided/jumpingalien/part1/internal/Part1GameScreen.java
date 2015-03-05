@@ -51,24 +51,28 @@ public class Part1GameScreen extends
 					/ DEBUG_PIXELS_ZOOM, worldHeight / DEBUG_PIXELS_ZOOM),
 					new Rectangle(0, 0, getScreenWidth(), getScreenHeight()));
 		} else {
-			int screenWidth = getScreenWidth();
-			int screenHeight = getScreenHeight();
+			int widthOnScreen = getScreenWidth();
+			int heightOnScreen = getScreenHeight();
 
-			if (screenWidth < worldWidth) {
-				throw new IllegalStateException(
-						"Screen must be wider than world");
-			}
-			if (screenHeight < worldHeight) {
-				throw new IllegalStateException(
-						"Screen must be higher than world");
+			double scale = 1.0;
+
+			if (widthOnScreen < worldWidth) {
+				scale = (double) widthOnScreen / worldWidth;
 			}
 
-			int screenX = (screenWidth - worldWidth) / 2;
-			int screenY = (screenHeight - worldHeight) / 2;
+			if (heightOnScreen < worldHeight) {
+				scale = Math.min(scale, (double) heightOnScreen / worldHeight);
+			}
+
+			heightOnScreen = (int) (scale * worldHeight);
+			widthOnScreen = (int) (scale * worldWidth);
+			int screenX = (getScreenWidth() - widthOnScreen) / 2;
+			int screenY = (getScreenHeight() - heightOnScreen) / 2;
 
 			mainCamera = new Camera(
 					new Rectangle(0, 0, worldWidth, worldHeight),
-					new Rectangle(screenX, screenY, worldWidth, worldHeight));
+					new Rectangle(screenX, screenY, widthOnScreen,
+							heightOnScreen));
 		}
 		addCamera(mainCamera);
 	}

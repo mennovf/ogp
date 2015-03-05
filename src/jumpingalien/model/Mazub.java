@@ -27,9 +27,8 @@ public class Mazub {
 	private final double vxMaxDuck = 1;
 	
 	private boolean isMoving = false, isDucking = false, hasMoved = false;
-	private double currentTime = 0;
-	private double startMovingTime = 0;
-	private double endMovingTime = 0;
+	private double movingTime = 0;
+	private double timeSinceMoving = 0;
 	
 	private Vector2D<Double> speed, position;
 	private double facing;
@@ -223,10 +222,13 @@ public class Mazub {
 	/**
 	 * @param dt
 	 * 			The time that has passed in the game world since last calling this method.
+	 * 
 	 * @throws	IllegalArgumentException
 	 * 			| (dt < 0) || (dt > 0.2)
 	 */
 	public void advanceTime(double dt) throws IllegalArgumentException{
+		
+		// check for exceptions
 		if (Double.isNaN(dt)) {
 			throw new IllegalArgumentException("Delta time can not be NaN.");
 		}
@@ -237,8 +239,13 @@ public class Mazub {
 			throw new IllegalArgumentException("Delta time has to be non-negative.");
 		}
 		
+		// update times
+		if (isMoving) {
+			this.movingTime += dt;
+		} else {
+			this.timeSinceMoving += dt;
+		}
 		//TODO Account for overflow somehow?
-		this.currentTime += dt;
 		
 		this.updateMovement(dt);
 		
@@ -253,28 +260,60 @@ public class Mazub {
 	 * 			The passed time interval since the last update in seconds.
 	 */
 	private void updateMovement(double dt) {
-		Vector2D<Double> acc = getAcceleration();
 		
-		this.getPosition().x += this.speed.x * dt + acc.x * dt * dt / 2.0;
-		this.getSpeed().x += acc.x * dt;
+		// Set some variables so we need to write less. The variables are references because Vector2D is a class, so setting also works.
+		Vector2D<Double> acc = this.getAcceleration();
+		Vector2D<Double> speed = this.getSpeed();
+		Vector2D<Double> position = this.getPosition();
+		
+		// Update x for position and speed
+		position.x += speed.x * dt + acc.x * dt * dt / 2.0;
+		speed.x += acc.x * dt;
 		
 		// Keep x position in bounds
-		this.getPosition().x = clipInRange(0, bounds.x, this.getPosition().x);
+		position.x = clipInRange(0, bounds.x, position.x);
 		
 		// Keep horizontal speed in bounds
-		this.getSpeed().x = clipInRange(-this.getMaxHorizontalSpeed(),
+		speed.x = clipInRange(-this.getMaxHorizontalSpeed(),
 										this.getMaxHorizontalSpeed(),
-										this.getSpeed().x);
+										speed.x);
 		
-		this.getPosition().y += this.getSpeed().y*dt + acc.y * dt * dt / 2.0;
-		this.getSpeed().y += acc.y * dt;
+		position.y += speed.y * dt + acc.y * dt * dt / 2.0;
+		speed.y += acc.y * dt;
 		
 		// Keep y position in bounds
-		this.getPosition().y = clipInRange(0, bounds.y, this.getPosition().y);
+		position.y = clipInRange(0, bounds.y, position.y);
 		
 	}
 	
+	
+	/**
+	 * Clips the value to the given range.
+	 * 
+	 * @param min
+	 * 			The minimum of the range.
+	 * 
+	 * @param max
+	 * 			The maximum of the range.
+	 * 
+	 * @param value
+	 * 			The value to clip.
+	 * 
+	 * @return	The value clipped to the given range. If it's bigger than max, max will be returned. If it's smaller than min, min will be returned.
+	 * 			| if (value < min)
+	 * 			|	return min
+	 * 			| if (value > max)
+	 * 			|	return max
+	 * 			| else
+	 * 			|	return value
+	 * 
+	 * @pre		Max should be bigger than min.
+	 * 			| max > min
+	 */
 	private static double clipInRange(double min, double max, double value) {
+		
+		assert max > min;
+		
 		if (value < min) {
 			return min;
 		} else if (value > max) {
@@ -285,9 +324,8 @@ public class Mazub {
 	}
 
 	private void determineCurrentSprite() {
-		//TODO Check of 'm' klopt
+		
 		int m = (sprites.length - 9) / 2;
-		double timeSinceMoving = this.currentTime - this.endMovingTime;
 		boolean recentlyMoved = timeSinceMoving < 1 && this.hasMoved;
 		if (!(isMoving || isDucking)){
 			if (!recentlyMoved){
@@ -310,7 +348,7 @@ public class Mazub {
 								 this.sprites[6] : this.sprites[7];
 		}
 		if (!(! onGround() || isDucking) && isMoving){
-			int spriteIndex = ((int)((this.currentTime - this.startMovingTime)/0.075)) % m;
+			int spriteIndex = ((int)(this.movingTime/0.075)) % m;
 			this.currentSprite = this.getFacing() == 1 ?
 								 this.sprites[8+spriteIndex] : this.sprites[9+m+spriteIndex];
 		}
@@ -337,7 +375,7 @@ public class Mazub {
 		this.isMoving = true;
 		this.setFacing(direction);
 		this.speed.x = direction * this.vxInit;
-		this.startMovingTime = this.currentTime;
+		this.movingTime = 0;
 	}
 	
 	/**
@@ -345,9 +383,9 @@ public class Mazub {
 	 */
 	public void endMove() {
 		this.isMoving = false;
-		this.endMovingTime = this.currentTime;
 		this.speed.x = 0.0;
 		this.hasMoved = true;
+		this.timeSinceMoving = 0;
 	}
 	
 	

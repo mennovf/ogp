@@ -390,9 +390,6 @@ public class Mazub {
 	
 	/**
 	 * Starts the jump of this Mazub.
-	 * 
-	 * @pre		This Mazub should not be in the air.
-	 * 			| this.onGround()
 	 */
 	public void startJump() {
 		this.speed.y = 8.0;

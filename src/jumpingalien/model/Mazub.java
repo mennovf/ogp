@@ -1,10 +1,9 @@
 package jumpingalien.model;
 
-import org.junit.experimental.theories.Theory;
-
 import be.kuleuven.cs.som.annotate.Basic;
 import jumpingalien.util.Sprite;
 import jumpingalien.util.Util;
+import jumpingalien.model.Constants;
 
 /**
  * A class representing a single Mazub.
@@ -24,7 +23,6 @@ public class Mazub {
 	
 	private final double vxInit;
 	private final double vxMax;
-	private final double vxMaxDuck = 1;
 	
 	private boolean isMoving = false, isDucking = false, hasMoved = false;
 	private double movingTime = 0;
@@ -32,11 +30,11 @@ public class Mazub {
 	
 	private Vector2D<Double> speed, position;
 	private double facing;
-	private static final Vector2D<Double> acceleration = new Vector2D<>(0.9, -10.0);
-	
-	private static final Vector2D<Double> bounds = new Vector2D<>(10.24, 7.68);
 	
 	public Mazub(double x, double y, Sprite[] sprites, double vxInit, double vxMax, double direction) {
+		assert vxInit >= 1.0;
+		assert vxMax >= vxInit;
+		
 		this.setPosition(new Vector2D<>(x, y));
 		this.setSpeed(new Vector2D<>(0.0, 0.0));
 		this.sprites = sprites;
@@ -53,18 +51,18 @@ public class Mazub {
 	 *			 && (pos.y >= 0) && (pos.y <= bounds.y)
 	 */
 	public static boolean isValidPosition(Vector2D<Double> pos){
-		return (pos.x >= 0) && (pos.x <= bounds.x)
-			&& (pos.y >= 0) && (pos.y <= bounds.y);
+		return (pos.x >= 0) && (pos.x <= Constants.screenSize.x/100)
+			&& (pos.y >= 0) && (pos.y <= Constants.screenSize.y/100);
 	}
 	
 	
 	/**
 	 * @param speed
 	 * @return Whether speed.x's magnitude doesn't exceed the maximum horizontal speed.
-	 * 			| Math.abs(speed.x) < this.getMaxHorizontalSpeed()
+	 * 			| Math.abs(speed.x) <= this.getMaxHorizontalSpeed()
 	 */
 	public boolean isValidSpeed(Vector2D<Double> speed){
-		return Math.abs(speed.x) < this.getMaxHorizontalSpeed();
+		return Math.abs(speed.x) <= this.getMaxHorizontalSpeed();
 	}
 	/**
 	 * Returns this Mazub's current sprite.
@@ -91,7 +89,7 @@ public class Mazub {
 	 * @return The maximum horizontal speed of this Mazub.
 	 */
 	private double getMaxHorizontalSpeed(){
-		return this.isDucking ? this.vxMaxDuck : this.vxMax;
+		return this.isDucking ? Constants.vxMaxDucking : this.vxMax;
 	}
 	
 	/**
@@ -121,10 +119,10 @@ public class Mazub {
 	public Vector2D<Double> getAcceleration(){
 		Vector2D<Double> acc = new Vector2D<>(0.0, 0.0);
 		if (isMoving){
-			acc.x = this.getFacing() * Mazub.acceleration.x;
+			acc.x = this.getFacing() * Constants.acceleration.x;
 		}
 		if (!onGround()){
-			acc.y = Mazub.acceleration.y;
+			acc.y = Constants.acceleration.y;
 		}
 		return acc;
 	}
@@ -224,7 +222,7 @@ public class Mazub {
 	 * 			The time that has passed in the game world since last calling this method.
 	 * 
 	 * @throws	IllegalArgumentException
-	 * 			| (dt < 0) || (dt > 0.2)
+	 * 			| (dt < 0) || (dt > Constants.maxTimeInterval)
 	 */
 	public void advanceTime(double dt) throws IllegalArgumentException{
 		
@@ -232,8 +230,8 @@ public class Mazub {
 		if (Double.isNaN(dt)) {
 			throw new IllegalArgumentException("Delta time can not be NaN.");
 		}
-		if (dt > 0.2){
-			throw new IllegalArgumentException("Delta time may not exceed 0.2s.");
+		if (dt > Constants.maxTimeInterval){
+			throw new IllegalArgumentException(String.format("Delta time may not exceed %.5fs.", Constants.maxTimeInterval));
 		}
 		if (dt < 0){
 			throw new IllegalArgumentException("Delta time has to be non-negative.");
@@ -270,7 +268,7 @@ public class Mazub {
 		speed.x += acc.x * dt;
 		
 		// Keep x position in bounds
-		position.x = clipInRange(0, bounds.x, position.x);
+		position.x = clipInRange(0, Constants.screenSize.x/100, position.x);
 		
 		// Keep horizontal speed in bounds
 		speed.x = clipInRange(-this.getMaxHorizontalSpeed(),
@@ -281,7 +279,7 @@ public class Mazub {
 		speed.y += acc.y * dt;
 		
 		// Keep y position in bounds
-		position.y = clipInRange(0, bounds.y, position.y);
+		position.y = clipInRange(0, Constants.screenSize.y/100, position.y);
 		
 	}
 	
@@ -392,7 +390,7 @@ public class Mazub {
 	 * Starts the jump of this Mazub.
 	 */
 	public void startJump() {
-		this.speed.y = 8.0;
+		this.speed.y = Constants.vInitJump;
 	}
 	
 	/**

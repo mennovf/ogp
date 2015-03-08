@@ -89,7 +89,7 @@ public class MazubTest {
 	public void testIsValidSpeed_validDucking() {
 		
 		mazub.startDuck();
-		assertTrue(mazub.isValidSpeed(new Vector2D<Double>(Constants.vxMaxDucking, 0.0)));
+		assertTrue(mazub.isValidSpeed(new Vector2D<Double>(Mazub.getMaxSpeedWhileDucking(), 0.0)));
 	}
 	
 	@Test
@@ -119,7 +119,7 @@ public class MazubTest {
 		
 		mazub.startMove(1);
 		
-		assertEquals(mazub.getAcceleration().x, Constants.acceleration.x, testAccuracy);
+		assertEquals(mazub.getAcceleration().x, Mazub.getMaxAcceleration().x, testAccuracy);
 		assertEquals(mazub.getAcceleration().y, 0.0, testAccuracy);
 	}
 	
@@ -128,7 +128,7 @@ public class MazubTest {
 		
 		mazub.startMove(-1);
 		
-		assertEquals(mazub.getAcceleration().x, -Constants.acceleration.x, testAccuracy);
+		assertEquals(mazub.getAcceleration().x, -Mazub.getMaxAcceleration().x, testAccuracy);
 		assertEquals(mazub.getAcceleration().y, 0.0, testAccuracy);
 	}
 	
@@ -139,7 +139,7 @@ public class MazubTest {
 		mazub.advanceTime(Constants.maxTimeInterval);
 		
 		assertEquals(mazub.getAcceleration().x, 0.0, testAccuracy);
-		assertEquals(mazub.getAcceleration().y, Constants.acceleration.y, testAccuracy);
+		assertEquals(mazub.getAcceleration().y, Mazub.getMaxAcceleration().y, testAccuracy);
 	}
 	
 	

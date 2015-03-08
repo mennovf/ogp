@@ -31,6 +31,15 @@ public class Mazub {
 	private Vector2D<Double> speed, position;
 	private double facing;
 	
+	//CONSTANTS
+	// Speed
+	public final static double vxMaxDucking = 1.0;
+	
+	public final static double vInitJump = 8.0;
+	
+	// Acceleration
+	public final static Vector2D<Double> maxAcceleration = new Vector2D<>(0.9, -10.0);
+
 	public Mazub(double x, double y, Sprite[] sprites, double vxInit, double vxMax, double direction) {
 		assert vxInit >= 1.0;
 		assert vxMax >= vxInit;
@@ -44,6 +53,21 @@ public class Mazub {
 		this.setFacing(direction);
 	}
 	
+	@Basic
+	public static double getMaxSpeedWhileDucking() {
+		return vxMaxDucking;
+	}
+
+	@Basic
+	public static double getInitialJumpSpeed() {
+		return vInitJump;
+	}
+
+	@Basic
+	public static Vector2D<Double> getMaxAcceleration() {
+		return maxAcceleration;
+	}
+
 	/**
 	 * @param pos
 	 * @return Whether pos is valid (is inside the bounds of the world)
@@ -89,7 +113,7 @@ public class Mazub {
 	 * @return The maximum horizontal speed of this Mazub.
 	 */
 	private double getMaxHorizontalSpeed(){
-		return this.isDucking ? Constants.vxMaxDucking : this.vxMax;
+		return this.isDucking ? Mazub.getMaxSpeedWhileDucking() : this.vxMax;
 	}
 	
 	/**
@@ -117,12 +141,13 @@ public class Mazub {
 	 * @return A 2-dimensional vector of this Mzaub's acceleration in m/s.
 	 */
 	public Vector2D<Double> getAcceleration(){
+		Vector2D<Double> maxAcc = Mazub.getMaxAcceleration();
 		Vector2D<Double> acc = new Vector2D<>(0.0, 0.0);
 		if (isMoving){
-			acc.x = this.getFacing() * Constants.acceleration.x;
+			acc.x = this.getFacing() * maxAcc.x;
 		}
 		if (!onGround()){
-			acc.y = Constants.acceleration.y;
+			acc.y = maxAcc.y;
 		}
 		return acc;
 	}
@@ -390,7 +415,7 @@ public class Mazub {
 	 * Starts the jump of this Mazub.
 	 */
 	public void startJump() {
-		this.speed.y = Constants.vInitJump;
+		this.speed.y = Mazub.getInitialJumpSpeed();
 	}
 	
 	/**

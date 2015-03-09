@@ -47,31 +47,31 @@ public class MazubTest {
 	// isValidPosition Tests
 	
 	@Test
-	public void testIsValidPosition_valid() {
+	public void isValidPosition_valid() {
 		
 		assertTrue(Mazub.isValidPosition(new Vector2D<Double>(0.0, 0.0)));
 	}
 	
 	@Test
-	public void testIsValidPosition_xTooSmall() {
+	public void isValidPosition_xTooSmall() {
 		
 		assertFalse(Mazub.isValidPosition(new Vector2D<Double>(-3.0, 0.0)));
 	}
 	
 	@Test
-	public void testIsValidPosition_yTooSmall() {
+	public void isValidPosition_yTooSmall() {
 		
 		assertFalse(Mazub.isValidPosition(new Vector2D<Double>(0.0, -3.0)));
 	}
 	
 	@Test
-	public void testIsValidPosition_xTooBig() {
+	public void isValidPosition_xTooBig() {
 		
 		assertFalse(Mazub.isValidPosition(new Vector2D<Double>(Constants.screenSize.x + 1, 0.0)));
 	}
 	
 	@Test
-	public void testIsValidPosition_yTooBig() {
+	public void isValidPosition_yTooBig() {
 		
 		assertFalse(Mazub.isValidPosition(new Vector2D<Double>(0.0, Constants.screenSize.y + 1)));
 	}
@@ -80,26 +80,26 @@ public class MazubTest {
 	// isValidSpeed Tests
 	
 	@Test
-	public void testIsValidSpeed_validNotDucking() {
+	public void isValidSpeed_validNotDucking() {
 		
 		assertTrue(mazub.isValidSpeed(new Vector2D<Double>(testVxMax, 0.0)));
 	}
 	
 	@Test
-	public void testIsValidSpeed_validDucking() {
+	public void isValidSpeed_validDucking() {
 		
 		mazub.startDuck();
 		assertTrue(mazub.isValidSpeed(new Vector2D<Double>(Mazub.getMaxSpeedWhileDucking(), 0.0)));
 	}
 	
 	@Test
-	public void testIsValidSpeed_xTooSmall() {
+	public void isValidSpeed_xTooSmall() {
 		
 		assertFalse(mazub.isValidSpeed(new Vector2D<Double>(-(testVxMax+1), 0.0)));
 	}
 	
 	@Test
-	public void testIsValidSpeed_xTooBig() {
+	public void isValidSpeed_xTooBig() {
 		
 		assertFalse(mazub.isValidSpeed(new Vector2D<Double>(testVxMax+1, 0.0)));
 	}
@@ -108,14 +108,14 @@ public class MazubTest {
 	// getAcceleration Tests
 	
 	@Test
-	public void testGetAcceleration_notMoving() {
+	public void getAcceleration_notMoving() {
 		
 		assertEquals(mazub.getAcceleration().x, 0.0, testAccuracy);
 		assertEquals(mazub.getAcceleration().y, 0.0, testAccuracy);
 	}
 	
 	@Test
-	public void testGetAcceleration_startRunningRight() {
+	public void getAcceleration_startRunningRight() {
 		
 		mazub.startMove(1);
 		
@@ -124,7 +124,7 @@ public class MazubTest {
 	}
 	
 	@Test
-	public void testGetAcceleration_startRunningLeft() {
+	public void getAcceleration_startRunningLeft() {
 		
 		mazub.startMove(-1);
 		
@@ -133,7 +133,7 @@ public class MazubTest {
 	}
 	
 	@Test
-	public void testGetAcceleration_startJump() {
+	public void getAcceleration_startJump() {
 		
 		mazub.startJump();
 		mazub.advanceTime(Constants.maxTimeInterval);
@@ -146,14 +146,14 @@ public class MazubTest {
 	// getSpeed Tests
 
 	@Test
-	public void testGetSpeed_notMoving() {
+	public void getSpeed_notMoving() {
 		
 		assertEquals(mazub.getSpeed().x, 0.0, testAccuracy);
 		assertEquals(mazub.getSpeed().y, 0.0, testAccuracy);
 	}
 	
 	@Test
-	public void testGetSpeed_running() {
+	public void getSpeed_running() {
 		
 		mazub.startMove(1);
 		mazub.advanceTime(Constants.maxTimeInterval);
@@ -163,7 +163,7 @@ public class MazubTest {
 	}
 	
 	@Test
-	public void testGetSpeed_jumping() {
+	public void getSpeed_jumping() {
 		
 		mazub.startJump();
 		mazub.advanceTime(Constants.maxTimeInterval);
@@ -176,14 +176,14 @@ public class MazubTest {
 	// getPosition Tests
 	
 	@Test
-	public void testGetPosition_notMoved() {
+	public void getPosition_notMoved() {
 		
 		assertEquals(mazub.getPosition().x, 0.0, testAccuracy);
 		assertEquals(mazub.getPosition().y, 0.0, testAccuracy);
 	}
 	
 	@Test
-	public void testGetPosition_running() {
+	public void getPosition_running() {
 		
 		mazub.startMove(1);
 		mazub.advanceTime(Constants.maxTimeInterval);
@@ -193,7 +193,7 @@ public class MazubTest {
 	}
 	
 	@Test
-	public void testGetPosition_jumping() {
+	public void getPosition_jumping() {
 		
 		mazub.startJump();
 		mazub.advanceTime(Constants.maxTimeInterval);
@@ -206,7 +206,7 @@ public class MazubTest {
 	// getHeight Tests
 	
 	@Test
-	public void testGetHeight() {
+	public void getHeight() {
 		
 		assertEquals(mazub.getHeight(), mazub.getCurrentSprite().getHeight());
 	}
@@ -215,7 +215,7 @@ public class MazubTest {
 	// getWidth Tests
 	
 	@Test
-	public void testGetWidth() {
+	public void getWidth() {
 		
 		assertEquals(mazub.getWidth(), mazub.getCurrentSprite().getWidth());
 	}
@@ -224,13 +224,13 @@ public class MazubTest {
 	// onGround Tests
 	
 	@Test
-	public void testOnGround_notMoving() {
+	public void onGround_notMoving() {
 		
 		assertTrue(mazub.onGround());
 	}
 	
 	@Test
-	public void testOnGround_running() {
+	public void onGround_running() {
 		
 		mazub.startMove(1);
 		mazub.advanceTime(Constants.maxTimeInterval);
@@ -239,7 +239,7 @@ public class MazubTest {
 	}
 	
 	@Test
-	public void testOnGround_jumping() {
+	public void onGround_jumping() {
 		
 		mazub.startJump();
 		mazub.advanceTime(Constants.maxTimeInterval);
@@ -251,7 +251,7 @@ public class MazubTest {
 	// startMove and endMove Tests
 	
 	@Test
-	public void testMove() {
+	public void move() {
 		
 		mazub.startMove(1);
 		mazub.advanceTime(Constants.maxTimeInterval);
@@ -267,7 +267,7 @@ public class MazubTest {
 	// startJump and endJump Tests
 	
 	@Test
-	public void testJump() {
+	public void jump() {
 		
 		mazub.startJump();
 		mazub.advanceTime(Constants.maxTimeInterval);
@@ -287,7 +287,7 @@ public class MazubTest {
 	// startDuck and endDuck Tests
 	
 	@Test
-	public void testDuck() {
+	public void duck() {
 		
 		int height = mazub.getHeight();
 		mazub.startDuck();

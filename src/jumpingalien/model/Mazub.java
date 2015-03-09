@@ -40,7 +40,23 @@ public class Mazub {
 	// Acceleration
 	public final static Vector2D<Double> maxAcceleration = new Vector2D<>(0.9, -10.0);
 
-	public Mazub(double x, double y, Sprite[] sprites, double vxInit, double vxMax, double direction) {
+	/**
+	 * @param x The x position of this Mazub.
+	 * @param y The y position of this Mazub.
+	 * @param sprites An array of sprites containing Mazubs animations.
+	 * @param vxInit Mazubs initial speed when starting to walk.
+	 * @param vxMax Mazubs maximum speed while walking.
+	 * @param direction The direction Mazub is facing. -1 means he's facing left, +1 means he's facing right.
+	 * @throws IllegalArgumentException
+	 * 			| !isValidPosition(new Vector2D<>(x, y)) || sprites == null
+	 */
+	public Mazub(double x, double y, Sprite[] sprites, double vxInit, double vxMax, double direction) throws IllegalArgumentException{
+		if (! Mazub.isValidPosition(new Vector2D<>(x, y))){
+			throw new IllegalArgumentException("x and y are not valid coördinates.");
+		}
+		if (sprites == null){
+			throw new IllegalArgumentException("Sprites can't be null.");
+		}
 		assert vxInit >= 1.0;
 		assert vxMax >= vxInit;
 		

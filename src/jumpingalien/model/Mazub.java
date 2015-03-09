@@ -363,7 +363,7 @@ public class Mazub {
 
 	private void determineCurrentSprite() {
 		
-		int m = (sprites.length - 9) / 2;
+		int m = (sprites.length - 8) / 2 - 1;
 		boolean recentlyMoved = timeSinceMoving < 1 && this.hasMoved;
 		if (!(isMoving || isDucking)){
 			if (!recentlyMoved){

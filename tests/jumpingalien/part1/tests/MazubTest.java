@@ -20,7 +20,7 @@ public class MazubTest {
 	private final double testVxInit = 1.0;
 	private final double testVxMax = 3.0;
 	private final double testStartDirection = 1.0;
-	
+    private final Sprite[] sprites = JumpingAlienSprites.ALIEN_SPRITESET;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -34,8 +34,6 @@ public class MazubTest {
 
 	@Before
 	public void setUp() throws Exception {
-		
-		Sprite[] sprites = JumpingAlienSprites.ALIEN_SPRITESET;
 		mazub = new Mazub(testStartPosition.x, testStartPosition.y, sprites, testVxInit, testVxMax, testStartDirection);
 	}
 
@@ -53,6 +51,35 @@ public class MazubTest {
 	@Test(expected=IllegalArgumentException.class)
 	public void contructor_invalidSprites(){
 		new Mazub(0.0, 0.0, null, testVxInit, testVxMax, 1);
+	}
+	
+	
+	// getCurrentSprite tests
+	@Test
+	public void getCurrentSprite_start(){
+		assertEquals(mazub.getCurrentSprite(), sprites[0]);
+	}
+
+	@Test
+	public void getCurrentSprite_walkRight(){
+		mazub.startMove(1);
+		mazub.advanceTime(0.01);
+		assertEquals(mazub.getCurrentSprite(), sprites[8]);
+	}
+
+	@Test
+	public void getCurrentSprite_walkLeft(){
+		mazub.startMove(-1);
+		mazub.advanceTime(0.01);
+		int m = (sprites.length - 8) / 2 - 1;
+		assertEquals(mazub.getCurrentSprite(), sprites[9 + m]);
+	}
+
+	@Test
+	public void getCurrentSprite_animation(){
+		mazub.startMove(1);
+		mazub.advanceTime(0.076);
+		assertEquals(mazub.getCurrentSprite(), sprites[8 + 1]);
 	}
 
 	// isValidPosition Tests

@@ -3,7 +3,6 @@ package jumpingalien.part1.tests;
 import static org.junit.Assert.*;
 import jumpingalien.model.*;
 import jumpingalien.util.Sprite;
-import jumpingalien.util.Util;
 import jumpingalien.common.sprites.JumpingAlienSprites;
 
 import org.junit.After;

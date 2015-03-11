@@ -52,7 +52,7 @@ public class Mazub {
 	 */
 	public Mazub(double x, double y, Sprite[] sprites, double vxInit, double vxMax, double direction) throws IllegalArgumentException{
 		if (! Mazub.isValidPosition(new Vector2D<>(x, y))){
-			throw new IllegalArgumentException("x and y are not valid coördinates.");
+			throw new IllegalArgumentException("x and y are not valid coï¿½rdinates.");
 		}
 		if (sprites == null){
 			throw new IllegalArgumentException("Sprites can't be null.");
@@ -386,9 +386,9 @@ public class Mazub {
 								 this.sprites[6] : this.sprites[7];
 		}
 		if (!(! onGround() || isDucking) && isMoving){
-			int spriteIndex = ((int)(this.movingTime/0.075)) % m;
+			int animationIndex = ((int)(this.movingTime/0.075)) % m;
 			this.currentSprite = this.getFacing() == 1 ?
-								 this.sprites[8+spriteIndex] : this.sprites[9+m+spriteIndex];
+								 this.sprites[8+animationIndex] : this.sprites[9+m+animationIndex];
 		}
 	}
 	

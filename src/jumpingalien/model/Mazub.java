@@ -169,7 +169,7 @@ public class Mazub {
 	/**
 	 * @return This Mazub's speed as a 2D vector in m/s.
 	 */
-	@Basic @Immutable
+	@Basic
 	public Vector2D<Double> getSpeed(){
 		return this.speed;
 	}
@@ -203,7 +203,7 @@ public class Mazub {
 	/**
 	 * @return This Mazub's position as a 2D vector in meters.
 	 */
-	@Basic @Immutable
+	@Basic
 	public Vector2D<Double> getPositionInMeters(){
 		return this.position;
 	}
@@ -271,7 +271,7 @@ public class Mazub {
 	/**
 	 * @return	This Mazub's height in pixels.
 	 */
-	@Basic @Immutable
+	@Basic
 	public int getHeight(){
 		return this.currentSprite.getHeight();
 	}
@@ -279,7 +279,7 @@ public class Mazub {
 	/**
 	 * @return	This Mazub's width in pixels.
 	 */
-	@Basic @Immutable
+	@Basic
 	public int getWidth(){
 		return this.currentSprite.getWidth();
 	}

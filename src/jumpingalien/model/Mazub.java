@@ -1,6 +1,6 @@
 package jumpingalien.model;
 
-import be.kuleuven.cs.som.annotate.Basic;
+import be.kuleuven.cs.som.annotate.*;
 import jumpingalien.util.Sprite;
 import jumpingalien.util.Util;
 import jumpingalien.model.Constants;
@@ -41,21 +41,41 @@ public class Mazub {
 	public final static Vector2D<Double> maxAcceleration = new Vector2D<>(0.9, -10.0);
 
 	/**
-	 * @param x The x position of this Mazub.
-	 * @param y The y position of this Mazub.
-	 * @param sprites An array of sprites containing Mazubs animations.
-	 * @param vxInit Mazubs initial speed when starting to walk.
-	 * @param vxMax Mazubs maximum speed while walking.
-	 * @param direction The direction Mazub is facing. -1 means he's facing left, +1 means he's facing right.
+	 * @param x
+	 * 			The x position of this Mazub.
+	 * 
+	 * @param y
+	 * 			The y position of this Mazub.
+	 * 
+	 * @param sprites
+	 * 			An array of sprites containing Mazubs animations.
+	 * 
+	 * @param vxInit
+	 * 			Mazubs initial speed when starting to walk.
+	 * 
+	 * @param vxMax
+	 * 			Mazubs maximum speed while walking.
+	 * 
+	 * @param direction
+	 * 			The direction Mazub is facing. -1 means he's facing left, +1 means he's facing right.
+	 * 
+	 * @throws NullPointerException
+	 * 			Throws a NullPointerException when sprites is null.
+	 * 			| sprites == null
+	 * 
 	 * @throws IllegalArgumentException
-	 * 			| !isValidPosition(new Vector2D<>(x, y)) || sprites == null
+	 * 			Throws an IllegalArgumentException when the position and/or direction are not valid.
+	 * 			| !Mazub.isValidPosition(new Vector2D<>(x, y)) || !Mazub.isValidDirection(direction)
 	 */
-	public Mazub(double x, double y, Sprite[] sprites, double vxInit, double vxMax, double direction) throws IllegalArgumentException{
+	public Mazub(double x, double y, Sprite[] sprites, double vxInit, double vxMax, double direction) throws NullPointerException, IllegalArgumentException{
 		if (! Mazub.isValidPosition(new Vector2D<>(x, y))){
 			throw new IllegalArgumentException("x and y are not valid co�rdinates.");
 		}
+		if (! Mazub.isValidDirection(direction)) {
+			throw new IllegalArgumentException("direction is not valid.");
+		}
 		if (sprites == null){
-			throw new IllegalArgumentException("Sprites can't be null.");
+			throw new NullPointerException("Sprites can't be null.");
 		}
 		assert vxInit >= 1.0;
 		assert vxMax >= vxInit;
@@ -69,28 +89,30 @@ public class Mazub {
 		this.setFacing(direction);
 	}
 	
-	@Basic
+	@Basic @Immutable
 	public static double getMaxSpeedWhileDucking() {
 		return vxMaxDucking;
 	}
 
-	@Basic
+	@Basic @Immutable
 	public static double getInitialJumpSpeed() {
 		return vInitJump;
 	}
 
-	@Basic
+	@Basic @Immutable
 	public static Vector2D<Double> getMaxAcceleration() {
 		return maxAcceleration;
 	}
 
 	/**
 	 * @param pos
+	 * 			The position to check
+	 * 
 	 * @return Whether pos is valid (is inside the bounds of the world)
 	 * 			| (pos.x >= 0) && (pos.x <= bounds.x)
 	 *			 && (pos.y >= 0) && (pos.y <= bounds.y)
 	 */
-	public static boolean isValidPosition(Vector2D<Double> pos){
+	public static boolean isValidPosition(Vector2D<Double> pos) {
 		return (pos.x >= 0) && (pos.x <= Constants.screenSize.x/100)
 			&& (pos.y >= 0) && (pos.y <= Constants.screenSize.y/100);
 	}
@@ -98,16 +120,30 @@ public class Mazub {
 	
 	/**
 	 * @param speed
+	 * 			The speed to check
+	 * 
 	 * @return Whether speed.x's magnitude doesn't exceed the maximum horizontal speed.
 	 * 			| Math.abs(speed.x) <= this.getMaxHorizontalSpeed()
 	 */
-	public boolean isValidSpeed(Vector2D<Double> speed){
+	public boolean isValidSpeed(Vector2D<Double> speed) {
 		return Math.abs(speed.x) <= this.getMaxHorizontalSpeed();
 	}
+	
+	
 	/**
-	 * Returns this Mazub's current sprite.
+	 * @param direction
+	 * 			The direction to check
 	 * 
-	 * @return This Mazub's current sprite as a Sprite.
+	 * @return Whether the direction is valid (either 1 or -1)
+	 * 			| direction == 1 || direction == -1
+	 */
+	public static boolean isValidDirection(double direction) {
+		return direction == 1 || direction == -1;
+	}
+	
+	
+	/**
+	 * @return This Mazub's current sprite.
 	 */
 	@Basic
 	public Sprite getCurrentSprite() {
@@ -126,18 +162,16 @@ public class Mazub {
 	}
 	
 	/**
-	 * @return The maximum horizontal speed of this Mazub.
+	 * @return The maximum horizontal speed of this Mazub in m/s.
 	 */
 	private double getMaxHorizontalSpeed(){
 		return this.isDucking ? Mazub.getMaxSpeedWhileDucking() : this.vxMax;
 	}
 	
 	/**
-	 * Returns this Mazub's speed in meters/second.
-	 * 
-	 * @return This Mazub's speed as a 2D vector.
+	 * @return This Mazub's speed as a 2D vector in m/s.
 	 */
-	@Basic
+	@Basic @Immutable
 	public Vector2D<Double> getSpeed(){
 		return this.speed;
 	}
@@ -169,11 +203,9 @@ public class Mazub {
 	}
 	
 	/**
-	 * Returns this Mazub's position in meters.
-	 * 
-	 * @return This Mazub's position as a 2D vector.
+	 * @return This Mazub's position as a 2D vector in m.
 	 */
-	@Basic
+	@Basic @Immutable
 	public Vector2D<Double> getPosition(){
 		return this.position;
 	}
@@ -183,15 +215,27 @@ public class Mazub {
 	 * 
 	 * @param position
 	 * 			The position to set.
+	 * 
+	 * @throws NullPointerException
+	 * 			Throws a NullPointerException when the position is null.
+	 * 			| position == null
+	 * 
+	 * @throws IllegalArgumentException
+	 * 			Throws an IllegalArgumentException when the position is not valid. See isValidPosition.
+	 * 			| !isValidPosition(position)
 	 */
 	@Basic
-	private void setPosition(Vector2D<Double> position) {
+	private void setPosition(Vector2D<Double> position) throws NullPointerException, IllegalArgumentException {
+		if (position == null) {
+			throw new NullPointerException("The position can not be null.");
+		} else if (!isValidPosition(position)) {
+			throw new IllegalArgumentException("The given position is not valid, see isValidPosition.");
+		}
+		
 		this.position = position;
 	}
 	
 	/**
-	 * Returns the facing of this Mazub.
-	 * 
 	 * @return The facing of this Mazub. This is either 1.0 if it's facing right or -1.0 if it's facing left.
 	 */
 	@Basic
@@ -200,53 +244,41 @@ public class Mazub {
 	}
 	
 	/**
-	 * Sets this Mazub's facing to -1.0 if facing < 0 (left facing) or to 1.0 if facing >= 0 (right facing).
+	 * Sets this Mazub's facing.
 	 * 
 	 * @param facing
-	 * 			The facing to set.
+	 * 			The facing to set. This should be either 1 for right facing or -1 for left facing.
 	 * 
-	 * @post	If facing is negative, this Mazub's facing is set to -1.0.
-	 * 			| if (facing < 0)
-	 * 			|	new.facing == -1
+	 * @pre		The facing should be valid;
+	 * 			| Mazub.isValidDirection(facing)
 	 * 
-	 * @post	If facing is not negative, this Mazub's facing is set to 1.0.
-	 * 			| if (facing >= 0)
-	 * 			|	new.facing == 1
-	 * 
-	 * @throws IllegalArgumentException
-	 * 
-	 * Nominally
+	 * @post	The facing will be set to the new facing
+	 * 			| new.getFacing() == facing
 	 */
 	@Basic
-	public void setFacing(double facing) throws IllegalArgumentException {
-		if (!(facing == -1 || facing == 1)) {
-			throw new IllegalArgumentException("Facing should be -1 or 1.");
-		}
+	public void setFacing(double facing) {
+		assert Mazub.isValidDirection(facing);
 		this.facing = facing;
 	}
 	
 	/**
-	 * Returns this Mazub's height in pixels.
-	 * 
 	 * @return	This Mazub's height in pixels.
 	 */
-	@Basic
+	@Basic @Immutable
 	public int getHeight(){
 		return this.currentSprite.getHeight();
 	}
 
 	/**
-	 * Returns this Mazub's width in pixels.
-	 * 
 	 * @return	This Mazub's width in pixels.
 	 */
-	@Basic
+	@Basic @Immutable
 	public int getWidth(){
 		return this.currentSprite.getWidth();
 	}
 	
 	/**
-	 * @return Returns whether this Mazub is touching the ground or not.
+	 * @return Whether this Mazub is touching the ground or not.
 	 * 			| if (this.getCurrentPosition().y == 0.0)
 	 * 			| then true
 	 * 			| else false
@@ -259,6 +291,8 @@ public class Mazub {
 	
 	
 	/**
+	 * Advances the time for this Mazub with the given time interval and updates position, speed and acceleration.
+	 * 
 	 * @param dt
 	 * 			The time that has passed in the game world since last calling this method.
 	 * 
@@ -285,9 +319,10 @@ public class Mazub {
 			this.timeSinceMoving += dt;
 		}
 		
+		// update movement
 		this.updateMovement(dt);
 		
-		//currentSprite gets determined AFTER Mazub's state has been updated
+		// determine and set the new current sprite after the time and movement have been updated
 		this.determineCurrentSprite();
 	}
 
@@ -316,6 +351,7 @@ public class Mazub {
 										this.getMaxHorizontalSpeed(),
 										speed.x);
 		
+		// Update y for position and speed
 		position.y += speed.y * dt + acc.y * dt * dt / 2.0;
 		speed.y += acc.y * dt;
 		
@@ -361,6 +397,9 @@ public class Mazub {
 		return value;
 	}
 
+	/**
+	 * Determines and sets the new current sprite.
+	 */
 	private void determineCurrentSprite() {
 		
 		int m = (sprites.length - 8) / 2 - 1;
@@ -394,13 +433,12 @@ public class Mazub {
 	
 	/**
 	 * Starts this Mazub's movement in the given direction.
-	 * Nominally
 	 * 
 	 * @param direction
 	 * 			The direction to start moving in.
 	 * 
-	 * @pre		Direction should be -1 or 1.
-	 * 			| direction == -1 || direction == 1
+	 * @pre		Direction should be valid.
+	 * 			| Mazub.isValidDirection(direction)
 	 * 
 	 * @post	The horizontal speed shall be set to +- vxInit.
 	 * 			| new.getSpeed().x == direction * this.vxInit
@@ -409,10 +447,10 @@ public class Mazub {
 	 * 			| new.isMoving == true
 	 */
 	public void startMove(double direction) {
-		assert direction == -1 || direction == 1;
+		assert Mazub.isValidDirection(direction);
 		this.isMoving = true;
 		this.setFacing(direction);
-		this.speed.x = direction * this.vxInit;
+		this.getSpeed().x = direction * this.vxInit;
 		this.movingTime = 0;
 	}
 	
@@ -421,7 +459,7 @@ public class Mazub {
 	 */
 	public void endMove() {
 		this.isMoving = false;
-		this.speed.x = 0.0;
+		this.getSpeed().x = 0.0;
 		this.hasMoved = true;
 		this.timeSinceMoving = 0;
 	}
@@ -437,28 +475,30 @@ public class Mazub {
 	/**
 	 * Ends the jump of this Mazub.
 	 * 
-	 * @pre		The vertical speed of this Mazub should be bigger than 0.
-	 * 			| this.speed.y > 0
+	 * @post	If the speed of this Mazub is bigger than 0, the vertical speed of this Mazub will be 0.
+	 * 			| if (this.getSpeed().y > 0)
+	 * 			|	new.getSpeed().y == 0
 	 * 
-	 * @post	The vertical speed of this Mazub will be 0.
-	 * 			| new.speed.y == 0
+	 * @post	If the speed of this Mazub is not bigger than 0, the vertical speed will remain the same.
+	 * 			| if (this.getSpeed().y <= 0)
+	 * 			|	new.getSpeed().y == this.getSpeed().y
 	 */
 	public void endJump() {
-		if (this.speed.y > 0) {
-			this.speed.y = 0.0;
+		if (this.getSpeed().y > 0) {
+			this.getSpeed().y = 0.0;
 		}
 	}
 	
 	
 	/**
-	 * Defensively
+	 * Starts the duck of this Mazub.
 	 */
 	public void startDuck() {
 		this.isDucking = true;
 	}
 	
 	/**
-	 * Defensively
+	 * Ends the duck of this Mazub.
 	 */
 	public void endDuck() {
 		this.isDucking = false;

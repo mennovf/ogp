@@ -1,4 +1,1 @@
-- Can we use private fields that are only meant for the implementation without getters and setters?
-- Jump methods have to be implemented 'defensively' but there's no wrong input or state.
-- The specification says that the vertical speed has to be set to 0 when endJump is called. endJump gets
-  called when then user releases the 'up' arrow. This can happen mid-jump and causes unnatural behavior.
+- Helper classes met @Value? Zie assignment p2

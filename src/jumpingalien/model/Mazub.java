@@ -25,16 +25,14 @@ public class Mazub {
 	private final double vxMax;
 	
 	private boolean isMoving = false, isDucking = false, hasMoved = false;
-	private double movingTime = 0;
-	private double timeSinceMoving = 0;
+	private double movingTime = 0, timeSinceMoving = 0;
 	
 	private Vector2D<Double> speed, position;
 	private double facing;
 	
-	//CONSTANTS
+	// CONSTANTS
 	// Speed
 	public final static double vxMaxDucking = 1.0;
-	
 	public final static double vInitJump = 8.0;
 	
 	// Acceleration
@@ -425,7 +423,7 @@ public class Mazub {
 								 this.sprites[6] : this.sprites[7];
 		}
 		if (!(! onGround() || isDucking) && isMoving){
-			int animationIndex = ((int)(this.movingTime/0.075)) % m;
+			int animationIndex = ((int)(this.movingTime/0.075)) % (m+1);
 			this.currentSprite = this.getFacing() == 1 ?
 								 this.sprites[8+animationIndex] : this.sprites[9+m+animationIndex];
 		}

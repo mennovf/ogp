@@ -47,7 +47,7 @@ public class MazubTest {
 		new Mazub(-1.0, 0.0, JumpingAlienSprites.ALIEN_SPRITESET, testVxInit, testVxMax, 1);
 	}
 	
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected=NullPointerException.class)
 	public void contructor_invalidSprites(){
 		new Mazub(0.0, 0.0, null, testVxInit, testVxMax, 1);
 	}

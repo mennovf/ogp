@@ -201,11 +201,20 @@ public class Mazub {
 	}
 	
 	/**
-	 * @return This Mazub's position as a 2D vector in m.
+	 * @return This Mazub's position as a 2D vector in meters.
 	 */
 	@Basic @Immutable
-	public Vector2D<Double> getPosition(){
+	public Vector2D<Double> getPositionInMeters(){
 		return this.position;
+	}
+	
+	/**
+	 * @return This Mazub's position in pixels.
+	 */
+	@Basic
+	public Vector2D<Integer> getPosition(){
+		Vector2D<Double> pos = getPositionInMeters();
+		return new Vector2D<Integer>(metersToPixels(pos.x), metersToPixels(pos.y));
 	}
 	
 	/**
@@ -335,7 +344,7 @@ public class Mazub {
 		// Set some variables so we need to write less. The variables are references because Vector2D is a class, so setting also works.
 		Vector2D<Double> acc = this.getAcceleration();
 		Vector2D<Double> speed = this.getSpeed();
-		Vector2D<Double> position = this.getPosition();
+		Vector2D<Double> position = this.getPositionInMeters();
 		
 		// Update x for position and speed
 		position.x += speed.x * dt + acc.x * dt * dt / 2.0;
@@ -500,5 +509,18 @@ public class Mazub {
 	 */
 	public void endDuck() {
 		this.isDucking = false;
+	}
+
+	/**
+	 * @param	m
+	 * 			The value to convert from meters to pixels.
+	 * 
+	 * @return	m converted to pixels.
+	 * 
+	 * @post	m has to be positive
+	 * 			| m >= 0
+	 */
+	private static int metersToPixels(double m){
+		return (int)(m / 0.01);
 	}
 }

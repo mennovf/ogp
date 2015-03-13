@@ -215,8 +215,8 @@ public class MazubTest {
 	@Test
 	public void getPosition_notMoved() {
 		
-		assertEquals(mazub.getPosition().x, 0.0, testAccuracy);
-		assertEquals(mazub.getPosition().y, 0.0, testAccuracy);
+		assertEquals((int)mazub.getPosition().x, 0);
+		assertEquals((int)mazub.getPosition().y, 0);
 	}
 	
 	@Test
@@ -225,8 +225,8 @@ public class MazubTest {
 		mazub.startMove(1);
 		mazub.advanceTime(Constants.maxTimeInterval);
 		
-		assertNotEquals(mazub.getPosition().x, 0.0, testAccuracy);
-		assertEquals(mazub.getPosition().y, 0.0, testAccuracy);
+		assertNotEquals((int)mazub.getPosition().x, 0);
+		assertEquals((int)mazub.getPosition().y, 0);
 	}
 	
 	@Test
@@ -235,8 +235,8 @@ public class MazubTest {
 		mazub.startJump();
 		mazub.advanceTime(Constants.maxTimeInterval);
 		
-		assertEquals(mazub.getPosition().x, 0.0, testAccuracy);
-		assertNotEquals(mazub.getPosition().y, 0.0, testAccuracy);
+		assertEquals((int)mazub.getPosition().x, 0);
+		assertNotEquals((int)mazub.getPosition().y, 0);
 	}
 	
 	

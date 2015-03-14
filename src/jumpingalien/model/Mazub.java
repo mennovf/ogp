@@ -21,19 +21,19 @@ public class Mazub {
 	private Sprite[] sprites;
 	private Sprite currentSprite;
 	
-	private final double vxInit;
-	private final double vxMax;
+	private final double vxInit; // Initial moving speed
+	private final double vxMax; // Max running speed (not ducking)
 	
 	private boolean isMoving = false, isDucking = false, hasMoved = false;
 	private double movingTime = 0, timeSinceMoving = 0;
 	
-	private Vector2D<Double> speed, position;
-	private double facing;
+	private Vector2D<Double> speed, position; // speed in m/s, position in m
+	private double facing; // 1 if facing right, -1 if facing left
 	
 	// CONSTANTS
 	// Speed
-	public final static double vxMaxDucking = 1.0;
-	public final static double vInitJump = 8.0;
+	public final static double vxMaxDucking = 1.0; // Max running speed while ducking
+	public final static double vInitJump = 8.0; // Initial jump speed
 	
 	// Acceleration
 	public final static Vector2D<Double> maxAcceleration = new Vector2D<>(0.9, -10.0);
@@ -101,6 +101,7 @@ public class Mazub {
 	public static Vector2D<Double> getMaxAcceleration() {
 		return maxAcceleration;
 	}
+	
 
 	/**
 	 * @param pos
@@ -365,6 +366,10 @@ public class Mazub {
 		// Keep y position in bounds
 		position.y = clipInRange(0, Constants.screenSize.y/100, position.y);
 		
+		// if Mazub is on ground, then vertical speed has to be set to 0
+		if (this.onGround()) {
+			speed.y = 0.0;
+		}
 	}
 	
 	

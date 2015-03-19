@@ -4,6 +4,7 @@ import be.kuleuven.cs.som.annotate.*;
 import jumpingalien.util.Sprite;
 import jumpingalien.util.Util;
 import jumpingalien.model.Constants;
+import jumpingalien.model.Utilities;
 
 /**
  * A class representing a single Mazub.
@@ -66,6 +67,9 @@ public class Mazub extends GameObject {
 	 * 			| !Mazub.isValidPosition(new Vector2D<>(x, y)) || !Mazub.isValidDirection(direction)
 	 */
 	public Mazub(double x, double y, Sprite[] sprites, double vxInit, double vxMax, double direction) throws NullPointerException, IllegalArgumentException{
+		
+		super(100, 500);
+		
 		if (! Mazub.isValidPosition(new Vector2D<>(x, y))){
 			throw new IllegalArgumentException("x and y are not valid co�rdinates.");
 		}
@@ -352,10 +356,10 @@ public class Mazub extends GameObject {
 		speed.x += acc.x * dt;
 		
 		// Keep x position in bounds
-		position.x = clipInRange(0, Constants.screenSize.x/100, position.x);
+		position.x = Utilities.clipInRange(0.0, Constants.screenSize.x/100, position.x);
 		
 		// Keep horizontal speed in bounds
-		speed.x = clipInRange(-this.getMaxHorizontalSpeed(),
+		speed.x = Utilities.clipInRange(-this.getMaxHorizontalSpeed(),
 										this.getMaxHorizontalSpeed(),
 										speed.x);
 		
@@ -364,7 +368,7 @@ public class Mazub extends GameObject {
 		speed.y += acc.y * dt;
 		
 		// Keep y position in bounds
-		position.y = clipInRange(0, Constants.screenSize.y/100, position.y);
+		position.y = Utilities.clipInRange(0.0, Constants.screenSize.y/100, position.y);
 		
 		// if Mazub is on ground, then vertical speed has to be set to 0
 		if (this.onGround()) {
@@ -372,42 +376,6 @@ public class Mazub extends GameObject {
 		}
 	}
 	
-	
-	/**
-	 * Clips the value to the given range.
-	 * 
-	 * @param min
-	 * 			The minimum of the range.
-	 * 
-	 * @param max
-	 * 			The maximum of the range.
-	 * 
-	 * @param value
-	 * 			The value to clip.
-	 * 
-	 * @return	The value clipped to the given range. If it's bigger than max, max will be returned. If it's smaller than min, min will be returned.
-	 * 			| if (value < min)
-	 * 			|	return min
-	 * 			| if (value > max)
-	 * 			|	return max
-	 * 			| else
-	 * 			|	return value
-	 * 
-	 * @pre		Max should be bigger than min.
-	 * 			| max > min
-	 */
-	private static double clipInRange(double min, double max, double value) {
-		
-		assert max > min;
-		
-		if (value < min) {
-			return min;
-		} else if (value > max) {
-			return max;
-		}
-		
-		return value;
-	}
 
 	/**
 	 * Determines and sets the new current sprite.

@@ -108,8 +108,8 @@ public class Facade implements IFacadePart2 {
 	public World createWorld(int tileSize, int nbTilesX, int nbTilesY,
 			int visibleWindowWidth, int visibleWindowHeight, int targetTileX,
 			int targetTileY) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return new World(tileSize, nbTilesX, nbTilesY, visibleWindowWidth, visibleWindowHeight, targetTileX, targetTileY);
 	}
 
 	@Override

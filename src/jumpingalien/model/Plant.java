@@ -1,5 +1,5 @@
 package jumpingalien.model;
 
-public class Plant {
+public class Plant extends GameObject {
 
 }

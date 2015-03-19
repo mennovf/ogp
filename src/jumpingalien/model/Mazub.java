@@ -17,7 +17,7 @@ import jumpingalien.model.Constants;
  * @author Rugen Heidbuchel & Menno Vanfrachem
  * @version 1.0
  */
-public class Mazub {
+public class Mazub extends GameObject {
 	private Sprite[] sprites;
 	private Sprite currentSprite;
 	

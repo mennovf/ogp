@@ -1,5 +1,5 @@
 package jumpingalien.model;
 
-public class Shark {
+public class Shark extends GameObject {
 
 }

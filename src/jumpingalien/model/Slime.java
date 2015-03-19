@@ -1,5 +1,5 @@
 package jumpingalien.model;
 
-public class Slime {
+public class Slime extends GameObject {
 
 }

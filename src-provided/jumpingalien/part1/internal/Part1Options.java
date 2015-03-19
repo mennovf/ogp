@@ -85,7 +85,7 @@ public class Part1Options implements JumpingAlienGameOptions, JumpingAlienGUIOpt
 	}
 
 	@Override
-	public boolean getDebugShowAlienLocationAndSize() {
+	public boolean getDebugShowObjectLocationAndSize() {
 		return debugShowAlienLocationAndSize;
 	}
 	

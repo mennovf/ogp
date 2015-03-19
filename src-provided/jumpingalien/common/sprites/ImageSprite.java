@@ -58,4 +58,14 @@ public class ImageSprite extends Sprite {
 				newHeight));
 	}
 
+	public Sprite scaleToWidth(int newWidth) {
+		return new ImageSprite(getName(), GUIUtils.scaleTo(image, newWidth, -1));
+	}
+
+	public ImageSprite shiftHue(int amount) {
+		BufferedImage shiftedImage = GUIUtils.copyImage(image);
+		GUIUtils.shiftHue(shiftedImage, amount);
+		return new ImageSprite(getName(), shiftedImage);
+	}
+
 }

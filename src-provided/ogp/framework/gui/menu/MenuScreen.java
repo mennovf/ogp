@@ -13,6 +13,7 @@ import ogp.framework.command.SimpleCommand;
 import ogp.framework.game.Game;
 import ogp.framework.gui.GUI;
 import ogp.framework.gui.InputMode;
+import ogp.framework.gui.MessagePainter;
 import ogp.framework.gui.Painter;
 import ogp.framework.gui.Screen;
 import ogp.framework.gui.ScreenPanel;
@@ -147,6 +148,9 @@ public abstract class MenuScreen<TGame extends Game, TGUI extends GUI<TGame>>
 				}
 			}
 		});
+
+		addPainter(new MessagePainter<Screen<?, ?>>(this,
+				getGame()::getCurrentMessage));
 	}
 
 	private boolean drawCentered() {

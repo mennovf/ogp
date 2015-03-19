@@ -29,7 +29,7 @@ public class Part1DebugMenu extends
 		addDebugOption("Show info", Part1Options::getDebugShowInfo,
 				Part1Options::setDebugShowInfo);
 		addDebugOption("Show alien location and size",
-				Part1Options::getDebugShowAlienLocationAndSize,
+				Part1Options::getDebugShowObjectLocationAndSize,
 				Part1Options::setDebugShowAlienLocationAndSize);
 		addDebugOption("Show axes", Part1Options::getDebugShowAxes,
 				Part1Options::setDebugShowAxes);

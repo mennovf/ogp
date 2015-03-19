@@ -42,6 +42,10 @@ public abstract class JumpingAlienGame extends Game {
 	public JumpingAlienGameOptions getOptions() {
 		return (JumpingAlienGameOptions) super.getOptions();
 	}
+	
+	public void restart() {
+		start();
+	}
 
 	@Override
 	public void start() {
@@ -56,6 +60,10 @@ public abstract class JumpingAlienGame extends Game {
 
 	public void setPause(boolean value) {
 		running = !value;
+	}
+	
+	public void stop() {
+		running = false;
 	}
 
 	protected abstract void createModel();

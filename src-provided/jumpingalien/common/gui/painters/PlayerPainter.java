@@ -27,13 +27,13 @@ public class PlayerPainter extends AbstractAlienPainter<AlienGameScreen<?, ?>> {
 				.ifPresent(
 						xy -> {
 
-							if (getOptions().getDebugShowAlienLocationAndSize()) {
+							if (getOptions().getDebugShowObjectLocationAndSize()) {
 								getGame()
 										.getAlienInfoProvider()
 										.getAlienSize()
 										.ifPresent(
 												size -> paintLocationAndSize(g,
-														xy, size));
+														xy, size, getOptions().getDebugShowPixels()));
 							}
 
 							getGame()
@@ -49,14 +49,14 @@ public class PlayerPainter extends AbstractAlienPainter<AlienGameScreen<?, ?>> {
 						});
 	}
 
-	protected void paintLocationAndSize(Graphics2D g, int[] xy, int[] size) {
+	protected void paintLocationAndSize(Graphics2D g, int[] xy, int[] size, boolean smallStroke) {
 		g.setColor(SIZE_FILL);
 		g.fillRect(xy[0], xy[1], size[0], size[1]);
 
 		g.setColor(SIZE_BORDER);
 
 		Stroke oldStroke = g.getStroke();
-		if (getOptions().getDebugShowPixels()) {
+		if (smallStroke) {
 			// use a smaller stroke if individual pixels are painted
 			g.setStroke(new BasicStroke(0.5f));
 		}
@@ -64,7 +64,7 @@ public class PlayerPainter extends AbstractAlienPainter<AlienGameScreen<?, ?>> {
 		g.setStroke(oldStroke);
 
 		g.setColor(LOCATION_COLOR);
-		if (getOptions().getDebugShowPixels()) {
+		if (smallStroke) {
 			// only fill 1 pixel if individual pixels are painted
 			g.fillRect(xy[0], xy[1], 1, 1);
 		} else {

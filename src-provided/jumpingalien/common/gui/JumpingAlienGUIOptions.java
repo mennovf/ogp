@@ -13,7 +13,7 @@ public interface JumpingAlienGUIOptions extends GUIOptions {
 
 	public abstract boolean getDebugShowPixels();
 
-	public abstract boolean getDebugShowAlienLocationAndSize();
+	public abstract boolean getDebugShowObjectLocationAndSize();
 
 	public abstract boolean getDebugShowAxes();
 

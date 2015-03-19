@@ -1,5 +1,7 @@
 package ogp.framework.util;
 
+import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
@@ -32,6 +34,35 @@ public class GUIUtils {
 		double dx = x1 - x2;
 		double dy = y1 - y2;
 		return Math.sqrt(dx * dx + dy * dy);
+	}
+	
+	private static final float STEP_SIZE = 7F/10F;
+
+	public static void shiftHue(BufferedImage img, int amount) {
+		float[] hsb = new float[3];
+		for (int x = 0; x < img.getWidth(); x++) {
+			for (int y = 0; y < img.getHeight(); y++) {
+				Color color = new Color(img.getRGB(x, y), true);
+				Color.RGBtoHSB(color.getRed(), color.getGreen(),
+						color.getBlue(), hsb);
+				hsb[0] = (hsb[0] + (STEP_SIZE * amount)) % 1.0F;
+				img.setRGB(x, y, Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]));
+				img.getAlphaRaster().setPixel(x, y,
+						new int[] { color.getAlpha() });
+			}
+		}
+	}
+
+	public static BufferedImage copyImage(BufferedImage source) {
+		BufferedImage b = new BufferedImage(source.getWidth(),
+				source.getHeight(), source.getType());
+		Graphics2D g = b.createGraphics();
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
+		g.setComposite(AlphaComposite.SrcOver);
+		g.drawImage(source, 0, 0, null);
+		g.dispose();
+		return b;
 	}
 
 	public static BufferedImage scaleTo(BufferedImage image, int width,

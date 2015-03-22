@@ -53,10 +53,10 @@ public abstract class GameObject {
 	/**
 	 * @param health The health to check for validity.
 	 * @return Whether the provided health does not exceed the maximum allowed.
-	 * 			| health <= this.maxHealth
+	 * 			| (health <= this.maxHealth) && (health >= 0)
 	 */
 	public boolean isValidHealth(int health){
-		return health <= this.maxHealth;
+		return (health <= this.maxHealth) && (health >= 0);
 	}
 	
 	/**
@@ -65,13 +65,12 @@ public abstract class GameObject {
 	 * 		 otherwise it sets it to the maximum allowed amount.
 	 * 			| if (!this.isValidHealth(health))
 	 * 			| then new.getHealth() == health
-	 * 			| else new.getHealth() == this.getMaximumHealth()
+	 * 			| else if (health > this.getMaximumHealth()
+	 * 			|      then new.getHealth() == this.getMaximumHealth()
+	 * 			|	   else new.getHealth() == 0
 	 */
 	public void setHealth(int health){
-		if (!this.isValidHealth(health)){
-			health = this.maxHealth;
-		}
-		this.health = health;
+		this.health = Utilities.clipInRange(0, this.getMaximumHealth(), health);
 	}
 	
 

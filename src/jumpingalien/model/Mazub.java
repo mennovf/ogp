@@ -68,6 +68,7 @@ public class Mazub extends GameObject {
 	 */
 	public Mazub(double x, double y, Sprite[] sprites, double vxInit, double vxMax, double direction) throws NullPointerException, IllegalArgumentException{
 		
+		// GameObject
 		super(100, 500);
 		
 		if (! Mazub.isValidPosition(new Vector2D<>(x, y))){

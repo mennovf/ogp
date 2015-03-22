@@ -75,7 +75,5 @@ public abstract class GameObject {
 	
 
 	public void advanceTime(double dt) {
-		
-		
 	}
 }

@@ -19,7 +19,6 @@ import jumpingalien.model.Utilities;
  * @version 1.0
  */
 public class Mazub extends GameObject {
-	private Sprite[] sprites;
 	private Sprite currentSprite;
 	
 	private final double vxInit; // Initial moving speed
@@ -28,9 +27,7 @@ public class Mazub extends GameObject {
 	private boolean isMoving = false, isDucking = false, hasMoved = false;
 	private double movingTime = 0, timeSinceMoving = 0;
 	
-	private Vector2D<Double> speed, position; // speed in m/s, position in m
-	private double facing; // 1 if facing right, -1 if facing left
-	
+	private Vector2D<Double> speed; // speed in m/s, position in m
 	// CONSTANTS
 	// Speed
 	public final static double vxMaxDucking = 1.0; // Max running speed while ducking
@@ -69,7 +66,7 @@ public class Mazub extends GameObject {
 	public Mazub(double x, double y, Sprite[] sprites, double vxInit, double vxMax, double direction) throws NullPointerException, IllegalArgumentException{
 		
 		// GameObject
-		super(100, 500);
+		super(100, 500, sprites);
 		
 		if (! Mazub.isValidPosition(new Vector2D<>(x, y))){
 			throw new IllegalArgumentException("x and y are not valid co�rdinates.");
@@ -85,7 +82,6 @@ public class Mazub extends GameObject {
 		
 		this.setPosition(new Vector2D<>(x, y));
 		this.setSpeed(new Vector2D<>(0.0, 0.0));
-		this.sprites = sprites;
 		this.setCurrentSprite(sprites[0]);
 		this.vxInit = vxInit;
 		this.vxMax = vxMax;
@@ -109,20 +105,6 @@ public class Mazub extends GameObject {
 	
 
 	/**
-	 * @param pos
-	 * 			The position to check
-	 * 
-	 * @return Whether pos is valid (is inside the bounds of the world)
-	 * 			| (pos.x >= 0) && (pos.x <= bounds.x)
-	 *			 && (pos.y >= 0) && (pos.y <= bounds.y)
-	 */
-	public static boolean isValidPosition(Vector2D<Double> pos) {
-		return (pos.x >= 0) && (pos.x <= Constants.screenSize.x/100)
-			&& (pos.y >= 0) && (pos.y <= Constants.screenSize.y/100);
-	}
-	
-	
-	/**
 	 * @param speed
 	 * 			The speed to check
 	 * 
@@ -131,18 +113,6 @@ public class Mazub extends GameObject {
 	 */
 	public boolean isValidSpeed(Vector2D<Double> speed) {
 		return Math.abs(speed.x) <= this.getMaxHorizontalSpeed();
-	}
-	
-	
-	/**
-	 * @param direction
-	 * 			The direction to check
-	 * 
-	 * @return Whether the direction is valid (either 1 or -1)
-	 * 			| direction == 1 || direction == -1
-	 */
-	public static boolean isValidDirection(double direction) {
-		return direction == 1 || direction == -1;
 	}
 	
 	
@@ -207,74 +177,6 @@ public class Mazub extends GameObject {
 	}
 	
 	/**
-	 * @return This Mazub's position as a 2D vector in meters.
-	 */
-	@Basic
-	public Vector2D<Double> getPositionInMeters(){
-		return this.position;
-	}
-	
-	/**
-	 * @return This Mazub's position in pixels.
-	 */
-	@Basic
-	public Vector2D<Integer> getPosition(){
-		Vector2D<Double> pos = getPositionInMeters();
-		return new Vector2D<Integer>(metersToPixels(pos.x), metersToPixels(pos.y));
-	}
-	
-	/**
-	 * Sets this Mazub's position to the given position.
-	 * 
-	 * @param position
-	 * 			The position to set.
-	 * 
-	 * @throws NullPointerException
-	 * 			Throws a NullPointerException when the position is null.
-	 * 			| position == null
-	 * 
-	 * @throws IllegalArgumentException
-	 * 			Throws an IllegalArgumentException when the position is not valid. See isValidPosition.
-	 * 			| !isValidPosition(position)
-	 */
-	@Basic
-	private void setPosition(Vector2D<Double> position) throws NullPointerException, IllegalArgumentException {
-		if (position == null) {
-			throw new NullPointerException("The position can not be null.");
-		} else if (!isValidPosition(position)) {
-			throw new IllegalArgumentException("The given position is not valid, see isValidPosition.");
-		}
-		
-		this.position = position;
-	}
-	
-	/**
-	 * @return The facing of this Mazub. This is either 1.0 if it's facing right or -1.0 if it's facing left.
-	 */
-	@Basic
-	public double getFacing() {
-		return this.facing;
-	}
-	
-	/**
-	 * Sets this Mazub's facing.
-	 * 
-	 * @param facing
-	 * 			The facing to set. This should be either 1 for right facing or -1 for left facing.
-	 * 
-	 * @pre		The facing should be valid;
-	 * 			| Mazub.isValidDirection(facing)
-	 * 
-	 * @post	The facing will be set to the new facing
-	 * 			| new.getFacing() == facing
-	 */
-	@Basic
-	public void setFacing(double facing) {
-		assert Mazub.isValidDirection(facing);
-		this.facing = facing;
-	}
-	
-	/**
 	 * @return	This Mazub's height in pixels.
 	 */
 	@Basic
@@ -297,7 +199,7 @@ public class Mazub extends GameObject {
 	 * 			| else false
 	 */
 	public boolean onGround(){
-		return Util.fuzzyEquals(this.position.y, 0.0);
+		return Util.fuzzyEquals(this.getPosition().y, 0.0);
 	}
 	
 	
@@ -383,32 +285,33 @@ public class Mazub extends GameObject {
 	 */
 	private void determineCurrentSprite() {
 		
+		Sprite[] sprites = this.getSprites();
 		int m = (sprites.length - 8) / 2 - 1;
 		boolean recentlyMoved = timeSinceMoving < 1 && this.hasMoved;
 		if (!(isMoving || isDucking)){
 			if (!recentlyMoved){
-				this.currentSprite = this.sprites[0];
+				this.currentSprite = sprites[0];
 			}
 			else{
 				this.currentSprite = this.getFacing() == 1 ?
-									 this.sprites[2] : this.sprites[3];
+									 sprites[2] : sprites[3];
 			}
 		}
 		if (!isMoving && isDucking && (!recentlyMoved)){
-			this.currentSprite = this.sprites[1];
+			this.currentSprite = sprites[1];
 		}
 		if (isMoving && ! onGround() && !isDucking){
 			this.currentSprite = this.getFacing() == 1 ?
-								 this.sprites[4] : this.sprites[5];
+								 sprites[4] : sprites[5];
 		}
 		if (isDucking && (isMoving || recentlyMoved)){
 			this.currentSprite = this.getFacing() == 1 ?
-								 this.sprites[6] : this.sprites[7];
+								 sprites[6] : sprites[7];
 		}
 		if (!(! onGround() || isDucking) && isMoving){
 			int animationIndex = ((int)(this.movingTime/0.075)) % (m+1);
 			this.currentSprite = this.getFacing() == 1 ?
-								 this.sprites[8+animationIndex] : this.sprites[9+m+animationIndex];
+								 sprites[8+animationIndex] : sprites[9+m+animationIndex];
 		}
 	}
 	
@@ -483,18 +386,5 @@ public class Mazub extends GameObject {
 	 */
 	public void endDuck() {
 		this.isDucking = false;
-	}
-
-	/**
-	 * @param	m
-	 * 			The value to convert from meters to pixels.
-	 * 
-	 * @return	m converted to pixels.
-	 * 
-	 * @post	m has to be positive
-	 * 			| m >= 0
-	 */
-	private static int metersToPixels(double m){
-		return (int)(m / 0.01);
 	}
 }

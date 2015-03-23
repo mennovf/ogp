@@ -122,7 +122,7 @@ public abstract class GameObject {
 	
 
 	/**
-	 * @return This Mazub's position as a 2D vector in meters.
+	 * @return This GameObject's position as a 2D vector in meters.
 	 */
 	@Basic
 	public Vector2D<Double> getPositionInMeters() {
@@ -131,7 +131,7 @@ public abstract class GameObject {
 
 
 	/**
-	 * @return This Mazub's position in pixels.
+	 * @return This GameObject's position in pixels.
 	 */
 	@Basic
 	public Vector2D<Integer> getPosition() {
@@ -141,7 +141,7 @@ public abstract class GameObject {
 
 
 	/**
-	 * Sets this Mazub's position to the given position.
+	 * Sets this GameObject's position to the given position.
 	 * 
 	 * @param position
 	 * 			The position to set.
@@ -168,7 +168,7 @@ public abstract class GameObject {
 
 
 	/**
-	 * @return The facing of this Mazub. This is either 1.0 if it's facing right or -1.0 if it's facing left.
+	 * @return The facing of this GameObject This is either 1.0 if it's facing right or -1.0 if it's facing left.
 	 */
 	@Basic
 	public double getFacing() {
@@ -177,20 +177,20 @@ public abstract class GameObject {
 
 
 	/**
-	 * Sets this Mazub's facing.
+	 * Sets this GameObject's facing.
 	 * 
 	 * @param facing
 	 * 			The facing to set. This should be either 1 for right facing or -1 for left facing.
 	 * 
 	 * @pre		The facing should be valid;
-	 * 			| Mazub.isValidDirection(facing)
+	 * 			| GameObject.isValidDirection(facing)
 	 * 
 	 * @post	The facing will be set to the new facing
 	 * 			| new.getFacing() == facing
 	 */
 	@Basic
 	public void setFacing(double facing) {
-		assert Mazub.isValidDirection(facing);
+		assert GameObject.isValidDirection(facing);
 		this.facing = facing;
 	}
 

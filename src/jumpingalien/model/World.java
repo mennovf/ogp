@@ -40,7 +40,7 @@ public class World {
 	 */
 	@Basic
 	public Vector2D<Integer> getNumberOfTiles() {
-		return this.nbTiles;
+		return new Vector2D<>(this.nbTiles);
 	}
 	
 	
@@ -162,7 +162,7 @@ public class World {
 	 */
 	@Basic
 	public Vector2D<Integer> getVisibleWindowSize() {
-		return this.visibleWindowSize;
+		return new Vector2D<>(this.visibleWindowSize);
 	}
 	
 	

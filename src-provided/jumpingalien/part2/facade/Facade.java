@@ -157,15 +157,15 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public int[] getBottomLeftPixelOfTile(World world, int tileX, int tileY) {
-		// TODO Auto-generated method stub
-		return null;
+		Vector2D<Integer> position = world.getBottomLeftPixelOfTile(new Vector2D<>(tileX, tileY));
+		int[] positionArray = {position.x, position.y};
+		return positionArray;
 	}
 
 	@Override
 	public int[][] getTilePositionsIn(World world, int pixelLeft,
 			int pixelBottom, int pixelRight, int pixelTop) {
-		// TODO Auto-generated method stub
-		return null;
+		return world.getTilePositionsIn(new Vector2D<>(pixelLeft, pixelBottom), new Vector2D<>(pixelRight, pixelTop));
 	}
 
 	@Override

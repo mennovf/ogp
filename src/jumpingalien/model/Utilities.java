@@ -38,4 +38,20 @@ public class Utilities {
 		
 		return value;
 	}
+	
+	
+	/**
+	 * Converts the given length in meters to pixels.
+	 * 
+	 * @param	m
+	 * 			The value to convert from meters to pixels.
+	 * 
+	 * @return	m converted to pixels.
+	 * 
+	 * @post	m has to be positive
+	 * 			| m >= 0
+	 */
+	public static int metersToPixels(double m) {
+		return (int)(Math.abs(m) / 0.01);
+	}
 }

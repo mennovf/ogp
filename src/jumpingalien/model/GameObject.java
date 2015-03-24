@@ -45,20 +45,6 @@ public abstract class GameObject {
 	private double facing;
 
 
-	/**
-	 * @param	m
-	 * 			The value to convert from meters to pixels.
-	 * 
-	 * @return	m converted to pixels.
-	 * 
-	 * @post	m has to be positive
-	 * 			| m >= 0
-	 */
-	private static int metersToPixels(double m) {
-		return (int)(m / 0.01);
-	}
-
-
 	private final int maxHealth;
 	private int health;
 	
@@ -136,7 +122,7 @@ public abstract class GameObject {
 	@Basic
 	public Vector2D<Integer> getPosition() {
 		Vector2D<Double> pos = getPositionInMeters();
-		return new Vector2D<Integer>(metersToPixels(pos.x), metersToPixels(pos.y));
+		return new Vector2D<Integer>(Utilities.metersToPixels(pos.x), Utilities.metersToPixels(pos.y));
 	}
 
 

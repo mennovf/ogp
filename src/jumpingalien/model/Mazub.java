@@ -19,8 +19,6 @@ import jumpingalien.model.Utilities;
  * @version 1.0
  */
 public class Mazub extends GameObject {
-	private Sprite currentSprite;
-	
 	private final double vxInit; // Initial moving speed
 	private final double vxMax; // Max running speed (not ducking)
 	
@@ -117,25 +115,6 @@ public class Mazub extends GameObject {
 	
 	
 	/**
-	 * @return This Mazub's current sprite.
-	 */
-	@Basic
-	public Sprite getCurrentSprite() {
-		return currentSprite;
-	}
-	
-	/**
-	 * Sets this Mazub's current sprite to the given sprite.
-	 * 
-	 * @param currentSprite
-	 * 			The current sprite to set.
-	 */
-	@Basic
-	private void setCurrentSprite(Sprite currentSprite) {
-		this.currentSprite = currentSprite;
-	}
-	
-	/**
 	 * @return The maximum horizontal speed of this Mazub in m/s.
 	 */
 	private double getMaxHorizontalSpeed(){
@@ -181,7 +160,7 @@ public class Mazub extends GameObject {
 	 */
 	@Basic
 	public int getHeight(){
-		return this.currentSprite.getHeight();
+		return this.getCurrentSprite().getHeight();
 	}
 
 	/**
@@ -189,7 +168,7 @@ public class Mazub extends GameObject {
 	 */
 	@Basic
 	public int getWidth(){
-		return this.currentSprite.getWidth();
+		return this.getCurrentSprite().getWidth();
 	}
 	
 	/**
@@ -286,33 +265,35 @@ public class Mazub extends GameObject {
 	private void determineCurrentSprite() {
 		
 		Sprite[] sprites = this.getSprites();
+		Sprite currentSprite = this.getCurrentSprite();
 		int m = (sprites.length - 8) / 2 - 1;
 		boolean recentlyMoved = timeSinceMoving < 1 && this.hasMoved;
 		if (!(isMoving || isDucking)){
 			if (!recentlyMoved){
-				this.currentSprite = sprites[0];
+				currentSprite = sprites[0];
 			}
 			else{
-				this.currentSprite = this.getFacing() == 1 ?
+				currentSprite = this.getFacing() == 1 ?
 									 sprites[2] : sprites[3];
 			}
 		}
 		if (!isMoving && isDucking && (!recentlyMoved)){
-			this.currentSprite = sprites[1];
+			currentSprite = sprites[1];
 		}
 		if (isMoving && ! onGround() && !isDucking){
-			this.currentSprite = this.getFacing() == 1 ?
+			currentSprite = this.getFacing() == 1 ?
 								 sprites[4] : sprites[5];
 		}
 		if (isDucking && (isMoving || recentlyMoved)){
-			this.currentSprite = this.getFacing() == 1 ?
+			currentSprite = this.getFacing() == 1 ?
 								 sprites[6] : sprites[7];
 		}
 		if (!(! onGround() || isDucking) && isMoving){
 			int animationIndex = ((int)(this.movingTime/0.075)) % (m+1);
-			this.currentSprite = this.getFacing() == 1 ?
+			currentSprite = this.getFacing() == 1 ?
 								 sprites[8+animationIndex] : sprites[9+m+animationIndex];
 		}
+		this.setCurrentSprite(currentSprite);
 	}
 	
 	/**

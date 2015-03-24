@@ -54,4 +54,22 @@ public class Utilities {
 	public static int metersToPixels(double m) {
 		return (int)(Math.abs(m) / 0.01);
 	}
+	
+	/**
+	 * @param v The Vector2D to convert.
+	 * @return An array of 2 elements where the first element is v.x and the second element is v.y.
+	 */
+	public static int[] intVectorToArray(Vector2D<Integer> v){
+		int[] vs = {v.x, v.y};
+		return vs;
+	}
+
+	/**
+	 * @param v The Vector2D to convert.
+	 * @return An array of 2 elements where the first element is v.x and the second element is v.y.
+	 */
+	public static double[] doubleVectorToArray(Vector2D<Double> v){
+		double[] vs = {v.x, v.y};
+		return vs;
+	}
 }

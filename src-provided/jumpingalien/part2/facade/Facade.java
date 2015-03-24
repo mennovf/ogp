@@ -7,10 +7,12 @@ import jumpingalien.model.Plant;
 import jumpingalien.model.School;
 import jumpingalien.model.Shark;
 import jumpingalien.model.Slime;
+import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector2D;
 import jumpingalien.model.World;
 import jumpingalien.util.ModelException;
 import jumpingalien.util.Sprite;
+import jumpingalien.util.Util;
 
 public class Facade implements IFacadePart2 {
 
@@ -23,23 +25,17 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public int[] getLocation(Mazub alien) {
-		Vector2D<Integer> position = alien.getPosition();
-		int[] worldPosition = {position.x, position.y};
-		return worldPosition;
+		return Utilities.intVectorToArray(alien.getPosition());
 	}
 
 	@Override
 	public double[] getVelocity(Mazub alien) {
-		Vector2D<Double> speed = alien.getSpeed();
-		double[] speedArray = {speed.x, speed.y};
-		return speedArray;
+		return Utilities.doubleVectorToArray(alien.getSpeed());
 	}
 
 	@Override
 	public double[] getAcceleration(Mazub alien) {
-		Vector2D<Double> acc = alien.getAcceleration();
-		double[] accArray = {acc.x, acc.y};
-		return accArray;
+		return Utilities.doubleVectorToArray(alien.getAcceleration());
 	}
 
 	@Override
@@ -100,8 +96,7 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public int getNbHitPoints(Mazub alien) {
-		// TODO Auto-generated method stub
-		return 0;
+		return alien.getHealth();
 	}
 
 	@Override
@@ -114,9 +109,7 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public int[] getWorldSizeInPixels(World world) {
-		Vector2D<Integer> size = world.getSizeInPixels();
-		int[] sizeArray = {size.x, size.y};
-		return sizeArray;
+		return Utilities.intVectorToArray(world.getSizeInPixels());
 	}
 
 	@Override
@@ -146,16 +139,12 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public int[] getVisibleWindow(World world) {
-		Vector2D<Integer> size = world.getVisibleWindowSize();
-		int[] sizeArray = {size.x, size.y};
-		return sizeArray;
+		return Utilities.intVectorToArray(world.getVisibleWindowSize());
 	}
 
 	@Override
 	public int[] getBottomLeftPixelOfTile(World world, int tileX, int tileY) {
-		Vector2D<Integer> position = world.getBottomLeftPixelOfTile(new Vector2D<>(tileX, tileY));
-		int[] positionArray = {position.x, position.y};
-		return positionArray;
+		return Utilities.intVectorToArray(world.getBottomLeftPixelOfTile(new Vector2D<>(tileX, tileY)));
 	}
 
 	@Override

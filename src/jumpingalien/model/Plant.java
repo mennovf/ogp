@@ -31,5 +31,6 @@ public class Plant extends GameObject {
 		// Then update the position with what's left
         newPosition.x += this.getFacing() * this.speed * dt;
         this.setPosition(newPosition);
+        this.setCurrentSprite(this.getSprites()[this.getFacing() < -1 ? 0 : 1]);
 	}
 }

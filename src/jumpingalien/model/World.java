@@ -1,5 +1,6 @@
 package jumpingalien.model;
 
+import jumpingalien.util.ModelException;
 import be.kuleuven.cs.som.annotate.*;
 
 /**
@@ -10,10 +11,11 @@ import be.kuleuven.cs.som.annotate.*;
  */
 public class World {
 
-	private int tileSize;
-	private Vector2D<Integer> nbTiles;
-	private Vector2D<Integer> visibleWindowSize;
-	private Vector2D<Integer> targetTilePosition;
+	private final int tileSize;
+	private final Vector2D<Integer> nbTiles;
+	private final Vector2D<Integer> visibleWindowSize;
+	private final Vector2D<Integer> targetTilePosition;
+	private int[][] geologicalFeatures;
 	
 	public World(int tileSize, int nbTilesX, int nbTilesY,
 			int visibleWindowWidth, int visibleWindowHeight, int targetTileX,
@@ -23,6 +25,7 @@ public class World {
 		this.nbTiles = new Vector2D<>(nbTilesX, nbTilesY);
 		this.visibleWindowSize = new Vector2D<>(visibleWindowWidth, visibleWindowHeight);
 		this.targetTilePosition = new Vector2D<>(targetTileX, targetTileY);
+		this.geologicalFeatures = new int[nbTilesX][nbTilesY];
 	}
 	
 	
@@ -172,6 +175,83 @@ public class World {
 	@Basic
 	public Vector2D<Integer> getTargetTilePosition() {
 		return new Vector2D<>(this.targetTilePosition);
+	}
+	
+	
+	/**
+	 * Starts the game in this game world.
+	 */
+	public void startGame() {
+		//TODO: Implement this method
+	}
+	
+	
+	/**
+	 * @return true if the game has ended.
+	 */
+	public boolean isGameOver() {
+		//TODO: Implement this method
+		return false;
+	}
+	
+	
+	/**
+	 * @return true if the player won the game.
+	 */
+	public boolean didPlayerWin() {
+		//TODO: Implement this method
+		return false;
+	}
+	
+	
+	/**
+	 * @return A 2D array representing the game world's tiles' types.
+	 */
+	@Basic
+	public int[][] getGeologicalFeatures() {
+		return this.geologicalFeatures.clone();
+	}
+	
+	
+	/**
+	 * @param pixel
+	 * 			A 2D vector representing the position of the pixel to get the geological feature of.
+	 * 
+	 * @return The geological feature type of the given pixel.
+	 * 
+	 * @throws ModelException
+	 * 			Throws a ModelException when the given pixel does not lie in the game world.
+	 * 			| this.pixelInWorld(pixel)
+	 * 
+	 * ik neem aan dat dit defensive moet, aangezien Facade een exception verwacht
+	 */
+	public int getGeologicalFeature(Vector2D<Integer> pixel) throws ModelException {
+		if (!this.pixelInWorld(pixel)) {
+			throw new ModelException("The pixel has to lie in the game world.");
+		}
+		Vector2D<Integer> tile = this.getTileContainingPixel(pixel);
+		return this.getGeologicalFeatures()[tile.x][tile.y];
+	}
+	
+	
+	/**
+	 * Sets the geological feature of the given tile to the given type.
+	 * 
+	 * @param tile
+	 * 			A 2D vector representing the position of the specified tile.
+	 * 
+	 * @param tileType
+	 * 			The type to set.
+	 * 
+	 * @pre The given tile must lie in the game world.
+	 * 			| this.tileInWorld(tile)
+	 * 
+	 * geen stijl gespecifieerd -> nominally
+	 */
+	@Basic
+	public void setGeologicalFeature(Vector2D<Integer> tile, int tileType) {
+		assert this.tileInWorld(tile);
+		this.geologicalFeatures[tile.x][tile.y] = tileType;
 	}
 	
 	

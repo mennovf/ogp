@@ -16,4 +16,8 @@ public class Vector2D <T> {
 		this.x = x;
 		this.y = y;
 	}
+	
+	public Vector2D(Vector2D<T> vector) {
+		this(vector.x, vector.y);
+	}
 }

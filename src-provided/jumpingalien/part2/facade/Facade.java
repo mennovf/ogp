@@ -150,7 +150,7 @@ public class Facade implements IFacadePart2 {
 	@Override
 	public int[][] getTilePositionsIn(World world, int pixelLeft,
 			int pixelBottom, int pixelRight, int pixelTop) {
-		return world.getTilePositionsIn(new Vector2D<>(pixelLeft, pixelBottom), new Vector2D<>(pixelRight, pixelTop));
+		return world.getTilePositionsInRectangle(new Vector2D<>(pixelLeft, pixelBottom), new Vector2D<>(pixelRight, pixelTop));
 	}
 
 	@Override
@@ -167,8 +167,7 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public void setMazub(World world, Mazub alien) {
-		// TODO Auto-generated method stub
-		
+		world.setMazub(alien);
 	}
 
 	@Override

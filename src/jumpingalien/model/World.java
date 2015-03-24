@@ -10,13 +10,19 @@ import be.kuleuven.cs.som.annotate.*;
  *
  */
 public class World {
+	
+	private boolean isTerminated;
 
 	private final int tileSize;
 	private final Vector2D<Integer> nbTiles;
 	private final Vector2D<Integer> visibleWindowSize;
 	private final Vector2D<Integer> targetTilePosition;
+	
 	private int[][] geologicalFeatures;
 	
+	private Mazub mazub;
+	
+	@Raw
 	public World(int tileSize, int nbTilesX, int nbTilesY,
 			int visibleWindowWidth, int visibleWindowHeight, int targetTileX,
 			int targetTileY) {
@@ -30,9 +36,30 @@ public class World {
 	
 	
 	/**
+	 * Terminates this game world.
+	 * 
+	 * @pre This game world will be terminated.
+	 * 			| new.isTerminated()
+	 */
+	public void terminate() {
+		//TODO: Remove all game object connections here
+		this.isTerminated = true;
+	}
+	
+	
+	/**
+	 * @return true if this game world is terminated.
+	 */
+	public boolean isTerminated() {
+		return this.isTerminated;
+	}
+	
+	
+	/**
 	 * @return The size of one tile in the game world in pixels.
 	 */
 	@Basic
+	@Immutable
 	public int getTileSize() {
 		return this.tileSize;
 	}
@@ -42,6 +69,7 @@ public class World {
 	 * @return A 2D vector containing the number of tiles in the x, respectively y directions.
 	 */
 	@Basic
+	@Immutable
 	public Vector2D<Integer> getNumberOfTiles() {
 		return new Vector2D<>(this.nbTiles);
 	}
@@ -50,6 +78,7 @@ public class World {
 	/**
 	 * @return A 2D vector representing the size of the game world in pixels.
 	 */
+	@Immutable
 	public Vector2D<Integer> getSizeInPixels() {
 		return new Vector2D<>(this.getNumberOfTiles().x * this.getTileSize(), this.getNumberOfTiles().y * this.getTileSize());
 	}
@@ -133,7 +162,7 @@ public class World {
 	 * 
 	 * geen stijl gespecifieerd -> nominally
 	 */
-	public int[][] getTilePositionsIn(Vector2D<Integer> bottomLeftPixel, Vector2D<Integer> topRightPixel) {
+	public int[][] getTilePositionsInRectangle(Vector2D<Integer> bottomLeftPixel, Vector2D<Integer> topRightPixel) {
 		
 		// Java kan geen array maken van type Vector2D<Integer>[]
 		
@@ -164,6 +193,7 @@ public class World {
 	 * @return A 2D vector representing the size of the visible window in pixels.
 	 */
 	@Basic
+	@Immutable
 	public Vector2D<Integer> getVisibleWindowSize() {
 		return new Vector2D<>(this.visibleWindowSize);
 	}
@@ -173,6 +203,7 @@ public class World {
 	 * @return A 2D vector representing the position of the target tile.
 	 */
 	@Basic
+	@Immutable
 	public Vector2D<Integer> getTargetTilePosition() {
 		return new Vector2D<>(this.targetTilePosition);
 	}
@@ -210,6 +241,35 @@ public class World {
 	@Basic
 	public int[][] getGeologicalFeatures() {
 		return this.geologicalFeatures.clone();
+	}
+	
+	
+	/**
+	 * @param gameObject
+	 * 			The game object to check.
+	 * 
+	 * @return true if this game world contains the given game object.
+	 */
+	public boolean containsGameObject(GameObject gameObject) {
+		if (gameObject instanceof Mazub) {
+			return this.getMazub() == mazub;
+		}
+		//TODO: Implement other types here.
+		return false;
+	}
+	
+	
+	/**
+	 * Removes the given game object from this game world.
+	 * 
+	 * @param gameObject
+	 * 			The game object to remove.
+	 */
+	public void removeGameObject(GameObject gameObject) {
+		if (gameObject instanceof Mazub) {
+			this.mazub = null;
+		}
+		//TODO: Implement other types here.
 	}
 	
 	
@@ -252,6 +312,71 @@ public class World {
 	public void setGeologicalFeature(Vector2D<Integer> tile, int tileType) {
 		assert this.tileInWorld(tile);
 		this.geologicalFeatures[tile.x][tile.y] = tileType;
+	}
+	
+	
+	/**
+	 * @return This game world's mazub.
+	 */
+	public Mazub getMazub() {
+		return this.mazub;
+	}
+	
+	
+	/**
+	 * Sets this game world's mazub to the given mazub.
+	 * 
+	 * @param mazub
+	 * 			The mazub to set.
+	 * 
+	 * @post The given mazub is registered as this game world's mazub.
+	 * 			| new.getMazub() == mazub
+	 * 
+	 * @post This game world is registered as the given mazub's game world.
+	 * 			| (new mazub).getWorld() == new
+	 * 
+	 * @throws IllegalArgumentException
+	 * 			Throws an IllegalArgumentException when this game world can not have the given mazub as it's mazub.
+	 * 			| !this.canHaveAsMazub(mazub)
+	 */
+	public void setMazub(@Raw Mazub mazub) throws IllegalArgumentException {
+		if (!this.canHaveAsMazub(mazub)) {
+			throw new IllegalArgumentException("This game world can not have the given mazub as it's mazub");
+		}
+		this.mazub = mazub;
+		mazub.setWorld(this);
+	}
+	
+	
+	/**
+	 * @param mazub
+	 * 			The mazub to check.
+	 * 
+	 * @return true if this game world can have the given mazub as it's mazub.
+	 * 			This game world can not be terminated.
+	 * 			| !this.isTerminated()
+	 * 			The given mazub can not be null.
+	 * 			| mazub != null
+	 * 			The given mazub can not be terminated.
+	 * 			| !mazub.isTerminated()
+	 */
+	public boolean canHaveAsMazub(@Raw Mazub mazub) {
+		if (this.isTerminated() || (mazub == null) || mazub.isTerminated()) {
+			return false;
+		}
+		return true;
+	}
+	
+	
+	/**
+	 * @return true if this game world has a proper mazub.
+	 * 			This game world needs to be able to have it's current mazub as it's mazub.
+	 * 			| this.canHaveAsMazub(this.getMazub())
+	 * 			This game world's mazub has to have this game world as it's game world.
+	 * 			| this.getMazub().getWorld() == this
+	 */
+	public boolean hasProperMazub() {
+		return this.canHaveAsMazub(this.getMazub()) && this.getMazub().getWorld() == this;
 	}
 	
 	

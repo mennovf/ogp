@@ -1,0 +1,1 @@
+- Wat gebeurt er als Mazub terminate() krijgt, terwijl de game world nog niet getermineerd is, moet de game world zichzelf dan termineren of een exception throwen? En mag het hier om mazub op null te zetten zonder de setter?

@@ -39,15 +39,18 @@ public abstract class GameObject {
 		return direction == 1 || direction == -1;
 	}
 
+	
+	private boolean isTerminated;
 
 	private final Sprite[] sprites;
 	private Vector2D<Double> position;
 	private double facing;
 
-
 	private final int maxHealth;
 	private int health;
 	private Sprite currentSprite;
+	
+	private World world;
 	
 	
 	protected GameObject(int health, int maxHealth, Sprite[] sprites) {
@@ -55,6 +58,97 @@ public abstract class GameObject {
 		this.maxHealth = maxHealth;
 		this.setHealth(health);
 		this.sprites = sprites;
+	}
+	
+	
+	public void terminate() {
+		this.setWorld(null);
+		this.isTerminated = true;
+	}
+	
+	public boolean isTerminated() {
+		return this.isTerminated;
+	}
+	
+	
+	/**
+	 * @param world
+	 * 			The world to check.
+	 * 
+	 * @return true if this game object can have the given world as it's game world.
+	 * 			This game object can not be terminated.
+	 * 			| !this.isTerminated()
+	 * 			The given world can not be null.
+	 * 			| world != null
+	 * 			The given world can not be terminated.
+	 * 			| !world.isTerminated()
+	 */
+	public boolean canHaveAsWorld(World world) {
+		if (this.isTerminated() || (world == null) || world.isTerminated()) {
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * @return true if this game object has a proper world.
+	 * 			This game object needs to be able to have it's current world as it's game world.
+	 * 			| this.canHaveAsWorld()
+	 * 			This game object's world needs to contain this game object.
+	 * 			| this.getWorld().containsGameObject(this)
+	 */
+	public boolean hasProperWorld() {
+		return this.canHaveAsWorld(this.getWorld()) && this.getWorld().containsGameObject(this);
+	}
+	
+	/**
+	 * @return This game object's game world.
+	 */
+	public World getWorld() {
+		return this.world;
+	}
+	
+	/**
+	 * Sets the given world as this game object's game world.
+	 * 
+	 * @param world
+	 * 			The world to set.
+	 * 
+	 * @post The given world is registered as this game object's game world.
+	 * 			| new.getWorld() == world
+	 * 
+	 * @post The given world contains this game object.
+	 * 			| (new world).containsGameObject(new)
+	 * 
+	 * @throws IllegalArgumentException
+	 * 			Throws an IllegalArgumentException if this game object can not have the given world as it's game world.
+	 * 			| !this.canHaveAsWorld(world)
+	 */
+	public void setWorld(World world) throws IllegalArgumentException {
+		if (!this.canHaveAsWorld(world)) {
+			throw new IllegalArgumentException("This game object can't have the given world as it's game world.");
+		}
+		this.world = world;
+		//TODO: Maybe check whether the game world contains this object, otherwise add it
+	}
+	
+	/**
+	 * @return true if a world contains this game object.
+	 * 			| this.getWorld() != null;
+	 */
+	public boolean inWorld() {
+		return this.getWorld() != null;
+	}
+	
+	/**
+	 * Removes this game object from it's world if it's contained by a world.
+	 */
+	public void removeFromWorld() {
+		try {
+			this.getWorld().removeGameObject(this);
+		} catch (NullPointerException exc) {
+			assert !this.inWorld();
+		}
 	}
 	
 	

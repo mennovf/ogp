@@ -126,20 +126,17 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public void startGame(World world) {
-		// TODO Auto-generated method stub
-		
+		world.startGame();
 	}
 
 	@Override
 	public boolean isGameOver(World world) {
-		// TODO Auto-generated method stub
-		return false;
+		return world.isGameOver();
 	}
 
 	@Override
 	public boolean didPlayerWin(World world) {
-		// TODO Auto-generated method stub
-		return false;
+		return world.didPlayerWin();
 	}
 
 	@Override
@@ -170,15 +167,13 @@ public class Facade implements IFacadePart2 {
 	@Override
 	public int getGeologicalFeature(World world, int pixelX, int pixelY)
 			throws ModelException {
-		// TODO Auto-generated method stub
-		return 0;
+		return world.getGeologicalFeature(new Vector2D<>(pixelX, pixelY));
 	}
 
 	@Override
 	public void setGeologicalFeature(World world, int tileX, int tileY,
 			int tileType) {
-		// TODO Auto-generated method stub
-		
+		world.setGeologicalFeature(new Vector2D<>(tileX, tileY), tileType);
 	}
 
 	@Override

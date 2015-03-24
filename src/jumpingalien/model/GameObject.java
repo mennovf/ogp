@@ -47,11 +47,13 @@ public abstract class GameObject {
 
 	private final int maxHealth;
 	private int health;
+	private Sprite currentSprite;
 	
 	
 	protected GameObject(int health, int maxHealth, Sprite[] sprites) {
-		this.setHealth(health);
+		// maxHealth has to be set before sethealth because it uses maxhealth.
 		this.maxHealth = maxHealth;
+		this.setHealth(health);
 		this.sprites = sprites;
 	}
 	
@@ -186,5 +188,18 @@ public abstract class GameObject {
 	}
 
 	public void advanceTime(double dt) {
+	}
+
+
+	/**
+	 * @return This GameObject's current sprite.
+	 */
+	@Basic
+	public Sprite getCurrentSprite() {
+		return currentSprite;
+	}
+	
+	protected void setCurrentSprite(Sprite s){
+		this.currentSprite = s;
 	}
 }

@@ -114,14 +114,14 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public int[] getWorldSizeInPixels(World world) {
-		// TODO Auto-generated method stub
-		return null;
+		Vector2D<Integer> size = world.getSizeInPixels();
+		int[] sizeArray = {size.x, size.y};
+		return sizeArray;
 	}
 
 	@Override
 	public int getTileLength(World world) {
-		// TODO Auto-generated method stub
-		return 0;
+		return world.getTileSize();
 	}
 
 	@Override
@@ -150,8 +150,9 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public int[] getVisibleWindow(World world) {
-		// TODO Auto-generated method stub
-		return null;
+		Vector2D<Integer> size = world.getVisibleWindowSize();
+		int[] sizeArray = {size.x, size.y};
+		return sizeArray;
 	}
 
 	@Override

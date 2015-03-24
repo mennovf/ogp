@@ -173,4 +173,30 @@ public class World {
 	public Vector2D<Integer> getTargetTilePosition() {
 		return new Vector2D<>(this.targetTilePosition);
 	}
+	
+	
+	/**
+	 * Advances the time in this game world with the given time interval and updates position, speed and acceleration of all game objects in this game world.
+	 * 
+	 * @param dt
+	 * 			The time that has passed in the game world since last calling this method.
+	 * 
+	 * @throws	IllegalArgumentException
+	 * 			| (dt < 0) || (dt > Constants.maxTimeInterval) || dt.isNan()
+	 */
+	public void advanceTime(double dt) {
+		
+		// check for exceptions
+		if (Double.isNaN(dt)) {
+			throw new IllegalArgumentException("Delta time can not be NaN.");
+		}
+		if (dt > Constants.maxTimeInterval){
+			throw new IllegalArgumentException(String.format("Delta time may not exceed %.5fs.", Constants.maxTimeInterval));
+		}
+		if (dt < 0){
+			throw new IllegalArgumentException("Delta time has to be non-negative.");
+		}
+		
+		//TODO: Call advanceTime on game objects and run other parts of game loop, but class references need to be set up first
+	}
 }

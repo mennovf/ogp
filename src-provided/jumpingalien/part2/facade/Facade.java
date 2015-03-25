@@ -203,8 +203,7 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public Shark createShark(int x, int y, Sprite[] sprites) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Shark(x, y, sprites);
 	}
 
 	@Override

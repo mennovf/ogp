@@ -183,12 +183,12 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public void addPlant(World world, Plant plant) {
-		world.addPlant(plant);
+		world.addGameObject(plant);
 	}
 
 	@Override
 	public Collection<Plant> getPlants(World world) {
-		return world.getPlants();
+		return world.getGameObjectWithClass(Plant.class);
 	}
 
 	@Override
@@ -209,26 +209,22 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public void addShark(World world, Shark shark) {
-		// TODO Auto-generated method stub
-		
+		world.addGameObject(shark);
 	}
 
 	@Override
 	public Collection<Shark> getSharks(World world) {
-		// TODO Auto-generated method stub
-		return null;
+		return world.getGameObjectWithClass(Shark.class);
 	}
 
 	@Override
 	public int[] getLocation(Shark shark) {
-		// TODO Auto-generated method stub
-		return null;
+		return Utilities.intVectorToArray(shark.getPosition());
 	}
 
 	@Override
 	public Sprite getCurrentSprite(Shark shark) {
-		// TODO Auto-generated method stub
-		return null;
+		return shark.getCurrentSprite();
 	}
 
 	@Override
@@ -245,26 +241,22 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public void addSlime(World world, Slime slime) {
-		// TODO Auto-generated method stub
-		
+		world.addGameObject(slime);
 	}
 
 	@Override
 	public Collection<Slime> getSlimes(World world) {
-		// TODO Auto-generated method stub
-		return null;
+		return world.getGameObjectWithClass(Slime.class);
 	}
 
 	@Override
 	public int[] getLocation(Slime slime) {
-		// TODO Auto-generated method stub
-		return null;
+		return Utilities.intVectorToArray(slime.getPosition());
 	}
 
 	@Override
 	public Sprite getCurrentSprite(Slime slime) {
-		// TODO Auto-generated method stub
-		return null;
+		return slime.getCurrentSprite();
 	}
 
 	@Override

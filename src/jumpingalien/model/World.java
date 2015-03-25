@@ -25,7 +25,7 @@ public class World {
 	private int[][] geologicalFeatures;
 	
 	private Mazub mazub;
-	private Set<Plant> plants = new HashSet<>();
+	private Set<GameObject> objects = new HashSet<>();
 	
 	@Raw
 	public World(int tileSize, int nbTilesX, int nbTilesY,
@@ -304,8 +304,7 @@ public class World {
 		if (gameObject instanceof Mazub) {
 			return this.getMazub() == mazub;
 		}
-		//TODO: Implement other types here.
-		return false;
+		return objects.contains(gameObject);
 	}
 	
 	
@@ -321,10 +320,9 @@ public class World {
 		if ((gameObject instanceof Mazub) && this.getMazub() == gameObject) {
 			this.mazub = null;
 		}
-		if ((gameObject instanceof Plant) && this.getPlants().contains(gameObject)) {
-			this.plants.remove(gameObject);
+		if (this.objects.contains(gameObject)) {
+			this.objects.remove(gameObject);
 		}
-		//TODO: Implement other types here.
 	}
 	
 	
@@ -394,31 +392,40 @@ public class World {
 	
 	
 	/**
-	 * @return The collection of all plants in this game world.
+	 * @param cls
+	 * 			The class of which to return GameObjects
+	 * 
+	 * @return The collection of all object of with class "type" in this game world.
 	 */
-	public Set<Plant> getPlants() {
-		return this.plants;
+	public <T extends GameObject> Set<T> getGameObjectWithClass(Class<T> cls) {
+		Set<T> objects = new HashSet<T>();
+		for (GameObject obj : this.objects){
+			if (obj.getClass() == cls){
+				objects.add(cls.cast(obj));
+			}
+		}
+		return objects;
 	}
 	
 	
 	/**
-	 * Adds the given plant to the collection of plants in this game world.
+	 * Adds the given GameObject to the collection of GameObjects in this game world.
 	 * 
-	 * @param plant
-	 * 			The plant to add.
+	 * @param object
+	 * 			The GameObject to add.
 	 * 
-	 * @post The given plant will be added to the collection of plants in this game world.
-	 * 			| new.containsGameObject(plant)
+	 * @post The given GameObject will be added to the collection of GameObjects in this game world.
+	 * 			| new.containsGameObject(object)
 	 * 
 	 * @throw IllegalArgumentException
-	 * 			Throws an IllegalArgumentException if the given plant is null or terminated.
-	 * 			| plant == null || plant.isTerminated()
+	 * 			Throws an IllegalArgumentException if the given GameObject is null or terminated.
+	 * 			| object == null || object.isTerminated()
 	 */
-	public void addPlant(Plant plant) throws IllegalArgumentException {
-		if (plant == null || plant.isTerminated()) {
-			throw new IllegalArgumentException("The plant can not be null or terminated.");
+	public void addGameObject(GameObject object) throws IllegalArgumentException {
+		if (object == null || object.isTerminated()) {
+			throw new IllegalArgumentException("The GameObject can't be null or terminated.");
 		}
-		this.plants.add(plant);
+		this.objects.add(object);
 	}
 	
 	
@@ -445,9 +452,8 @@ public class World {
 		}
 		
 		this.getMazub().advanceTime(dt);
-		for (Plant plant : this.getPlants()) {
-			plant.advanceTime(dt);
+		for (GameObject object : this.objects) {
+			object.advanceTime(dt);
 		}
-		//TODO: Call advanceTime on game objects and run other parts of game loop, but class references need to be set up first
 	}
 }

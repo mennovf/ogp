@@ -1,5 +1,8 @@
 package jumpingalien.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jumpingalien.util.ModelException;
 import be.kuleuven.cs.som.annotate.*;
 
@@ -22,6 +25,7 @@ public class World {
 	private int[][] geologicalFeatures;
 	
 	private Mazub mazub;
+	private Set<Plant> plants = new HashSet<>();
 	
 	@Raw
 	public World(int tileSize, int nbTilesX, int nbTilesY,
@@ -249,35 +253,6 @@ public class World {
 	
 	
 	/**
-	 * @param gameObject
-	 * 			The game object to check.
-	 * 
-	 * @return true if this game world contains the given game object.
-	 */
-	public boolean containsGameObject(GameObject gameObject) {
-		if (gameObject instanceof Mazub) {
-			return this.getMazub() == mazub;
-		}
-		//TODO: Implement other types here.
-		return false;
-	}
-	
-	
-	/**
-	 * Removes the given game object from this game world.
-	 * 
-	 * @param gameObject
-	 * 			The game object to remove.
-	 */
-	public void removeGameObject(GameObject gameObject) {
-		if (gameObject instanceof Mazub) {
-			this.mazub = null;
-		}
-		//TODO: Implement other types here.
-	}
-	
-	
-	/**
 	 * @param pixel
 	 * 			A 2D vector representing the position of the pixel to get the geological feature of.
 	 * 
@@ -316,6 +291,40 @@ public class World {
 	public void setGeologicalFeature(Vector2D<Integer> tile, int tileType) {
 		assert this.tileInWorld(tile);
 		this.geologicalFeatures[tile.x][tile.y] = tileType;
+	}
+	
+	
+	/**
+	 * @param gameObject
+	 * 			The game object to check.
+	 * 
+	 * @return true if this game world contains the given game object.
+	 */
+	public boolean containsGameObject(GameObject gameObject) {
+		if (gameObject instanceof Mazub) {
+			return this.getMazub() == mazub;
+		}
+		//TODO: Implement other types here.
+		return false;
+	}
+	
+	
+	/**
+	 * Removes the given game object from this game world.
+	 * 
+	 * @param gameObject
+	 * 			The game object to remove.
+	 * 
+	 * no style specified -> totally
+	 */
+	public void removeGameObject(GameObject gameObject) {
+		if ((gameObject instanceof Mazub) && this.getMazub() == gameObject) {
+			this.mazub = null;
+		}
+		if ((gameObject instanceof Plant) && this.getPlants().contains(gameObject)) {
+			this.plants.remove(gameObject);
+		}
+		//TODO: Implement other types here.
 	}
 	
 	
@@ -385,6 +394,35 @@ public class World {
 	
 	
 	/**
+	 * @return The collection of all plants in this game world.
+	 */
+	public Set<Plant> getPlants() {
+		return this.plants;
+	}
+	
+	
+	/**
+	 * Adds the given plant to the collection of plants in this game world.
+	 * 
+	 * @param plant
+	 * 			The plant to add.
+	 * 
+	 * @post The given plant will be added to the collection of plants in this game world.
+	 * 			| new.containsGameObject(plant)
+	 * 
+	 * @throw IllegalArgumentException
+	 * 			Throws an IllegalArgumentException if the given plant is null or terminated.
+	 * 			| plant == null || plant.isTerminated()
+	 */
+	public void addPlant(Plant plant) throws IllegalArgumentException {
+		if (plant == null || plant.isTerminated()) {
+			throw new IllegalArgumentException("The plant can not be null or terminated.");
+		}
+		this.plants.add(plant);
+	}
+	
+	
+	/**
 	 * Advances the time in this game world with the given time interval and updates position, speed and acceleration of all game objects in this game world.
 	 * 
 	 * @param dt
@@ -407,6 +445,9 @@ public class World {
 		}
 		
 		this.getMazub().advanceTime(dt);
+		for (Plant plant : this.getPlants()) {
+			plant.advanceTime(dt);
+		}
 		//TODO: Call advanceTime on game objects and run other parts of game loop, but class references need to be set up first
 	}
 }

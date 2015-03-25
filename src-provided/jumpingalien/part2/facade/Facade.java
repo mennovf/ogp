@@ -178,19 +178,17 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public Plant createPlant(int x, int y, Sprite[] sprites) {
-		return new Plant(new Vector2D<>((double)x, (double)y) , sprites);
+		return new Plant(new Vector2D<>(Utilities.pixelsToMeters(x), Utilities.pixelsToMeters(y)) , sprites);
 	}
 
 	@Override
 	public void addPlant(World world, Plant plant) {
-		// TODO Auto-generated method stub
-		
+		world.addPlant(plant);
 	}
 
 	@Override
 	public Collection<Plant> getPlants(World world) {
-		// TODO Auto-generated method stub
-		return null;
+		return world.getPlants();
 	}
 
 	@Override

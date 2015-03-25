@@ -54,9 +54,11 @@ public abstract class GameObject {
 	
 	protected GameObject(int health, int maxHealth, Sprite[] sprites) {
 		// maxHealth has to be set before sethealth because it uses maxhealth.
+		this.setFacing(1);
 		this.maxHealth = maxHealth;
 		this.setHealth(health);
 		this.sprites = sprites;
+		this.setCurrentSprite(sprites[0]);
 	}
 	
 	
@@ -281,8 +283,7 @@ public abstract class GameObject {
 		return this.sprites;
 	}
 
-	public void advanceTime(double dt) {
-	}
+	public abstract void advanceTime(double dt);
 
 
 	/**

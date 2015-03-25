@@ -55,6 +55,10 @@ public class Utilities {
 		return (int)(Math.abs(m) / 0.01);
 	}
 	
+	public static double pixelsToMeters(int p) {
+		return Math.abs(p) * 0.01;
+	}
+	
 	/**
 	 * @param v The Vector2D to convert.
 	 * @return An array of 2 elements where the first element is v.x and the second element is v.y.

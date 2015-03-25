@@ -7,6 +7,7 @@ public class Plant extends GameObject {
 	private double directionTime;
 	private final double maxDirectionTime;
 	private final double speed;
+	
 	public Plant(Vector2D<Double> position, Sprite[] sprites){
 		// GameObject
 		super(1, 1, sprites);
@@ -20,7 +21,8 @@ public class Plant extends GameObject {
 	@Override
 	public void advanceTime(double dt){
 		double timeLeft = maxDirectionTime - directionTime;
-		Vector2D<Double> newPosition = this.getPositionInMeters();
+		directionTime = (directionTime + dt) % maxDirectionTime;
+		Vector2D<Double> newPosition = new Vector2D<>(this.getPositionInMeters());
 		// If the alternation of direction happens in this time interval
 		// process the part of the interval before the alternation first.
 		if (dt > timeLeft){
@@ -29,8 +31,8 @@ public class Plant extends GameObject {
 			this.setFacing(this.getFacing() * -1);
 		}
 		// Then update the position with what's left
-        newPosition.x += this.getFacing() * this.speed * dt;
+        newPosition.x = newPosition.x + this.getFacing() * this.speed * dt;
         this.setPosition(newPosition);
-        this.setCurrentSprite(this.getSprites()[this.getFacing() < -1 ? 0 : 1]);
+        this.setCurrentSprite(this.getSprites()[this.getFacing() < 0 ? 0 : 1]);
 	}
 }

@@ -178,8 +178,7 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public Plant createPlant(int x, int y, Sprite[] sprites) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Plant(new Vector2D<>((double)x, (double)y) , sprites);
 	}
 
 	@Override
@@ -196,14 +195,12 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public int[] getLocation(Plant plant) {
-		// TODO Auto-generated method stub
-		return null;
+		return Utilities.intVectorToArray(plant.getPosition());
 	}
 
 	@Override
 	public Sprite getCurrentSprite(Plant plant) {
-		// TODO Auto-generated method stub
-		return null;
+		return plant.getCurrentSprite();
 	}
 
 	@Override

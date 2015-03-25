@@ -7,14 +7,14 @@ public class Plant extends GameObject {
 	private double directionTime;
 	private final double maxDirectionTime;
 	private final double speed;
-	public Plant(Sprite[] sprites){
+	public Plant(Vector2D<Double> position, Sprite[] sprites){
 		// GameObject
 		super(1, 1, sprites);
 
 		this.maxDirectionTime = 0.5;
 		this.directionTime = 0.0;
 		this.speed = 0.5;
-		this.setPosition(new Vector2D<>(0.0, 0.0));
+		this.setPosition(position);
 	}
 	
 	@Override

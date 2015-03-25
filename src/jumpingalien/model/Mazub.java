@@ -66,7 +66,7 @@ public class Mazub extends GameObject {
 		// GameObject
 		super(100, 500, sprites);
 		
-		if (! Mazub.isValidPosition(new Vector2D<>(x, y))){
+		if (! this.isValidPosition(new Vector2D<>(x, y))){
 			throw new IllegalArgumentException("x and y are not valid co�rdinates.");
 		}
 		if (! Mazub.isValidDirection(direction)) {

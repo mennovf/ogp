@@ -139,7 +139,7 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public int[] getVisibleWindow(World world) {
-		return Utilities.intVectorToArray(world.getVisibleWindowSize());
+		return world.getVisibleWindow();
 	}
 
 	@Override

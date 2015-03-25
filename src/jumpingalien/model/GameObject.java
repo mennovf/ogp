@@ -22,9 +22,8 @@ public abstract class GameObject {
 	 * 			| (pos.x >= 0) && (pos.x <= bounds.x)
 	 *			 && (pos.y >= 0) && (pos.y <= bounds.y)
 	 */
-	public static boolean isValidPosition(Vector2D<Double> pos) {
-		return (pos.x >= 0) && (pos.x <= Constants.screenSize.x/100)
-			&& (pos.y >= 0) && (pos.y <= Constants.screenSize.y/100);
+	public boolean isValidPosition(Vector2D<Double> pos) {
+		return (pos.x >= 0) && (pos.y >= 0);
 	}
 
 
@@ -104,6 +103,7 @@ public abstract class GameObject {
 	/**
 	 * @return This game object's game world.
 	 */
+	@Basic
 	public World getWorld() {
 		return this.world;
 	}
@@ -137,7 +137,7 @@ public abstract class GameObject {
 	 * 			| this.getWorld() != null;
 	 */
 	public boolean inWorld() {
-		return this.getWorld() != null;
+		return this.getWorld() != null && this.getWorld().containsGameObject(this);
 	}
 	
 	/**

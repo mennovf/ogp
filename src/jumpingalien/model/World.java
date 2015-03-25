@@ -15,7 +15,8 @@ public class World {
 
 	private final int tileSize;
 	private final Vector2D<Integer> nbTiles;
-	private final Vector2D<Integer> visibleWindowSize;
+	private Vector2D<Integer> visibleWindowBottomLeft;
+	private Vector2D<Integer> visibleWindowTopRight;
 	private final Vector2D<Integer> targetTilePosition;
 	
 	private int[][] geologicalFeatures;
@@ -29,7 +30,8 @@ public class World {
 		
 		this.tileSize = tileSize;
 		this.nbTiles = new Vector2D<>(nbTilesX, nbTilesY);
-		this.visibleWindowSize = new Vector2D<>(visibleWindowWidth, visibleWindowHeight);
+		this.visibleWindowBottomLeft = new Vector2D<>(0, 0);
+		this.visibleWindowTopRight = new Vector2D<>(visibleWindowWidth, visibleWindowHeight);
 		this.targetTilePosition = new Vector2D<>(targetTileX, targetTileY);
 		this.geologicalFeatures = new int[nbTilesX][nbTilesY];
 	}
@@ -179,7 +181,7 @@ public class World {
 		
 		for (int x = bottomLeftTile.x; x <= topRightTile.x; x++) {
 			for (int y = bottomLeftTile.y; y <= topRightTile.y; y++) {
-				int index = (x - bottomLeftTile.x) * blockWidth + (y - bottomLeftTile.y);
+				int index = (y - bottomLeftTile.y) * blockWidth + (x - bottomLeftTile.x);
 				tiles[index][0] = x;
 				tiles[index][1] = y;
 			}
@@ -194,8 +196,10 @@ public class World {
 	 */
 	@Basic
 	@Immutable
-	public Vector2D<Integer> getVisibleWindowSize() {
-		return new Vector2D<>(this.visibleWindowSize);
+	public int[] getVisibleWindow() {
+		int[] windowArray = {this.visibleWindowBottomLeft.x, this.visibleWindowBottomLeft.y,
+				this.visibleWindowTopRight.x, this.visibleWindowTopRight.y};
+		return windowArray;
 	}
 	
 	
@@ -402,6 +406,7 @@ public class World {
 			throw new IllegalArgumentException("Delta time has to be non-negative.");
 		}
 		
+		this.getMazub().advanceTime(dt);
 		//TODO: Call advanceTime on game objects and run other parts of game loop, but class references need to be set up first
 	}
 }

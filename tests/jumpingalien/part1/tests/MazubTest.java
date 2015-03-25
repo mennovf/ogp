@@ -86,31 +86,31 @@ public class MazubTest {
 	@Test
 	public void isValidPosition_valid() {
 		
-		assertTrue(Mazub.isValidPosition(new Vector2D<Double>(0.0, 0.0)));
+		assertTrue(mazub.isValidPosition(new Vector2D<Double>(0.0, 0.0)));
 	}
 	
 	@Test
 	public void isValidPosition_xTooSmall() {
 		
-		assertFalse(Mazub.isValidPosition(new Vector2D<Double>(-3.0, 0.0)));
+		assertFalse(mazub.isValidPosition(new Vector2D<Double>(-3.0, 0.0)));
 	}
 	
 	@Test
 	public void isValidPosition_yTooSmall() {
 		
-		assertFalse(Mazub.isValidPosition(new Vector2D<Double>(0.0, -3.0)));
+		assertFalse(mazub.isValidPosition(new Vector2D<Double>(0.0, -3.0)));
 	}
 	
 	@Test
 	public void isValidPosition_xTooBig() {
 		
-		assertFalse(Mazub.isValidPosition(new Vector2D<Double>(Constants.screenSize.x + 1, 0.0)));
+		assertFalse(mazub.isValidPosition(new Vector2D<Double>(Constants.screenSize.x + 1, 0.0)));
 	}
 	
 	@Test
 	public void isValidPosition_yTooBig() {
 		
-		assertFalse(Mazub.isValidPosition(new Vector2D<Double>(0.0, Constants.screenSize.y + 1)));
+		assertFalse(mazub.isValidPosition(new Vector2D<Double>(0.0, Constants.screenSize.y + 1)));
 	}
 	
 	

@@ -46,6 +46,8 @@ public class World {
 	 * 
 	 * @pre This game world will be terminated.
 	 * 			| new.isTerminated()
+	 * @post The world will be terminated
+	 * 			| new.isTerminated() == true
 	 */
 	public void terminate() {
 		//TODO: Remove all game object connections here
@@ -285,6 +287,9 @@ public class World {
 	 * @pre The given tile must lie in the game world.
 	 * 			| this.tileInWorld(tile)
 	 * 
+	 * @post The geological feature at tile will be of tileType
+	 * 			| new.getGeologicalFeature(tile) == tileType
+	 * 
 	 * geen stijl gespecifieerd -> nominally
 	 */
 	@Basic
@@ -314,6 +319,8 @@ public class World {
 	 * @param gameObject
 	 * 			The game object to remove.
 	 * 
+	 * @post This world will no longer hold a reference to gameObject
+	 * 			| new.containsGameObject(gameObject) == false
 	 * no style specified -> totally
 	 */
 	public void removeGameObject(GameObject gameObject) {
@@ -420,6 +427,8 @@ public class World {
 	 * @throw IllegalArgumentException
 	 * 			Throws an IllegalArgumentException if the given GameObject is null or terminated.
 	 * 			| object == null || object.isTerminated()
+	 * @post The world will contain a reference to object
+	 * 			| new.containsGameObject(object)
 	 */
 	public void addGameObject(GameObject object) throws IllegalArgumentException {
 		if (object == null || object.isTerminated()) {

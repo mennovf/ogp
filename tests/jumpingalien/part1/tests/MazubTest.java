@@ -33,7 +33,7 @@ public class MazubTest {
 
 	@Before
 	public void setUp() throws Exception {
-		mazub = new Mazub(testStartPosition.x, testStartPosition.y, sprites, testVxInit, testVxMax, testStartDirection);
+		mazub = new Mazub(new Vector2D<>(testStartPosition.x, testStartPosition.y), sprites, testVxInit, testVxMax, testStartDirection);
 	}
 
 	@After
@@ -44,14 +44,8 @@ public class MazubTest {
 	// Constructor tests
 	@Test(expected=IllegalArgumentException.class)
 	public void contructor_invalidPosition(){
-		new Mazub(-1.0, 0.0, JumpingAlienSprites.ALIEN_SPRITESET, testVxInit, testVxMax, 1);
+		new Mazub(new Vector2D<>(-1.0, 0.0), JumpingAlienSprites.ALIEN_SPRITESET, testVxInit, testVxMax, 1);
 	}
-	
-	@Test(expected=NullPointerException.class)
-	public void contructor_invalidSprites(){
-		new Mazub(0.0, 0.0, null, testVxInit, testVxMax, 1);
-	}
-	
 	
 	// getCurrentSprite tests
 	@Test

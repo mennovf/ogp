@@ -90,6 +90,8 @@ public abstract class GameObject {
 	
 	/**
 	 * Terminates this game object and removes it from it's game world.
+	 * @post This GameObject will be terminated.
+	 * 			| new.isTerminated() == true
 	 */
 	public void terminate() {
 		this.removeFromWorld();
@@ -177,6 +179,8 @@ public abstract class GameObject {
 	
 	/**
 	 * Removes this game object from it's world if it's contained by a world.
+	 * @post The GameObject will have no references to the old world and neither will the old world have a reference to this.
+	 * 			| new.getWorld() == null && old.getWorld().containsGameObject(new) == false
 	 */
 	public void removeFromWorld() {
 		try {
@@ -278,6 +282,8 @@ public abstract class GameObject {
 	 * @throws IllegalArgumentException
 	 * 			Throws an IllegalArgumentException when the position is not valid. See isValidPosition.
 	 * 			| !isValidPosition(position)
+	 * @post The new position will be equal to position
+	 * 			| new.getPositionInMeters() == position
 	 */
 	@Basic
 	public void setPosition(Vector2D<Double> position) throws NullPointerException,
@@ -296,7 +302,7 @@ public abstract class GameObject {
 	 * @return The facing of this GameObject This is either 1.0 if it's facing right or -1.0 if it's facing left.
 	 */
 	@Basic
-	public double getFacing() {
+	protected double getFacing() {
 		return this.facing;
 	}
 
@@ -314,7 +320,7 @@ public abstract class GameObject {
 	 * 			| new.getFacing() == facing
 	 */
 	@Basic
-	public void setFacing(double facing) {
+	protected void setFacing(double facing) {
 		assert GameObject.isValidDirection(facing);
 		this.facing = facing;
 	}

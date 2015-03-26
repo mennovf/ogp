@@ -136,6 +136,8 @@ public class Mazub extends GameObject {
 	 * 
 	 * @param speed
 	 * 			The speed to set.
+	 * @post Mazub's new speed will be equal to speed
+	 * 			| new.getSpeed() == speed
 	 */
 	@Basic
 	private void setSpeed(Vector2D<Double> speed) {
@@ -194,6 +196,7 @@ public class Mazub extends GameObject {
 	 * 
 	 * @throws	IllegalArgumentException
 	 * 			| (dt < 0) || (dt > Constants.maxTimeInterval)
+	 * 
 	 */
 	public void advanceTime(double dt) throws IllegalArgumentException{
 		
@@ -332,6 +335,9 @@ public class Mazub extends GameObject {
 	
 	/**
 	 * Ends this Mazub's movement.
+	 * 
+	 * @post Horizontal speed will be zero
+	 * 			| new.getSpeed().x == 0
 	 */
 	public void endMove() {
 		this.isMoving = false;
@@ -343,6 +349,9 @@ public class Mazub extends GameObject {
 	
 	/**
 	 * Starts the jump of this Mazub.
+	 * 
+	 * @post Mazub's vertical speed will be different from zero
+	 * 			| new.getSpeed().y != 0
 	 */
 	public void startJump() {
 		this.speed.y = Mazub.getInitialJumpSpeed();
@@ -368,6 +377,9 @@ public class Mazub extends GameObject {
 	
 	/**
 	 * Starts the duck of this Mazub.
+	 * 
+	 * @post The velocity will be smaller than or equal to the maximum duck velocity.
+	 * 			| new.getSpeed().x <= this.getMaxSpeedWhileDucking()
 	 */
 	public void startDuck() {
 		this.isDucking = true;

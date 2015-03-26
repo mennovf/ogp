@@ -1,5 +1,7 @@
 package jumpingalien.model;
 
+import be.kuleuven.cs.som.annotate.Value;
+
 /**
  * A 2-dimensional vector.
  * 
@@ -8,6 +10,7 @@ package jumpingalien.model;
  * @param <T>
  * 			The type of the vector's arguments.
  */
+@Value
 public class Vector2D <T> {
 
 	public T x, y;

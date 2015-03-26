@@ -10,12 +10,11 @@ public class Plant extends GameObject {
 	
 	public Plant(Vector2D<Double> position, Sprite[] sprites){
 		// GameObject
-		super(1, 1, sprites);
+		super(1, 1, position, sprites);
 
 		this.maxDirectionTime = 0.5;
 		this.directionTime = 0.0;
 		this.speed = 0.5;
-		this.setPosition(position);
 	}
 	
 	@Override

@@ -17,10 +17,9 @@ import jumpingalien.util.Util;
 public class Facade implements IFacadePart2 {
 
 	@Override
-	public Mazub createMazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites) {
-		double x = pixelLeftX * 0.01;
-		double y = pixelBottomY * 0.01;
-		return new Mazub(x, y, sprites, 1.0, 3.0, 1.0);
+	public Mazub createMazub(int x, int y, Sprite[] sprites) {
+		return new Mazub(new Vector2D<>(Utilities.pixelsToMeters(x), Utilities.pixelsToMeters(y)),
+				sprites, 1.0, 3.0, 1.0);
 	}
 
 	@Override
@@ -178,7 +177,8 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public Plant createPlant(int x, int y, Sprite[] sprites) {
-		return new Plant(new Vector2D<>(Utilities.pixelsToMeters(x), Utilities.pixelsToMeters(y)) , sprites);
+		return new Plant(new Vector2D<>(Utilities.pixelsToMeters(x), Utilities.pixelsToMeters(y)),
+				sprites);
 	}
 
 	@Override
@@ -203,7 +203,8 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public Shark createShark(int x, int y, Sprite[] sprites) {
-		return new Shark(x, y, sprites);
+		return new Shark(new Vector2D<>(Utilities.pixelsToMeters(x), Utilities.pixelsToMeters(y)),
+				sprites);
 	}
 
 	@Override
@@ -234,8 +235,8 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public Slime createSlime(int x, int y, Sprite[] sprites, School school) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Slime(new Vector2D<>(Utilities.pixelsToMeters(x), Utilities.pixelsToMeters(y)),
+				sprites, school);
 	}
 
 	@Override

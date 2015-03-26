@@ -52,21 +52,54 @@ public abstract class GameObject {
 	private World world;
 	
 	
-	protected GameObject(int health, int maxHealth, Sprite[] sprites) {
-		// maxHealth has to be set before sethealth because it uses maxhealth.
+	/**
+	 * Creates a new game object with the given health, maxHealth, position and sprites.
+	 * 
+	 * @param health
+	 * 			The health to set.
+	 * 
+	 * @param maxHealth
+	 * 			The max health to set.
+	 * 
+	 * @param position
+	 * 			The position to set.
+	 * 
+	 * @param sprites
+	 * 			The sprites to set.
+	 * 
+	 * @throws IllegalArgumentException
+	 * 			Throws an IllegalArgumentException when the given position is not valid.
+	 * 			| !isValidPosition(position)
+	 */
+	protected GameObject(int health, int maxHealth, Vector2D<Double> position, Sprite[] sprites)
+				throws IllegalArgumentException {
+		
+		if (! this.isValidPosition(new Vector2D<>(position))){
+			throw new IllegalArgumentException("Position is not valid.");
+		}
+		
+		// maxHealth has to be set before setHealth because it uses maxHealth.
 		this.setFacing(1);
 		this.maxHealth = maxHealth;
 		this.setHealth(health);
 		this.sprites = sprites;
 		this.setCurrentSprite(sprites[0]);
+		this.setPosition(position);
 	}
 	
 	
+	/**
+	 * Terminates this game object and removes it from it's game world.
+	 */
 	public void terminate() {
-		this.setWorld(null);
+		this.removeFromWorld();
 		this.isTerminated = true;
 	}
 	
+	
+	/**
+	 * @return true if this game object is terminated.
+	 */
 	public boolean isTerminated() {
 		return this.isTerminated;
 	}
@@ -148,17 +181,25 @@ public abstract class GameObject {
 	public void removeFromWorld() {
 		try {
 			this.getWorld().removeGameObject(this);
+			this.world = null;
 		} catch (NullPointerException exc) {
 			assert !this.inWorld();
 		}
 	}
 	
 	
-	@Basic
+	/**
+	 * @return The maximum amount of hitpoints this game object can have.
+	 */
+	@Basic @Immutable
 	public int getMaximumHealth(){
 		return this.maxHealth;
 	}
 
+	
+	/**
+	 * @return The number of hitpoints this game object has.
+	 */
 	@Basic
 	public int getHealth(){
 		return this.health;

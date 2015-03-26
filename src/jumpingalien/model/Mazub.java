@@ -61,14 +61,11 @@ public class Mazub extends GameObject {
 	 * 			Throws an IllegalArgumentException when the position and/or direction are not valid.
 	 * 			| !Mazub.isValidPosition(new Vector2D<>(x, y)) || !Mazub.isValidDirection(direction)
 	 */
-	public Mazub(double x, double y, Sprite[] sprites, double vxInit, double vxMax, double direction) throws NullPointerException, IllegalArgumentException{
+	public Mazub(Vector2D<Double> position, Sprite[] sprites, double vxInit, double vxMax, double direction) throws NullPointerException, IllegalArgumentException{
 		
 		// GameObject
-		super(100, 500, sprites);
+		super(100, 500, position, sprites);
 		
-		if (! this.isValidPosition(new Vector2D<>(x, y))){
-			throw new IllegalArgumentException("x and y are not valid co�rdinates.");
-		}
 		if (! Mazub.isValidDirection(direction)) {
 			throw new IllegalArgumentException("direction is not valid.");
 		}
@@ -78,7 +75,6 @@ public class Mazub extends GameObject {
 		assert vxInit >= 1.0;
 		assert vxMax >= vxInit;
 		
-		this.setPosition(new Vector2D<>(x, y));
 		this.setSpeed(new Vector2D<>(0.0, 0.0));
 		this.setCurrentSprite(sprites[0]);
 		this.vxInit = vxInit;

@@ -4,12 +4,10 @@ import jumpingalien.util.Sprite;
 
 public class Shark extends GameObject {
 
-	public Shark(int x, int y, Sprite[] sprites) {
+	public Shark(Vector2D<Double> position, Sprite[] sprites) {
 		
 		// GameObject
-		super(100, 100, sprites);
-		
-		this.setPosition(new Vector2D<>(Utilities.pixelsToMeters(x), Utilities.pixelsToMeters(y)));
+		super(100, 100, position, sprites);
 	}
 
 	@Override

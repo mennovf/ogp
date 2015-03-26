@@ -12,7 +12,6 @@ import jumpingalien.model.Vector2D;
 import jumpingalien.model.World;
 import jumpingalien.util.ModelException;
 import jumpingalien.util.Sprite;
-import jumpingalien.util.Util;
 
 public class Facade implements IFacadePart2 {
 
@@ -229,8 +228,7 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public School createSchool() {
-		// TODO Auto-generated method stub
-		return null;
+		return new School();
 	}
 
 	@Override
@@ -261,8 +259,7 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public School getSchool(Slime slime) {
-		// TODO Auto-generated method stub
-		return null;
+		return slime.getSchool();
 	}
 	
 }

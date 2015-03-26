@@ -50,7 +50,9 @@ public class World {
 	 * 			| new.isTerminated() == true
 	 */
 	public void terminate() {
-		//TODO: Remove all game object connections here
+		//TODO: Inverse connections?
+		this.mazub = null;
+		this.objects = null;
 		this.isTerminated = true;
 	}
 	
@@ -444,6 +446,7 @@ public class World {
 			throw new IllegalArgumentException("The GameObject can't be null or terminated.");
 		}
 		this.objects.add(object);
+		object.setWorld(this);
 	}
 	
 	

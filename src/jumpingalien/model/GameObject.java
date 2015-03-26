@@ -170,7 +170,9 @@ public abstract class GameObject {
 			throw new IllegalArgumentException("This game object can't have the given world as it's game world.");
 		}
 		this.world = world;
-		//TODO: Maybe check whether the game world contains this object, otherwise add it
+		if (!world.containsGameObject(this)) {
+			world.addGameObject(this);
+		}
 	}
 	
 	/**

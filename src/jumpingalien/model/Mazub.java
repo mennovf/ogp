@@ -53,6 +53,12 @@ public class Mazub extends GameObject {
 	 * @param direction
 	 * 			The direction Mazub is facing. -1 means he's facing left, +1 means he's facing right.
 	 * 
+	 * @post The sprites should not be null
+	 * 			| sprites != null
+	 * 
+	 * @post The amount of sprites should be bigger than or 8 and even.
+	 * 			| sprites.length > 8 && (sprites.length % 2) == 0
+	 * 
 	 * @throws NullPointerException
 	 * 			Throws a NullPointerException when sprites is null.
 	 * 			| sprites == null
@@ -69,9 +75,9 @@ public class Mazub extends GameObject {
 		if (! Mazub.isValidDirection(direction)) {
 			throw new IllegalArgumentException("direction is not valid.");
 		}
-		if (sprites == null){
-			throw new NullPointerException("Sprites can't be null.");
-		}
+		assert sprites != null;
+		assert sprites.length > 8;
+		assert (sprites.length % 2) == 0;
 		assert vxInit >= 1.0;
 		assert vxMax >= vxInit;
 		

@@ -296,7 +296,7 @@ public abstract class GameObject {
 	 * @return The facing of this GameObject This is either 1.0 if it's facing right or -1.0 if it's facing left.
 	 */
 	@Basic
-	public double getFacing() {
+	protected double getFacing() {
 		return this.facing;
 	}
 
@@ -314,7 +314,7 @@ public abstract class GameObject {
 	 * 			| new.getFacing() == facing
 	 */
 	@Basic
-	public void setFacing(double facing) {
+	protected void setFacing(double facing) {
 		assert GameObject.isValidDirection(facing);
 		this.facing = facing;
 	}

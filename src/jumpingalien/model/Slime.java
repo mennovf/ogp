@@ -24,14 +24,14 @@ public class Slime extends GameObject {
 	}
 	
 	
-	public void canHaveAsSchool(School school) {
+	public boolean canHaveAsSchool(School school) {
 		return !(school == null) /*&& !school.isTerminated()*/;
 		//TODO: Check exact definition of isTerminated
 	}
 	
 	
-	public void setSchool() {
-		
+	public void setSchool(School school) {
+		//TODO: Implement
 	}
 	
 

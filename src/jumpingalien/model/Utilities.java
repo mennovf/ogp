@@ -41,22 +41,70 @@ public class Utilities {
 	
 	
 	/**
+	 * Clips the values of the given vector to the given ranges.
+	 * 
+	 * @param min
+	 * 			A 2D vector representing the minimum values for x and y.
+	 * 
+	 * @param max
+	 * 			A 2D vector representing the maximum values for x and y.
+	 * 
+	 * @param vector
+	 * 			The vector to clip.
+	 * 
+	 * @return The vector clipped to the given ranges.
+	 */
+	public static <T extends Comparable<T>> Vector2D<T> clipVectorInRange(Vector2D<T> min, Vector2D<T> max, Vector2D<T> vector) {
+		return new Vector2D<T>(clipInRange(min.x, max.x, vector.x), clipInRange(min.y, max.y, vector.y));
+	}
+	
+	
+	/**
 	 * Converts the given length in meters to pixels.
 	 * 
 	 * @param	m
 	 * 			The value to convert from meters to pixels.
 	 * 
 	 * @return	m converted to pixels.
-	 * 
-	 * @post	m has to be positive
-	 * 			| m >= 0
 	 */
 	public static int metersToPixels(double m) {
 		return (int)(Math.abs(m) / 0.01);
 	}
 	
+	/**
+	 * Converts the given vector in meters to pixels.
+	 * 
+	 * @param m
+	 * 			The vector to convert from meters to pixels.
+	 * 
+	 * @return m converted to pixels.
+	 */
+	public static Vector2D<Integer> metersVectorToPixels(Vector2D<Double> m) {
+		return new Vector2D<>(metersToPixels(m.x), metersToPixels(m.y));
+	}
+	
+	/**
+	 * Converts the given length in pixels to meters.
+	 * 
+	 * @param p
+	 * 			The value to convert from pixels to meters.
+	 * 
+	 * @return p converted to meters
+	 */
 	public static double pixelsToMeters(int p) {
 		return Math.abs(p) * 0.01;
+	}
+	
+	/**
+	 * Converts the given vector in pixels to meters.
+	 * 
+	 * @param p
+	 * 			The vector to convert from pixels to meters.
+	 * 
+	 * @return p converted to meters.
+	 */
+	public static Vector2D<Double> pixelsVectorToMeters(Vector2D<Integer> p) {
+		return new Vector2D<>(pixelsToMeters(p.x), pixelsToMeters(p.y));
 	}
 	
 	/**

@@ -235,29 +235,38 @@ public class Mazub extends GameObject {
 		Vector2D<Double> speed = this.getSpeed();
 		Vector2D<Double> position = this.getPositionInMeters();
 		
-		// Update x for position and speed
-		position.x += speed.x * dt + acc.x * dt * dt / 2.0;
-		speed.x += acc.x * dt;
+//		// Update x for position and speed
+//		position.x += speed.x * dt + acc.x * dt * dt / 2.0;
+//		speed.x += acc.x * dt;
+//		
+//		// Keep x position in bounds
+//		position.x = Utilities.clipInRange(0.0, Constants.screenSize.x/100, position.x);
+//		
+//		// Keep horizontal speed in bounds
+//		speed.x = Utilities.clipInRange(-this.getMaxHorizontalSpeed(),
+//										this.getMaxHorizontalSpeed(),
+//										speed.x);
+//		
+//		// Update y for position and speed
+//		position.y += speed.y * dt + acc.y * dt * dt / 2.0;
+//		speed.y += acc.y * dt;
+//		
+//		// Keep y position in bounds
+//		position.y = Utilities.clipInRange(0.0, Constants.screenSize.y/100, position.y);
+//		
+//		// if Mazub is on ground, then vertical speed has to be set to 0
+//		if (this.onGround()) {
+//			speed.y = 0.0;
+//		}
 		
-		// Keep x position in bounds
-		position.x = Utilities.clipInRange(0.0, Constants.screenSize.x/100, position.x);
+		Vector2D<Double> newPosition = Vector2D.add(position, Vector2D.add(Vector2D.scale(speed, dt), Vector2D.scale(acc, dt*dt/2.0)));
+		Vector2D<Double> newSpeed = Vector2D.add(speed, Vector2D.scale(acc, dt));
 		
-		// Keep horizontal speed in bounds
-		speed.x = Utilities.clipInRange(-this.getMaxHorizontalSpeed(),
-										this.getMaxHorizontalSpeed(),
-										speed.x);
-		
-		// Update y for position and speed
-		position.y += speed.y * dt + acc.y * dt * dt / 2.0;
-		speed.y += acc.y * dt;
-		
-		// Keep y position in bounds
-		position.y = Utilities.clipInRange(0.0, Constants.screenSize.y/100, position.y);
-		
-		// if Mazub is on ground, then vertical speed has to be set to 0
-		if (this.onGround()) {
-			speed.y = 0.0;
-		}
+		this.setPosition(Utilities.clipVectorInRange(new Vector2D<Double>(0.0, 0.0),
+							this.getWorld().getSizeInMeters(), newPosition));
+		this.setSpeed(new Vector2D<Double>(Utilities.clipInRange(-this.getMaxHorizontalSpeed(),
+											this.getMaxHorizontalSpeed(),
+											newSpeed.x), this.onGround() ? 0.0 : newSpeed.y));
 	}
 	
 

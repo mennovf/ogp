@@ -91,6 +91,15 @@ public class World {
 	
 	
 	/**
+	 * @return A 2D vector representing the size of the game world in meters.
+	 */
+	@Immutable
+	public Vector2D<Double> getSizeInMeters() {
+		return Utilities.pixelsVectorToMeters(this.getSizeInPixels());
+	}
+	
+	
+	/**
 	 * @param pixel
 	 * 			The pixel to check.
 	 * 

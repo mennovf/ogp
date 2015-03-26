@@ -23,7 +23,11 @@ public abstract class GameObject {
 	 *			 && (pos.y >= 0) && (pos.y <= bounds.y)
 	 */
 	public boolean isValidPosition(Vector2D<Double> pos) {
-		return (pos.x >= 0) && (pos.y >= 0);
+		if (this.hasProperWorld()) {
+			return (pos.x >= 0) && pos.x <= this.getWorld().getSizeInPixels().x
+					&& (pos.y >= 0) && pos.y <= this.getWorld().getSizeInPixels().y;
+		}
+		return true;
 	}
 
 

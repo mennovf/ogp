@@ -1,7 +1,7 @@
 package jumpingalien.part1.facade;
 
 import jumpingalien.model.Mazub;
-import jumpingalien.model.Vector2D;
+import jumpingalien.model.Vector;
 import jumpingalien.util.Sprite;
 
 public class Facade implements IFacade {
@@ -10,26 +10,26 @@ public class Facade implements IFacade {
 	public Mazub createMazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites) {
 		double x = pixelLeftX * 0.01;
 		double y = pixelBottomY * 0.01;
-		return new Mazub(x, y, sprites, 1.0, 3.0, 1.0);
+		return new Mazub(new Vector<Double>(x, y), sprites, 1.0, 3.0, 1.0);
 	}
 
 	@Override
 	public int[] getLocation(Mazub alien) {
-		Vector2D<Integer> position = alien.getPosition();
+		Vector<Integer> position = alien.getPosition();
 		int[] worldPosition = {position.x, position.y};
 		return worldPosition;
 	}
 
 	@Override
 	public double[] getVelocity(Mazub alien) {
-		Vector2D<Double> speed = alien.getSpeed();
+		Vector<Double> speed = alien.getSpeed();
 		double[] speedArray = {speed.x, speed.y};
 		return speedArray;
 	}
 
 	@Override
 	public double[] getAcceleration(Mazub alien) {
-		Vector2D<Double> acc = alien.getAcceleration();
+		Vector<Double> acc = alien.getAcceleration();
 		double[] accArray = {acc.x, acc.y};
 		return accArray;
 	}

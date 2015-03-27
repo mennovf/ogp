@@ -15,7 +15,7 @@ public class MazubTest {
 	
 	private final double testAccuracy = 1e-7;
 	
-	private final Vector2D<Double> testStartPosition = new Vector2D<>(0.0, 0.0);
+	private final Vector<Double> testStartPosition = new Vector<>(0.0, 0.0);
 	private final double testVxInit = 1.0;
 	private final double testVxMax = 3.0;
 	private final double testStartDirection = 1.0;
@@ -33,7 +33,7 @@ public class MazubTest {
 
 	@Before
 	public void setUp() throws Exception {
-		mazub = new Mazub(new Vector2D<>(testStartPosition.x, testStartPosition.y), sprites, testVxInit, testVxMax, testStartDirection);
+		mazub = new Mazub(new Vector<>(testStartPosition.x, testStartPosition.y), sprites, testVxInit, testVxMax, testStartDirection);
 	}
 
 	@After
@@ -44,7 +44,7 @@ public class MazubTest {
 	// Constructor tests
 	@Test(expected=IllegalArgumentException.class)
 	public void contructor_invalidPosition(){
-		new Mazub(new Vector2D<>(-1.0, 0.0), JumpingAlienSprites.ALIEN_SPRITESET, testVxInit, testVxMax, 1);
+		new Mazub(new Vector<>(-1.0, 0.0), JumpingAlienSprites.ALIEN_SPRITESET, testVxInit, testVxMax, 1);
 	}
 	
 	// getCurrentSprite tests
@@ -80,31 +80,31 @@ public class MazubTest {
 	@Test
 	public void isValidPosition_valid() {
 		
-		assertTrue(mazub.isValidPosition(new Vector2D<Double>(0.0, 0.0)));
+		assertTrue(mazub.isValidPosition(new Vector<Double>(0.0, 0.0)));
 	}
 	
 	@Test
 	public void isValidPosition_xTooSmall() {
 		
-		assertFalse(mazub.isValidPosition(new Vector2D<Double>(-3.0, 0.0)));
+		assertFalse(mazub.isValidPosition(new Vector<Double>(-3.0, 0.0)));
 	}
 	
 	@Test
 	public void isValidPosition_yTooSmall() {
 		
-		assertFalse(mazub.isValidPosition(new Vector2D<Double>(0.0, -3.0)));
+		assertFalse(mazub.isValidPosition(new Vector<Double>(0.0, -3.0)));
 	}
 	
 	@Test
 	public void isValidPosition_xTooBig() {
 		
-		assertFalse(mazub.isValidPosition(new Vector2D<Double>(Constants.screenSize.x + 1, 0.0)));
+		assertFalse(mazub.isValidPosition(new Vector<Double>(Constants.screenSize.x + 1, 0.0)));
 	}
 	
 	@Test
 	public void isValidPosition_yTooBig() {
 		
-		assertFalse(mazub.isValidPosition(new Vector2D<Double>(0.0, Constants.screenSize.y + 1)));
+		assertFalse(mazub.isValidPosition(new Vector<Double>(0.0, Constants.screenSize.y + 1)));
 	}
 	
 	
@@ -113,26 +113,26 @@ public class MazubTest {
 	@Test
 	public void isValidSpeed_validNotDucking() {
 		
-		assertTrue(mazub.isValidSpeed(new Vector2D<Double>(testVxMax, 0.0)));
+		assertTrue(mazub.isValidSpeed(new Vector<Double>(testVxMax, 0.0)));
 	}
 	
 	@Test
 	public void isValidSpeed_validDucking() {
 		
 		mazub.startDuck();
-		assertTrue(mazub.isValidSpeed(new Vector2D<Double>(Mazub.getMaxSpeedWhileDucking(), 0.0)));
+		assertTrue(mazub.isValidSpeed(new Vector<Double>(Mazub.getMaxSpeedWhileDucking(), 0.0)));
 	}
 	
 	@Test
 	public void isValidSpeed_xTooSmall() {
 		
-		assertFalse(mazub.isValidSpeed(new Vector2D<Double>(-(testVxMax+1), 0.0)));
+		assertFalse(mazub.isValidSpeed(new Vector<Double>(-(testVxMax+1), 0.0)));
 	}
 	
 	@Test
 	public void isValidSpeed_xTooBig() {
 		
-		assertFalse(mazub.isValidSpeed(new Vector2D<Double>(testVxMax+1, 0.0)));
+		assertFalse(mazub.isValidSpeed(new Vector<Double>(testVxMax+1, 0.0)));
 	}
 	
 	

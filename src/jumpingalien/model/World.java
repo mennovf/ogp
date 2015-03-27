@@ -17,10 +17,10 @@ public class World {
 	private boolean isTerminated;
 
 	private final int tileSize;
-	private final Vector2D<Integer> nbTiles;
-	private Vector2D<Integer> visibleWindowBottomLeft;
-	private Vector2D<Integer> visibleWindowTopRight;
-	private final Vector2D<Integer> targetTilePosition;
+	private final Vector<Integer> nbTiles;
+	private Vector<Integer> visibleWindowBottomLeft;
+	private Vector<Integer> visibleWindowTopRight;
+	private final Vector<Integer> targetTilePosition;
 	
 	private int[][] geologicalFeatures;
 	
@@ -33,10 +33,10 @@ public class World {
 			int targetTileY) {
 		
 		this.tileSize = tileSize;
-		this.nbTiles = new Vector2D<>(nbTilesX, nbTilesY);
-		this.visibleWindowBottomLeft = new Vector2D<>(0, 0);
-		this.visibleWindowTopRight = new Vector2D<>(visibleWindowWidth, visibleWindowHeight);
-		this.targetTilePosition = new Vector2D<>(targetTileX, targetTileY);
+		this.nbTiles = new Vector<>(nbTilesX, nbTilesY);
+		this.visibleWindowBottomLeft = new Vector<>(0, 0);
+		this.visibleWindowTopRight = new Vector<>(visibleWindowWidth, visibleWindowHeight);
+		this.targetTilePosition = new Vector<>(targetTileX, targetTileY);
 		this.geologicalFeatures = new int[nbTilesX][nbTilesY];
 	}
 	
@@ -80,8 +80,8 @@ public class World {
 	 */
 	@Basic
 	@Immutable
-	public Vector2D<Integer> getNumberOfTiles() {
-		return new Vector2D<>(this.nbTiles);
+	public Vector<Integer> getNumberOfTiles() {
+		return new Vector<>(this.nbTiles);
 	}
 	
 	
@@ -89,8 +89,8 @@ public class World {
 	 * @return A 2D vector representing the size of the game world in pixels.
 	 */
 	@Immutable
-	public Vector2D<Integer> getSizeInPixels() {
-		return new Vector2D<>(this.getNumberOfTiles().x * this.getTileSize(), this.getNumberOfTiles().y * this.getTileSize());
+	public Vector<Integer> getSizeInPixels() {
+		return new Vector<>(this.getNumberOfTiles().x * this.getTileSize(), this.getNumberOfTiles().y * this.getTileSize());
 	}
 	
 	
@@ -98,7 +98,7 @@ public class World {
 	 * @return A 2D vector representing the size of the game world in meters.
 	 */
 	@Immutable
-	public Vector2D<Double> getSizeInMeters() {
+	public Vector<Double> getSizeInMeters() {
 		return Utilities.pixelsVectorToMeters(this.getSizeInPixels());
 	}
 	
@@ -109,8 +109,8 @@ public class World {
 	 * 
 	 * @return true if the pixel lies in the game world.
 	 */
-	public boolean pixelInWorld(Vector2D<Integer> pixel) {
-		Vector2D<Integer> worldSize = this.getSizeInPixels();
+	public boolean pixelInWorld(Vector<Integer> pixel) {
+		Vector<Integer> worldSize = this.getSizeInPixels();
 		return pixel.x >= 0 && pixel.x < worldSize.x
 				&& pixel.y >= 0 && pixel.y < worldSize.y;
 	}
@@ -122,8 +122,8 @@ public class World {
 	 * 
 	 * @return true if the tile lies in the game world.
 	 */
-	public boolean tileInWorld(Vector2D<Integer> tile) {
-		Vector2D<Integer> numberOfTiles = this.getNumberOfTiles();
+	public boolean tileInWorld(Vector<Integer> tile) {
+		Vector<Integer> numberOfTiles = this.getNumberOfTiles();
 		return tile.x >= 0 && tile.x < numberOfTiles.x
 				&& tile.y >= 0 && tile.y < numberOfTiles.y;
 	}
@@ -143,9 +143,9 @@ public class World {
 	 * 
 	 * geen stijl gespecifieerd -> nominally
 	 */
-	public Vector2D<Integer> getBottomLeftPixelOfTile(Vector2D<Integer> tile) {
+	public Vector<Integer> getBottomLeftPixelOfTile(Vector<Integer> tile) {
 		assert this.tileInWorld(tile);
-		return new Vector2D<>(tile.x * this.getTileSize(), tile.y * this.getTileSize());
+		return new Vector<>(tile.x * this.getTileSize(), tile.y * this.getTileSize());
 	}
 	
 	
@@ -160,9 +160,9 @@ public class World {
 	 * 
 	 * geen stijl gespecifieerd -> nominally
 	 */
-	public Vector2D<Integer> getTileContainingPixel(Vector2D<Integer> pixel) {
+	public Vector<Integer> getTileContainingPixel(Vector<Integer> pixel) {
 		assert this.pixelInWorld(pixel);
-		return new Vector2D<>(pixel.x / this.getTileSize(), pixel.y / this.getTileSize());
+		return new Vector<>(pixel.x / this.getTileSize(), pixel.y / this.getTileSize());
 	}
 	
 	
@@ -181,14 +181,14 @@ public class World {
 	 * 
 	 * geen stijl gespecifieerd -> nominally
 	 */
-	public int[][] getTilePositionsInRectangle(Vector2D<Integer> bottomLeftPixel, Vector2D<Integer> topRightPixel) {
+	public int[][] getTilePositionsInRectangle(Vector<Integer> bottomLeftPixel, Vector<Integer> topRightPixel) {
 		
-		// Java kan geen array maken van type Vector2D<Integer>[]
+		// Java kan geen array maken van type Vector<Integer>[]
 		
 		assert this.pixelInWorld(bottomLeftPixel) && this.pixelInWorld(topRightPixel);
 		
-		Vector2D<Integer> bottomLeftTile = this.getTileContainingPixel(bottomLeftPixel);
-		Vector2D<Integer> topRightTile = this.getTileContainingPixel(topRightPixel);
+		Vector<Integer> bottomLeftTile = this.getTileContainingPixel(bottomLeftPixel);
+		Vector<Integer> topRightTile = this.getTileContainingPixel(topRightPixel);
 		
 		int blockWidth = topRightTile.x - bottomLeftTile.x + 1;
 		int blockHeight = topRightTile.y - bottomLeftTile.y + 1;
@@ -225,8 +225,8 @@ public class World {
 	 */
 	@Basic
 	@Immutable
-	public Vector2D<Integer> getTargetTilePosition() {
-		return new Vector2D<>(this.targetTilePosition);
+	public Vector<Integer> getTargetTilePosition() {
+		return new Vector<>(this.targetTilePosition);
 	}
 	
 	
@@ -277,11 +277,11 @@ public class World {
 	 * 
 	 * ik neem aan dat dit defensive moet, aangezien Facade een exception verwacht
 	 */
-	public int getGeologicalFeature(Vector2D<Integer> pixel) throws ModelException {
+	public int getGeologicalFeature(Vector<Integer> pixel) throws ModelException {
 		if (!this.pixelInWorld(pixel)) {
 			throw new ModelException("The pixel has to lie in the game world.");
 		}
-		Vector2D<Integer> tile = this.getTileContainingPixel(pixel);
+		Vector<Integer> tile = this.getTileContainingPixel(pixel);
 		return this.getGeologicalFeatures()[tile.x][tile.y];
 	}
 	
@@ -304,7 +304,7 @@ public class World {
 	 * geen stijl gespecifieerd -> nominally
 	 */
 	@Basic
-	public void setGeologicalFeature(Vector2D<Integer> tile, int tileType) {
+	public void setGeologicalFeature(Vector<Integer> tile, int tileType) {
 		assert this.tileInWorld(tile);
 		this.geologicalFeatures[tile.x][tile.y] = tileType;
 	}

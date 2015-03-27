@@ -4,7 +4,7 @@ import jumpingalien.util.Sprite;
 
 public class Shark extends GameObject {
 
-	public Shark(Vector2D<Double> position, Sprite[] sprites) {
+	public Shark(Vector<Double> position, Sprite[] sprites) {
 		
 		// GameObject
 		super(100, 100, position, sprites);

@@ -37,7 +37,7 @@ public class Vector <T> {
 	public static <S> Vector<S> add(Vector<S> left, Vector<S> right) {
 		return new Vector<S>(add(left.x, right.x), add(left.y, right.y));
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	private static <S> S add(S left, S right) {
 		if (left.getClass() == Integer.class) {

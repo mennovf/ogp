@@ -3,6 +3,7 @@ package jumpingalien.part1.tests;
 import static org.junit.Assert.*;
 import jumpingalien.model.*;
 import jumpingalien.util.Sprite;
+import jumpingalien.util.Util;
 import jumpingalien.common.sprites.JumpingAlienSprites;
 
 import org.junit.After;
@@ -30,10 +31,13 @@ public class MazubTest {
 	}
 	
 	private Mazub mazub;
+	private World world;
 
 	@Before
 	public void setUp() throws Exception {
+		world = new World(70, 20, 12, 1024, 751, 18, 9);
 		mazub = new Mazub(new Vector<>(testStartPosition.x, testStartPosition.y), sprites, testVxInit, testVxMax, testStartDirection);
+		world.addGameObject(mazub);
 	}
 
 	@After
@@ -337,5 +341,106 @@ public class MazubTest {
 		
 		assertEquals(mazub.getHeight(), height);
 	}
+	
+	@Test
+	public void moveThenJump(){
+		mazub.startMove(1);
+		mazub.advanceTime(Constants.maxTimeInterval);
+		mazub.startJump();
+		mazub.advanceTime(Constants.maxTimeInterval);
+		
+		assertTrue(mazub.getSpeed().x > 0);
+		assertTrue(mazub.getSpeed().y > 0);
+		mazub.endJump();
+		assertTrue(Util.fuzzyEquals(mazub.getSpeed().y, 0.0));
+		assertTrue(mazub.getSpeed().x > 0);
+		mazub.endMove();
+		assertTrue(Util.fuzzyEquals(mazub.getSpeed().x, 0.0));
+		assertTrue(Util.fuzzyEquals(mazub.getSpeed().y, 0.0));
+	}
+	
+	@Test
+	public void jumpThenMove(){
+		mazub.startJump();
+		mazub.advanceTime(Constants.maxTimeInterval);
+		mazub.startMove(1);
+		mazub.advanceTime(Constants.maxTimeInterval);
+		
+		assertTrue(mazub.getSpeed().x > 0);
+		assertTrue(mazub.getSpeed().y > 0);
+		mazub.endJump();
+		assertTrue(Util.fuzzyEquals(mazub.getSpeed().y, 0.0));
+		assertTrue(mazub.getSpeed().x > 0);
+		mazub.endMove();
+		assertTrue(Util.fuzzyEquals(mazub.getSpeed().x, 0.0));
+		assertTrue(Util.fuzzyEquals(mazub.getSpeed().y, 0.0));
+	}
+	
+	@Test
+	public void jumpAndDuck(){
+		int height = mazub.getHeight();
+		mazub.startJump();
+		mazub.startDuck();
+		mazub.advanceTime(Constants.maxTimeInterval);
+		
+		assertTrue(mazub.getSpeed().y > 0);
+		int duckingHeight = mazub.getHeight();
+		assertTrue(duckingHeight < height);
+		
+		mazub.endDuck();
+		mazub.advanceTime(Constants.maxTimeInterval);
+		
+		assertTrue(mazub.getHeight() > duckingHeight);
+		assertTrue(mazub.getSpeed().y > 0);
+	}
+	
+	
+	@Test
+	public void duckAndMove(){
+		int height = mazub.getHeight();
+		mazub.startDuck();
+		mazub.startMove(1);
+		mazub.advanceTime(Constants.maxTimeInterval);
+		
+		int duckingHeight = mazub.getHeight();
+		assertTrue(duckingHeight < height);
+		assertTrue(mazub.getSpeed().x > 0);
+		
+		mazub.endDuck();
+		mazub.advanceTime(Constants.maxTimeInterval);
+		
+		assertTrue(mazub.getHeight() > duckingHeight);
+		assertTrue(mazub.getSpeed().x > 0);
+	}
 
+	@Test
+	public void jumpDuckAndMove(){
+		int height = mazub.getHeight();
+		mazub.startJump();
+		mazub.startMove(-1);
+		mazub.startDuck();
+		mazub.advanceTime(Constants.maxTimeInterval);
+		
+		int duckingHeight = mazub.getHeight();
+		assertTrue(duckingHeight < height);
+		assertTrue(mazub.getSpeed().x < 0);
+		assertTrue(mazub.getSpeed().y > 0);
+		
+		mazub.endDuck();
+		mazub.advanceTime(Constants.maxTimeInterval);
+		assertTrue(mazub.getHeight() > duckingHeight);
+		assertTrue(mazub.getSpeed().x < 0);
+		assertTrue(mazub.getSpeed().y > 0);
+		
+		mazub.endMove();
+		mazub.advanceTime(Constants.maxTimeInterval);
+		assertTrue(mazub.getHeight() > duckingHeight);
+		assertEquals((double)mazub.getSpeed().x, 0.0, testAccuracy);
+		assertTrue(mazub.getSpeed().y > 0);
+		
+		mazub.endJump();
+		assertTrue(mazub.getHeight() > duckingHeight);
+		assertEquals(mazub.getSpeed().x, 0.0, testAccuracy);
+		assertEquals(mazub.getSpeed().y, 0.0, testAccuracy);
+	}
 }

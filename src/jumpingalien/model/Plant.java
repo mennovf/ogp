@@ -25,12 +25,12 @@ public class Plant extends GameObject {
 		// If the alternation of direction happens in this time interval
 		// process the part of the interval before the alternation first.
 		if (dt > timeLeft){
-			newPosition.setX(newPosition.x + this.getFacing() * this.speed * timeLeft);
+			newPosition = newPosition.setX(newPosition.x + this.getFacing() * this.speed * timeLeft);
 			dt = dt - timeLeft;
 			this.setFacing(this.getFacing() * -1);
 		}
 		// Then update the position with what's left
-        newPosition.setX(newPosition.x + this.getFacing() * this.speed * dt);
+        newPosition = newPosition.setX(newPosition.x + this.getFacing() * this.speed * dt);
         this.setPosition(newPosition);
         this.setCurrentSprite(this.getSprites()[this.getFacing() < 0 ? 0 : 1]);
 	}

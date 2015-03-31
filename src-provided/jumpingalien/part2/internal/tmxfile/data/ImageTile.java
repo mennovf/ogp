@@ -109,4 +109,8 @@ public class ImageTile {
 	public String getFilename() {
 		return file.getPath();
 	}
+	
+	public String getOSIndependentFilename() {
+        return file.getPath().replace("\\","/");
+	}
 }

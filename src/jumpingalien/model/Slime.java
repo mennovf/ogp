@@ -11,8 +11,7 @@ public class Slime extends GameObject {
 		
 		// GameObject
 		super(100, 100, position, sprites);
-		
-		//TODO: Implement School functionality
+		this.setSchool(school);
 	}
 	
 	
@@ -24,21 +23,34 @@ public class Slime extends GameObject {
 	}
 	
 	
-	public boolean canHaveAsSchool(School school) {
+	public static boolean canHaveAsSchool(School school) {
 		return !(school == null) /*&& !school.isTerminated()*/;
 		//TODO: Check exact definition of isTerminated
 	}
 	
 	
-	public void setSchool(School school) {
-		//TODO: Implement
+	/**
+	 * Sets the school of this slime.
+	 * 
+	 * @param school
+	 * 			The school to set.
+	 * 
+	 * @throws IllegalArgumentException
+	 * 			Throws an IllegalArgumentException when this slime can't have the given school as school.
+	 */
+	public void setSchool(School school) throws IllegalArgumentException {
+		if (canHaveAsSchool(school)) {
+			this.school = school;
+		} else {
+			throw new IllegalArgumentException("Invalid school provided.");
+		}
 	}
 	
 
 	@Override
 	public void advanceTime(double dt) {
 		// TODO Auto-generated method stub
-		
+		this.setPosition(Vector.add(this.getPositionInMeters(), new Vector<Double>(0.005, 0.0)));
 	}
 
 }

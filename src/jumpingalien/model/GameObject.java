@@ -344,6 +344,7 @@ public abstract class GameObject {
 	 */
 	@Basic
 	public Sprite getCurrentSprite() {
+		
 		return currentSprite;
 	}
 	

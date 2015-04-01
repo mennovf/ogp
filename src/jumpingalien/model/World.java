@@ -239,11 +239,10 @@ public class World {
 	
 	
 	/**
-	 * @return true if the game has ended.
+	 * @return true if the game has ended. This means the player is dead or the player reached the target tile.
 	 */
 	public boolean isGameOver() {
-		//TODO: Implement this method
-		return false;
+		return !this.getMazub().isAlive() || this.didPlayerWin();
 	}
 	
 	

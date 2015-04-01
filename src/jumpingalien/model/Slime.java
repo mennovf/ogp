@@ -16,13 +16,18 @@ public class Slime extends GameObject {
 	
 	
 	/**
-	 * Returns the school of this slime.
+	 * @return The school of this slime.
 	 */
 	public School getSchool() {
 		return this.school;
 	}
 	
 	
+	/**
+	 * @param school
+	 * @return Whether this slime can have school as it's school.
+	 * 			| !(school == null)
+	 */
 	public static boolean canHaveAsSchool(School school) {
 		return !(school == null) /*&& !school.isTerminated()*/;
 		//TODO: Check exact definition of isTerminated

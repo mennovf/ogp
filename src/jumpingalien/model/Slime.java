@@ -40,7 +40,7 @@ public class Slime extends GameObject {
 	
 	
 	/**
-	 * Returns the school of this slime.
+	 * @return The school of this slime.
 	 */
 	public School getSchool() {
 		return this.school;

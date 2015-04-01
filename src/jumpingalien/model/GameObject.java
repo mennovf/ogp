@@ -22,7 +22,7 @@ public abstract class GameObject {
 	 * 			| (pos.x >= 0) && (pos.x <= bounds.x)
 	 *			 && (pos.y >= 0) && (pos.y <= bounds.y)
 	 */
-	public boolean isValidPosition(Vector2D<Double> pos) {
+	public boolean isValidPosition(Vector<Double> pos) {
 		if (this.hasProperWorld()) {
 			return (pos.x >= 0) && pos.x <= this.getWorld().getSizeInPixels().x
 					&& (pos.y >= 0) && pos.y <= this.getWorld().getSizeInPixels().y;
@@ -46,7 +46,7 @@ public abstract class GameObject {
 	private boolean isTerminated;
 
 	private final Sprite[] sprites;
-	private Vector2D<Double> position;
+	private Vector<Double> position;
 	private double facing;
 
 	private final int maxHealth;
@@ -75,10 +75,10 @@ public abstract class GameObject {
 	 * 			Throws an IllegalArgumentException when the given position is not valid.
 	 * 			| !isValidPosition(position)
 	 */
-	protected GameObject(int health, int maxHealth, Vector2D<Double> position, Sprite[] sprites)
+	protected GameObject(int health, int maxHealth, Vector<Double> position, Sprite[] sprites)
 				throws IllegalArgumentException {
 		
-		if (! this.isValidPosition(new Vector2D<>(position))){
+		if (! this.isValidPosition(new Vector<>(position))){
 			throw new IllegalArgumentException("Position is not valid.");
 		}
 		
@@ -260,7 +260,7 @@ public abstract class GameObject {
 	 * @return This GameObject's position as a 2D vector in meters.
 	 */
 	@Basic
-	public Vector2D<Double> getPositionInMeters() {
+	public Vector<Double> getPositionInMeters() {
 		return this.position;
 	}
 
@@ -269,9 +269,9 @@ public abstract class GameObject {
 	 * @return This GameObject's position in pixels.
 	 */
 	@Basic
-	public Vector2D<Integer> getPosition() {
-		Vector2D<Double> pos = getPositionInMeters();
-		return new Vector2D<Integer>(Utilities.metersToPixels(pos.x), Utilities.metersToPixels(pos.y));
+	public Vector<Integer> getPosition() {
+		Vector<Double> pos = getPositionInMeters();
+		return new Vector<Integer>(Utilities.metersToPixels(pos.x), Utilities.metersToPixels(pos.y));
 	}
 
 
@@ -292,7 +292,7 @@ public abstract class GameObject {
 	 * 			| new.getPositionInMeters() == position
 	 */
 	@Basic
-	public void setPosition(Vector2D<Double> position) throws NullPointerException,
+	public void setPosition(Vector<Double> position) throws NullPointerException,
 			IllegalArgumentException {
 				if (position == null) {
 					throw new NullPointerException("The position can not be null.");

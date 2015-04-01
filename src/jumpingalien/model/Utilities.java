@@ -54,8 +54,8 @@ public class Utilities {
 	 * 
 	 * @return The vector clipped to the given ranges.
 	 */
-	public static <T extends Comparable<T>> Vector2D<T> clipVectorInRange(Vector2D<T> min, Vector2D<T> max, Vector2D<T> vector) {
-		return new Vector2D<T>(clipInRange(min.x, max.x, vector.x), clipInRange(min.y, max.y, vector.y));
+	public static <T extends Comparable<T>> Vector<T> clipVectorInRange(Vector<T> min, Vector<T> max, Vector<T> vector) {
+		return new Vector<T>(clipInRange(min.x, max.x, vector.x), clipInRange(min.y, max.y, vector.y));
 	}
 	
 	
@@ -79,8 +79,8 @@ public class Utilities {
 	 * 
 	 * @return m converted to pixels.
 	 */
-	public static Vector2D<Integer> metersVectorToPixels(Vector2D<Double> m) {
-		return new Vector2D<>(metersToPixels(m.x), metersToPixels(m.y));
+	public static Vector<Integer> metersVectorToPixels(Vector<Double> m) {
+		return new Vector<>(metersToPixels(m.x), metersToPixels(m.y));
 	}
 	
 	/**
@@ -103,24 +103,24 @@ public class Utilities {
 	 * 
 	 * @return p converted to meters.
 	 */
-	public static Vector2D<Double> pixelsVectorToMeters(Vector2D<Integer> p) {
-		return new Vector2D<>(pixelsToMeters(p.x), pixelsToMeters(p.y));
+	public static Vector<Double> pixelsVectorToMeters(Vector<Integer> p) {
+		return new Vector<>(pixelsToMeters(p.x), pixelsToMeters(p.y));
 	}
 	
 	/**
-	 * @param v The Vector2D to convert.
+	 * @param v The Vector to convert.
 	 * @return An array of 2 elements where the first element is v.x and the second element is v.y.
 	 */
-	public static int[] intVectorToArray(Vector2D<Integer> v){
+	public static int[] intVectorToArray(Vector<Integer> v){
 		int[] vs = {v.x, v.y};
 		return vs;
 	}
 
 	/**
-	 * @param v The Vector2D to convert.
+	 * @param v The Vector to convert.
 	 * @return An array of 2 elements where the first element is v.x and the second element is v.y.
 	 */
-	public static double[] doubleVectorToArray(Vector2D<Double> v){
+	public static double[] doubleVectorToArray(Vector<Double> v){
 		double[] vs = {v.x, v.y};
 		return vs;
 	}

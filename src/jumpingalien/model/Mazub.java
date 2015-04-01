@@ -25,14 +25,14 @@ public class Mazub extends GameObject {
 	private boolean isMoving = false, isDucking = false, hasMoved = false;
 	private double movingTime = 0, timeSinceMoving = 0;
 	
-	private Vector2D<Double> speed; // speed in m/s, position in m
+	private Vector<Double> speed; // speed in m/s, position in m
 	// CONSTANTS
 	// Speed
 	public final static double vxMaxDucking = 1.0; // Max running speed while ducking
 	public final static double vInitJump = 8.0; // Initial jump speed
 	
 	// Acceleration
-	public final static Vector2D<Double> maxAcceleration = new Vector2D<>(0.9, -10.0);
+	public final static Vector<Double> maxAcceleration = new Vector<>(0.9, -10.0);
 
 	/**
 	 * @param x
@@ -65,9 +65,9 @@ public class Mazub extends GameObject {
 	 * 
 	 * @throws IllegalArgumentException
 	 * 			Throws an IllegalArgumentException when the position and/or direction are not valid.
-	 * 			| !Mazub.isValidPosition(new Vector2D<>(x, y)) || !Mazub.isValidDirection(direction)
+	 * 			| !Mazub.isValidPosition(new Vector<>(x, y)) || !Mazub.isValidDirection(direction)
 	 */
-	public Mazub(Vector2D<Double> position, Sprite[] sprites, double vxInit, double vxMax, double direction) throws NullPointerException, IllegalArgumentException{
+	public Mazub(Vector<Double> position, Sprite[] sprites, double vxInit, double vxMax, double direction) throws NullPointerException, IllegalArgumentException{
 		
 		// GameObject
 		super(100, 500, position, sprites);
@@ -81,7 +81,7 @@ public class Mazub extends GameObject {
 		assert vxInit >= 1.0;
 		assert vxMax >= vxInit;
 		
-		this.setSpeed(new Vector2D<>(0.0, 0.0));
+		this.setSpeed(new Vector<>(0.0, 0.0));
 		this.setCurrentSprite(sprites[0]);
 		this.vxInit = vxInit;
 		this.vxMax = vxMax;
@@ -99,7 +99,7 @@ public class Mazub extends GameObject {
 	}
 
 	@Basic @Immutable
-	public static Vector2D<Double> getMaxAcceleration() {
+	public static Vector<Double> getMaxAcceleration() {
 		return maxAcceleration;
 	}
 	
@@ -111,7 +111,7 @@ public class Mazub extends GameObject {
 	 * @return Whether speed.x's magnitude doesn't exceed the maximum horizontal speed.
 	 * 			| Math.abs(speed.x) <= this.getMaxHorizontalSpeed()
 	 */
-	public boolean isValidSpeed(Vector2D<Double> speed) {
+	public boolean isValidSpeed(Vector<Double> speed) {
 		return Math.abs(speed.x) <= this.getMaxHorizontalSpeed();
 	}
 	
@@ -127,7 +127,7 @@ public class Mazub extends GameObject {
 	 * @return This Mazub's speed as a 2D vector in m/s.
 	 */
 	@Basic
-	public Vector2D<Double> getSpeed(){
+	public Vector<Double> getSpeed(){
 		return this.speed;
 	}
 	
@@ -140,21 +140,21 @@ public class Mazub extends GameObject {
 	 * 			| new.getSpeed() == speed
 	 */
 	@Basic
-	private void setSpeed(Vector2D<Double> speed) {
+	private void setSpeed(Vector<Double> speed) {
 		this.speed = speed;
 	}
 	
 	/**
 	 * @return A 2-dimensional vector of this Mzaub's acceleration in m/s.
 	 */
-	public Vector2D<Double> getAcceleration(){
-		Vector2D<Double> maxAcc = Mazub.getMaxAcceleration();
-		Vector2D<Double> acc = new Vector2D<>(0.0, 0.0);
+	public Vector<Double> getAcceleration(){
+		Vector<Double> maxAcc = Mazub.getMaxAcceleration();
+		Vector<Double> acc = new Vector<>(0.0, 0.0);
 		if (isMoving){
-			acc.x = this.getFacing() * maxAcc.x;
+			acc = acc.setX(this.getFacing() * maxAcc.x);
 		}
 		if (!onGround()){
-			acc.y = maxAcc.y;
+			acc = acc.setY(maxAcc.y);
 		}
 		return acc;
 	}
@@ -233,10 +233,10 @@ public class Mazub extends GameObject {
 	 */
 	private void updateMovement(double dt) {
 		
-		// Set some variables so we need to write less. The variables are references because Vector2D is a class, so setting also works.
-		Vector2D<Double> acc = this.getAcceleration();
-		Vector2D<Double> speed = this.getSpeed();
-		Vector2D<Double> position = this.getPositionInMeters();
+		// Set some variables so we need to write less. The variables are references because Vector is a class, so setting also works.
+		Vector<Double> acc = this.getAcceleration();
+		Vector<Double> speed = this.getSpeed();
+		Vector<Double> position = this.getPositionInMeters();
 		
 //		// Update x for position and speed
 //		position.x += speed.x * dt + acc.x * dt * dt / 2.0;
@@ -262,12 +262,12 @@ public class Mazub extends GameObject {
 //			speed.y = 0.0;
 //		}
 		
-		Vector2D<Double> newPosition = Vector2D.add(position, Vector2D.add(Vector2D.scale(speed, dt), Vector2D.scale(acc, dt*dt/2.0)));
-		Vector2D<Double> newSpeed = Vector2D.add(speed, Vector2D.scale(acc, dt));
+		Vector<Double> newPosition = Vector.add(position, Vector.add(Vector.scale(speed, dt), Vector.scale(acc, dt*dt/2.0)));
+		Vector<Double> newSpeed = Vector.add(speed, Vector.scale(acc, dt));
 		
-		this.setPosition(Utilities.clipVectorInRange(new Vector2D<Double>(0.0, 0.0),
+		this.setPosition(Utilities.clipVectorInRange(new Vector<Double>(0.0, 0.0),
 							this.getWorld().getSizeInMeters(), newPosition));
-		this.setSpeed(new Vector2D<Double>(Utilities.clipInRange(-this.getMaxHorizontalSpeed(),
+		this.setSpeed(new Vector<Double>(Utilities.clipInRange(-this.getMaxHorizontalSpeed(),
 											this.getMaxHorizontalSpeed(),
 											newSpeed.x), this.onGround() ? 0.0 : newSpeed.y));
 	}
@@ -329,7 +329,7 @@ public class Mazub extends GameObject {
 		assert Mazub.isValidDirection(direction);
 		this.isMoving = true;
 		this.setFacing(direction);
-		this.getSpeed().x = direction * this.vxInit;
+		this.setSpeed(this.getSpeed().setX(direction * this.vxInit));
 		this.movingTime = 0;
 	}
 	
@@ -341,7 +341,7 @@ public class Mazub extends GameObject {
 	 */
 	public void endMove() {
 		this.isMoving = false;
-		this.getSpeed().x = 0.0;
+		this.setSpeed(this.getSpeed().setX(0.0));
 		this.hasMoved = true;
 		this.timeSinceMoving = 0;
 	}
@@ -354,7 +354,7 @@ public class Mazub extends GameObject {
 	 * 			| new.getSpeed().y != 0
 	 */
 	public void startJump() {
-		this.speed.y = Mazub.getInitialJumpSpeed();
+		this.setSpeed(this.getSpeed().setY(Mazub.getInitialJumpSpeed()));
 	}
 	
 	/**
@@ -370,7 +370,7 @@ public class Mazub extends GameObject {
 	 */
 	public void endJump() {
 		if (this.getSpeed().y > 0) {
-			this.getSpeed().y = 0.0;
+			this.setSpeed(this.getSpeed().setY(0.0));
 		}
 	}
 	

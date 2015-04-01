@@ -137,7 +137,7 @@ public class JumpingAlienGamePart2 extends JumpingAlienGame {
 	}
 
 	private void addObject(MapObject obj) {
-		switch (obj.getTile().getFilename()) {
+		switch (obj.getTile().getOSIndependentFilename()) {
 		case Resources.PLANT_LEFT_FILENAME:
 			getFacade().addPlant(
 					getWorld(),

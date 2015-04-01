@@ -8,7 +8,7 @@ import jumpingalien.model.School;
 import jumpingalien.model.Shark;
 import jumpingalien.model.Slime;
 import jumpingalien.model.Utilities;
-import jumpingalien.model.Vector2D;
+import jumpingalien.model.Vector;
 import jumpingalien.model.World;
 import jumpingalien.util.ModelException;
 import jumpingalien.util.Sprite;
@@ -17,7 +17,7 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public Mazub createMazub(int x, int y, Sprite[] sprites) {
-		return new Mazub(new Vector2D<>(Utilities.pixelsToMeters(x), Utilities.pixelsToMeters(y)),
+		return new Mazub(new Vector<>(Utilities.pixelsToMeters(x), Utilities.pixelsToMeters(y)),
 				sprites, 1.0, 3.0, 1.0);
 	}
 
@@ -101,7 +101,6 @@ public class Facade implements IFacadePart2 {
 	public World createWorld(int tileSize, int nbTilesX, int nbTilesY,
 			int visibleWindowWidth, int visibleWindowHeight, int targetTileX,
 			int targetTileY) {
-		
 		return new World(tileSize, nbTilesX, nbTilesY, visibleWindowWidth, visibleWindowHeight, targetTileX, targetTileY);
 	}
 
@@ -142,25 +141,25 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public int[] getBottomLeftPixelOfTile(World world, int tileX, int tileY) {
-		return Utilities.intVectorToArray(world.getBottomLeftPixelOfTile(new Vector2D<>(tileX, tileY)));
+		return Utilities.intVectorToArray(world.getBottomLeftPixelOfTile(new Vector<>(tileX, tileY)));
 	}
 
 	@Override
 	public int[][] getTilePositionsIn(World world, int pixelLeft,
 			int pixelBottom, int pixelRight, int pixelTop) {
-		return world.getTilePositionsInRectangle(new Vector2D<>(pixelLeft, pixelBottom), new Vector2D<>(pixelRight, pixelTop));
+		return world.getTilePositionsInRectangle(new Vector<>(pixelLeft, pixelBottom), new Vector<>(pixelRight, pixelTop));
 	}
 
 	@Override
 	public int getGeologicalFeature(World world, int pixelX, int pixelY)
 			throws ModelException {
-		return world.getGeologicalFeature(new Vector2D<>(pixelX, pixelY));
+		return world.getGeologicalFeature(new Vector<>(pixelX, pixelY));
 	}
 
 	@Override
 	public void setGeologicalFeature(World world, int tileX, int tileY,
 			int tileType) {
-		world.setGeologicalFeature(new Vector2D<>(tileX, tileY), tileType);
+		world.setGeologicalFeature(new Vector<>(tileX, tileY), tileType);
 	}
 
 	@Override
@@ -176,7 +175,7 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public Plant createPlant(int x, int y, Sprite[] sprites) {
-		return new Plant(new Vector2D<>(Utilities.pixelsToMeters(x), Utilities.pixelsToMeters(y)),
+		return new Plant(new Vector<>(Utilities.pixelsToMeters(x), Utilities.pixelsToMeters(y)),
 				sprites);
 	}
 
@@ -202,7 +201,7 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public Shark createShark(int x, int y, Sprite[] sprites) {
-		return new Shark(new Vector2D<>(Utilities.pixelsToMeters(x), Utilities.pixelsToMeters(y)),
+		return new Shark(new Vector<>(Utilities.pixelsToMeters(x), Utilities.pixelsToMeters(y)),
 				sprites);
 	}
 
@@ -233,7 +232,7 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public Slime createSlime(int x, int y, Sprite[] sprites, School school) {
-		return new Slime(new Vector2D<>(Utilities.pixelsToMeters(x), Utilities.pixelsToMeters(y)),
+		return new Slime(new Vector<>(Utilities.pixelsToMeters(x), Utilities.pixelsToMeters(y)),
 				sprites, school);
 	}
 

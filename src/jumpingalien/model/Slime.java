@@ -7,7 +7,7 @@ public class Slime extends GameObject {
 	private School school;
 	
 
-	public Slime(Vector2D<Double> position, Sprite[] sprites, School school) {
+	public Slime(Vector<Double> position, Sprite[] sprites, School school) {
 		
 		// GameObject
 		super(100, 100, position, sprites);

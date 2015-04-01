@@ -15,9 +15,18 @@ public class School {
 	private Set<Slime> slimes = new HashSet<>();
 	
 	
+	/**
+	 * Creates a new empty school.
+	 */
 	public School() {}
 	
 	
+	/**
+	 * @param slime
+	 * 			The slime to check.
+	 * 
+	 * @return Whether this school can have the given slime as a slime.
+	 */
 	public boolean canHaveAsSlime(Slime slime) {
 		return !(slime == null) && !slime.isTerminated();
 	}
@@ -29,6 +38,16 @@ public class School {
 	 * 
 	 * @param slime
 	 * 			The slime to add.
+	 * 
+	 * @post This school will contain the slime.
+	 * 			| new.containsSlime((new slime))
+	 * 
+	 * @post The slime will have this school as it's school.
+	 * 			| (new slime).getSchool() == new
+	 * 
+	 * @throws IllegalArgumentException
+	 * 			Throws an IllegalArgumentException when this school can't have the given slime as a slime.
+	 * 			| !this.canHaveAsSlime(slime)
 	 */
 	public void addSlime(Slime slime) throws IllegalArgumentException {
 		if (!this.canHaveAsSlime(slime)) {
@@ -39,14 +58,35 @@ public class School {
 	}
 	
 	
-	public void removeSlime(Slime slime) {
-		//TODO: Implement
+	/**
+	 * Remove the given slime from this school.
+	 * 
+	 * @param slime
+	 * 			The slime to remove.
+	 * 
+	 * @post This school will no longer contain the given slime.
+	 * 			| !new.containsSlime((new slime))
+	 * 
+	 * @throws IllegalArgumentException
+	 * 			Throws an IllegalArgumentException when this school does not contain the given slime.
+	 * 			| !this.containsSlime(slime)
+	 */
+	private void removeSlime(Slime slime) {
+		if (!this.containsSlime(slime)) {
+			throw new IllegalArgumentException("School does not contain the slime to remove.");
+		}
+		this.slimes.remove(slime);
 	}
 	
 	
+	/**
+	 * @param slime
+	 * 			The slime to check.
+	 * 
+	 * @return Whether this school contains the given slime.
+	 */
 	public boolean containsSlime(Slime slime) {
-		//TODO: Implement
-		return false;
+		return slime == null ? false : this.slimes.contains(slime);
 	}
 	
 	

@@ -1,5 +1,7 @@
 package jumpingalien.model;
 
+import java.util.Set;
+
 import jumpingalien.util.Sprite;
 
 public class Shark extends GameObject {
@@ -9,6 +11,14 @@ public class Shark extends GameObject {
 		// GameObject
 		super(100, 100, position, sprites);
 	}
+	
+	
+	@Override
+	protected Set<Class<? extends GameObject>> getCollidables() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 
 	@Override
 	public void advanceTime(double dt) {

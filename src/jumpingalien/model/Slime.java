@@ -1,5 +1,7 @@
 package jumpingalien.model;
 
+import java.util.Set;
+
 import jumpingalien.util.Sprite;
 
 /**
@@ -88,6 +90,13 @@ public class Slime extends GameObject {
 		}
 		
 		this.school = school;
+	}
+	
+	
+	@Override
+	protected Set<Class<? extends GameObject>> getCollidables() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 

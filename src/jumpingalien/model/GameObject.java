@@ -1,5 +1,7 @@
 package jumpingalien.model;
 
+import java.util.Set;
+
 import jumpingalien.util.Sprite;
 import be.kuleuven.cs.som.annotate.*;
 
@@ -14,39 +16,10 @@ import be.kuleuven.cs.som.annotate.*;
  */
 public abstract class GameObject {
 	
-	/**
-	 * @param pos
-	 * 			The position to check
-	 * 
-	 * @return Whether pos is valid (is inside the bounds of the world)
-	 * 			| (pos.x >= 0) && (pos.x <= bounds.x)
-	 *			 && (pos.y >= 0) && (pos.y <= bounds.y)
-	 */
-	public boolean isValidPosition(Vector<Double> pos) {
-		if (this.hasProperWorld()) {
-			return (pos.x >= 0) && pos.x <= this.getWorld().getSizeInPixels().x
-					&& (pos.y >= 0) && pos.y <= this.getWorld().getSizeInPixels().y;
-		}
-		return true;
-	}
-
-
-	/**
-	 * @param direction
-	 * 			The direction to check
-	 * 
-	 * @return Whether the direction is valid (either 1 or -1)
-	 * 			| direction == 1 || direction == -1
-	 */
-	public static boolean isValidDirection(double direction) {
-		return direction == 1 || direction == -1;
-	}
-
-	
 	private boolean isTerminated;
 
 	private final Sprite[] sprites;
-	private Vector<Double> position;
+	private Motion motion;
 	private double facing;
 
 	private final int maxHealth;
@@ -88,7 +61,7 @@ public abstract class GameObject {
 		this.setHealth(health);
 		this.sprites = sprites;
 		this.setCurrentSprite(sprites[0]);
-		this.setPosition(position);
+		this.motion = new Motion(this, position, new Vector<Double>(0.0, 0.0), new Vector<Double>(0.0, 0.0));
 	}
 	
 	
@@ -261,7 +234,7 @@ public abstract class GameObject {
 	 */
 	@Basic
 	public Vector<Double> getPositionInMeters() {
-		return this.position;
+		return this.motion.getPosition();
 	}
 
 
@@ -294,14 +267,112 @@ public abstract class GameObject {
 	@Basic
 	public void setPosition(Vector<Double> position) throws NullPointerException,
 			IllegalArgumentException {
-				if (position == null) {
-					throw new NullPointerException("The position can not be null.");
-				} else if (!isValidPosition(position)) {
-					throw new IllegalArgumentException("The given position is not valid, see isValidPosition.");
-				}
+		if (position == null) {
+			throw new NullPointerException("The position can not be null.");
+		} else if (!isValidPosition(position)) {
+			throw new IllegalArgumentException("The given position is not valid, see isValidPosition.");
+		}
 				
-				this.position = position;
-			}
+		this.motion.setPosition(position);
+	}
+	
+	
+	/**
+	 * @return A set of classes with which the game object can collide.
+	 */
+	protected abstract Set<Class<? extends GameObject>> getCollidables();
+	
+	
+	/**
+	 * @param pos
+	 * 			The position to check
+	 * 
+	 * @return Whether pos is valid (is inside the bounds of the world)
+	 * 			| (pos.x >= 0) && (pos.x <= bounds.x)
+	 *			 && (pos.y >= 0) && (pos.y <= bounds.y)
+	 */
+	public boolean isValidPosition(Vector<Double> pos) {
+		if (this.hasProperWorld()) {
+			return (pos.x >= 0) && pos.x <= this.getWorld().getSizeInPixels().x
+					&& (pos.y >= 0) && pos.y <= this.getWorld().getSizeInPixels().y;
+		}
+		return true;
+	}
+	
+	
+	/**
+	 * @param object
+	 * 			The object to check collision with.
+	 * 
+	 * @return Whether or not the object collides with the given game object.
+	 */
+	public boolean collidesWith(GameObject object) {
+		
+		if (this.getCollidables().contains(object.getClass())) {
+			
+			Vector<Integer> pos1 = this.getPosition();
+			Vector<Integer> size1 = this.getSize();
+			Vector<Integer> pos2 = object.getPosition();
+			Vector<Integer> size2 = object.getSize();
+			
+			return !(pos1.x + size1.x - 1 < pos2.x
+					|| pos2.x + size2.x - 1 < pos1.x
+					|| pos1.y + size1.y - 1 < pos2.y
+					|| pos2.y + size2.y - 1 < pos1.y);
+					
+		} else {
+			
+			return false;
+		}
+	}
+	
+	
+	/**
+	 * @return The speed of this game object in m/s.
+	 */
+	public Vector<Double> getSpeed() {
+		
+		return this.motion.getSpeed();
+	}
+	
+	
+	/**
+	 * Sets the speed of this game object.
+	 * 
+	 * @param speed
+	 * 			The speed to set.
+	 * 
+	 * @post The speed of this game object will be the given speed.
+	 * 			| new.getSpeed() == speed
+	 */
+	protected void setSpeed(Vector<Double> speed) {
+		
+		this.motion.setSpeed(speed);
+	}
+	
+	
+	/**
+	 * @return The acceleration of this game object in m/(s^2).
+	 */
+	public Vector<Double> getAcceleration() {
+		
+		return this.motion.getAcceleration();
+	}
+	
+	
+	/**
+	 * Sets the acceleration of this game object.
+	 * 
+	 * @param acceleration
+	 * 			The acceleration to set.
+	 * 
+	 * @post The acceleration of this game object will be the given acceleration.
+	 * 			| new.getAcceleration() == acceleration
+	 */
+	public void setAcceleration(Vector<Double> acceleration) {
+		
+		this.motion.setAcceleration(acceleration);
+	}
 
 
 	/**
@@ -330,13 +401,24 @@ public abstract class GameObject {
 		assert GameObject.isValidDirection(facing);
 		this.facing = facing;
 	}
+	
+	
+	/**
+	 * @param direction
+	 * 			The direction to check
+	 * 
+	 * @return Whether the direction is valid (either 1 or -1)
+	 * 			| direction == 1 || direction == -1
+	 */
+	public static boolean isValidDirection(double direction) {
+		return direction == 1 || direction == -1;
+	}
+	
 
 	@Basic
 	protected Sprite[] getSprites(){
 		return this.sprites;
 	}
-
-	public abstract void advanceTime(double dt);
 
 
 	/**
@@ -348,7 +430,48 @@ public abstract class GameObject {
 		return currentSprite;
 	}
 	
+	
+	/**
+	 * Set the current sprite of this game object.
+	 * 
+	 * @param s
+	 * 			The sprite to set.
+	 * 
+	 * @post This game object will have the given sprite as it's current sprite.
+	 * 			| new.getCurrentSprite() == s
+	 */
+	@Basic
 	protected void setCurrentSprite(Sprite s){
 		this.currentSprite = s;
+	}
+	
+	
+	/**
+	 * @return The size of this game object in pixels.
+	 */
+	public Vector<Integer> getSize() {
+		
+		Sprite sprite = this.getCurrentSprite();
+		return new Vector<Integer>(sprite.getWidth(), sprite.getHeight());
+	}
+	
+	
+	/**
+	 * Advances the time of this game object and adjusts it's position,
+	 * speed and acceleration accordingly. Small steps will be performed
+	 * to handle collisions as well.
+	 * 
+	 * @param dt
+	 * 			The time to advance.
+	 */
+	public void advanceTime(double dt) {
+		
+		Double time = 0.0;
+		while (time <= dt) {
+			
+			time += this.motion.step();
+			
+			//TODO: Handle collisions here?
+		}
 	}
 }

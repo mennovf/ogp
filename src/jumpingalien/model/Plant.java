@@ -1,5 +1,7 @@
 package jumpingalien.model;
 
+import java.util.Set;
+
 import jumpingalien.util.Sprite;
 
 public class Plant extends GameObject {
@@ -9,13 +11,21 @@ public class Plant extends GameObject {
 	private final double speed;
 	
 	public Plant(Vector<Double> position, Sprite[] sprites){
-		// GameObject
+		
 		super(1, 1, position, sprites);
 
 		this.maxDirectionTime = 0.5;
 		this.directionTime = 0.0;
 		this.speed = 0.5;
 	}
+	
+	
+	@Override
+	protected Set<Class<? extends GameObject>> getCollidables() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	
 	@Override
 	public void advanceTime(double dt){

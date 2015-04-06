@@ -412,7 +412,7 @@ public class World {
 	 * @param cls
 	 * 			The class of which to return GameObjects
 	 * 
-	 * @return The collection of all object of with class "type" in this game world.
+	 * @return The collection of all object with class "type" in this game world.
 	 */
 	public <T extends GameObject> Set<T> getGameObjectWithClass(Class<T> cls) {
 		Set<T> objects = new HashSet<T>();
@@ -446,6 +446,28 @@ public class World {
 		}
 		this.objects.add(object);
 		object.setWorld(this);
+	}
+	
+	
+	/**
+	 * @param object
+	 * 			The object to get colliding objects with.
+	 * 
+	 * @return A set containing all objects the given object collides with.
+	 */
+	public Set<GameObject> getObjectsCollidingWithObject(GameObject object) {
+		
+		HashSet<GameObject> collidingObjects = new HashSet<GameObject>();
+		
+		for (GameObject obj : this.objects) {
+			
+			if (object.collidesWith(obj)) {
+				
+				collidingObjects.add(obj);
+			}
+		}
+		
+		return collidingObjects;
 	}
 	
 	

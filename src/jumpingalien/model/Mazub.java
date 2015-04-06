@@ -1,5 +1,8 @@
 package jumpingalien.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import be.kuleuven.cs.som.annotate.*;
 import jumpingalien.util.Sprite;
 import jumpingalien.util.Util;
@@ -25,7 +28,6 @@ public class Mazub extends GameObject {
 	private boolean isMoving = false, isDucking = false, hasMoved = false;
 	private double movingTime = 0, timeSinceMoving = 0;
 	
-	private Vector<Double> speed; // speed in m/s, position in m
 	// CONSTANTS
 	// Speed
 	public final static double vxMaxDucking = 1.0; // Max running speed while ducking
@@ -67,9 +69,10 @@ public class Mazub extends GameObject {
 	 * 			Throws an IllegalArgumentException when the position and/or direction are not valid.
 	 * 			| !Mazub.isValidPosition(new Vector<>(x, y)) || !Mazub.isValidDirection(direction)
 	 */
-	public Mazub(Vector<Double> position, Sprite[] sprites, double vxInit, double vxMax, double direction) throws NullPointerException, IllegalArgumentException{
+	public Mazub(Vector<Double> position, Sprite[] sprites,
+			double vxInit, double vxMax, double direction)
+			throws NullPointerException, IllegalArgumentException{
 		
-		// GameObject
 		super(100, 500, position, sprites);
 		
 		if (! Mazub.isValidDirection(direction)) {
@@ -81,7 +84,6 @@ public class Mazub extends GameObject {
 		assert vxInit >= 1.0;
 		assert vxMax >= vxInit;
 		
-		this.setSpeed(new Vector<>(0.0, 0.0));
 		this.setCurrentSprite(sprites[0]);
 		this.vxInit = vxInit;
 		this.vxMax = vxMax;
@@ -124,27 +126,6 @@ public class Mazub extends GameObject {
 	}
 	
 	/**
-	 * @return This Mazub's speed as a 2D vector in m/s.
-	 */
-	@Basic
-	public Vector<Double> getSpeed(){
-		return this.speed;
-	}
-	
-	/**
-	 * Sets this Mazub's speed to the given speed.
-	 * 
-	 * @param speed
-	 * 			The speed to set.
-	 * @post Mazub's new speed will be equal to speed
-	 * 			| new.getSpeed() == speed
-	 */
-	@Basic
-	private void setSpeed(Vector<Double> speed) {
-		this.speed = speed;
-	}
-	
-	/**
 	 * @return A 2-dimensional vector of this Mzaub's acceleration in m/s.
 	 */
 	public Vector<Double> getAcceleration(){
@@ -164,7 +145,7 @@ public class Mazub extends GameObject {
 	 */
 	@Basic
 	public int getHeight(){
-		return this.getCurrentSprite().getHeight();
+		return this.getSize().y;
 	}
 
 	/**
@@ -172,7 +153,7 @@ public class Mazub extends GameObject {
 	 */
 	@Basic
 	public int getWidth(){
-		return this.getCurrentSprite().getWidth();
+		return this.getSize().x;
 	}
 	
 	/**
@@ -183,6 +164,19 @@ public class Mazub extends GameObject {
 	 */
 	public boolean onGround(){
 		return Util.fuzzyEquals(this.getPosition().y, 0.0);
+	}
+	
+	
+	@Override
+	protected Set<Class<? extends GameObject>> getCollidables() {
+		
+		HashSet<Class<? extends GameObject>> collidables = new HashSet<Class<? extends GameObject>>();
+		collidables.add(Mazub.class);
+		collidables.add(Plant.class);
+		collidables.add(Slime.class);
+		collidables.add(Shark.class);
+		
+		return collidables;
 	}
 	
 	
@@ -233,34 +227,10 @@ public class Mazub extends GameObject {
 	 */
 	private void updateMovement(double dt) {
 		
-		// Set some variables so we need to write less. The variables are references because Vector is a class, so setting also works.
+		// Set some variables so we need to write less.
 		Vector<Double> acc = this.getAcceleration();
 		Vector<Double> speed = this.getSpeed();
 		Vector<Double> position = this.getPositionInMeters();
-		
-//		// Update x for position and speed
-//		position.x += speed.x * dt + acc.x * dt * dt / 2.0;
-//		speed.x += acc.x * dt;
-//		
-//		// Keep x position in bounds
-//		position.x = Utilities.clipInRange(0.0, Constants.screenSize.x/100, position.x);
-//		
-//		// Keep horizontal speed in bounds
-//		speed.x = Utilities.clipInRange(-this.getMaxHorizontalSpeed(),
-//										this.getMaxHorizontalSpeed(),
-//										speed.x);
-//		
-//		// Update y for position and speed
-//		position.y += speed.y * dt + acc.y * dt * dt / 2.0;
-//		speed.y += acc.y * dt;
-//		
-//		// Keep y position in bounds
-//		position.y = Utilities.clipInRange(0.0, Constants.screenSize.y/100, position.y);
-//		
-//		// if Mazub is on ground, then vertical speed has to be set to 0
-//		if (this.onGround()) {
-//			speed.y = 0.0;
-//		}
 		
 		Vector<Double> newPosition = Vector.add(position, Vector.add(Vector.scale(speed, dt), Vector.scale(acc, dt*dt/2.0)));
 		Vector<Double> newSpeed = Vector.add(speed, Vector.scale(acc, dt));

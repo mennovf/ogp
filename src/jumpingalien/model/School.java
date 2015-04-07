@@ -27,7 +27,7 @@ public class School {
 	 * 
 	 * @return Whether this school can have the given slime as a slime.
 	 */
-	public boolean canHaveAsSlime(Slime slime) {
+	public static boolean canHaveAsSlime(Slime slime) {
 		return !(slime == null) && !slime.isTerminated();
 	}
 	
@@ -50,7 +50,7 @@ public class School {
 	 * 			| !this.canHaveAsSlime(slime)
 	 */
 	public void addSlime(Slime slime) throws IllegalArgumentException {
-		if (!this.canHaveAsSlime(slime)) {
+		if (!School.canHaveAsSlime(slime)) {
 			throw new IllegalArgumentException("The given slime is not valid.");
 		}
 		this.slimes.add(slime);
@@ -120,15 +120,23 @@ public class School {
 	 * no style specified -> nominally
 	 */
 	public static void switchSchools(School fromSchool, School toSchool, Slime slime) {
-		assert fromSchool.containsSlime(slime) && toSchool.canHaveAsSlime(slime);
+		assert fromSchool.containsSlime(slime) && School.canHaveAsSlime(slime);
 		fromSchool.removeSlime(slime);
-		for (Slime fromSlime: fromSchool.slimes) {
+		for (Slime fromSlime: fromSchool.getSlimes()) {
 			fromSlime.increaseHealth(1);
 		}
-		for (Slime toSlime: toSchool.slimes) {
+		for (Slime toSlime: toSchool.getSlimes()) {
 			toSlime.increaseHealth(-1);
 		}
-		slime.increaseHealth(toSchool.slimes.size() - fromSchool.slimes.size());
+		slime.increaseHealth(toSchool.getSlimes().size() - fromSchool.getSlimes().size());
 		toSchool.addSlime(slime);
+	}
+	
+	/**
+	 * Returns a set of all the slimes in this school.
+	 * @return A set of all the slimes in this school.
+	 */
+	public Set<Slime> getSlimes(){
+		return this.slimes;
 	}
 }

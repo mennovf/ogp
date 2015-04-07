@@ -1,5 +1,8 @@
 package jumpingalien.model;
 
+import jumpingalien.part2.internal.Resources;
+import jumpingalien.util.Sprite;
+
 public class Utilities {
 
 	/**
@@ -123,5 +126,16 @@ public class Utilities {
 	public static double[] doubleVectorToArray(Vector<Double> v){
 		double[] vs = {v.x, v.y};
 		return vs;
+	}
+
+	/**
+	 * A convenience method (for testing) to construct a slime using it's sprites.
+	 * @param pos The position of the slime
+	 * @param school The school of the slime
+	 * @return A slime with pos as it's position and school as it's school.
+	 */
+	public static Slime slime(Vector<Double> pos, School school){
+		Sprite[] sprites = new Sprite[] {Resources.SLIME_SPRITE_LEFT, Resources.SLIME_SPRITE_RIGHT};
+		return new Slime(pos, sprites, school);
 	}
 }

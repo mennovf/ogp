@@ -230,7 +230,7 @@ public class Mazub extends GameObject {
 		// TODO Auto-generated method stub
 		for (GameObject object : collidingObjects) {
 			
-			if ((object instanceof Plant) && (this.getHealth() < this.getMaximumHealth())) {
+			if ((object instanceof Plant) && object.isAlive() && (this.getHealth() < this.getMaximumHealth())) {
 				this.increaseHealth(Mazub.plantHealthGain);
 				object.setHealth(0);
 			}

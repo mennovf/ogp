@@ -1,5 +1,6 @@
 package jumpingalien.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import jumpingalien.util.Sprite;
@@ -486,11 +487,42 @@ public abstract class GameObject {
 	 */
 	public void advanceTime(double dt) {
 		
+//		if (!this.isAlive()) {
+//			deathTime += dt;
+//			
+//			if (deathTime > Constants.deathTime) {
+//				//TODO: Handle death here
+//			}
+//		}
+//		
+//		Motion beginFrameMotion = new Motion(this.motion);
+//		
+//		Set<GameObject> collidingObjects = this.getWorld().getObjectsCollidingWithObject(this);
+//		Set<Tile> collidingTiles = this.getWorld().getTilesCollidingWithObject(this);
+//		
+//		Double time = beginFrameMotion.determineStepTime(dt);
+//		this.motion.updateFromMotionObjectWithTime(beginFrameMotion, time);
+//		
+//		while (time < dt) {
+//			
+//			this.motion.updateFromMotionObjectWithTime(beginFrameMotion, time);
+//			
+//			collidingObjects.addAll(this.getWorld().getObjectsCollidingWithObject(this));
+//			collidingTiles.addAll(this.getWorld().getTilesCollidingWithObject(this));
+//			
+//			time += this.motion.determineStepTime(dt - time);
+//		}
+//		
+//		this.handleStep(dt);
+//		this.handleCollisions(collidingObjects, collidingTiles);
+		
 		Double time = 0.0;
 		while (time < dt) {
 			
 			double stepTime = this.motion.step(dt - time);
 			time += stepTime;
+			
+			this.handleStep(stepTime);
 			
 			if (!this.isAlive()) {
 				deathTime += stepTime;
@@ -505,8 +537,21 @@ public abstract class GameObject {
 			Set<Tile> collidingTiles = this.getWorld().getTilesCollidingWithObject(this);
 			
 			//TODO: Impassable terrain block can be handled in GameObject
+			this.handleTerrain(collidingTiles);
 			
 			this.handleCollisions(collidingObjects, collidingTiles);
+		}
+	}
+	
+	
+	private void handleTerrain(Set<Tile> collidingTiles) {
+		
+		for (Tile tile : collidingTiles) {
+			
+			if (!tile.getType().passable) {
+				
+				this.setSpeed(new Vector<Double>(0.0, 0.0));
+			}
 		}
 	}
 	

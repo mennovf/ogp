@@ -10,8 +10,22 @@ public class Motion {
 	
 	private GameObject gameObject;
 	
+	/**
+	 * Creates a motion object with the given game object, position, speed and acceleration.
+	 * 
+	 * @param gameObject
+	 * 			The game object to create the motion object with.
+	 * 
+	 * @param position
+	 * 			The position to create the motion object with.
+	 * 
+	 * @param speed
+	 * 			The speed to create the motion object with.
+	 * 
+	 * @param acceleration
+	 * 			The acceleration to create the motion object with.
+	 */
 	Motion(@Raw GameObject gameObject, Vector<Double> position, Vector<Double> speed, Vector<Double> acceleration) {
-		
 		//TODO: gameObject setter
 		this.gameObject = gameObject;
 		this.position = position;
@@ -21,11 +35,24 @@ public class Motion {
 	
 	
 	/**
+	 * Creates a new motion object as a copy of the given motion object.
+	 * 
+	 * @param motion
+	 * 			The motion object to copy.
+	 */
+	Motion(Motion motion) {
+		this.gameObject = motion.gameObject;
+		this.position = new Vector<>(motion.getPosition());
+		this.speed = new Vector<>(motion.getSpeed());
+		this.acceleration = new Vector<>(motion.getAcceleration());
+	}
+	
+	
+	/**
 	 * @return The position in 
 	 */
 	@Basic
 	public Vector<Double> getPosition() {
-		
 		return this.position;
 	}
 	
@@ -40,7 +67,6 @@ public class Motion {
 	 */
 	@Basic
 	public void setPosition(Vector<Double> position) {
-		
 		this.position = position;
 	}
 	
@@ -50,7 +76,6 @@ public class Motion {
 	 */
 	@Basic
 	public Vector<Double> getSpeed() {
-		
 		return this.speed;
 	}
 	
@@ -65,7 +90,6 @@ public class Motion {
 	 */
 	@Basic
 	public void setSpeed(Vector<Double> speed) {
-		
 		this.speed = speed;
 	}
 
@@ -75,7 +99,6 @@ public class Motion {
 	 */
 	@Basic
 	public Vector<Double> getAcceleration() {
-	
 		return this.acceleration;
 	}
 	
@@ -89,9 +112,60 @@ public class Motion {
 	 * 			| new.getAcceleration() == acceleration
 	 */
 	public void setAcceleration(Vector<Double> acceleration) {
-		
 		this.acceleration = acceleration;
 	}
+	
+	
+//	public double determineStepTime(double totalTime) {
+//		
+//		Vector<Double> a = this.getAcceleration();
+//		Vector<Double> v = this.getSpeed();
+//		
+//		double dt = totalTime;
+//		
+//		if (v.x != 0) {
+//			Double candidateDt = Math.abs(100 / v.x);
+//			dt = Math.min(dt, candidateDt);
+//		}
+//		if (v.y != 0) {
+//			Double candidateDt = Math.abs(100 / v.y);
+//			dt = Math.min(dt, candidateDt);
+//		}
+//		if (a.x != 0) {
+//			Double candidateDt = (100 * Math.sqrt(Math.abs(a.x)/50 + Math.pow(v.x/100, 2)) - Math.abs(v.x)) / Math.abs(a.x);
+//			dt = Math.min(dt, candidateDt);
+//		}
+//		if (a.y != 0) {
+//			Double candidateDt = (100 * Math.sqrt(Math.abs(a.y)/50 + Math.pow(v.y/100, 2)) - Math.abs(v.y)) / Math.abs(a.y);
+//			dt = Math.min(dt, candidateDt);
+//		}
+//		
+//		return dt;
+//	}
+	
+	
+	/**
+	 * Updates the position, speed and acceleration by updating the given motion object with the given time.
+	 * 
+	 * @param motion
+	 * 			The motion object to start from.
+	 * 
+	 * @param dt
+	 * 			The time to advance the given motion object.
+	 */
+//	public void updateFromMotionObjectWithTime(Motion motion, double dt) {
+//		
+//		Vector<Double> a = motion.getAcceleration();
+//		Vector<Double> v = motion.getSpeed();
+//		Vector<Double> r = motion.getPosition();
+//		
+//		Vector<Double> newPosition = Vector.add(r, Vector.add(Vector.scale(v, dt), Vector.scale(a, dt*dt/2.0)));
+//		Vector<Double> newSpeed = Vector.add(v, Vector.scale(a, dt));
+//		
+//		this.setPosition(Utilities.clipVectorInRange(new Vector<Double>(0.0, 0.0),
+//							this.gameObject.getWorld().getSizeInMeters(), newPosition));
+//		this.setSpeed(newSpeed);
+//	}
 	
 	
 	/**
@@ -99,7 +173,7 @@ public class Motion {
 	 * 
 	 * @return The time this motion object stepped.
 	 */
-	public Double step(Double totalTime) {
+	public Double step(double totalTime) {
 		
 		Vector<Double> a = this.getAcceleration();
 		Vector<Double> v = this.getSpeed();

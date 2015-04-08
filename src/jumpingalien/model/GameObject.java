@@ -487,9 +487,9 @@ public abstract class GameObject {
 	public void advanceTime(double dt) {
 		
 		Double time = 0.0;
-		while (time <= dt) {
+		while (time < dt) {
 			
-			double stepTime = this.motion.step(dt);
+			double stepTime = this.motion.step(dt - time);
 			time += stepTime;
 			
 			if (!this.isAlive()) {

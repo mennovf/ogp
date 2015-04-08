@@ -91,7 +91,9 @@ public class SchoolTest {
 			assertEquals(schoolSlime.getHealth(), 100);
 		}
 		for (Slime schoolSlime : school2.getSlimes()){
-			assertEquals(schoolSlime.getHealth(), 100 - 1);
+			if (schoolSlime != slime) {
+				assertEquals(schoolSlime.getHealth(), 100 - 1);
+			}
 		}
 	}
 }

@@ -1,10 +1,8 @@
 package jumpingalien.model;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.EnumSet;
+import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import jumpingalien.util.ModelException;
@@ -42,6 +40,12 @@ public class World {
 		this.visibleWindowTopRight = new Vector<>(visibleWindowWidth, visibleWindowHeight);
 		this.targetTilePosition = new Vector<>(targetTileX, targetTileY);
 		this.tiles = new TileType[nbTilesX][nbTilesY];
+		
+		for (int x = 0; x < nbTilesX; x++) {
+			for (int y = 0; y < nbTilesY; y++) {
+				this.tiles[x][y] = TileType.AIR;
+			}
+		}
 	}
 	
 	

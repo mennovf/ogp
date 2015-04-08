@@ -48,8 +48,6 @@ public class World {
 	/**
 	 * Terminates this game world.
 	 * 
-	 * @pre This game world will be terminated.
-	 * 			| new.isTerminated()
 	 * @post The world will be terminated
 	 * 			| new.isTerminated() == true
 	 */
@@ -213,7 +211,8 @@ public class World {
 	
 	
 	/**
-	 * @return A 2D vector representing the size of the visible window in pixels.
+	 * @return An array representing the location of the bottom left and top right corners of the visible window in pixels.
+	 * 		   The array uses the following format {bottomLeft.x, bottomLeft.y, topRight.x, topRight.y};
 	 */
 	@Basic
 	@Immutable
@@ -511,7 +510,7 @@ public class World {
 		
 		for (GameObject obj : this.objects) {
 			
-			if (object.collidesWithGameObjectClass(obj.getClass())
+			if (obj != object && object.collidesWithGameObjectClass(obj.getClass())
 					&& this.objectsOverlap(object, obj)) {
 				
 				collidingObjects.add(obj);

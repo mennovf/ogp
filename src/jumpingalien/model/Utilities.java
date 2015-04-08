@@ -1,5 +1,7 @@
 package jumpingalien.model;
 
+import java.lang.invoke.ConstantCallSite;
+
 import jumpingalien.part2.internal.Resources;
 import jumpingalien.util.Sprite;
 
@@ -71,7 +73,7 @@ public class Utilities {
 	 * @return	m converted to pixels.
 	 */
 	public static int metersToPixels(double m) {
-		return (int)(Math.abs(m) / 0.01);
+		return (int)(Math.abs(m) / Constants.metersPerPixel);
 	}
 	
 	/**
@@ -95,7 +97,7 @@ public class Utilities {
 	 * @return p converted to meters
 	 */
 	public static double pixelsToMeters(int p) {
-		return Math.abs(p) * 0.01;
+		return Math.abs(p) * Constants.metersPerPixel;
 	}
 	
 	/**

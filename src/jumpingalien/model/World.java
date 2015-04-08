@@ -80,6 +80,15 @@ public class World {
 	
 	
 	/**
+	 * @return The size of one tile in the game world in meters.
+	 */
+	@Immutable
+	public double getTileSizeInMeters() {
+		return Utilities.pixelsToMeters(this.getTileSize());
+	}
+	
+	
+	/**
 	 * @return A 2D vector containing the number of tiles in the x, respectively y directions.
 	 */
 	@Basic

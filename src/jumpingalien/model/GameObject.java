@@ -246,8 +246,7 @@ public abstract class GameObject {
 	 */
 	@Basic
 	public Vector<Integer> getPosition() {
-		Vector<Double> pos = getPositionInMeters();
-		return new Vector<Integer>(Utilities.metersToPixels(pos.x), Utilities.metersToPixels(pos.y));
+		return Utilities.metersVectorToPixels(this.getPositionInMeters());
 	}
 
 
@@ -544,13 +543,22 @@ public abstract class GameObject {
 	}
 	
 	
+	/**
+	 * Handles the basic collisions with terrain.
+	 * 
+	 * @param collidingTiles
+	 * 			The tiles with which the game object is colliding.
+	 */
 	private void handleTerrain(Set<Tile> collidingTiles) {
 		
 		for (Tile tile : collidingTiles) {
 			
 			if (!tile.getType().passable) {
 				
-				this.setSpeed(new Vector<Double>(0.0, 0.0));
+				if (tile.getPosition().y < this.getPosition().y) {
+					
+					this.setPosition(this.getPositionInMeters().setY(tile.getPositionInMeters().y + this.getWorld().getTileSizeInMeters()));
+				}
 			}
 		}
 	}

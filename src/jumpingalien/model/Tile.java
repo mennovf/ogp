@@ -27,6 +27,14 @@ public class Tile {
 	
 	
 	/**
+	 * @return The position of this tile in meters.
+	 */
+	public Vector<Double> getPositionInMeters() {
+		return Utilities.pixelsVectorToMeters(this.getPosition());
+	}
+	
+	
+	/**
 	 * @return The type of this tile.
 	 */
 	public TileType getType() {

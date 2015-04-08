@@ -138,4 +138,9 @@ public class Utilities {
 		Sprite[] sprites = new Sprite[] {Resources.SLIME_SPRITE_LEFT, Resources.SLIME_SPRITE_RIGHT};
 		return new Slime(pos, sprites, school);
 	}
+
+	public static Shark shark(Vector<Double> pos){
+		Sprite[] sprites = new Sprite[] {Resources.SHARK_SPRITE_LEFT, Resources.SHARK_SPRITE_RIGHT};
+		return new Shark(pos, sprites);
+	}
 }

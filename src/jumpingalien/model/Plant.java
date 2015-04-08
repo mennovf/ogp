@@ -1,5 +1,6 @@
 package jumpingalien.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import jumpingalien.util.Sprite;
@@ -21,9 +22,36 @@ public class Plant extends GameObject {
 	
 	
 	@Override
-	protected Set<Class<? extends GameObject>> getCollidables() {
+	protected Set<Class<? extends GameObject>> getCollidableObjectClasses() {
+		
+		//TODO: Check whether it does not give problems returning an empty set here
+		//		because the interaction of a plant with Mazub will be handled by Mazub.
+		
+		return new HashSet<Class<? extends GameObject>>();
+	}
+	
+	
+	@Override
+	protected Set<TileType> getCollidableTileTypes() {
+		
+		//TODO: Check this as well.
+		
+		return new HashSet<TileType>();
+	}
+	
+	
+	@Override
+	protected void handleStep(double dt) {
 		// TODO Auto-generated method stub
-		return null;
+		
+	}
+	
+	
+	@Override
+	protected void handleCollisions(Set<GameObject> collidingObjects,
+			Set<Tile> collidingTiles) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

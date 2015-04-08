@@ -19,12 +19,14 @@ public abstract class GameObject {
 	private boolean isTerminated;
 
 	private final Sprite[] sprites;
+	private Sprite currentSprite;
 	private Motion motion;
 	private double facing;
 
 	private final int maxHealth;
 	private int health;
-	private Sprite currentSprite;
+	
+	private double deathTime = 0.0;
 	
 	private World world;
 	
@@ -278,12 +280,6 @@ public abstract class GameObject {
 	
 	
 	/**
-	 * @return A set of classes with which the game object can collide.
-	 */
-	protected abstract Set<Class<? extends GameObject>> getCollidables();
-	
-	
-	/**
 	 * @param pos
 	 * 			The position to check
 	 * 
@@ -301,35 +297,55 @@ public abstract class GameObject {
 	
 	
 	/**
-	 * @param object
-	 * 			The object to check collision with.
-	 * 
-	 * @return Whether or not the object collides with the given game object.
+	 * @return A set of classes with which the game object can collide.
 	 */
-	public boolean collidesWith(GameObject object) {
+	@Immutable
+	protected abstract Set<Class<? extends GameObject>> getCollidableObjectClasses();
+	
+	
+	/**
+	 * Returns whether collisions for this game object should be detected
+	 * for the given object class.
+	 * 
+	 * @param object
+	 * 			The object to check.
+	 * 
+	 * @return Whether or not the object should collide with the given object class.
+	 */
+	@Basic
+	public boolean collidesWithGameObjectClass(Class<? extends GameObject> objectClass) {
 		
-		if (this.getCollidables().contains(object.getClass())) {
-			
-			Vector<Integer> pos1 = this.getPosition();
-			Vector<Integer> size1 = this.getSize();
-			Vector<Integer> pos2 = object.getPosition();
-			Vector<Integer> size2 = object.getSize();
-			
-			return !(pos1.x + size1.x - 1 < pos2.x
-					|| pos2.x + size2.x - 1 < pos1.x
-					|| pos1.y + size1.y - 1 < pos2.y
-					|| pos2.y + size2.y - 1 < pos1.y);
-					
-		} else {
-			
-			return false;
-		}
+		return this.getCollidableObjectClasses().contains(objectClass);
+	}
+	
+	
+	/**
+	 * @return A set of tile types the game object can collide with.
+	 */
+	@Immutable
+	protected abstract Set<TileType> getCollidableTileTypes();
+	
+	
+	/**
+	 * Returns whether collisions for this game object should be detected
+	 * for the given tile type.
+	 * 
+	 * @param type
+	 * 			The tile type to check.
+	 * 
+	 * @return Whether or not the object should collide with the given tile type.
+	 */
+	@Basic
+	public boolean collidesWithTileType(TileType type) {
+		
+		return this.getCollidableTileTypes().contains(type);
 	}
 	
 	
 	/**
 	 * @return The speed of this game object in m/s.
 	 */
+	@Basic
 	public Vector<Double> getSpeed() {
 		
 		return this.motion.getSpeed();
@@ -345,6 +361,7 @@ public abstract class GameObject {
 	 * @post The speed of this game object will be the given speed.
 	 * 			| new.getSpeed() == speed
 	 */
+	@Basic
 	protected void setSpeed(Vector<Double> speed) {
 		
 		this.motion.setSpeed(speed);
@@ -354,6 +371,7 @@ public abstract class GameObject {
 	/**
 	 * @return The acceleration of this game object in m/(s^2).
 	 */
+	@Basic
 	public Vector<Double> getAcceleration() {
 		
 		return this.motion.getAcceleration();
@@ -369,6 +387,7 @@ public abstract class GameObject {
 	 * @post The acceleration of this game object will be the given acceleration.
 	 * 			| new.getAcceleration() == acceleration
 	 */
+	@Basic
 	public void setAcceleration(Vector<Double> acceleration) {
 		
 		this.motion.setAcceleration(acceleration);
@@ -449,6 +468,7 @@ public abstract class GameObject {
 	/**
 	 * @return The size of this game object in pixels.
 	 */
+	@Basic
 	public Vector<Integer> getSize() {
 		
 		Sprite sprite = this.getCurrentSprite();
@@ -469,9 +489,45 @@ public abstract class GameObject {
 		Double time = 0.0;
 		while (time <= dt) {
 			
-			time += this.motion.step();
+			double stepTime = this.motion.step(dt);
+			time += stepTime;
+			
+			if (!this.isAlive()) {
+				deathTime += stepTime;
+				
+				if (deathTime > Constants.deathTime) {
+					//TODO: Handle death here
+				}
+			}
 			
 			//TODO: Handle collisions here?
+			Set<GameObject> collidingObjects = this.getWorld().getObjectsCollidingWithObject(this);
+			Set<Tile> collidingTiles = this.getWorld().getTilesCollidingWithObject(this);
+			
+			//TODO: Impassable terrain block can be handled in GameObject
+			
+			this.handleCollisions(collidingObjects, collidingTiles);
 		}
 	}
+	
+	
+	/**
+	 * Handles a time step of dt and updates properties accordingly.
+	 * 
+	 * @param dt
+	 * 			The length of the time step.
+	 */
+	protected abstract void handleStep(double dt);
+	
+	
+	/**
+	 * Handles the collisions for this game object and updates motion and other properties accordingly.
+	 * 
+	 * @param collidingObjects
+	 * 			The objects this game object collides with.
+	 * 
+	 * @param collidingTiles
+	 * 			The tiles this game object collides with.
+	 */
+	protected abstract void handleCollisions(Set<GameObject> collidingObjects, Set<Tile> collidingTiles);
 }

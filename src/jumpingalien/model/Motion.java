@@ -99,14 +99,22 @@ public class Motion {
 	 * 
 	 * @return The time this motion object stepped.
 	 */
-	public Double step() {
+	public Double step(Double totalTime) {
 		
 		Vector<Double> a = this.getAcceleration();
 		Vector<Double> v = this.getSpeed();
 		Vector<Double> r = this.getPosition();
 		
-		Double dt = Math.min(Math.abs(100 / v.x), Math.abs(100 / v.y));
+		Double dt = totalTime;
 		
+		if (v.x != 0) {
+			Double candidateDt = Math.abs(100 / v.x);
+			dt = Math.min(dt, candidateDt);
+		}
+		if (v.y != 0) {
+			Double candidateDt = Math.abs(100 / v.y);
+			dt = Math.min(dt, candidateDt);
+		}
 		if (a.x != 0) {
 			Double candidateDt = (100 * Math.sqrt(Math.abs(a.x)/50 + Math.pow(v.x/100, 2)) - Math.abs(v.x)) / Math.abs(a.x);
 			dt = Math.min(dt, candidateDt);
@@ -123,9 +131,7 @@ public class Motion {
 		
 		this.gameObject.setPosition(Utilities.clipVectorInRange(new Vector<Double>(0.0, 0.0),
 							this.gameObject.getWorld().getSizeInMeters(), newPosition));
-//		this.gameObject.setSpeed(new Vector<Double>(Utilities.clipInRange(-this.getMaxHorizontalSpeed(),
-//											this.getMaxHorizontalSpeed(),
-//											newSpeed.x), this.onGround() ? 0.0 : newSpeed.y));
+		this.gameObject.setSpeed(newSpeed);
 		
 		return dt;
 	}

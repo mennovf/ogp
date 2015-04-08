@@ -29,6 +29,10 @@ public class Mazub extends GameObject {
 	private double movingTime = 0, timeSinceMoving = 0;
 	
 	// CONSTANTS
+	
+	// Health
+	private final static int plantHealthGain = 50;
+	
 	// Speed
 	public final static double vxMaxDucking = 1.0; // Max running speed while ducking
 	public final static double vInitJump = 8.0; // Initial jump speed
@@ -88,6 +92,10 @@ public class Mazub extends GameObject {
 		this.vxInit = vxInit;
 		this.vxMax = vxMax;
 		this.setFacing(direction);
+		
+		if (!this.onGround()) {
+			this.setAcceleration(this.getAcceleration().setY(getMaxAcceleration().y));
+		}
 	}
 	
 	@Basic @Immutable
@@ -124,6 +132,15 @@ public class Mazub extends GameObject {
 	private double getMaxHorizontalSpeed(){
 		return this.isDucking ? Mazub.getMaxSpeedWhileDucking() : this.vxMax;
 	}
+	
+	
+	public void setSpeed(Vector<Double> speed) {
+		
+		super.setSpeed(new Vector<Double>(Utilities.clipInRange(-this.getMaxHorizontalSpeed(),
+											this.getMaxHorizontalSpeed(),
+											speed.x), speed.y));
+	}
+	
 	
 	/**
 	 * @return A 2-dimensional vector of this Mzaub's acceleration in m/s.
@@ -168,7 +185,7 @@ public class Mazub extends GameObject {
 	
 	
 	@Override
-	protected Set<Class<? extends GameObject>> getCollidables() {
+	protected Set<Class<? extends GameObject>> getCollidableObjectClasses() {
 		
 		HashSet<Class<? extends GameObject>> collidables = new HashSet<Class<? extends GameObject>>();
 		collidables.add(Mazub.class);
@@ -180,6 +197,45 @@ public class Mazub extends GameObject {
 	}
 	
 	
+	@Override
+	protected Set<TileType> getCollidableTileTypes() {
+		
+		HashSet<TileType> collidables = new HashSet<TileType>();
+		collidables.add(TileType.GROUND);
+		collidables.add(TileType.WATER);
+		collidables.add(TileType.MAGMA);
+		
+		return collidables;
+	}
+	
+	
+	
+	
+	@Override
+	protected void handleStep(double dt) {
+		
+		if (isMoving) {
+			this.movingTime += dt;
+		} else {
+			this.timeSinceMoving += dt;
+		}
+		
+		this.determineCurrentSprite();
+	}
+	
+	
+	@Override
+	protected void handleCollisions(Set<GameObject> collidingObjects,
+			Set<Tile> collidingTiles) {
+		// TODO Auto-generated method stub
+		for (GameObject object : collidingObjects) {
+			
+			if ((object instanceof Plant) && (this.getHealth() < this.getMaximumHealth())) {
+				this.increaseHealth(Mazub.plantHealthGain);
+				object.setHealth(0);
+			}
+		}
+	}
 	
 	
 	/**
@@ -192,32 +248,32 @@ public class Mazub extends GameObject {
 	 * 			| (dt < 0) || (dt > Constants.maxTimeInterval)
 	 * 
 	 */
-	public void advanceTime(double dt) throws IllegalArgumentException{
-		
-		// check for exceptions
-		if (Double.isNaN(dt)) {
-			throw new IllegalArgumentException("Delta time can not be NaN.");
-		}
-		if (dt > Constants.maxTimeInterval){
-			throw new IllegalArgumentException(String.format("Delta time may not exceed %.5fs.", Constants.maxTimeInterval));
-		}
-		if (dt < 0){
-			throw new IllegalArgumentException("Delta time has to be non-negative.");
-		}
-		
-		// update times
-		if (isMoving) {
-			this.movingTime += dt;
-		} else {
-			this.timeSinceMoving += dt;
-		}
-		
-		// update movement
-		this.updateMovement(dt);
-		
-		// determine and set the new current sprite after the time and movement have been updated
-		this.determineCurrentSprite();
-	}
+//	public void advanceTime(double dt) throws IllegalArgumentException{
+//		
+//		// check for exceptions
+//		if (Double.isNaN(dt)) {
+//			throw new IllegalArgumentException("Delta time can not be NaN.");
+//		}
+//		if (dt > Constants.maxTimeInterval){
+//			throw new IllegalArgumentException(String.format("Delta time may not exceed %.5fs.", Constants.maxTimeInterval));
+//		}
+//		if (dt < 0){
+//			throw new IllegalArgumentException("Delta time has to be non-negative.");
+//		}
+//		
+//		// update times
+//		if (isMoving) {
+//			this.movingTime += dt;
+//		} else {
+//			this.timeSinceMoving += dt;
+//		}
+//		
+//		// update movement
+//		this.updateMovement(dt);
+//		
+//		// determine and set the new current sprite after the time and movement have been updated
+//		this.determineCurrentSprite();
+//	}
 
 	/**
 	 * Updates this Mazub's position and speed using the given time interval.
@@ -225,22 +281,22 @@ public class Mazub extends GameObject {
 	 * @param dt
 	 * 			The passed time interval since the last update in seconds.
 	 */
-	private void updateMovement(double dt) {
-		
-		// Set some variables so we need to write less.
-		Vector<Double> acc = this.getAcceleration();
-		Vector<Double> speed = this.getSpeed();
-		Vector<Double> position = this.getPositionInMeters();
-		
-		Vector<Double> newPosition = Vector.add(position, Vector.add(Vector.scale(speed, dt), Vector.scale(acc, dt*dt/2.0)));
-		Vector<Double> newSpeed = Vector.add(speed, Vector.scale(acc, dt));
-		
-		this.setPosition(Utilities.clipVectorInRange(new Vector<Double>(0.0, 0.0),
-							this.getWorld().getSizeInMeters(), newPosition));
-		this.setSpeed(new Vector<Double>(Utilities.clipInRange(-this.getMaxHorizontalSpeed(),
-											this.getMaxHorizontalSpeed(),
-											newSpeed.x), this.onGround() ? 0.0 : newSpeed.y));
-	}
+//	private void updateMovement(double dt) {
+//		
+//		// Set some variables so we need to write less.
+//		Vector<Double> acc = this.getAcceleration();
+//		Vector<Double> speed = this.getSpeed();
+//		Vector<Double> position = this.getPositionInMeters();
+//		
+//		Vector<Double> newPosition = Vector.add(position, Vector.add(Vector.scale(speed, dt), Vector.scale(acc, dt*dt/2.0)));
+//		Vector<Double> newSpeed = Vector.add(speed, Vector.scale(acc, dt));
+//		
+//		this.setPosition(Utilities.clipVectorInRange(new Vector<Double>(0.0, 0.0),
+//							this.getWorld().getSizeInMeters(), newPosition));
+//		this.setSpeed(new Vector<Double>(Utilities.clipInRange(-this.getMaxHorizontalSpeed(),
+//											this.getMaxHorizontalSpeed(),
+//											newSpeed.x), this.onGround() ? 0.0 : newSpeed.y));
+//	}
 	
 
 	/**
@@ -300,6 +356,7 @@ public class Mazub extends GameObject {
 		this.isMoving = true;
 		this.setFacing(direction);
 		this.setSpeed(this.getSpeed().setX(direction * this.vxInit));
+		this.setAcceleration(this.getAcceleration().setX(direction * getMaxAcceleration().x));
 		this.movingTime = 0;
 	}
 	
@@ -312,6 +369,7 @@ public class Mazub extends GameObject {
 	public void endMove() {
 		this.isMoving = false;
 		this.setSpeed(this.getSpeed().setX(0.0));
+		this.setAcceleration(this.getAcceleration().setX(0.0));
 		this.hasMoved = true;
 		this.timeSinceMoving = 0;
 	}
@@ -325,6 +383,7 @@ public class Mazub extends GameObject {
 	 */
 	public void startJump() {
 		this.setSpeed(this.getSpeed().setY(Mazub.getInitialJumpSpeed()));
+		this.setAcceleration(this.getAcceleration().setY(getMaxAcceleration().y));
 	}
 	
 	/**

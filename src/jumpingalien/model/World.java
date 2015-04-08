@@ -1,6 +1,10 @@
 package jumpingalien.model;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import jumpingalien.util.ModelException;
@@ -22,7 +26,7 @@ public class World {
 	private Vector<Integer> visibleWindowTopRight;
 	private final Vector<Integer> targetTilePosition;
 	
-	private int[][] geologicalFeatures;
+	private TileType[][] tiles;
 	
 	private Mazub mazub;
 	private Set<GameObject> objects = new HashSet<>();
@@ -37,7 +41,7 @@ public class World {
 		this.visibleWindowBottomLeft = new Vector<>(0, 0);
 		this.visibleWindowTopRight = new Vector<>(visibleWindowWidth, visibleWindowHeight);
 		this.targetTilePosition = new Vector<>(targetTileX, targetTileY);
-		this.geologicalFeatures = new int[nbTilesX][nbTilesY];
+		this.tiles = new TileType[nbTilesX][nbTilesY];
 	}
 	
 	
@@ -117,12 +121,14 @@ public class World {
 	
 	
 	/**
+	 * Returns whether the given tile position lies in the game world.
+	 * 
 	 * @param tile
-	 * 			The tile to check.
+	 * 			The tile position to check.
 	 * 
 	 * @return true if the tile lies in the game world.
 	 */
-	public boolean tileInWorld(Vector<Integer> tile) {
+	public boolean tilePositionInWorld(Vector<Integer> tile) {
 		Vector<Integer> numberOfTiles = this.getNumberOfTiles();
 		return tile.x >= 0 && tile.x < numberOfTiles.x
 				&& tile.y >= 0 && tile.y < numberOfTiles.y;
@@ -130,6 +136,8 @@ public class World {
 	
 	
 	/**
+	 * Returns the position of the bottom left pixel of the tile at the given tile position.
+	 * 
 	 * @param tileX
 	 * 			The x index of the specified tile.
 	 * 
@@ -144,7 +152,7 @@ public class World {
 	 * geen stijl gespecifieerd -> nominally
 	 */
 	public Vector<Integer> getBottomLeftPixelOfTile(Vector<Integer> tile) {
-		assert this.tileInWorld(tile);
+		assert this.tilePositionInWorld(tile);
 		return new Vector<>(tile.x * this.getTileSize(), tile.y * this.getTileSize());
 	}
 	
@@ -167,6 +175,8 @@ public class World {
 	
 	
 	/**
+	 * Returns a list containing the positions of the tiles the given rectangle intersects with.
+	 * 
 	 * @param bottomLeftPixel
 	 * 			The position of the bottom left pixel of the rectangle.
 	 * 
@@ -178,13 +188,9 @@ public class World {
 	 * 
 	 * @pre The given pixels must lie inside the game world.
 	 * 			| this.pixelInWorld(bottomLeftPixel) && this.pixelInWorld(topRightPixel)
-	 * 
-	 * geen stijl gespecifieerd -> nominally
 	 */
-	public int[][] getTilePositionsInRectangle(Vector<Integer> bottomLeftPixel, Vector<Integer> topRightPixel) {
-		
-		// Java kan geen array maken van type Vector<Integer>[]
-		
+	public ArrayList<Vector<Integer>> getTilePositionsInRectangle(Vector<Integer> bottomLeftPixel, Vector<Integer> topRightPixel) {
+		//TODO: Wanneer Mazub rechts of boven uit de world gaat wordt de assert opgeroepen denk ik...
 		assert this.pixelInWorld(bottomLeftPixel) && this.pixelInWorld(topRightPixel);
 		
 		Vector<Integer> bottomLeftTile = this.getTileContainingPixel(bottomLeftPixel);
@@ -194,17 +200,15 @@ public class World {
 		int blockHeight = topRightTile.y - bottomLeftTile.y + 1;
 		int numberOfTiles = blockWidth * blockHeight;
 		
-		int[][] tiles = new int[numberOfTiles][2];
+		ArrayList<Vector<Integer>> positions = new ArrayList<Vector<Integer>>(numberOfTiles);
 		
 		for (int x = bottomLeftTile.x; x <= topRightTile.x; x++) {
 			for (int y = bottomLeftTile.y; y <= topRightTile.y; y++) {
-				int index = (y - bottomLeftTile.y) * blockWidth + (x - bottomLeftTile.x);
-				tiles[index][0] = x;
-				tiles[index][1] = y;
+				positions.add(new Vector<Integer>(x, y));
 			}
 		}
 		
-		return tiles;
+		return positions;
 	}
 	
 	
@@ -259,53 +263,72 @@ public class World {
 	 * @return A 2D array representing the game world's tiles' types.
 	 */
 	@Basic
-	public int[][] getGeologicalFeatures() {
-		return this.geologicalFeatures.clone();
+	public TileType[][] getTileTypes() {
+		return this.tiles.clone();
 	}
 	
 	
 	/**
-	 * @param pixel
-	 * 			A 2D vector representing the position of the pixel to get the geological feature of.
+	 * Returns the type of the tile that contains the given pixel.
 	 * 
-	 * @return The geological feature type of the given pixel.
+	 * @param pixel
+	 * 			A 2D vector representing the position of the pixel to get the tile type of.
+	 * 
+	 * @return The type of the tile that contains the given pixel.
 	 * 
 	 * @throws ModelException
 	 * 			Throws a ModelException when the given pixel does not lie in the game world.
-	 * 			| this.pixelInWorld(pixel)
-	 * 
-	 * ik neem aan dat dit defensive moet, aangezien Facade een exception verwacht
+	 * 			| !this.pixelInWorld(pixel)
 	 */
-	public int getGeologicalFeature(Vector<Integer> pixel) throws ModelException {
+	public TileType getTileTypeOfPixel(Vector<Integer> pixel) throws ModelException {
 		if (!this.pixelInWorld(pixel)) {
 			throw new ModelException("The pixel has to lie in the game world.");
 		}
-		Vector<Integer> tile = this.getTileContainingPixel(pixel);
-		return this.getGeologicalFeatures()[tile.x][tile.y];
+		Vector<Integer> tilePosition = this.getTileContainingPixel(pixel);
+		return this.getTileTypes()[tilePosition.x][tilePosition.y];
 	}
 	
 	
 	/**
-	 * Sets the geological feature of the given tile to the given type.
+	 * Returns the type of the tile at the given tile position.
+	 * 
+	 * @param position
+	 * 			The position of the tile.
+	 * 
+	 * @return The type of the tile at the given tile position.
+	 * 
+	 * @throws ModelException
+	 * 			Throws a model exception when the given tile position
+	 * 			does not lie in the game world.
+	 * 			| !this.tilePositionInWorld(position)
+	 */
+	public TileType getTileType(Vector<Integer> position) throws ModelException {
+		if (!this.tilePositionInWorld(position)) {
+			throw new ModelException("The tile position has to lie in the game world.");
+		}
+		return this.getTileTypes()[position.x][position.y];
+	}
+	
+	
+	/**
+	 * Sets the tile of the given tile position.
+	 * 
+	 * @param position
+	 * 			The position of the tile to set.
 	 * 
 	 * @param tile
-	 * 			A 2D vector representing the position of the specified tile.
+	 * 			The tile to set.
 	 * 
-	 * @param tileType
-	 * 			The type to set.
+	 * @pre The given tile position must lie in the game world.
+	 * 			| this.tilePositionInWorld(position)
 	 * 
-	 * @pre The given tile must lie in the game world.
-	 * 			| this.tileInWorld(tile)
-	 * 
-	 * @post The geological feature at tile will be of tileType
-	 * 			| new.getGeologicalFeature(tile) == tileType
-	 * 
-	 * geen stijl gespecifieerd -> nominally
+	 * @post The tile at the given tile position will be the given tile.
+	 * 			| new.getTile(new.getBottomLeftPixelOfTile(position)) == tile
 	 */
 	@Basic
-	public void setGeologicalFeature(Vector<Integer> tile, int tileType) {
-		assert this.tileInWorld(tile);
-		this.geologicalFeatures[tile.x][tile.y] = tileType;
+	public void setTileType(Vector<Integer> position, TileType type) {
+		assert this.tilePositionInWorld(position);
+		this.tiles[position.x][position.y] = type;
 	}
 	
 	
@@ -450,6 +473,33 @@ public class World {
 	
 	
 	/**
+	 * Returns whether two game objects overlap in the game world.
+	 * 
+	 * @param first
+	 * 			The first game object.
+	 * 
+	 * @param second
+	 * 			The second game object.
+	 * 
+	 * @return true if the two given game objects overlap.
+	 */
+	public boolean objectsOverlap(GameObject first, GameObject second) {
+		
+		Vector<Integer> pos1 = first.getPosition();
+		Vector<Integer> size1 = first.getSize();
+		Vector<Integer> pos2 = second.getPosition();
+		Vector<Integer> size2 = second.getSize();
+		
+		return !(pos1.x + size1.x - 1 < pos2.x
+				|| pos2.x + size2.x - 1 < pos1.x
+				|| pos1.y + size1.y - 1 < pos2.y
+				|| pos2.y + size2.y - 1 < pos1.y);
+	}
+	
+	
+	/**
+	 * Returns a set of all game objects colliding with the given game object.
+	 * 
 	 * @param object
 	 * 			The object to get colliding objects with.
 	 * 
@@ -461,13 +511,38 @@ public class World {
 		
 		for (GameObject obj : this.objects) {
 			
-			if (object.collidesWith(obj)) {
+			if (object.collidesWithGameObjectClass(obj.getClass())
+					&& this.objectsOverlap(object, obj)) {
 				
 				collidingObjects.add(obj);
 			}
 		}
 		
 		return collidingObjects;
+	}
+	
+	
+	/**
+	 * Returns a set of all tiles colliding with the given game object.
+	 * 
+	 * @param object
+	 * 			The object to get colliding tiles with.
+	 * 
+	 * @return A set containing all tiles the given object collides with.
+	 */
+	public Set<Tile> getTilesCollidingWithObject(GameObject object) {
+		
+		Set<Tile> collidingTiles = new HashSet<Tile>();
+		
+		ArrayList<Vector<Integer>> positions = this.getTilePositionsInRectangle(object.getPosition(),
+				Vector.add(object.getPosition(), object.getSize()));
+		
+		for (Vector<Integer> position : positions) {
+			Tile tile = new Tile(position, this.getTileType(position));
+			collidingTiles.add(tile);
+		}
+		
+		return collidingTiles;
 	}
 	
 	

@@ -1,5 +1,6 @@
 package jumpingalien.part2.facade;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import jumpingalien.model.Mazub;
@@ -7,6 +8,8 @@ import jumpingalien.model.Plant;
 import jumpingalien.model.School;
 import jumpingalien.model.Shark;
 import jumpingalien.model.Slime;
+import jumpingalien.model.Tile;
+import jumpingalien.model.TileType;
 import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
 import jumpingalien.model.World;
@@ -147,19 +150,31 @@ public class Facade implements IFacadePart2 {
 	@Override
 	public int[][] getTilePositionsIn(World world, int pixelLeft,
 			int pixelBottom, int pixelRight, int pixelTop) {
-		return world.getTilePositionsInRectangle(new Vector<>(pixelLeft, pixelBottom), new Vector<>(pixelRight, pixelTop));
+		
+		ArrayList<Vector<Integer>> positionVectors =
+				world.getTilePositionsInRectangle(new Vector<>(pixelLeft, pixelBottom),
+						new Vector<>(pixelRight, pixelTop));
+		int[][] positions = new int[positionVectors.size()][2];
+		
+		for (int i = 0; i < positionVectors.size(); i++) {
+			Vector<Integer> vect = positionVectors.get(i);
+			positions[i][0] = vect.x;
+			positions[i][1] = vect.y;
+		}
+		
+		return positions;
 	}
 
 	@Override
 	public int getGeologicalFeature(World world, int pixelX, int pixelY)
 			throws ModelException {
-		return world.getGeologicalFeature(new Vector<>(pixelX, pixelY));
+		return world.getTileType(new Vector<>(pixelX, pixelY)).number;
 	}
 
 	@Override
 	public void setGeologicalFeature(World world, int tileX, int tileY,
 			int tileType) {
-		world.setGeologicalFeature(new Vector<>(tileX, tileY), tileType);
+		world.setTileType(new Vector<>(tileX, tileY), TileType.tileTypeForNumber(tileType));
 	}
 
 	@Override

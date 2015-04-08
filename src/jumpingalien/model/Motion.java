@@ -105,7 +105,7 @@ public class Motion {
 		Vector<Double> v = this.getSpeed();
 		Vector<Double> r = this.getPosition();
 		
-		Double dt = totalTime;
+		double dt = totalTime;
 		
 		if (v.x != 0) {
 			Double candidateDt = Math.abs(100 / v.x);

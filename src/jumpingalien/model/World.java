@@ -553,10 +553,6 @@ public class World {
 		for (Vector<Integer> position : positions) {
 			TileType type = this.getTileType(position);
 			if (object.collidesWithTileType(type)) {
-				if (object == this.getMazub()) {
-					System.out.print("Mazub collides with: ");
-					System.out.print(type);
-				}
 				Tile tile = new Tile(position, this.getTileSize(), type);
 				collidingTiles.add(tile);
 			}

@@ -28,10 +28,40 @@ public class Mazub extends GameObject {
 	private boolean isMoving = false, isDucking = false, hasMoved = false;
 	private double movingTime = 0, timeSinceMoving = 0;
 	
+	
+	/**
+	 * The time interval after enemy damage in which Mazub will
+	 * not take additional enemy damage.
+	 */
+	private double enemyDamageInterval = 0.6;
+	
+	/**
+	 * The time since the last enemy damage was taken.
+	 * By setting this to zero, Mazub will not
+	 * lose life in the first enemyDamageInterval seconds of the game.
+	 */
+	private double timeSinceEnemyDamage = 0;
+	
+	
+	/**
+	 * The time interval after terrain damage in which Mazub will
+	 * not take additional enemy damage.
+	 */
+	private double terrainDamageInterval = 0.2;
+	
+	/**
+	 * The time since the last terrain damage was taken.
+	 * By setting this to zero, Mazub will not
+	 * lose life in the first terrainDamageInterval seconds of the game.
+	 */
+	private double timeSinceTerrainDamage = 0;
+	
 	// CONSTANTS
 	
 	// Health
 	private final static int plantHealthGain = 50;
+	private final static int enemyDamage = -50;
+	private final static int terrainDamage = -2;
 	
 	// Speed
 	public final static double vxMaxDucking = 1.0; // Max running speed while ducking
@@ -208,6 +238,9 @@ public class Mazub extends GameObject {
 			this.timeSinceMoving += dt;
 		}
 		
+		this.timeSinceEnemyDamage += dt;
+		this.timeSinceTerrainDamage += dt;
+		
 		this.determineCurrentSprite();
 	}
 	
@@ -215,12 +248,36 @@ public class Mazub extends GameObject {
 	@Override
 	protected void handleCollisions(Set<GameObject> collidingObjects,
 			Set<Tile> collidingTiles) {
-		// TODO Auto-generated method stub
+		
+		if (!this.onGround()) {
+			this.setAcceleration(this.getAcceleration().setY(getMaxAcceleration().y));
+		}
+		
 		for (GameObject object : collidingObjects) {
 			
 			if ((object instanceof Plant) && object.isAlive() && (this.getHealth() < this.getMaximumHealth())) {
-				this.increaseHealth(Mazub.plantHealthGain);
+				this.increaseHealth(plantHealthGain);
 				object.setHealth(0);
+			}
+			
+			if ((this.timeSinceEnemyDamage > enemyDamageInterval) && ((object instanceof Slime) || (object instanceof Shark))
+					&& object.isAlive()) {
+				this.increaseHealth(enemyDamage);
+				this.timeSinceEnemyDamage = 0;
+			}
+		}
+		
+		for (Tile tile : collidingTiles) {
+			
+			switch (tile.getType()) {
+			case WATER: case MAGMA:
+				if (this.timeSinceTerrainDamage > terrainDamageInterval) {
+					this.increaseHealth(terrainDamage);
+					this.timeSinceTerrainDamage = 0;
+				}
+				break;
+			default:
+				break;
 			}
 		}
 	}
@@ -316,7 +373,7 @@ public class Mazub extends GameObject {
 			currentSprite = this.getFacing() == 1 ?
 								 sprites[6] : sprites[7];
 		}
-		if (!(! onGround() || isDucking) && isMoving){
+		if (!(!this.onGround() || isDucking) && isMoving){
 			int animationIndex = ((int)(this.movingTime/0.075)) % (m+1);
 			currentSprite = this.getFacing() == 1 ?
 								 sprites[8+animationIndex] : sprites[9+m+animationIndex];

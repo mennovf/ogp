@@ -7,17 +7,23 @@ import jumpingalien.util.Sprite;
 
 public class Plant extends GameObject {
 	
-	private double directionTime;
-	private final double maxDirectionTime;
-	private final double speed;
+	private double directionTime = 0;
+	private final double maxDirectionTime = 0.5;
 	
+	/**
+	 * Creates a plant with the given position and sprites.
+	 * 
+	 * @param position
+	 * 			The position of the plant in pixels.
+	 * 
+	 * @param sprites
+	 * 			The sprites of the plant.
+	 */
 	public Plant(Vector<Double> position, Sprite[] sprites){
 		
 		super(1, 1, position, sprites);
-
-		this.maxDirectionTime = 0.5;
-		this.directionTime = 0.0;
-		this.speed = 0.5;
+		
+		this.setSpeed(this.getSpeed().setX(0.5));
 	}
 	
 	
@@ -34,16 +40,27 @@ public class Plant extends GameObject {
 	@Override
 	protected Set<TileType> getCollidableTileTypes() {
 		
-		//TODO: Check this as well.
+		HashSet<TileType> collidables = new HashSet<TileType>();
+		collidables.add(TileType.GROUND);
 		
-		return new HashSet<TileType>();
+		return collidables;
 	}
 	
 	
 	@Override
 	protected void handleStep(double dt) {
-		// TODO Auto-generated method stub
 		
+		double timeLeft = maxDirectionTime - directionTime;
+		directionTime = (directionTime + dt) % maxDirectionTime;
+		
+		//TODO: Did not recalculate the mistake made by switching the speed too late (dt > timeLeft)
+		
+		if (dt > timeLeft){
+			this.setSpeed(Vector.scale(this.getSpeed(), -1.0));
+			this.setFacing(this.getFacing() * -1);
+		}
+        
+        this.setCurrentSprite(this.getSprites()[this.getFacing() < 0 ? 0 : 1]);
 	}
 	
 	
@@ -55,21 +72,21 @@ public class Plant extends GameObject {
 	}
 	
 	
-	@Override
-	public void advanceTime(double dt){
-		double timeLeft = maxDirectionTime - directionTime;
-		directionTime = (directionTime + dt) % maxDirectionTime;
-		Vector<Double> newPosition = new Vector<>(this.getPositionInMeters());
-		// If the alternation of direction happens in this time interval
-		// process the part of the interval before the alternation first.
-		if (dt > timeLeft){
-			newPosition = newPosition.setX(newPosition.x + this.getFacing() * this.speed * timeLeft);
-			dt = dt - timeLeft;
-			this.setFacing(this.getFacing() * -1);
-		}
-		// Then update the position with what's left
-        newPosition = newPosition.setX(newPosition.x + this.getFacing() * this.speed * dt);
-        this.setPosition(newPosition);
-        this.setCurrentSprite(this.getSprites()[this.getFacing() < 0 ? 0 : 1]);
-	}
+//	@Override
+//	public void advanceTime(double dt){
+//		double timeLeft = maxDirectionTime - directionTime;
+//		directionTime = (directionTime + dt) % maxDirectionTime;
+//		Vector<Double> newPosition = new Vector<>(this.getPositionInMeters());
+//		// If the alternation of direction happens in this time interval
+//		// process the part of the interval before the alternation first.
+//		if (dt > timeLeft){
+//			newPosition = newPosition.setX(newPosition.x + this.getFacing() * this.speed * timeLeft);
+//			dt = dt - timeLeft;
+//			this.setFacing(this.getFacing() * -1);
+//		}
+//		// Then update the position with what's left
+//        newPosition = newPosition.setX(newPosition.x + this.getFacing() * this.speed * dt);
+//        this.setPosition(newPosition);
+//        this.setCurrentSprite(this.getSprites()[this.getFacing() < 0 ? 0 : 1]);
+//	}
 }

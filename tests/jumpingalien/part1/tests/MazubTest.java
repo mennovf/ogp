@@ -102,13 +102,13 @@ public class MazubTest {
 	@Test
 	public void isValidPosition_xTooBig() {
 		
-		assertFalse(mazub.isValidPosition(new Vector<Double>(Constants.screenSize.x + 1, 0.0)));
+		assertFalse(mazub.isValidPosition(new Vector<Double>(world.getSizeInMeters().x + 1.0, 0.0)));
 	}
 	
 	@Test
 	public void isValidPosition_yTooBig() {
 		
-		assertFalse(mazub.isValidPosition(new Vector<Double>(0.0, Constants.screenSize.y + 1)));
+		assertFalse(mazub.isValidPosition(new Vector<Double>(0.0, world.getSizeInMeters().y + 1.0)));
 	}
 	
 	

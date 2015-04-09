@@ -1,9 +1,9 @@
 package jumpingalien.model;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import jumpingalien.util.Sprite;
+import jumpingalien.util.Util;
 import be.kuleuven.cs.som.annotate.*;
 
 /**
@@ -54,7 +54,7 @@ public abstract class GameObject {
 	protected GameObject(int health, int maxHealth, Vector<Double> position, Sprite[] sprites)
 				throws IllegalArgumentException {
 		
-		if (! this.isValidPosition(new Vector<>(position))){
+		if (!this.isValidPosition(position)){
 			throw new IllegalArgumentException("Position is not valid.");
 		}
 		
@@ -289,10 +289,40 @@ public abstract class GameObject {
 	 */
 	public boolean isValidPosition(Vector<Double> pos) {
 		if (this.hasProperWorld()) {
-			return (pos.x >= 0) && pos.x <= this.getWorld().getSizeInPixels().x
-					&& (pos.y >= 0) && pos.y <= this.getWorld().getSizeInPixels().y;
+			return (pos.x >= 0) && pos.x < this.getWorld().getSizeInMeters().x
+					&& (pos.y >= 0) && pos.y < this.getWorld().getSizeInMeters().y;
 		}
-		return true;
+		return (pos.x >= 0) && (pos.y >= 0);
+	}
+	
+	
+	/**
+	 * @return Whether this game object is standing on impassable terrain.
+	 */
+	public boolean onGround() {
+		
+		//TODO: Test this method
+		if (Util.fuzzyEquals(this.getPosition().y, 0.0)) {
+			return true;
+		}
+		
+		Set<Tile> collidingTiles = world.getTilesCollidingWithObject(this);
+		
+		for (Tile tile : collidingTiles) {
+			if (!tile.getType().passable) {
+				Vector<Integer> tilePos = tile.getPosition();
+				int tileSize = this.getWorld().getTileSize();
+				Vector<OverlapDirection> overlapDir = this.getWorld().getKindOfOverlap(
+						this.getPosition(), Vector.add(this.getPosition(), this.getSize()),
+						tilePos, Vector.add(tilePos, new Vector<>(tileSize, tileSize)));
+				
+				if (overlapDir.y == OverlapDirection.LOW) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
 	}
 	
 	
@@ -490,7 +520,7 @@ public abstract class GameObject {
 //			deathTime += dt;
 //			
 //			if (deathTime > Constants.deathTime) {
-//				//TODO: Handle death here
+//				//TODo: Handle death here
 //			}
 //		}
 //		
@@ -555,9 +585,24 @@ public abstract class GameObject {
 			
 			if (!tile.getType().passable) {
 				
-				if (tile.getPosition().y < this.getPosition().y) {
-					
-					this.setPosition(this.getPositionInMeters().setY(tile.getPositionInMeters().y + this.getWorld().getTileSizeInMeters()));
+				Vector<OverlapDirection> overlapDir = this.getWorld().getKindOfOverlap(
+						this.getPosition(), Vector.add(this.getPosition(), this.getSize()),
+						tile.getPosition(), Vector.add(tile.getPosition(),
+								new Vector<>(this.getWorld().getTileSize(), this.getWorld().getTileSize())));
+				
+				if (overlapDir.y == OverlapDirection.LOW) {
+					System.out.println("standing on impassable terrain");
+					this.setPosition(this.getPositionInMeters().setY(tile.getPositionInMeters().y + this.getWorld().getTileSizeInMeters() - Constants.metersPerPixel));
+					this.setSpeed(this.getSpeed().setY(0.0));
+					this.setAcceleration(this.getAcceleration().setY(0.0));
+				}
+				
+				if (overlapDir.x == OverlapDirection.LOW) {
+					System.out.println("Runned into a wall on the left.");
+				}
+				
+				if (overlapDir.x == OverlapDirection.HIGH) {
+					System.out.println("Runned into a wall on the right.");
 				}
 			}
 		}

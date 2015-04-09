@@ -79,7 +79,7 @@ public class Mazub extends GameObject {
 		
 		super(100, 500, position, sprites);
 		
-		if (! Mazub.isValidDirection(direction)) {
+		if (!Mazub.isValidDirection(direction)) {
 			throw new IllegalArgumentException("direction is not valid.");
 		}
 		assert sprites != null;
@@ -93,9 +93,7 @@ public class Mazub extends GameObject {
 		this.vxMax = vxMax;
 		this.setFacing(direction);
 		
-		if (!this.onGround()) {
-			this.setAcceleration(this.getAcceleration().setY(getMaxAcceleration().y));
-		}
+//		this.setAcceleration(this.getAcceleration().setY(getMaxAcceleration().y));
 	}
 	
 	@Basic @Immutable
@@ -145,17 +143,17 @@ public class Mazub extends GameObject {
 	/**
 	 * @return A 2-dimensional vector of this Mzaub's acceleration in m/s.
 	 */
-	public Vector<Double> getAcceleration(){
-		Vector<Double> maxAcc = Mazub.getMaxAcceleration();
-		Vector<Double> acc = new Vector<>(0.0, 0.0);
-		if (isMoving){
-			acc = acc.setX(this.getFacing() * maxAcc.x);
-		}
-		if (!onGround()){
-			acc = acc.setY(maxAcc.y);
-		}
-		return acc;
-	}
+//	public Vector<Double> getAcceleration(){
+//		Vector<Double> maxAcc = Mazub.getMaxAcceleration();
+//		Vector<Double> acc = new Vector<>(0.0, 0.0);
+//		if (isMoving){
+//			acc = acc.setX(this.getFacing() * maxAcc.x);
+//		}
+//		if (!onGround()){
+//			acc = acc.setY(maxAcc.y);
+//		}
+//		return acc;
+//	}
 	
 	/**
 	 * @return	This Mazub's height in pixels.
@@ -171,16 +169,6 @@ public class Mazub extends GameObject {
 	@Basic
 	public int getWidth(){
 		return this.getSize().x;
-	}
-	
-	/**
-	 * @return Whether this Mazub is touching the ground or not.
-	 * 			| if (this.getCurrentPosition().y == 0.0)
-	 * 			| then true
-	 * 			| else false
-	 */
-	public boolean onGround(){
-		return Util.fuzzyEquals(this.getPosition().y, 0.0);
 	}
 	
 	

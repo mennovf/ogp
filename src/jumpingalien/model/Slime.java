@@ -131,12 +131,5 @@ public class Slime extends GameObject {
 		// TODO Auto-generated method stub
 		
 	}
-	
-
-	@Override
-	public void advanceTime(double dt) {
-		// TODO Auto-generated method stub
-		this.setPosition(Vector.add(this.getPositionInMeters(), new Vector<Double>(0.005, 0.0)));
-	}
 
 }

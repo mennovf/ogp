@@ -198,15 +198,16 @@ public class World {
 	 * @return An array of 2D arrays representing the positions of the tiles intersecting with the
 	 * 			specified rectangle in pixels.
 	 * 
-	 * @pre The given pixels must lie inside the game world.
-	 * 			| this.pixelInWorld(bottomLeftPixel) && this.pixelInWorld(topRightPixel)
+	 * @pre The bottom left pixel must lie inside the game world.
+	 * 			| this.pixelInWorld(bottomLeftPixel)
 	 */
 	public ArrayList<Vector<Integer>> getTilePositionsInRectangle(Vector<Integer> bottomLeftPixel, Vector<Integer> topRightPixel) {
-		//TODO: Wanneer Mazub rechts of boven uit de world gaat wordt de assert opgeroepen denk ik...
-		assert this.pixelInWorld(bottomLeftPixel) && this.pixelInWorld(topRightPixel);
+		assert this.pixelInWorld(bottomLeftPixel);
 		
 		Vector<Integer> bottomLeftTile = this.getTileContainingPixel(bottomLeftPixel);
-		Vector<Integer> topRightTile = this.getTileContainingPixel(topRightPixel);
+		Vector<Integer> topRightTile = this.pixelInWorld(topRightPixel) ?
+				this.getTileContainingPixel(topRightPixel) :
+				this.getTileContainingPixel(Utilities.clipVectorInRange(new Vector<>(0, 0), this.getSizeInPixels(), topRightPixel));
 		
 		int blockWidth = topRightTile.x - bottomLeftTile.x + 1;
 		int blockHeight = topRightTile.y - bottomLeftTile.y + 1;
@@ -550,8 +551,15 @@ public class World {
 				Vector.add(object.getPosition(), object.getSize()));
 		
 		for (Vector<Integer> position : positions) {
-			Tile tile = new Tile(position, this.getTileType(position));
-			collidingTiles.add(tile);
+			TileType type = this.getTileType(position);
+			if (object.collidesWithTileType(type)) {
+				if (object == this.getMazub()) {
+					System.out.print("Mazub collides with: ");
+					System.out.print(type);
+				}
+				Tile tile = new Tile(position, this.getTileSize(), type);
+				collidingTiles.add(tile);
+			}
 		}
 		
 		return collidingTiles;
@@ -595,7 +603,7 @@ public class World {
 			if (collidingTopRightPixel.x < topRightPixel.x) {
 				overlapDir = overlapDir.setX(OverlapDirection.MIDDLE);
 			} else {
-				overlapDir = overlapDir.setX(OverlapDirection.NONE);
+				overlapDir = overlapDir.setX(OverlapDirection.HIGH);
 			}
 		}
 		
@@ -611,7 +619,7 @@ public class World {
 			if (collidingTopRightPixel.y < topRightPixel.y) {
 				overlapDir = overlapDir.setY(OverlapDirection.MIDDLE);
 			} else {
-				overlapDir = overlapDir.setY(OverlapDirection.NONE);
+				overlapDir = overlapDir.setY(OverlapDirection.HIGH);
 			}
 		}
 		

@@ -507,6 +507,14 @@ public abstract class GameObject {
 	
 	
 	/**
+	 * @return The size of this game object in meters.
+	 */
+	public Vector<Double> getSizeInMeters() {
+		return Utilities.pixelsVectorToMeters(this.getSize());
+	}
+	
+	
+	/**
 	 * Advances the time of this game object and adjusts it's position,
 	 * speed and acceleration accordingly. Small steps will be performed
 	 * to handle collisions as well.
@@ -581,28 +589,43 @@ public abstract class GameObject {
 	 */
 	private void handleTerrain(Set<Tile> collidingTiles) {
 		
+		System.out.println("begin handle terrain");
+		
 		for (Tile tile : collidingTiles) {
+			System.out.println("tile collision");
 			
 			if (!tile.getType().passable) {
 				
 				Vector<OverlapDirection> overlapDir = this.getWorld().getKindOfOverlap(
 						this.getPosition(), Vector.add(this.getPosition(), this.getSize()),
-						tile.getPosition(), Vector.add(tile.getPosition(),
+						tile.getPositionInPixels(), Vector.add(tile.getPositionInPixels(),
 								new Vector<>(this.getWorld().getTileSize(), this.getWorld().getTileSize())));
 				
 				if (overlapDir.y == OverlapDirection.LOW) {
-					System.out.println("standing on impassable terrain");
+					System.out.println("Standing on impassable terrain.");
 					this.setPosition(this.getPositionInMeters().setY(tile.getPositionInMeters().y + this.getWorld().getTileSizeInMeters() - Constants.metersPerPixel));
 					this.setSpeed(this.getSpeed().setY(0.0));
 					this.setAcceleration(this.getAcceleration().setY(0.0));
 				}
 				
-				if (overlapDir.x == OverlapDirection.LOW) {
-					System.out.println("Runned into a wall on the left.");
+				if (overlapDir.y == OverlapDirection.HIGH) {
+					System.out.println("Head bumped into impassable terrain.");
+					this.setPosition(this.getPositionInMeters().setY(tile.getPositionInMeters().y - this.getSizeInMeters().y));
+					this.setSpeed(this.getSpeed().setY(0.0));
 				}
 				
-				if (overlapDir.x == OverlapDirection.HIGH) {
+				if ((overlapDir.x == OverlapDirection.LOW) && (tile.getPositionInPixels().y - this.getPosition().y > 1)) {
+					System.out.println("Runned into a wall on the left.");
+					this.setPosition(this.getPositionInMeters().setX(tile.getPositionInMeters().x + this.getWorld().getTileSizeInMeters()));
+					this.setSpeed(this.getSpeed().setX(0.0));
+					this.setAcceleration(this.getAcceleration().setX(0.0));
+				}
+				
+				if ((overlapDir.x == OverlapDirection.HIGH) && (tile.getPositionInPixels().y - this.getPosition().y > 1)) {
 					System.out.println("Runned into a wall on the right.");
+					this.setPosition(this.getPositionInMeters().setX(tile.getPositionInMeters().x - this.getSizeInMeters().x));
+					this.setSpeed(this.getSpeed().setX(0.0));
+					this.setAcceleration(this.getAcceleration().setX(0.0));
 				}
 			}
 		}

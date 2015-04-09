@@ -10,6 +10,7 @@ import jumpingalien.common.sprites.JumpingAlienSprites;
 import jumpingalien.model.Constants;
 import jumpingalien.model.GameObject;
 import jumpingalien.model.Mazub;
+import jumpingalien.model.OverlapDirection;
 import jumpingalien.model.Shark;
 import jumpingalien.model.Tile;
 import jumpingalien.model.TileType;
@@ -360,6 +361,133 @@ public class WorldTest {
 		Shark shark2 = Utilities.shark(new Vector<>(shark1.getSize().x * Constants.metersPerPixel, shark1.getSize().y * Constants.metersPerPixel));
 		world.addGameObject(shark2);
 		assertFalse(world.objectsOverlap(shark1, shark2));
+	}
+	
+	@Test
+	public void getKindOfOverlap_noOverlapX_noOverlapY() {
+		Vector<OverlapDirection> overlapDir = world.getKindOfOverlap(
+				new Vector<Integer>(70, 70),
+				new Vector<Integer>(140, 140),
+				new Vector<Integer>(0, 0),
+				new Vector<Integer>(20, 20));
+		assertEquals(overlapDir.x, OverlapDirection.NONE);
+		assertEquals(overlapDir.y, OverlapDirection.NONE);
+		
+		overlapDir = world.getKindOfOverlap(
+				new Vector<Integer>(70, 70),
+				new Vector<Integer>(140, 140),
+				new Vector<Integer>(0, 0),
+				new Vector<Integer>(70, 70));
+		assertEquals(overlapDir.x, OverlapDirection.NONE);
+		assertEquals(overlapDir.y, OverlapDirection.NONE);
+	}
+	
+	@Test
+	public void getKindOfOverlap_lowOverlapX_lowOverlapY() {
+		Vector<OverlapDirection> overlapDir = world.getKindOfOverlap(
+				new Vector<Integer>(70, 70),
+				new Vector<Integer>(140, 140),
+				new Vector<Integer>(0, 0),
+				new Vector<Integer>(71, 71));
+		assertEquals(overlapDir.x, OverlapDirection.LOW);
+		assertEquals(overlapDir.y, OverlapDirection.LOW);
+		
+		overlapDir = world.getKindOfOverlap(
+				new Vector<Integer>(70, 70),
+				new Vector<Integer>(140, 140),
+				new Vector<Integer>(0, 0),
+				new Vector<Integer>(139, 139));
+		assertEquals(overlapDir.x, OverlapDirection.LOW);
+		assertEquals(overlapDir.y, OverlapDirection.LOW);
+		
+		overlapDir = world.getKindOfOverlap(
+				new Vector<Integer>(70, 70),
+				new Vector<Integer>(140, 140),
+				new Vector<Integer>(70, 70),
+				new Vector<Integer>(139, 139));
+		assertEquals(overlapDir.x, OverlapDirection.LOW);
+		assertEquals(overlapDir.y, OverlapDirection.LOW);
+	}
+	
+	@Test
+	public void getKindOfOverlap_fullOverlapX_fullOverlapY() {
+		Vector<OverlapDirection> overlapDir = world.getKindOfOverlap(
+				new Vector<Integer>(70, 70),
+				new Vector<Integer>(140, 140),
+				new Vector<Integer>(0, 0),
+				new Vector<Integer>(140, 140));
+		assertEquals(overlapDir.x, OverlapDirection.FULL);
+		assertEquals(overlapDir.y, OverlapDirection.FULL);
+		
+		overlapDir = world.getKindOfOverlap(
+				new Vector<Integer>(70, 70),
+				new Vector<Integer>(140, 140),
+				new Vector<Integer>(0, 0),
+				new Vector<Integer>(150, 150));
+		assertEquals(overlapDir.x, OverlapDirection.FULL);
+		assertEquals(overlapDir.y, OverlapDirection.FULL);
+		
+		overlapDir = world.getKindOfOverlap(
+				new Vector<Integer>(70, 70),
+				new Vector<Integer>(140, 140),
+				new Vector<Integer>(70, 70),
+				new Vector<Integer>(140, 140));
+		assertEquals(overlapDir.x, OverlapDirection.FULL);
+		assertEquals(overlapDir.y, OverlapDirection.FULL);
+		
+		overlapDir = world.getKindOfOverlap(
+				new Vector<Integer>(70, 70),
+				new Vector<Integer>(140, 140),
+				new Vector<Integer>(70, 70),
+				new Vector<Integer>(150, 150));
+		assertEquals(overlapDir.x, OverlapDirection.FULL);
+		assertEquals(overlapDir.y, OverlapDirection.FULL);
+	}
+	
+	@Test
+	public void getKindOfOverlap_middleOverlapX_middleOverlapY() {
+		Vector<OverlapDirection> overlapDir = world.getKindOfOverlap(
+				new Vector<Integer>(70, 70),
+				new Vector<Integer>(140, 140),
+				new Vector<Integer>(71, 71),
+				new Vector<Integer>(139, 139));
+		assertEquals(overlapDir.x, OverlapDirection.MIDDLE);
+		assertEquals(overlapDir.y, OverlapDirection.MIDDLE);
+		
+		overlapDir = world.getKindOfOverlap(
+				new Vector<Integer>(70, 70),
+				new Vector<Integer>(140, 140),
+				new Vector<Integer>(90, 90),
+				new Vector<Integer>(100, 100));
+		assertEquals(overlapDir.x, OverlapDirection.MIDDLE);
+		assertEquals(overlapDir.y, OverlapDirection.MIDDLE);
+	}
+	
+	@Test
+	public void getKindOfOverlap_highOverlapX_highOverlapY() {
+		Vector<OverlapDirection> overlapDir = world.getKindOfOverlap(
+				new Vector<Integer>(70, 70),
+				new Vector<Integer>(140, 140),
+				new Vector<Integer>(71, 71),
+				new Vector<Integer>(140, 140));
+		assertEquals(overlapDir.x, OverlapDirection.HIGH);
+		assertEquals(overlapDir.y, OverlapDirection.HIGH);
+		
+		overlapDir = world.getKindOfOverlap(
+				new Vector<Integer>(70, 70),
+				new Vector<Integer>(140, 140),
+				new Vector<Integer>(71, 71),
+				new Vector<Integer>(150, 150));
+		assertEquals(overlapDir.x, OverlapDirection.HIGH);
+		assertEquals(overlapDir.y, OverlapDirection.HIGH);
+		
+		overlapDir = world.getKindOfOverlap(
+				new Vector<Integer>(70, 70),
+				new Vector<Integer>(140, 140),
+				new Vector<Integer>(139, 139),
+				new Vector<Integer>(150, 150));
+		assertEquals(overlapDir.x, OverlapDirection.HIGH);
+		assertEquals(overlapDir.y, OverlapDirection.HIGH);
 	}
 	
 	@Test

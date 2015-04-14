@@ -650,5 +650,14 @@ public class World {
 		for (GameObject object : this.objects) {
 			object.advanceTime(dt);
 		}
+
+		//Check the deaths after everything has updated
+		Set<GameObject> deaths = new HashSet<>();
+		for (GameObject object : this.objects) {
+			if (! object.isAlive()){
+				deaths.add(object);
+			}
+		}
+		this.objects.removeAll(deaths);
 	}
 }

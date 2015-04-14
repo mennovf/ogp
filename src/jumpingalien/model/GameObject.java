@@ -626,6 +626,16 @@ public abstract class GameObject {
 	
 	
 	/**
+	 * The position of the center of this gameObject in pixels based on it's position and it's dimensions.
+	 * If the calculated pixel value isn't an integer, the x and y components are floored.
+	 * @return The position of the center of this GameObject.
+	 */
+	public Vector<Integer> getCenterInPixels(){
+		Vector<Integer> size = this.getSize();
+		return Vector.add(this.getPosition(), new Vector<Integer>((int)(size.x * 0.5), (int)(size.y * 0.5)));
+	}
+	
+	/**
 	 * Handles a time step of dt and updates properties accordingly.
 	 * 
 	 * @param dt

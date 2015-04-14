@@ -443,4 +443,10 @@ public class MazubTest {
 		assertEquals(mazub.getSpeed().x, 0.0, testAccuracy);
 		assertEquals(mazub.getSpeed().y, 0.0, testAccuracy);
 	}
+	
+	@Test
+	public void getCenterInPixels(){
+		assertEquals((int)mazub.getCenterInPixels().x, mazub.getPosition().x + (int)(0.5 * mazub.getSize().x));
+		assertEquals((int)mazub.getCenterInPixels().y, mazub.getPosition().y + (int)(0.5 * mazub.getSize().y));
+	}
 }

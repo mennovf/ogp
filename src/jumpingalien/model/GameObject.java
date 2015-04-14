@@ -316,7 +316,7 @@ public abstract class GameObject {
 						this.getPosition(), Vector.add(this.getPosition(), this.getSize()),
 						tilePos, Vector.add(tilePos, new Vector<>(tileSize, tileSize)));
 				
-				if (overlapDir.y == OverlapDirection.LOW) {
+				if (overlapDir.y == OverlapDirection.LOW || overlapDir.y == OverlapDirection.NONE) {
 					return true;
 				}
 			}

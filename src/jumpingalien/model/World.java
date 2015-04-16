@@ -23,7 +23,6 @@ public class World {
 	private Vector<Integer> visibleWindowBottomLeft;
 	private Vector<Integer> visibleWindowTopRight;
 	private final Vector<Integer> targetTilePosition;
-	private boolean didPlayerWin = false;
 	
 	private TileType[][] tiles;
 	
@@ -275,7 +274,14 @@ public class World {
 	 * @return true if the player won the game.
 	 */
 	public boolean didPlayerWin() {
-		return didPlayerWin;
+		ArrayList<Vector<Integer>> tilePositions = this.getTilePositionsInRectangle(mazub.getPosition(), Vector.add(mazub.getPosition(), mazub.getSize()));
+		Vector<Integer> targetTilePos = this.getTargetTilePosition();
+		for (Vector<Integer> pos : tilePositions){
+			if ((pos.x == targetTilePos.x) && (pos.y == targetTilePosition.y)){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	

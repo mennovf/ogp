@@ -145,4 +145,8 @@ public class Utilities {
 		Sprite[] sprites = new Sprite[] {Resources.SHARK_SPRITE_LEFT, Resources.SHARK_SPRITE_RIGHT};
 		return new Shark(pos, sprites);
 	}
+	
+	public static World world(){
+		return new World(70, 20, 12, 1024, 751, 18, 9);
+	}
 }

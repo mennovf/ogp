@@ -3,7 +3,9 @@ package jumpingalien.part2.tests;
 import static org.junit.Assert.*;
 import jumpingalien.model.Constants;
 import jumpingalien.model.Plant;
+import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
+import jumpingalien.model.World;
 import jumpingalien.part2.internal.Resources;
 import jumpingalien.util.Sprite;
 
@@ -18,6 +20,7 @@ public class PlantTest {
 	private Plant plant;
 	private Sprite[] sprites;
 	private Vector<Double> startPos;
+	private World world;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -32,6 +35,8 @@ public class PlantTest {
 		startPos = new Vector<>(10.0, 1.0);
 		sprites = new Sprite[] {Resources.SLIME_SPRITE_LEFT, Resources.SLIME_SPRITE_RIGHT};
 		plant = new Plant(startPos, sprites);
+		world = Utilities.world();
+		world.addGameObject(plant);
 	}
 
 	@After
@@ -47,8 +52,12 @@ public class PlantTest {
 
 	@Test
 	public void moveLeft(){
-		plant.advanceTime(0.5 + 0.6);
-		assertTrue(plant.getPositionInMeters().x < startPos.x);
+		for (int i = 0; i * Constants.maxTimeInterval < Constants.plantMoveTime; ++i){
+			plant.advanceTime(Constants.maxTimeInterval);
+		}
+		double xPos = plant.getPositionInMeters().x;
+		plant.advanceTime(Constants.maxTimeInterval);
+		assertTrue(plant.getPositionInMeters().x < xPos);
 		assertTrue(plant.getCurrentSprite() == sprites[0]);
 	}
 	

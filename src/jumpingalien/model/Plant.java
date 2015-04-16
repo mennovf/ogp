@@ -8,7 +8,6 @@ import jumpingalien.util.Sprite;
 public class Plant extends GameObject {
 	
 	private double directionTime = 0;
-	private final double maxDirectionTime = 0.5;
 	
 	/**
 	 * Creates a plant with the given position and sprites.
@@ -50,8 +49,8 @@ public class Plant extends GameObject {
 	@Override
 	protected void handleStep(double dt) {
 		
-		double timeLeft = maxDirectionTime - directionTime;
-		directionTime = (directionTime + dt) % maxDirectionTime;
+		double timeLeft = Constants.plantMoveTime - directionTime;
+		directionTime = (directionTime + dt) % Constants.plantMoveTime;
 		
 		//TODO: Did not recalculate the mistake made by switching the speed too late (dt > timeLeft)
 		
@@ -70,7 +69,6 @@ public class Plant extends GameObject {
 		// TODO Auto-generated method stub
 		
 	}
-	
 	
 //	@Override
 //	public void advanceTime(double dt){

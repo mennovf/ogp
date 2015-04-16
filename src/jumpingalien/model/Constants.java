@@ -6,4 +6,5 @@ public class Constants {
 	public final static double deathTime = 0.6;
 	public final static Vector<Double> screenSize = new Vector<>(1024.0, 768.0);
 	public final static double metersPerPixel = 0.01;
+	public final static double plantMoveTime = 0.5;
 }

@@ -7,7 +7,7 @@ import jumpingalien.util.Sprite;
 
 public class Plant extends GameObject {
 	
-	private double directionTime = 0;
+	private double directionTime = Constants.plantMoveTime;
 	
 	/**
 	 * Creates a plant with the given position and sprites.
@@ -21,8 +21,6 @@ public class Plant extends GameObject {
 	public Plant(Vector<Double> position, Sprite[] sprites){
 		
 		super(1, 1, position, sprites);
-		
-		this.setSpeed(this.getSpeed().setX(0.5));
 	}
 	
 	
@@ -55,11 +53,9 @@ public class Plant extends GameObject {
 		//TODO: Did not recalculate the mistake made by switching the speed too late (dt > timeLeft)
 		
 		if (dt > timeLeft){
-			this.setSpeed(Vector.scale(this.getSpeed(), -1.0));
+			this.setSpeed(this.getSpeed().setX(this.getFacing() * Constants.plantSpeed));
 			this.setFacing(this.getFacing() * -1);
 		}
-        
-        this.setCurrentSprite(this.getSprites()[this.getFacing() < 0 ? 0 : 1]);
 	}
 	
 	

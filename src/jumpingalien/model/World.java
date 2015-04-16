@@ -232,8 +232,15 @@ public class World {
 	@Basic
 	@Immutable
 	public int[] getVisibleWindow() {
-		int[] windowArray = {this.visibleWindowBottomLeft.x, this.visibleWindowBottomLeft.y,
-				this.visibleWindowTopRight.x, this.visibleWindowTopRight.y};
+		Vector<Integer> size = new Vector<>(visibleWindowTopRight.x - visibleWindowBottomLeft.x,
+											visibleWindowTopRight.y - visibleWindowBottomLeft.y);
+		Vector<Integer> pos = new Vector<>(mazub.getCenterInPixels().x - size.x / 2,
+										   mazub.getCenterInPixels().y - size.y / 2);
+		//Correction for the edges of the map
+		pos = Utilities.clipVectorInRange(new Vector<>(0, 0), Vector.add(Vector.add(this.getSizeInPixels(), Vector.scale(size, -1)), new Vector<>(-1, -1)), pos);
+		
+		Vector<Integer> topRight = Vector.add(pos, size);
+		int[] windowArray = {pos.x, pos.y, topRight.x, topRight.y};
 		return windowArray;
 	}
 	

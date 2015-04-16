@@ -141,10 +141,31 @@ public class School {
 	}
 	
 	
-	/** Returns the number of slimes currently part of this school.
+	/**
+	 * Returns the number of slimes currently part of this school.
 	 * @return The number of slimes currently part of this school.
 	 */
 	public int size(){
 		return this.slimes.size();
+	}
+	
+	/**
+	 * Has every slime part of this school take 1 point of damage. The Slime slime is ignored.
+	 * @param slime
+	 * 			The slime which has recieved damage.
+	 * 
+	 * @post Every slime will have lost one health.
+	 * 			| for (Slime slime : getSlimes()){
+	 * 			| 	slime.getHealth() == (old)slime.getHealth(-1)
+	 * 			|}
+	 * @post The Slime slime will have it's health unaffected.
+	 * 			| slime.getHealth() == old.getHealth()
+	 */
+	public void takeDamageCausedBy(Slime slime){
+		for (Slime member : this.slimes){
+			if (member != slime){
+				member.increaseHealth(-1);
+			}
+		}
 	}
 }

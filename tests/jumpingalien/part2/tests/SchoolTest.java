@@ -103,4 +103,18 @@ public class SchoolTest {
 		School.switchSchools(school, otherSchool, slime);
 		assertEquals(school.size(), 0);
 	}
+	
+	@Test
+	public void takeDamageCausedBy(){
+		school.takeDamageCausedBy(slime);
+		assertEquals(slime.getHealth(), 100);
+		
+		Slime slime2 = Utilities.slime(new Vector<>(0.0, 0.0), school);
+		Slime slime3 = Utilities.slime(new Vector<>(0.0, 0.0), school);
+		
+		school.takeDamageCausedBy(slime);
+		assertEquals(slime.getHealth(), 100);
+		assertEquals(slime2.getHealth(), 99);
+		assertEquals(slime3.getHealth(), 99);
+	}
 }

@@ -35,7 +35,7 @@ public class MazubTest {
 
 	@Before
 	public void setUp() throws Exception {
-		world = new World(70, 20, 12, 1024, 751, 18, 9);
+		world = Utilities.world();
 		mazub = new Mazub(new Vector<>(testStartPosition.x, testStartPosition.y), sprites, testVxInit, testVxMax, testStartDirection);
 		world.addGameObject(mazub);
 	}
@@ -442,5 +442,25 @@ public class MazubTest {
 		assertTrue(mazub.getHeight() > duckingHeight);
 		assertEquals(mazub.getSpeed().x, 0.0, testAccuracy);
 		assertEquals(mazub.getSpeed().y, 0.0, testAccuracy);
+	}
+	
+	@Test
+	public void getCenterInPixels(){
+		assertEquals((int)mazub.getCenterInPixels().x, mazub.getPosition().x + (int)(0.5 * mazub.getSize().x));
+		assertEquals((int)mazub.getCenterInPixels().y, mazub.getPosition().y + (int)(0.5 * mazub.getSize().y));
+	}
+	
+	@Test
+	public void deadAfterTime(){
+		assertTrue(mazub.isAlive());
+		mazub.increaseHealth(-mazub.getHealth());
+		assertTrue(mazub.isAlive());
+		
+		//Wait 0.6s
+		for (int i = 0; i * Constants.maxTimeInterval <= 0.6; ++i){
+			assertTrue(mazub.isAlive());
+			mazub.advanceTime(Constants.maxTimeInterval);
+		}
+		assertFalse(mazub.isAlive());
 	}
 }

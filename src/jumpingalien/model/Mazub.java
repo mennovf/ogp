@@ -255,7 +255,7 @@ public class Mazub extends GameObject {
 		
 		for (GameObject object : collidingObjects) {
 			
-			if ((object instanceof Plant) && object.isAlive() && (this.getHealth() < this.getMaximumHealth())) {
+			if ((object instanceof Plant) && !object.isHealthZero() && (this.getHealth() < this.getMaximumHealth())) {
 				this.increaseHealth(plantHealthGain);
 				object.setHealth(0);
 			}

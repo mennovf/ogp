@@ -62,6 +62,7 @@ public abstract class GameObject {
 		// maxHealth has to be set before setHealth because it uses maxHealth.
 		this.setFacing(1);
 		this.maxHealth = maxHealth;
+		this.health = 1;
 		this.setHealth(health);
 		this.sprites = sprites;
 		this.setCurrentSprite(sprites[0]);
@@ -193,11 +194,12 @@ public abstract class GameObject {
 	}
 
 	/**
-	 * @return Whether the object is alive or not.
-	 * 			| this.getHealth() > 0
+	 * @return Whether the object is alive or not. The object is considered dead when it's health
+	 * 		   is zero and has been zero for longer than Constants.deathTime.
+	 * 			| !((this.isHealthZero()) && (this.deathTime > Constants.deathTime))
 	 */
 	public boolean isAlive() {
-		return this.getHealth() > 0;
+		return !(this.isHealthZero() && (this.deathTime >= Constants.deathTime));
 	}
 	
 	/**
@@ -221,15 +223,18 @@ public abstract class GameObject {
 	/**
 	 * @param health The suggested health for this object.
 	 * @post Set this object's health to health if health is smaller than the maximum allowed health
-	 * 		 otherwise it sets it to the maximum allowed amount.
-	 * 			| if (!this.isValidHealth(health))
+	 * 		 otherwise it sets it to the maximum allowed amount. If the health of this object is equal to zero
+	 * 		 then setHealth does nothing.
+	 * 			| if (!this.isValidHealth(health) && (this.getHealth() != 0))
 	 * 			| then new.getHealth() == health
 	 * 			| else if (health > this.getMaximumHealth()
 	 * 			|      then new.getHealth() == this.getMaximumHealth()
 	 * 			|	   else new.getHealth() == 0
 	 */
 	public void setHealth(int health){
-		this.health = Utilities.clipInRange(0, this.getMaximumHealth(), health);
+		if (! this.isHealthZero()){
+			this.health = Utilities.clipInRange(0, this.getMaximumHealth(), health);
+		}
 	}
 	
 
@@ -317,7 +322,7 @@ public abstract class GameObject {
 						this.getPosition(), Vector.add(this.getPosition(), this.getSize()),
 						tilePos, Vector.add(tilePos, new Vector<>(tileSize, tileSize)));
 				
-				if (overlapDir.y == OverlapDirection.LOW) {
+				if (overlapDir.y == OverlapDirection.LOW || overlapDir.y == OverlapDirection.NONE) {
 					return true;
 				}
 			}
@@ -554,7 +559,7 @@ public abstract class GameObject {
 //		this.handleStep(dt);
 //		this.handleCollisions(collidingObjects, collidingTiles);
 		
-		Double time = 0.0;
+		double time = 0.0;
 		while (time < dt) {
 			
 			double stepTime = this.motion.step(dt - time);
@@ -562,12 +567,8 @@ public abstract class GameObject {
 			
 			this.handleStep(stepTime);
 			
-			if (!this.isAlive()) {
+			if (this.isHealthZero()) {
 				deathTime += stepTime;
-				
-				if (deathTime > Constants.deathTime) {
-					//TODO: Handle death here
-				}
 			}
 			
 			//TODO: Handle collisions here?
@@ -611,15 +612,15 @@ public abstract class GameObject {
 					continue;
 				}
 				
-				System.out.println();
-				System.out.println(overlap.x);
-				System.out.println(overlap.y);
+//				System.out.println();
+//				System.out.println(overlap.x);
+//				System.out.println(overlap.y);
 				
 				if (Math.abs(overlap.x) == 1) {
 					this.setPosition(this.getPositionInMeters().addX(overlap.x * Constants.metersPerPixel));
 					this.setSpeed(this.getSpeed().setX(0.0));
-				} else if (Math.abs(overlap.y) == 1) {
-					int correction = (overlap.y == 1) ? -1 : 0;
+				} else if (Math.abs(overlap.y) == 1 || overlap.y == 2) {
+					int correction = (overlap.y == 1 || overlap.y == 2) ? -1 : 0;
 					this.setPosition(this.getPositionInMeters().addY((overlap.y + correction) * Constants.metersPerPixel));
 					this.setSpeed(this.getSpeed().setY(0.0));
 				} else {
@@ -663,6 +664,16 @@ public abstract class GameObject {
 //		}
 	}
 	
+	
+	/**
+	 * The position of the center of this gameObject in pixels based on it's position and it's dimensions.
+	 * If the calculated pixel value isn't an integer, the x and y components are floored.
+	 * @return The position of the center of this GameObject.
+	 */
+	public Vector<Integer> getCenterInPixels(){
+		Vector<Integer> size = this.getSize();
+		return Vector.add(this.getPosition(), new Vector<Integer>((int)(size.x * 0.5), (int)(size.y * 0.5)));
+	}
 	
 	/**
 	 * Handles a time step of dt and updates properties accordingly.
@@ -742,5 +753,14 @@ public abstract class GameObject {
 		//TODO: Implement this.
 		
 		return true;
+	}
+	
+	/**
+	 * Returns whether this object's health is equal to zero.
+	 * 
+	 * @return Whether this object's health is equal to zero.
+	 */
+	public boolean isHealthZero(){
+		return this.getHealth() == 0;
 	}
 }

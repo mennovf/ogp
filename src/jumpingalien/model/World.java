@@ -260,7 +260,7 @@ public class World {
 	 * @return true if the game has ended. This means the player is dead or the player reached the target tile.
 	 */
 	public boolean isGameOver() {
-		return !this.getMazub().isAlive() || this.didPlayerWin();
+		return this.getMazub().isHealthZero() || this.didPlayerWin();
 	}
 	
 	
@@ -650,5 +650,14 @@ public class World {
 		for (GameObject object : this.objects) {
 			object.advanceTime(dt);
 		}
+		
+		//Remove dead objects from the world
+		Set<GameObject> deaths = new HashSet<>();
+		for (GameObject object : this.objects) {
+			if (!object.isAlive()){
+				deaths.add(object);
+			}
+		}
+		this.objects.removeAll(deaths);
 	}
 }

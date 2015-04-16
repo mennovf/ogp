@@ -57,7 +57,7 @@ public class Motion {
 	}
 	
 	/**
-	 * Sets the position of this motion object.
+	 * Sets the position of this motion object in meters.
 	 * 
 	 * @param position
 	 * 			The position to set.
@@ -181,22 +181,30 @@ public class Motion {
 		
 		double dt = totalTime;
 		
+//		System.out.println();
 		if (v.x != 0) {
-			Double candidateDt = Math.abs(100 / v.x);
+			Double candidateDt = Math.abs(0.01 / v.x);
 			dt = Math.min(dt, candidateDt);
 		}
+//		System.out.println(dt);
 		if (v.y != 0) {
-			Double candidateDt = Math.abs(100 / v.y);
+			Double candidateDt = Math.abs(0.01 / v.y);
 			dt = Math.min(dt, candidateDt);
 		}
-		if (a.x != 0) {
-			Double candidateDt = (100 * Math.sqrt(Math.abs(a.x)/50 + Math.pow(v.x/100, 2)) - Math.abs(v.x)) / Math.abs(a.x);
+//		System.out.println(dt);
+		if (v.x != 0 && a.x != 0) {
+//			Double candidateDt = (100 * Math.sqrt(Math.abs(a.x)/50 + Math.pow(v.x/100, 2)) - Math.abs(v.x)) / Math.abs(a.x);
+			Double candidateDt = (Math.sqrt(Math.pow(v.x, 2) + 0.02*Math.abs(a.x)) - Math.abs(v.x)) / Math.abs(a.x);
 			dt = Math.min(dt, candidateDt);
 		}
-		if (a.y != 0) {
-			Double candidateDt = (100 * Math.sqrt(Math.abs(a.y)/50 + Math.pow(v.y/100, 2)) - Math.abs(v.y)) / Math.abs(a.y);
+//		System.out.println(dt);
+		if (v.y != 0 && a.y != 0) {
+//			Double candidateDt = (100 * Math.sqrt(Math.abs(a.y)/50 + Math.pow(v.y/100, 2)) - Math.abs(v.y)) / Math.abs(a.y);
+			Double candidateDt = (Math.sqrt(Math.pow(v.y, 2) + 0.02*Math.abs(a.y)) - Math.abs(v.y)) / Math.abs(a.y);
 			dt = Math.min(dt, candidateDt);
 		}
+		
+//		System.out.println(dt);
 		
 		Vector<Double> newPosition = Vector.add(r, Vector.add(Vector.scale(v, dt), Vector.scale(a, dt*dt/2.0)));
 		Vector<Double> newSpeed = Vector.add(v, Vector.scale(a, dt));

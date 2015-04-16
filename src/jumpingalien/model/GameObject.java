@@ -1,5 +1,6 @@
 package jumpingalien.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import jumpingalien.util.Sprite;
@@ -256,7 +257,7 @@ public abstract class GameObject {
 
 
 	/**
-	 * Sets this GameObject's position to the given position.
+	 * Sets this game object's position to the given position in meters.
 	 * 
 	 * @param position
 	 * 			The position to set.
@@ -590,39 +591,77 @@ public abstract class GameObject {
 	 */
 	private void handleTerrain(Set<Tile> collidingTiles) {
 		
-		for (Tile tile : collidingTiles) {
-			
+		Set<Tile> hardOnes = new HashSet<Tile>();
+		
+		for (Tile tile: collidingTiles) {
 			if (!tile.getType().passable) {
 				
-				Vector<OverlapDirection> overlapDir = this.getWorld().getKindOfOverlap(
-						this.getPosition(), Vector.add(this.getPosition(), this.getSize()),
-						tile.getPositionInPixels(), Vector.add(tile.getPositionInPixels(),
-								new Vector<>(this.getWorld().getTileSize(), this.getWorld().getTileSize())));
-				
-				if (overlapDir.y == OverlapDirection.HIGH) {
-					this.setPosition(this.getPositionInMeters().setY(tile.getPositionInMeters().y - this.getSizeInMeters().y));
-					this.setSpeed(this.getSpeed().setY(0.0));
+				if (!correctOverlapWithTile(tile)) {
+					System.out.println("Incorrect overlap detected...");
+					continue;
 				}
 				
-				if ((overlapDir.x == OverlapDirection.LOW) && (tile.getPositionInPixels().y - this.getPosition().y > 1)) {
-					this.setPosition(this.getPositionInMeters().setX(tile.getPositionInMeters().x + this.getWorld().getTileSizeInMeters()));
+				Vector<Integer> overlap = getKindOfOverlapWithTile(tile);
+				
+				if (overlap.x == 0 || overlap.y == 0) {
+					continue;
+				}
+				
+				if (Math.abs(overlap.x) == 1 && Math.abs(overlap.y) == 1) {
+					hardOnes.add(tile);
+					continue;
+				}
+				
+//				System.out.println();
+//				System.out.println(overlap.x);
+//				System.out.println(overlap.y);
+				
+				if (Math.abs(overlap.x) == 1) {
+					this.setPosition(this.getPositionInMeters().addX(overlap.x * Constants.metersPerPixel));
 					this.setSpeed(this.getSpeed().setX(0.0));
-					this.setAcceleration(this.getAcceleration().setX(0.0));
-				}
-				
-				if ((overlapDir.x == OverlapDirection.HIGH) && (tile.getPositionInPixels().y - this.getPosition().y > 1)) {
-					this.setPosition(this.getPositionInMeters().setX(tile.getPositionInMeters().x - this.getSizeInMeters().x));
-					this.setSpeed(this.getSpeed().setX(0.0));
-					this.setAcceleration(this.getAcceleration().setX(0.0));
-				}
-				
-				if (overlapDir.y == OverlapDirection.LOW) {
-					this.setPosition(this.getPositionInMeters().setY(tile.getPositionInMeters().y + this.getWorld().getTileSizeInMeters() - Constants.metersPerPixel));
+				} else if (Math.abs(overlap.y) == 1 || overlap.y == 2) {
+					int correction = (overlap.y == 1 || overlap.y == 2) ? -1 : 0;
+					this.setPosition(this.getPositionInMeters().addY((overlap.y + correction) * Constants.metersPerPixel));
 					this.setSpeed(this.getSpeed().setY(0.0));
-					this.setAcceleration(this.getAcceleration().setY(0.0));
+				} else {
+					System.out.println("this is fucked up...");
 				}
 			}
 		}
+		
+//		for (Tile tile : collidingTiles) {
+//			
+//			if (!tile.getType().passable) {
+//				
+//				Vector<OverlapDirection> overlapDir = this.getWorld().getKindOfOverlap(
+//						this.getPosition(), Vector.add(this.getPosition(), this.getSize()),
+//						tile.getPositionInPixels(), Vector.add(tile.getPositionInPixels(),
+//								new Vector<>(this.getWorld().getTileSize(), this.getWorld().getTileSize())));
+//				
+//				if (overlapDir.y == OverlapDirection.HIGH) {
+//					this.setPosition(this.getPositionInMeters().setY(tile.getPositionInMeters().y - this.getSizeInMeters().y));
+//					this.setSpeed(this.getSpeed().setY(0.0));
+//				}
+//				
+//				if ((overlapDir.x == OverlapDirection.LOW) && (tile.getPositionInPixels().y - this.getPosition().y > 1)) {
+//					this.setPosition(this.getPositionInMeters().setX(tile.getPositionInMeters().x + this.getWorld().getTileSizeInMeters()));
+//					this.setSpeed(this.getSpeed().setX(0.0));
+//					this.setAcceleration(this.getAcceleration().setX(0.0));
+//				}
+//				
+//				if ((overlapDir.x == OverlapDirection.HIGH) && (tile.getPositionInPixels().y - this.getPosition().y > 1)) {
+//					this.setPosition(this.getPositionInMeters().setX(tile.getPositionInMeters().x - this.getSizeInMeters().x));
+//					this.setSpeed(this.getSpeed().setX(0.0));
+//					this.setAcceleration(this.getAcceleration().setX(0.0));
+//				}
+//				
+//				if (overlapDir.y == OverlapDirection.LOW) {
+//					this.setPosition(this.getPositionInMeters().setY(tile.getPositionInMeters().y + this.getWorld().getTileSizeInMeters() - Constants.metersPerPixel));
+//					this.setSpeed(this.getSpeed().setY(0.0));
+//					this.setAcceleration(this.getAcceleration().setY(0.0));
+//				}
+//			}
+//		}
 	}
 	
 	
@@ -656,6 +695,65 @@ public abstract class GameObject {
 	 */
 	protected abstract void handleCollisions(Set<GameObject> collidingObjects, Set<Tile> collidingTiles);
 	
+	
+	/**
+	 * Returns a 2D vector representing the kind of overlap of the given tile
+	 * with this game object. When the overlap comes from lower coördinates
+	 * (on the left or on the bottom) a positive overlap value is returned.
+	 * When the overlap comes from higher coördinates (on the right and on 
+	 * the top) a negative value is returned.
+	 * 
+	 * @param tile
+	 * 			The tile to get the kind of overlap with.
+	 * 
+	 * @return A 2D vector representing the kind of overlap.
+	 */
+	private Vector<Integer> getKindOfOverlapWithTile(Tile tile) {
+		
+		Vector<Integer> tilePos = tile.getPositionInPixels();
+		Vector<Integer> selfPos = this.getPosition();
+		int tileSize = tile.getSize();
+		Vector<Integer> selfSize = this.getSize();
+		
+		Vector<Integer> overlap = new Vector<>(0, 0);
+		
+		if (!correctOverlapWithTile(tile)) {
+			return overlap;
+		}
+		
+		if (tilePos.x <= selfPos.x) {
+			overlap = overlap.setX(Math.min(selfSize.x, tilePos.x + tileSize - selfPos.x));
+		} else {
+			overlap = overlap.setX(Math.min(selfSize.x, tilePos.x - selfPos.x - selfSize.x));
+		}
+		
+		if (tilePos.y <= selfPos.y) {
+			overlap = overlap.setY(Math.min(selfSize.y, tilePos.y + tileSize - selfPos.y));
+		} else {
+			overlap = overlap.setY(Math.min(selfSize.y, tilePos.y - selfPos.y - selfSize.y));
+		}
+		
+		return overlap;
+	}
+	
+	
+	/**
+	 * Returns whether this game object overlaps correctly with the given tile
+	 * for terrain handling calculations. This means the tile can only
+	 * overlap with the outer border op pixels of the game object because
+	 * the time steps make sure steps of one pixel are taken.
+	 * 
+	 * @param tile
+	 * 			The tile to test overlapping with.
+	 * 
+	 * @return True if this game object overlaps correctly with the given tile.
+	 */
+	private boolean correctOverlapWithTile(Tile tile) {
+		
+		//TODO: Implement this.
+		
+		return true;
+	}
 	
 	/**
 	 * Returns whether this object's health is equal to zero.

@@ -100,6 +100,9 @@ public class Vector <T> {
 	public Vector(Vector<T> vector) {
 		this(vector.x, vector.y);
 	}
+	
+	
+	//TODO: Maybe equal method?
 
 
 	/**

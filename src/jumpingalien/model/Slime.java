@@ -15,6 +15,8 @@ import jumpingalien.util.Sprite;
  */
 public class Slime extends GameObject {
 	
+	private double moveTimeLeft = 0;
+	
 	private School school;
 	
 	
@@ -118,10 +120,35 @@ public class Slime extends GameObject {
 	}
 	
 	
+	/**
+	 * Overrides the setSpeed method of gameObject to clip the speed within the allowed range.
+	 */
+	@Override
+	public void setSpeed(Vector<Double> speed) {
+		
+		super.setSpeed(new Vector<Double>(Utilities.clipInRange(-Constants.slimeMaxHorizontalSpeed,
+											Constants.slimeMaxHorizontalSpeed,
+											speed.x), speed.y));
+	}
+	
+	
 	@Override
 	protected void handleStep(double dt) {
 		// TODO Auto-generated method stub
 		
+		if (moveTimeLeft <= 0) {
+			
+			double direction = Math.rint(Math.random()) == 0 ? -1.0 : 1.0;
+			this.setSpeed(this.getSpeed().setX(0.0));
+			this.setAcceleration(this.getAcceleration().setX(Constants.slimeHorizontalAcceleration * direction));
+			
+			moveTimeLeft = Constants.slimeMinMoveTime + Math.random() *
+					(Constants.slimeMaxMoveTime - Constants.slimeMinMoveTime);
+			
+		} else {
+			
+			moveTimeLeft -= dt;
+		}
 	}
 	
 	
@@ -130,6 +157,9 @@ public class Slime extends GameObject {
 			Set<Tile> collidingTiles) {
 		// TODO Auto-generated method stub
 		
+		if (!this.onGround()) {
+			this.setAcceleration(this.getAcceleration().setY(Constants.gravityAcceleration));
+		}
 	}
 
 }

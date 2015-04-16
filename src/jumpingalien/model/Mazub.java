@@ -68,7 +68,7 @@ public class Mazub extends GameObject {
 	public final static double vInitJump = 8.0; // Initial jump speed
 	
 	// Acceleration
-	public final static Vector<Double> maxAcceleration = new Vector<>(0.9, -10.0);
+	public final static Vector<Double> maxAcceleration = new Vector<>(0.9, Constants.gravityAcceleration);
 
 	/**
 	 * @param x
@@ -162,6 +162,10 @@ public class Mazub extends GameObject {
 	}
 	
 	
+	/**
+	 * Overrides the setSpeed method of gameObject to clip the speed within the allowed range.
+	 */
+	@Override
 	public void setSpeed(Vector<Double> speed) {
 		
 		super.setSpeed(new Vector<Double>(Utilities.clipInRange(-this.getMaxHorizontalSpeed(),

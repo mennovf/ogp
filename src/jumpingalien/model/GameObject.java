@@ -557,7 +557,6 @@ public abstract class GameObject {
 			Set<GameObject> collidingObjects = this.getWorld().getObjectsCollidingWithObject(this);
 			Set<Tile> collidingTiles = this.getWorld().getTilesCollidingWithObject(this);
 			
-			this.handleTerrain(collidingTiles);
 			this.handleCollisions(collidingObjects, collidingTiles);
 			this.determineCurrentSprite();
 		}
@@ -674,7 +673,23 @@ public abstract class GameObject {
 	 * @param collidingTiles
 	 * 			The tiles this game object collides with.
 	 */
-	protected abstract void handleCollisions(Set<GameObject> collidingObjects, Set<Tile> collidingTiles);
+	protected void handleCollisions(Set<GameObject> collidingObjects, Set<Tile> collidingTiles){
+		this.handleTerrain(collidingTiles);
+
+		for (GameObject object : collidingObjects){
+			//Delegate the collision to both parties involved
+			//Each party only has to worry about it's own state changes
+			handleCollision(object);
+			object.handleCollision(this);
+		}
+	}
+	
+	/**
+	 * Handle the collision of a single GameObject.
+	 * @param object
+	 * 			The object with which this one collides.
+	 */
+	protected abstract void handleCollision(GameObject object);
 	
 	
 	/**

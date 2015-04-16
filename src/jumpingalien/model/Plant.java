@@ -62,7 +62,19 @@ public class Plant extends GameObject {
 	@Override
 	protected void handleCollisions(Set<GameObject> collidingObjects,
 			Set<Tile> collidingTiles) {
+		super.handleCollisions(collidingObjects, collidingTiles);
 		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	protected void handleCollision(GameObject object) {
+		if (this.isAlive()){
+			if ((object instanceof Mazub) && !(this.isHealthZero()) && (object.getHealth() != object.getMaximumHealth())){
+				this.setHealth(0);
+			}
+		}
 		
 	}
 	

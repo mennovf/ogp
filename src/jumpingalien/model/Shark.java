@@ -48,6 +48,7 @@ public class Shark extends GameObject {
 	@Override
 	protected void handleCollisions(Set<GameObject> collidingObjects,
 			Set<Tile> collidingTiles) {
+		super.handleCollisions(collidingObjects, collidingTiles);
 		// TODO Auto-generated method stub
 		
 	}
@@ -55,6 +56,13 @@ public class Shark extends GameObject {
 
 	@Override
 	public void advanceTime(double dt) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	protected void handleCollision(GameObject object) {
 		// TODO Auto-generated method stub
 		
 	}

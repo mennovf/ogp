@@ -5,7 +5,6 @@ import java.util.Set;
 
 import be.kuleuven.cs.som.annotate.*;
 import jumpingalien.util.Sprite;
-import jumpingalien.util.Util;
 import jumpingalien.model.Constants;
 import jumpingalien.model.Utilities;
 
@@ -251,23 +250,11 @@ public class Mazub extends GameObject {
 	protected void handleCollisions(Set<GameObject> collidingObjects,
 			Set<Tile> collidingTiles) {
 		
+		super.handleCollisions(collidingObjects, collidingTiles);
 		if (!this.onGround()) {
 			this.setAcceleration(this.getAcceleration().setY(getMaxAcceleration().y));
 		}
 		
-		for (GameObject object : collidingObjects) {
-			
-			if ((object instanceof Plant) && !object.isHealthZero() && (this.getHealth() < this.getMaximumHealth())) {
-				this.increaseHealth(plantHealthGain);
-				object.setHealth(0);
-			}
-			
-			if ((this.timeSinceEnemyDamage > enemyDamageInterval) && ((object instanceof Slime) || (object instanceof Shark))
-					&& object.isAlive()) {
-				this.increaseHealth(enemyDamage);
-				this.timeSinceEnemyDamage = 0;
-			}
-		}
 		
 		for (Tile tile : collidingTiles) {
 			
@@ -467,5 +454,18 @@ public class Mazub extends GameObject {
 	 */
 	public void endDuck() {
 		this.isDucking = false;
+	}
+
+	@Override
+	protected void handleCollision(GameObject object) {
+		if ((object instanceof Plant) && !object.isHealthZero() && (this.getHealth() < this.getMaximumHealth())) {
+			this.increaseHealth(plantHealthGain);
+        }
+                
+        if ((this.timeSinceEnemyDamage > enemyDamageInterval) && ((object instanceof Slime) || (object instanceof Shark))
+                                && object.isAlive()) {
+            this.increaseHealth(enemyDamage);
+            this.timeSinceEnemyDamage = 0;
+        }
 	}
 }

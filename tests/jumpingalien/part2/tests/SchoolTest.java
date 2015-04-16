@@ -66,7 +66,6 @@ public class SchoolTest {
 	
 	@Test
 	public void containsSlime_doesntContain(){
-		assertFalse(school.containsSlime(slime));
 		assertFalse(school.containsSlime(null));
 	}
 	
@@ -74,12 +73,12 @@ public class SchoolTest {
 	public void switchSchools_ok(){
 		int amount1 = 5;
 		for (int i = 0; i < amount1; ++i){
-			school.addSlime(Utilities.slime(new Vector<>(0.0, 0.0), school));
+			Utilities.slime(new Vector<>(0.0, 0.0), school);
 		}
 		School school2 = new School();
 		int amount2 = 7;
 		for (int i = 0; i < amount2; ++i){
-			school2.addSlime(Utilities.slime(new Vector<>(0.0, 0.0), school));
+			Utilities.slime(new Vector<>(0.0, 0.0), school2);
 		}
 		school.addSlime(slime);
 		School.switchSchools(school, school2, slime);
@@ -95,5 +94,13 @@ public class SchoolTest {
 				assertEquals(schoolSlime.getHealth(), 100 - 1);
 			}
 		}
+	}
+	
+	@Test
+	public void size(){
+		assertEquals(school.size(), 1);
+		School otherSchool = new School();
+		School.switchSchools(school, otherSchool, slime);
+		assertEquals(school.size(), 0);
 	}
 }

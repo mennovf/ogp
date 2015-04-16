@@ -41,6 +41,7 @@ public class Slime extends GameObject {
 		super(100, 100, position, sprites);
 		
 		this.setSchool(school);
+		school.addSlime(this);
 	}
 	
 	
@@ -153,6 +154,7 @@ public class Slime extends GameObject {
 	@Override
 	protected void handleCollisions(Set<GameObject> collidingObjects,
 			Set<Tile> collidingTiles) {
+		super.handleCollisions(collidingObjects, collidingTiles);
 		// TODO Auto-generated method stub
 		
 		if (!this.onGround()) {
@@ -185,6 +187,17 @@ public class Slime extends GameObject {
 	private void stopMove() {
 		
 		this.setSpeed(this.getSpeed().setX(0.0));
+	}
+
+
+	@Override
+	protected void handleCollision(GameObject object) {
+		if ((object instanceof Slime)){
+			Slime other = (Slime)object;
+			if (other.getSchool().size() > this.getSchool().size()){
+				School.switchSchools(this.getSchool(), other.getSchool(), this);
+			}
+		}
 	}
 
 }

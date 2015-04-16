@@ -139,4 +139,12 @@ public class School {
 	public Set<Slime> getSlimes(){
 		return this.slimes;
 	}
+	
+	
+	/** Returns the number of slimes currently part of this school.
+	 * @return The number of slimes currently part of this school.
+	 */
+	public int size(){
+		return this.slimes.size();
+	}
 }

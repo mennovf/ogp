@@ -51,8 +51,6 @@ public class WorldTest {
 		assertEquals(world.getTileSize(), 70);
 		assertEquals((int)world.getNumberOfTiles().x, 20);
 		assertEquals((int)world.getNumberOfTiles().y, 12);
-		assertEquals(world.getVisibleWindow()[2], 1024);
-		assertEquals(world.getVisibleWindow()[3], 751);
 		assertEquals((int)world.getTargetTilePosition().x, 18);
 		assertEquals((int)world.getTargetTilePosition().y, 19);
 	}
@@ -206,8 +204,9 @@ public class WorldTest {
 	
 	@Test
 	public void didPlayerWin(){
-		world.setMazub(new Mazub(Utilities.pixelsVectorToMeters(world.getTargetTilePosition()), JumpingAlienSprites.ALIEN_SPRITESET, 1, 2, 1));
-		world.advanceTime(Constants.maxTimeInterval);
+		Vector<Double> position = Utilities.pixelsVectorToMeters(Vector.scale(world.getTargetTilePosition(), world.getTileSize()));
+		Mazub mazub = new Mazub(position, JumpingAlienSprites.ALIEN_SPRITESET, 1, 2, 1);
+		world.setMazub(mazub);
 		assertTrue(world.didPlayerWin());
 	}
 	

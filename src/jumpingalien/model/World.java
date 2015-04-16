@@ -23,7 +23,6 @@ public class World {
 	private Vector<Integer> visibleWindowBottomLeft;
 	private Vector<Integer> visibleWindowTopRight;
 	private final Vector<Integer> targetTilePosition;
-	private boolean didPlayerWin = false;
 	
 	private TileType[][] tiles;
 	
@@ -232,8 +231,15 @@ public class World {
 	@Basic
 	@Immutable
 	public int[] getVisibleWindow() {
-		int[] windowArray = {this.visibleWindowBottomLeft.x, this.visibleWindowBottomLeft.y,
-				this.visibleWindowTopRight.x, this.visibleWindowTopRight.y};
+		Vector<Integer> size = new Vector<>(visibleWindowTopRight.x - visibleWindowBottomLeft.x,
+											visibleWindowTopRight.y - visibleWindowBottomLeft.y);
+		Vector<Integer> pos = new Vector<>(mazub.getCenterInPixels().x - size.x / 2,
+										   mazub.getCenterInPixels().y - size.y / 2);
+		//Correction for the edges of the map
+		pos = Utilities.clipVectorInRange(new Vector<>(0, 0), Vector.add(Vector.add(this.getSizeInPixels(), Vector.scale(size, -1)), new Vector<>(-1, -1)), pos);
+		
+		Vector<Integer> topRight = Vector.add(pos, size);
+		int[] windowArray = {pos.x, pos.y, topRight.x, topRight.y};
 		return windowArray;
 	}
 	
@@ -268,7 +274,14 @@ public class World {
 	 * @return true if the player won the game.
 	 */
 	public boolean didPlayerWin() {
-		return didPlayerWin;
+		ArrayList<Vector<Integer>> tilePositions = this.getTilePositionsInRectangle(mazub.getPosition(), Vector.add(mazub.getPosition(), mazub.getSize()));
+		Vector<Integer> targetTilePos = this.getTargetTilePosition();
+		for (Vector<Integer> pos : tilePositions){
+			if ((pos.x == targetTilePos.x) && (pos.y == targetTilePosition.y)){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	

@@ -218,9 +218,6 @@ public class WorldTest {
 		mazub.setHealth(0);
 		assertTrue(world.isGameOver());
 		
-		mazub.setHealth(100);
-		assertFalse(world.isGameOver());
-
 		mazub.setPosition(Utilities.pixelsVectorToMeters(world.getTargetTilePosition()));
 		world.advanceTime(Constants.maxTimeInterval);
 		assertTrue(world.isGameOver());
@@ -538,5 +535,38 @@ public class WorldTest {
 			assertTrue(tile.getPosition().x < toX);
 			assertTrue(tile.getPosition().x < toY);
 		}
+	}
+	
+	@Test
+	public void getVisibleWindow_bottomLeftEdge(){
+		Mazub mazub = new Mazub(new Vector<>(0.0, 0.0), JumpingAlienSprites.ALIEN_SPRITESET, 1, 2, 1);
+		world.setMazub(mazub);
+		int[] window = world.getVisibleWindow();
+		assertEquals(window[0], 0);
+		assertEquals(window[1], 0);
+		assertEquals(window[2], 1024);
+		assertEquals(window[3], 751);
+	}
+
+	@Test
+	public void getVisibleWindow_topRightEdge(){
+		Mazub mazub = new Mazub(new Vector<>(70 * 20 * Constants.metersPerPixel, 70 * 12 * Constants.metersPerPixel), JumpingAlienSprites.ALIEN_SPRITESET, 1, 2, 1);
+		world.setMazub(mazub);
+		int[] window = world.getVisibleWindow();
+		assertEquals(window[0], 70 * 20 - 1024 - 1);
+		assertEquals(window[1], 70 * 12 - 751 - 1);
+		assertEquals(window[2], 70 * 20 - 1);
+		assertEquals(window[3], 70 * 12 - 1);
+	}
+
+	@Test
+	public void getVisibleWindow_middle(){
+		Mazub mazub = new Mazub(new Vector<>(70 * 10 * Constants.metersPerPixel, 70 * 6 * Constants.metersPerPixel), JumpingAlienSprites.ALIEN_SPRITESET, 1, 2, 1);
+		world.setMazub(mazub);
+		int[] window = world.getVisibleWindow();
+		assertTrue(mazub.getPosition().x - window[0] > 200);
+		assertTrue(mazub.getPosition().y - window[1] > 200);
+		assertTrue(window[2] - mazub.getPosition().x - mazub.getSize().x > 200);
+		assertTrue(window[3] - mazub.getPosition().y - mazub.getSize().y > 200);
 	}
 }

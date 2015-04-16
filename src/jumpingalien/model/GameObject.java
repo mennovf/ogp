@@ -307,6 +307,8 @@ public abstract class GameObject {
 	 */
 	public boolean onGround() {
 		
+		//TODO: Mazub should be able to fall through the ground and die.
+		
 		//TODO: Test this method
 		if (Util.fuzzyEquals(this.getPosition().y, 0.0)) {
 			return true;
@@ -502,6 +504,16 @@ public abstract class GameObject {
 	
 	
 	/**
+	 * Determines and sets the new currentSprite of this game object.
+	 * The standard implementation takes sprite 0 for left facing and
+	 * sprite 1 for right facing.
+	 */
+	protected void determineCurrentSprite() {
+		this.setCurrentSprite(this.getSprites()[this.getFacing() == 1.0 ? 1 : 0]);
+	}
+	
+	
+	/**
 	 * @return The size of this game object in pixels.
 	 */
 	@Basic
@@ -530,35 +542,6 @@ public abstract class GameObject {
 	 */
 	public void advanceTime(double dt) {
 		
-//		if (!this.isAlive()) {
-//			deathTime += dt;
-//			
-//			if (deathTime > Constants.deathTime) {
-//				//TODo: Handle death here
-//			}
-//		}
-//		
-//		Motion beginFrameMotion = new Motion(this.motion);
-//		
-//		Set<GameObject> collidingObjects = this.getWorld().getObjectsCollidingWithObject(this);
-//		Set<Tile> collidingTiles = this.getWorld().getTilesCollidingWithObject(this);
-//		
-//		Double time = beginFrameMotion.determineStepTime(dt);
-//		this.motion.updateFromMotionObjectWithTime(beginFrameMotion, time);
-//		
-//		while (time < dt) {
-//			
-//			this.motion.updateFromMotionObjectWithTime(beginFrameMotion, time);
-//			
-//			collidingObjects.addAll(this.getWorld().getObjectsCollidingWithObject(this));
-//			collidingTiles.addAll(this.getWorld().getTilesCollidingWithObject(this));
-//			
-//			time += this.motion.determineStepTime(dt - time);
-//		}
-//		
-//		this.handleStep(dt);
-//		this.handleCollisions(collidingObjects, collidingTiles);
-		
 		double time = 0.0;
 		while (time < dt) {
 			
@@ -571,14 +554,12 @@ public abstract class GameObject {
 				deathTime += stepTime;
 			}
 			
-			//TODO: Handle collisions here?
 			Set<GameObject> collidingObjects = this.getWorld().getObjectsCollidingWithObject(this);
 			Set<Tile> collidingTiles = this.getWorld().getTilesCollidingWithObject(this);
 			
-			//TODO: Impassable terrain block can be handled in GameObject
 			this.handleTerrain(collidingTiles);
-			
 			this.handleCollisions(collidingObjects, collidingTiles);
+			this.determineCurrentSprite();
 		}
 	}
 	

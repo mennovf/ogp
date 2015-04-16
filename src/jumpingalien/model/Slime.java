@@ -138,12 +138,10 @@ public class Slime extends GameObject {
 		
 		if (moveTimeLeft <= 0) {
 			
-			double direction = Math.rint(Math.random()) == 0 ? -1.0 : 1.0;
-			this.setSpeed(this.getSpeed().setX(0.0));
-			this.setAcceleration(this.getAcceleration().setX(Constants.slimeHorizontalAcceleration * direction));
+			this.stopMove();
 			
-			moveTimeLeft = Constants.slimeMinMoveTime + Math.random() *
-					(Constants.slimeMaxMoveTime - Constants.slimeMinMoveTime);
+			double direction = Math.rint(Math.random()) == 0 ? -1.0 : 1.0;
+			this.startMove(direction);
 			
 		} else {
 			
@@ -160,6 +158,33 @@ public class Slime extends GameObject {
 		if (!this.onGround()) {
 			this.setAcceleration(this.getAcceleration().setY(Constants.gravityAcceleration));
 		}
+		
+		// Slime collisions will only be detected by Mazub, since slimes block the movement of Mazub.
+	}
+	
+	
+	/**
+	 * Starts the movement of this slime in the given direction.
+	 * 
+	 * @param direction
+	 * 			The direction of the movement. 1.0 for movement to the right,
+	 * 			-1.0 for movement to the left.
+	 */
+	private void startMove(double direction) {
+		
+		this.setFacing(direction);
+		this.setAcceleration(this.getAcceleration().setX(Constants.slimeHorizontalAcceleration * direction));
+		moveTimeLeft = Constants.slimeMinMoveTime + Math.random() *
+				(Constants.slimeMaxMoveTime - Constants.slimeMinMoveTime);
+	}
+	
+	
+	/**
+	 * Stops the movement of this slime.
+	 */
+	private void stopMove() {
+		
+		this.setSpeed(this.getSpeed().setX(0.0));
 	}
 
 }

@@ -244,8 +244,6 @@ public class Mazub extends GameObject {
 		
 		this.timeSinceEnemyDamage += dt;
 		this.timeSinceTerrainDamage += dt;
-		
-		this.determineCurrentSprite();
 	}
 	
 	
@@ -351,7 +349,8 @@ public class Mazub extends GameObject {
 	/**
 	 * Determines and sets the new current sprite.
 	 */
-	private void determineCurrentSprite() {
+	@Override
+	protected void determineCurrentSprite() {
 		
 		Sprite[] sprites = this.getSprites();
 		Sprite currentSprite = this.getCurrentSprite();

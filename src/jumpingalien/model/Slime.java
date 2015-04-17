@@ -135,7 +135,6 @@ public class Slime extends GameObject {
 	
 	@Override
 	protected void handleStep(double dt) {
-		// TODO Auto-generated method stub
 		
 		if (moveTimeLeft <= 0) {
 			

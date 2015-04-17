@@ -192,6 +192,7 @@ public abstract class GameObject {
 	public int getHealth(){
 		return this.health;
 	}
+	
 
 	/**
 	 * @return Whether the object is alive or not. The object is considered dead when it's health
@@ -202,6 +203,17 @@ public abstract class GameObject {
 		return !(this.isHealthZero() && (this.deathTime >= Constants.deathTime));
 	}
 	
+	
+	/**
+	 * Returns whether this object's health is equal to zero.
+	 * 
+	 * @return Whether this object's health is equal to zero.
+	 */
+	public boolean isHealthZero(){
+		return this.getHealth() == 0;
+	}
+	
+	
 	/**
 	 * @param diff The amount with which to increase health.
 	 * @effect
@@ -211,6 +223,7 @@ public abstract class GameObject {
 		this.setHealth(this.getHealth() + diff);
 	}
 	
+	
 	/**
 	 * @param health The health to check for validity.
 	 * @return Whether the provided health does not exceed the maximum allowed.
@@ -219,6 +232,7 @@ public abstract class GameObject {
 	public boolean isValidHealth(int health){
 		return (health <= this.maxHealth) && (health >= 0);
 	}
+	
 	
 	/**
 	 * @param health The suggested health for this object.
@@ -673,7 +687,7 @@ public abstract class GameObject {
 	 * 
 	 * @return A 2D vector representing the kind of overlap.
 	 */
-	private Vector<Integer> getKindOfOverlapWithTile(Tile tile) {
+	protected Vector<Integer> getKindOfOverlapWithTile(Tile tile) {
 		
 		Vector<Integer> tilePos = tile.getPositionInPixels();
 		Vector<Integer> selfPos = this.getPosition();
@@ -720,12 +734,25 @@ public abstract class GameObject {
 		return true;
 	}
 	
+	
 	/**
-	 * Returns whether this object's health is equal to zero.
+	 * Returns whether this game object overlaps with the given tile.
 	 * 
-	 * @return Whether this object's health is equal to zero.
+	 * @param tile
+	 * 			The tile to check overlap with.
+	 * 
+	 * @return true if the tiles overlap.
 	 */
-	public boolean isHealthZero(){
-		return this.getHealth() == 0;
+	public boolean doesOverlapWithTile(Tile tile) {
+		
+		Vector<Integer> tilePos = tile.getPositionInPixels();
+		Vector<Integer> selfPos = this.getPosition();
+		int tileSize = tile.getSize();
+		Vector<Integer> selfSize = this.getSize();
+		
+		return !(tilePos.x + tileSize <= selfPos.x
+				|| tilePos.x >= selfPos.x + selfSize.x
+				|| tilePos.y + tileSize <= selfPos.y
+				|| tilePos.y >= selfPos.y + selfSize.y);
 	}
 }

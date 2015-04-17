@@ -16,4 +16,10 @@ public class Constants {
 	public final static double slimeMaxHorizontalSpeed = 2.5;
 	public final static double slimeMinMoveTime = 2.0;
 	public final static double slimeMaxMoveTime = 6.0;
+	
+	public final static double sharkHorizontalAcceleration = 1.5;
+	public final static double sharkMaxHorizontalSpeed = 4.0;
+	public final static double sharkInitialJumpSpeed = 2.0;
+	public final static double sharkMinMoveTime = 1.0;
+	public final static double sharkMaxMoveTime = 4.0;
 }

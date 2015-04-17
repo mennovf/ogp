@@ -9,6 +9,10 @@ import jumpingalien.util.Sprite;
  * @author Rugen en Menno
  * 
  * A public class representing a shark game object.
+ * 
+ * @invar The speed of a shark will never be bigger than it's maximum allowed
+ * 			horizontal speed.
+ * 			| Math.abs(this.getSpeed().x) <= Constants.sharkMaxHorizontalSpeed 
  */
 public class Shark extends GameObject {
 	
@@ -26,9 +30,7 @@ public class Shark extends GameObject {
 	 * 			The sprite list.
 	 */
 	public Shark(Vector<Double> position, Sprite[] sprites) {
-		
-		// GameObject
-		super(100, 100, position, sprites);
+		super(Constants.sharkBeginHealth, Constants.sharkMaxHealth, position, sprites);
 	}
 	
 	
@@ -58,6 +60,10 @@ public class Shark extends GameObject {
 	
 	/**
 	 * Overrides the setSpeed method of gameObject to clip the speed within the allowed range.
+	 * 
+	 * @post The speed of this shark (in absolute value) will not be bigger than the
+	 * 			maximum allowed horizontal speed.
+	 * 			| Math.abs(new.getSpeed().x) <= Constants.sharkMaxHorizontalSpeed
 	 */
 	@Override
 	public void setSpeed(Vector<Double> speed) {
@@ -151,8 +157,10 @@ public class Shark extends GameObject {
 	
 	@Override
 	protected void handleCollision(GameObject object) {
-		// TODO Auto-generated method stub
 		
+		if (object instanceof Mazub || object instanceof Slime) {
+			this.increaseHealth(Constants.sharkEnemyDamage);
+		}
 	}
 	
 	

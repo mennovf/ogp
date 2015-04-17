@@ -166,6 +166,7 @@ public class Slime extends GameObject {
 		if ((object instanceof Slime)){
 			Slime other = (Slime)object;
 			if (other.getSchool().size() > this.getSchool().size()){
+				//TODO: Change this method, because the last called slime's school does not matter anymore...
 				School.switchSchools(this.getSchool(), other.getSchool(), this);
 			}
 		}

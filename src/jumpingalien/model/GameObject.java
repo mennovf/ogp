@@ -265,7 +265,7 @@ public abstract class GameObject {
 	 * @return This GameObject's position in pixels.
 	 */
 	@Basic
-	public Vector<Integer> getPosition() {
+	public Vector<Integer> getPositionInPixels() {
 		return Utilities.metersVectorToPixels(this.getPositionInMeters());
 	}
 
@@ -317,13 +317,23 @@ public abstract class GameObject {
 	
 	
 	/**
+	 * Returns the location of the top right pixel of this game object.
+	 * 
+	 * @return The location of the top right pixel of this game object.
+	 */
+	public Vector<Integer> getTopRightPixel() {
+		return Vector.add(this.getPositionInPixels(), this.getSize());
+	}
+	
+	
+	/**
 	 * The position of the center of this gameObject in pixels based on it's position and it's dimensions.
 	 * If the calculated pixel value isn't an integer, the x and y components are floored.
 	 * @return The position of the center of this GameObject.
 	 */
 	public Vector<Integer> getCenterInPixels(){
 		Vector<Integer> size = this.getSize();
-		return Vector.add(this.getPosition(), new Vector<Integer>((int)(size.x * 0.5), (int)(size.y * 0.5)));
+		return Vector.add(this.getPositionInPixels(), new Vector<Integer>((int)(size.x * 0.5), (int)(size.y * 0.5)));
 	}
 	
 	
@@ -337,7 +347,7 @@ public abstract class GameObject {
 		//TODO: Mazub should be able to fall through the ground and die.
 		
 		//TODO: Test this method
-		if (Util.fuzzyEquals(this.getPosition().y, 0.0)) {
+		if (Util.fuzzyEquals(this.getPositionInPixels().y, 0.0)) {
 			return true;
 		}
 		
@@ -348,7 +358,7 @@ public abstract class GameObject {
 				Vector<Integer> tilePos = tile.getPosition();
 				int tileSize = this.getWorld().getTileSize();
 				Vector<OverlapDirection> overlapDir = this.getWorld().getKindOfOverlap(
-						this.getPosition(), Vector.add(this.getPosition(), this.getSize()),
+						this.getPositionInPixels(), Vector.add(this.getPositionInPixels(), this.getSize()),
 						tilePos, Vector.add(tilePos, new Vector<>(tileSize, tileSize)));
 				
 				if (overlapDir.y == OverlapDirection.LOW || overlapDir.y == OverlapDirection.NONE) {
@@ -690,7 +700,7 @@ public abstract class GameObject {
 	protected Vector<Integer> getKindOfOverlapWithTile(Tile tile) {
 		
 		Vector<Integer> tilePos = tile.getPositionInPixels();
-		Vector<Integer> selfPos = this.getPosition();
+		Vector<Integer> selfPos = this.getPositionInPixels();
 		int tileSize = tile.getSize();
 		Vector<Integer> selfSize = this.getSize();
 		
@@ -746,7 +756,7 @@ public abstract class GameObject {
 	public boolean doesOverlapWithTile(Tile tile) {
 		
 		Vector<Integer> tilePos = tile.getPositionInPixels();
-		Vector<Integer> selfPos = this.getPosition();
+		Vector<Integer> selfPos = this.getPositionInPixels();
 		int tileSize = tile.getSize();
 		Vector<Integer> selfSize = this.getSize();
 		

@@ -26,7 +26,7 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public int[] getLocation(Mazub alien) {
-		return Utilities.intVectorToArray(alien.getPosition());
+		return Utilities.intVectorToArray(alien.getPositionInPixels());
 	}
 
 	@Override
@@ -206,7 +206,7 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public int[] getLocation(Plant plant) {
-		return Utilities.intVectorToArray(plant.getPosition());
+		return Utilities.intVectorToArray(plant.getPositionInPixels());
 	}
 
 	@Override
@@ -232,7 +232,7 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public int[] getLocation(Shark shark) {
-		return Utilities.intVectorToArray(shark.getPosition());
+		return Utilities.intVectorToArray(shark.getPositionInPixels());
 	}
 
 	@Override
@@ -263,7 +263,7 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public int[] getLocation(Slime slime) {
-		return Utilities.intVectorToArray(slime.getPosition());
+		return Utilities.intVectorToArray(slime.getPositionInPixels());
 	}
 
 	@Override

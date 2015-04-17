@@ -20,6 +20,7 @@ public class Constants {
 	public final static double sharkHorizontalAcceleration = 1.5;
 	public final static double sharkMaxHorizontalSpeed = 4.0;
 	public final static double sharkInitialJumpSpeed = 2.0;
+	public final static double sharkVerticalAcceleration = 0.2;
 	public final static double sharkMinMoveTime = 1.0;
 	public final static double sharkMaxMoveTime = 4.0;
 }

@@ -213,8 +213,8 @@ public class MazubTest {
 	@Test
 	public void getPosition_notMoved() {
 		
-		assertEquals((int)mazub.getPosition().x, 0);
-		assertEquals((int)mazub.getPosition().y, 0);
+		assertEquals((int)mazub.getPositionInPixels().x, 0);
+		assertEquals((int)mazub.getPositionInPixels().y, 0);
 	}
 	
 	@Test
@@ -223,8 +223,8 @@ public class MazubTest {
 		mazub.startMove(1);
 		mazub.advanceTime(Constants.maxTimeInterval);
 		
-		assertNotEquals((int)mazub.getPosition().x, 0);
-		assertEquals((int)mazub.getPosition().y, 0);
+		assertNotEquals((int)mazub.getPositionInPixels().x, 0);
+		assertEquals((int)mazub.getPositionInPixels().y, 0);
 	}
 	
 	@Test
@@ -233,8 +233,8 @@ public class MazubTest {
 		mazub.startJump();
 		mazub.advanceTime(Constants.maxTimeInterval);
 		
-		assertEquals((int)mazub.getPosition().x, 0);
-		assertNotEquals((int)mazub.getPosition().y, 0);
+		assertEquals((int)mazub.getPositionInPixels().x, 0);
+		assertNotEquals((int)mazub.getPositionInPixels().y, 0);
 	}
 	
 	
@@ -446,8 +446,8 @@ public class MazubTest {
 	
 	@Test
 	public void getCenterInPixels(){
-		assertEquals((int)mazub.getCenterInPixels().x, mazub.getPosition().x + (int)(0.5 * mazub.getSize().x));
-		assertEquals((int)mazub.getCenterInPixels().y, mazub.getPosition().y + (int)(0.5 * mazub.getSize().y));
+		assertEquals((int)mazub.getCenterInPixels().x, mazub.getPositionInPixels().x + (int)(0.5 * mazub.getSize().x));
+		assertEquals((int)mazub.getCenterInPixels().y, mazub.getPositionInPixels().y + (int)(0.5 * mazub.getSize().y));
 	}
 	
 	@Test

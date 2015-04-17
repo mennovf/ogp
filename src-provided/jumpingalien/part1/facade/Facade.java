@@ -15,7 +15,7 @@ public class Facade implements IFacade {
 
 	@Override
 	public int[] getLocation(Mazub alien) {
-		Vector<Integer> position = alien.getPosition();
+		Vector<Integer> position = alien.getPositionInPixels();
 		int[] worldPosition = {position.x, position.y};
 		return worldPosition;
 	}

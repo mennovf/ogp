@@ -273,7 +273,7 @@ public class World {
 	 * @return true if the player won the game.
 	 */
 	public boolean didPlayerWin() {
-		ArrayList<Vector<Integer>> tilePositions = this.getTilePositionsInRectangle(mazub.getPosition(), Vector.add(mazub.getPosition(), mazub.getSize()));
+		ArrayList<Vector<Integer>> tilePositions = this.getTilePositionsInRectangle(mazub.getPositionInPixels(), Vector.add(mazub.getPositionInPixels(), mazub.getSize()));
 		Vector<Integer> targetTilePos = this.getTargetTilePosition();
 		for (Vector<Integer> pos : tilePositions){
 			if ((pos.x == targetTilePos.x) && (pos.y == targetTilePosition.y)){
@@ -510,9 +510,9 @@ public class World {
 	 */
 	public boolean objectsOverlap(GameObject first, GameObject second) {
 		
-		Vector<Integer> pos1 = first.getPosition();
+		Vector<Integer> pos1 = first.getPositionInPixels();
 		Vector<Integer> size1 = first.getSize();
-		Vector<Integer> pos2 = second.getPosition();
+		Vector<Integer> pos2 = second.getPositionInPixels();
 		Vector<Integer> size2 = second.getSize();
 		
 		return !(pos1.x + size1.x - 1 < pos2.x
@@ -559,8 +559,8 @@ public class World {
 		
 		Set<Tile> collidingTiles = new HashSet<Tile>();
 		
-		ArrayList<Vector<Integer>> positions = this.getTilePositionsInRectangle(object.getPosition(),
-				Vector.add(object.getPosition(), object.getSize()));
+		ArrayList<Vector<Integer>> positions = this.getTilePositionsInRectangle(object.getPositionInPixels(),
+				Vector.add(object.getPositionInPixels(), object.getSize()));
 		
 		for (Vector<Integer> position : positions) {
 			TileType type = this.getTileType(position);

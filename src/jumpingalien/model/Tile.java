@@ -51,6 +51,16 @@ public class Tile {
 	
 	
 	/**
+	 * Returns the position of the top right pixel of this tile.
+	 * 
+	 * @return The position of the top right pixel of this tile.
+	 */
+	public Vector<Integer> getTopRightPixel() {
+		return Vector.add(this.getPositionInPixels(), new Vector<>(this.getSize(), this.getSize()));
+	}
+	
+	
+	/**
 	 * @return The size of this tile in pixels.
 	 */
 	public int getSize() {

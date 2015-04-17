@@ -155,13 +155,21 @@ public class Slime extends GameObject {
 	protected void handleCollisions(Set<GameObject> collidingObjects,
 			Set<Tile> collidingTiles) {
 		super.handleCollisions(collidingObjects, collidingTiles);
-		// TODO Auto-generated method stub
 		
 		if (!this.onGround()) {
 			this.setAcceleration(this.getAcceleration().setY(Constants.gravityAcceleration));
 		}
-		
-		// Slime collisions will only be detected by Mazub, since slimes block the movement of Mazub.
+	}
+	
+	
+	@Override
+	protected void handleCollision(GameObject object) {
+		if ((object instanceof Slime)){
+			Slime other = (Slime)object;
+			if (other.getSchool().size() > this.getSchool().size()){
+				School.switchSchools(this.getSchool(), other.getSchool(), this);
+			}
+		}
 	}
 	
 	
@@ -187,17 +195,6 @@ public class Slime extends GameObject {
 	private void stopMove() {
 		
 		this.setSpeed(this.getSpeed().setX(0.0));
-	}
-
-
-	@Override
-	protected void handleCollision(GameObject object) {
-		if ((object instanceof Slime)){
-			Slime other = (Slime)object;
-			if (other.getSchool().size() > this.getSchool().size()){
-				School.switchSchools(this.getSchool(), other.getSchool(), this);
-			}
-		}
 	}
 
 }

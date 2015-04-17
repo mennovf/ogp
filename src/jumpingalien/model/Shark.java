@@ -5,8 +5,22 @@ import java.util.Set;
 
 import jumpingalien.util.Sprite;
 
+/**
+ * @author Rugen en Menno
+ * 
+ * A public class representing a shark game object.
+ */
 public class Shark extends GameObject {
 
+	/**
+	 * Creates a shark with the given position and sprites.
+	 * 
+	 * @param position
+	 * 			The position in the game world in pixels.
+	 * 
+	 * @param sprites
+	 * 			The sprite list.
+	 */
 	public Shark(Vector<Double> position, Sprite[] sprites) {
 		
 		// GameObject
@@ -53,14 +67,7 @@ public class Shark extends GameObject {
 		
 	}
 	
-
-	@Override
-	public void advanceTime(double dt) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
+	
 	@Override
 	protected void handleCollision(GameObject object) {
 		// TODO Auto-generated method stub

@@ -303,6 +303,19 @@ public abstract class GameObject {
 	
 	
 	/**
+	 * The position of the center of this gameObject in pixels based on it's position and it's dimensions.
+	 * If the calculated pixel value isn't an integer, the x and y components are floored.
+	 * @return The position of the center of this GameObject.
+	 */
+	public Vector<Integer> getCenterInPixels(){
+		Vector<Integer> size = this.getSize();
+		return Vector.add(this.getPosition(), new Vector<Integer>((int)(size.x * 0.5), (int)(size.y * 0.5)));
+	}
+	
+	
+	/**
+	 * Returns whether this game object is standing on impassable terrain.
+	 * 
 	 * @return Whether this game object is standing on impassable terrain.
 	 */
 	public boolean onGround() {
@@ -608,52 +621,8 @@ public abstract class GameObject {
 				}
 			}
 		}
-		
-//		for (Tile tile : collidingTiles) {
-//			
-//			if (!tile.getType().passable) {
-//				
-//				Vector<OverlapDirection> overlapDir = this.getWorld().getKindOfOverlap(
-//						this.getPosition(), Vector.add(this.getPosition(), this.getSize()),
-//						tile.getPositionInPixels(), Vector.add(tile.getPositionInPixels(),
-//								new Vector<>(this.getWorld().getTileSize(), this.getWorld().getTileSize())));
-//				
-//				if (overlapDir.y == OverlapDirection.HIGH) {
-//					this.setPosition(this.getPositionInMeters().setY(tile.getPositionInMeters().y - this.getSizeInMeters().y));
-//					this.setSpeed(this.getSpeed().setY(0.0));
-//				}
-//				
-//				if ((overlapDir.x == OverlapDirection.LOW) && (tile.getPositionInPixels().y - this.getPosition().y > 1)) {
-//					this.setPosition(this.getPositionInMeters().setX(tile.getPositionInMeters().x + this.getWorld().getTileSizeInMeters()));
-//					this.setSpeed(this.getSpeed().setX(0.0));
-//					this.setAcceleration(this.getAcceleration().setX(0.0));
-//				}
-//				
-//				if ((overlapDir.x == OverlapDirection.HIGH) && (tile.getPositionInPixels().y - this.getPosition().y > 1)) {
-//					this.setPosition(this.getPositionInMeters().setX(tile.getPositionInMeters().x - this.getSizeInMeters().x));
-//					this.setSpeed(this.getSpeed().setX(0.0));
-//					this.setAcceleration(this.getAcceleration().setX(0.0));
-//				}
-//				
-//				if (overlapDir.y == OverlapDirection.LOW) {
-//					this.setPosition(this.getPositionInMeters().setY(tile.getPositionInMeters().y + this.getWorld().getTileSizeInMeters() - Constants.metersPerPixel));
-//					this.setSpeed(this.getSpeed().setY(0.0));
-//					this.setAcceleration(this.getAcceleration().setY(0.0));
-//				}
-//			}
-//		}
 	}
 	
-	
-	/**
-	 * The position of the center of this gameObject in pixels based on it's position and it's dimensions.
-	 * If the calculated pixel value isn't an integer, the x and y components are floored.
-	 * @return The position of the center of this GameObject.
-	 */
-	public Vector<Integer> getCenterInPixels(){
-		Vector<Integer> size = this.getSize();
-		return Vector.add(this.getPosition(), new Vector<Integer>((int)(size.x * 0.5), (int)(size.y * 0.5)));
-	}
 	
 	/**
 	 * Handles a time step of dt and updates properties accordingly.

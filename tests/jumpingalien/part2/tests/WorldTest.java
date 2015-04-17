@@ -17,7 +17,6 @@ import jumpingalien.model.TileType;
 import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
 import jumpingalien.model.World;
-import jumpingalien.util.Util;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -29,6 +28,7 @@ public class WorldTest {
 
 	double testingEps = 1e-7;
 	World world;
+	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 	}

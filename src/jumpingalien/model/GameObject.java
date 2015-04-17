@@ -13,7 +13,7 @@ import be.kuleuven.cs.som.annotate.*;
  * An abstract class representing an object in the game world.
  * This class provides common features of all the object such as health, etc.
  * 
- * @invar The health of the object is never higher than the max health.
+ * @invar The health of the game object is never higher than the max health, nor is it negative.
  * 			| this.isValidHealth(this.getHealth())
  */
 public abstract class GameObject {

@@ -17,7 +17,6 @@ import jumpingalien.model.TileType;
 import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
 import jumpingalien.model.World;
-import jumpingalien.util.Util;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -29,6 +28,7 @@ public class WorldTest {
 
 	double testingEps = 1e-7;
 	World world;
+	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 	}
@@ -526,8 +526,8 @@ public class WorldTest {
 	public void getTilesCollidingWithObject_cornerOfTiles(){
 		Shark shark = Utilities.shark(new Vector<>(50.0, 50.0));
 		Vector<Integer> size = shark.getSize();
-		int toX = (int) Math.ceil(shark.getPosition().x + size.x / 70.0);
-		int toY = (int) Math.ceil(shark.getPosition().y + size.y / 70);
+		int toX = (int) Math.ceil(shark.getPositionInPixels().x + size.x / 70.0);
+		int toY = (int) Math.ceil(shark.getPositionInPixels().y + size.y / 70);
 		
 		Set<Tile> tiles = world.getTilesCollidingWithObject(shark);
 		assertEquals(tiles.size(), toX * toY);
@@ -564,9 +564,9 @@ public class WorldTest {
 		Mazub mazub = new Mazub(new Vector<>(70 * 10 * Constants.metersPerPixel, 70 * 6 * Constants.metersPerPixel), JumpingAlienSprites.ALIEN_SPRITESET, 1, 2, 1);
 		world.setMazub(mazub);
 		int[] window = world.getVisibleWindow();
-		assertTrue(mazub.getPosition().x - window[0] > 200);
-		assertTrue(mazub.getPosition().y - window[1] > 200);
-		assertTrue(window[2] - mazub.getPosition().x - mazub.getSize().x > 200);
-		assertTrue(window[3] - mazub.getPosition().y - mazub.getSize().y > 200);
+		assertTrue(mazub.getPositionInPixels().x - window[0] > 200);
+		assertTrue(mazub.getPositionInPixels().y - window[1] > 200);
+		assertTrue(window[2] - mazub.getPositionInPixels().x - mazub.getSize().x > 200);
+		assertTrue(window[3] - mazub.getPositionInPixels().y - mazub.getSize().y > 200);
 	}
 }

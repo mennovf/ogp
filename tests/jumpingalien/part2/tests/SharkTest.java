@@ -33,6 +33,6 @@ public class SharkTest {
 	
 	@Test
 	public void constructor_ok(){
-		assertTrue(shark.getPosition().x == 0.0 && shark.getPosition().y == 0.0);
+		assertTrue(shark.getPositionInPixels().x == 0.0 && shark.getPositionInPixels().y == 0.0);
 	}
 }

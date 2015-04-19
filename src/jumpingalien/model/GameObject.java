@@ -13,7 +13,7 @@ import be.kuleuven.cs.som.annotate.*;
  * An abstract class representing an object in the game world.
  * This class provides common features of all the object such as health, etc.
  * 
- * @invar The health of the object is never higher than the max health.
+ * @invar The health of the game object is never higher than the max health, nor is it negative.
  * 			| this.isValidHealth(this.getHealth())
  */
 public abstract class GameObject {
@@ -163,6 +163,7 @@ public abstract class GameObject {
 	
 	/**
 	 * Removes this game object from it's world if it's contained by a world.
+	 * 
 	 * @post The GameObject will have no references to the old world and neither will the old world have a reference to this.
 	 * 			| new.getWorld() == null && old.getWorld().containsGameObject(new) == false
 	 */
@@ -177,6 +178,8 @@ public abstract class GameObject {
 	
 	
 	/**
+	 * Returns the maximum amount of hitpoints this game object can have.
+	 * 
 	 * @return The maximum amount of hitpoints this game object can have.
 	 */
 	@Basic @Immutable
@@ -186,12 +189,15 @@ public abstract class GameObject {
 
 	
 	/**
+	 * Returns the number of hitpoints this game object has.
+	 * 
 	 * @return The number of hitpoints this game object has.
 	 */
 	@Basic
 	public int getHealth(){
 		return this.health;
 	}
+	
 
 	/**
 	 * @return Whether the object is alive or not. The object is considered dead when it's health
@@ -202,26 +208,53 @@ public abstract class GameObject {
 		return !(this.isHealthZero() && (this.deathTime >= Constants.deathTime));
 	}
 	
+	
 	/**
+	 * Returns whether this object's health is equal to zero.
+	 * 
+	 * @return Whether this object's health is equal to zero.
+	 * 			| this.getHealth() == 0
+	 */
+	public boolean isHealthZero(){
+		return this.getHealth() == 0;
+	}
+	
+	
+	/**
+	 * Increases the health of this game object by the given amount.
+	 * Negative numbers are allowed. The health will be kept in the 
+	 * zero to maximumHealth range.
+	 * 
 	 * @param diff The amount with which to increase health.
-	 * @effect
+	 * 
+	 * @effect Sets the health to the sum of the current health and diff.
 	 * 			| this.setHealth(this.getHealth() + diff)
 	 */
 	public void increaseHealth(int diff) {
 		this.setHealth(this.getHealth() + diff);
 	}
 	
+	
 	/**
+	 * Returns whether the given health is a valid health for this game object.
+	 * 
 	 * @param health The health to check for validity.
-	 * @return Whether the provided health does not exceed the maximum allowed.
+	 * 
+	 * @return Whether the provided health does not exceed the maximum allowed health
+	 * 			and is bigger or equal to zero.
 	 * 			| (health <= this.maxHealth) && (health >= 0)
 	 */
 	public boolean isValidHealth(int health){
 		return (health <= this.maxHealth) && (health >= 0);
 	}
 	
+	
 	/**
+	 * Sets the health of this game object to the given health. The health will be kept
+	 * in the zero to maximumHealth range.
+	 * 
 	 * @param health The suggested health for this object.
+	 * 
 	 * @post Set this object's health to health if health is smaller than the maximum allowed health
 	 * 		 otherwise it sets it to the maximum allowed amount. If the health of this object is equal to zero
 	 * 		 then setHealth does nothing.
@@ -239,6 +272,8 @@ public abstract class GameObject {
 	
 
 	/**
+	 * Returns the position of this game object in meters.
+	 * 
 	 * @return This GameObject's position as a 2D vector in meters.
 	 */
 	@Basic
@@ -248,10 +283,12 @@ public abstract class GameObject {
 
 
 	/**
-	 * @return This GameObject's position in pixels.
+	 * Returns the position of this game object in pixels.
+	 * 
+	 * @return This game object's position in pixels.
 	 */
 	@Basic
-	public Vector<Integer> getPosition() {
+	public Vector<Integer> getPositionInPixels() {
 		return Utilities.metersVectorToPixels(this.getPositionInMeters());
 	}
 
@@ -269,6 +306,7 @@ public abstract class GameObject {
 	 * @throws IllegalArgumentException
 	 * 			Throws an IllegalArgumentException when the position is not valid. See isValidPosition.
 	 * 			| !isValidPosition(position)
+	 * 
 	 * @post The new position will be equal to position
 	 * 			| new.getPositionInMeters() == position
 	 */
@@ -286,6 +324,9 @@ public abstract class GameObject {
 	
 	
 	/**
+	 * Returns whether the given position is a valid position for this game object.
+	 * This means the position lies inside the game world.
+	 * 
 	 * @param pos
 	 * 			The position to check
 	 * 
@@ -303,6 +344,31 @@ public abstract class GameObject {
 	
 	
 	/**
+	 * Returns the location of the top right pixel of this game object.
+	 * 
+	 * @return The location of the top right pixel of this game object.
+	 */
+	public Vector<Integer> getTopRightPixel() {
+		return Vector.add(this.getPositionInPixels(), this.getSize());
+	}
+	
+	
+	/**
+	 * Returns the position of the center of this game object in pixels based on it's position
+	 * and it's dimensions. If the calculated pixel value isn't an integer, the x and y
+	 * components are floored.
+	 * 
+	 * @return The position of the center of this GameObject.
+	 */
+	public Vector<Integer> getCenterInPixels(){
+		Vector<Integer> size = this.getSize();
+		return Vector.add(this.getPositionInPixels(), new Vector<Integer>((int)(size.x * 0.5), (int)(size.y * 0.5)));
+	}
+	
+	
+	/**
+	 * Returns whether this game object is standing on impassable terrain.
+	 * 
 	 * @return Whether this game object is standing on impassable terrain.
 	 */
 	public boolean onGround() {
@@ -310,7 +376,7 @@ public abstract class GameObject {
 		//TODO: Mazub should be able to fall through the ground and die.
 		
 		//TODO: Test this method
-		if (Util.fuzzyEquals(this.getPosition().y, 0.0)) {
+		if (Util.fuzzyEquals(this.getPositionInPixels().y, 0.0)) {
 			return true;
 		}
 		
@@ -321,7 +387,7 @@ public abstract class GameObject {
 				Vector<Integer> tilePos = tile.getPosition();
 				int tileSize = this.getWorld().getTileSize();
 				Vector<OverlapDirection> overlapDir = this.getWorld().getKindOfOverlap(
-						this.getPosition(), Vector.add(this.getPosition(), this.getSize()),
+						this.getPositionInPixels(), Vector.add(this.getPositionInPixels(), this.getSize()),
 						tilePos, Vector.add(tilePos, new Vector<>(tileSize, tileSize)));
 				
 				if (overlapDir.y == OverlapDirection.LOW || overlapDir.y == OverlapDirection.NONE) {
@@ -335,6 +401,8 @@ public abstract class GameObject {
 	
 	
 	/**
+	 * Returns a set of classes with shich the game object can collide.
+	 * 
 	 * @return A set of classes with which the game object can collide.
 	 */
 	@Immutable
@@ -349,6 +417,7 @@ public abstract class GameObject {
 	 * 			The object to check.
 	 * 
 	 * @return Whether or not the object should collide with the given object class.
+	 * 			| this.getCollidableObjectClasses().contains(objectClass)
 	 */
 	@Basic
 	public boolean collidesWithGameObjectClass(Class<? extends GameObject> objectClass) {
@@ -358,6 +427,8 @@ public abstract class GameObject {
 	
 	
 	/**
+	 * Returns a set of tile types the game object can collide with.
+	 * 
 	 * @return A set of tile types the game object can collide with.
 	 */
 	@Immutable
@@ -372,6 +443,7 @@ public abstract class GameObject {
 	 * 			The tile type to check.
 	 * 
 	 * @return Whether or not the object should collide with the given tile type.
+	 * 			| this.getCollidableTileTypes().contains(type)
 	 */
 	@Basic
 	public boolean collidesWithTileType(TileType type) {
@@ -381,6 +453,8 @@ public abstract class GameObject {
 	
 	
 	/**
+	 * Returns the speed of this game object in m/s.
+	 * 
 	 * @return The speed of this game object in m/s.
 	 */
 	@Basic
@@ -407,6 +481,8 @@ public abstract class GameObject {
 	
 	
 	/**
+	 * Returns the acceleration of this game object in m/(s^2).
+	 * 
 	 * @return The acceleration of this game object in m/(s^2).
 	 */
 	@Basic
@@ -433,7 +509,9 @@ public abstract class GameObject {
 
 
 	/**
-	 * @return The facing of this GameObject This is either 1.0 if it's facing right or -1.0 if it's facing left.
+	 * Returns the facing of this game object.
+	 * 
+	 * @return The facing of this game object This is either 1.0 if it's facing right or -1.0 if it's facing left.
 	 */
 	@Basic
 	public double getFacing() {
@@ -461,6 +539,8 @@ public abstract class GameObject {
 	
 	
 	/**
+	 * Returns whether the given direction is valid (either 1 or -1).
+	 * 
 	 * @param direction
 	 * 			The direction to check
 	 * 
@@ -472,6 +552,11 @@ public abstract class GameObject {
 	}
 	
 
+	/**
+	 * Returns the sprites list of this game object.
+	 * 
+	 * @return The sprites list of this game object.
+	 */
 	@Basic
 	protected Sprite[] getSprites(){
 		return this.sprites;
@@ -479,12 +564,13 @@ public abstract class GameObject {
 
 
 	/**
-	 * @return This GameObject's current sprite.
+	 * Returns this game object's current sprite.
+	 * 
+	 * @return This game object's current sprite.
 	 */
 	@Basic
 	public Sprite getCurrentSprite() {
-		
-		return currentSprite;
+		return this.currentSprite;
 	}
 	
 	
@@ -507,6 +593,9 @@ public abstract class GameObject {
 	 * Determines and sets the new currentSprite of this game object.
 	 * The standard implementation takes sprite 0 for left facing and
 	 * sprite 1 for right facing.
+	 * 
+	 * @post The current sprite will be set to the correct sprite.
+	 * 			| this.getCurrentSprite() == theCorrectSprite
 	 */
 	protected void determineCurrentSprite() {
 		this.setCurrentSprite(this.getSprites()[this.getFacing() == 1.0 ? 1 : 0]);
@@ -514,17 +603,20 @@ public abstract class GameObject {
 	
 	
 	/**
+	 * Returns the size of this game object in pixels.
+	 * 
 	 * @return The size of this game object in pixels.
 	 */
 	@Basic
 	public Vector<Integer> getSize() {
-		
 		Sprite sprite = this.getCurrentSprite();
 		return new Vector<Integer>(sprite.getWidth(), sprite.getHeight());
 	}
 	
 	
 	/**
+	 * Returns the size of this game object in meters.
+	 * 
 	 * @return The size of this game object in meters.
 	 */
 	public Vector<Double> getSizeInMeters() {
@@ -539,6 +631,11 @@ public abstract class GameObject {
 	 * 
 	 * @param dt
 	 * 			The time to advance.
+	 * 
+	 * @post All properties of this game object will be altered accordingly.
+	 * 
+	 * @effect The new current sprite will be determined.
+	 * 			| this.determineCurrentSprite()
 	 */
 	public void advanceTime(double dt) {
 		
@@ -558,8 +655,9 @@ public abstract class GameObject {
 			Set<Tile> collidingTiles = this.getWorld().getTilesCollidingWithObject(this);
 			
 			this.handleCollisions(collidingObjects, collidingTiles);
-			this.determineCurrentSprite();
 		}
+		
+		this.determineCurrentSprite();
 	}
 	
 	
@@ -608,52 +706,8 @@ public abstract class GameObject {
 				}
 			}
 		}
-		
-//		for (Tile tile : collidingTiles) {
-//			
-//			if (!tile.getType().passable) {
-//				
-//				Vector<OverlapDirection> overlapDir = this.getWorld().getKindOfOverlap(
-//						this.getPosition(), Vector.add(this.getPosition(), this.getSize()),
-//						tile.getPositionInPixels(), Vector.add(tile.getPositionInPixels(),
-//								new Vector<>(this.getWorld().getTileSize(), this.getWorld().getTileSize())));
-//				
-//				if (overlapDir.y == OverlapDirection.HIGH) {
-//					this.setPosition(this.getPositionInMeters().setY(tile.getPositionInMeters().y - this.getSizeInMeters().y));
-//					this.setSpeed(this.getSpeed().setY(0.0));
-//				}
-//				
-//				if ((overlapDir.x == OverlapDirection.LOW) && (tile.getPositionInPixels().y - this.getPosition().y > 1)) {
-//					this.setPosition(this.getPositionInMeters().setX(tile.getPositionInMeters().x + this.getWorld().getTileSizeInMeters()));
-//					this.setSpeed(this.getSpeed().setX(0.0));
-//					this.setAcceleration(this.getAcceleration().setX(0.0));
-//				}
-//				
-//				if ((overlapDir.x == OverlapDirection.HIGH) && (tile.getPositionInPixels().y - this.getPosition().y > 1)) {
-//					this.setPosition(this.getPositionInMeters().setX(tile.getPositionInMeters().x - this.getSizeInMeters().x));
-//					this.setSpeed(this.getSpeed().setX(0.0));
-//					this.setAcceleration(this.getAcceleration().setX(0.0));
-//				}
-//				
-//				if (overlapDir.y == OverlapDirection.LOW) {
-//					this.setPosition(this.getPositionInMeters().setY(tile.getPositionInMeters().y + this.getWorld().getTileSizeInMeters() - Constants.metersPerPixel));
-//					this.setSpeed(this.getSpeed().setY(0.0));
-//					this.setAcceleration(this.getAcceleration().setY(0.0));
-//				}
-//			}
-//		}
 	}
 	
-	
-	/**
-	 * The position of the center of this gameObject in pixels based on it's position and it's dimensions.
-	 * If the calculated pixel value isn't an integer, the x and y components are floored.
-	 * @return The position of the center of this GameObject.
-	 */
-	public Vector<Integer> getCenterInPixels(){
-		Vector<Integer> size = this.getSize();
-		return Vector.add(this.getPosition(), new Vector<Integer>((int)(size.x * 0.5), (int)(size.y * 0.5)));
-	}
 	
 	/**
 	 * Handles a time step of dt and updates properties accordingly.
@@ -685,7 +739,8 @@ public abstract class GameObject {
 	}
 	
 	/**
-	 * Handle the collision of a single GameObject.
+	 * Handle the collision of a single game object.
+	 * 
 	 * @param object
 	 * 			The object with which this one collides.
 	 */
@@ -704,10 +759,10 @@ public abstract class GameObject {
 	 * 
 	 * @return A 2D vector representing the kind of overlap.
 	 */
-	private Vector<Integer> getKindOfOverlapWithTile(Tile tile) {
+	protected Vector<Integer> getKindOfOverlapWithTile(Tile tile) {
 		
 		Vector<Integer> tilePos = tile.getPositionInPixels();
-		Vector<Integer> selfPos = this.getPosition();
+		Vector<Integer> selfPos = this.getPositionInPixels();
 		int tileSize = tile.getSize();
 		Vector<Integer> selfSize = this.getSize();
 		
@@ -751,12 +806,25 @@ public abstract class GameObject {
 		return true;
 	}
 	
+	
 	/**
-	 * Returns whether this object's health is equal to zero.
+	 * Returns whether this game object overlaps with the given tile.
 	 * 
-	 * @return Whether this object's health is equal to zero.
+	 * @param tile
+	 * 			The tile to check overlap with.
+	 * 
+	 * @return true if the tiles overlap.
 	 */
-	public boolean isHealthZero(){
-		return this.getHealth() == 0;
+	public boolean doesOverlapWithTile(Tile tile) {
+		
+		Vector<Integer> tilePos = tile.getPositionInPixels();
+		Vector<Integer> selfPos = this.getPositionInPixels();
+		int tileSize = tile.getSize();
+		Vector<Integer> selfSize = this.getSize();
+		
+		return !(tilePos.x + tileSize <= selfPos.x
+				|| tilePos.x >= selfPos.x + selfSize.x
+				|| tilePos.y + tileSize <= selfPos.y
+				|| tilePos.y >= selfPos.y + selfSize.y);
 	}
 }

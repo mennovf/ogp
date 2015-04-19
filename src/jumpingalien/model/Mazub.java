@@ -29,24 +29,11 @@ public class Mazub extends GameObject {
 	
 	
 	/**
-	 * The time interval after enemy damage in which Mazub will
-	 * not take additional enemy damage.
-	 */
-	private double enemyDamageInterval = 0.6;
-	
-	/**
 	 * The time since the last enemy damage was taken.
 	 * By setting this to zero, Mazub will not
 	 * lose life in the first enemyDamageInterval seconds of the game.
 	 */
 	private double timeSinceEnemyDamage = 0;
-	
-	
-	/**
-	 * The time interval after terrain damage in which Mazub will
-	 * not take additional enemy damage.
-	 */
-	private double terrainDamageInterval = 0.2;
 	
 	/**
 	 * The time since the last terrain damage was taken.
@@ -56,11 +43,6 @@ public class Mazub extends GameObject {
 	private double timeSinceTerrainDamage = 0;
 	
 	// CONSTANTS
-	
-	// Health
-	private final static int plantHealthGain = 50;
-	private final static int enemyDamage = -50;
-	private final static int terrainDamage = -2;
 	
 	// Speed
 	public final static double vxMaxDucking = 1.0; // Max running speed while ducking
@@ -260,8 +242,8 @@ public class Mazub extends GameObject {
 			
 			switch (tile.getType()) {
 			case WATER: case MAGMA:
-				if (this.timeSinceTerrainDamage > terrainDamageInterval) {
-					this.increaseHealth(terrainDamage);
+				if (this.timeSinceTerrainDamage > Constants.mazubTerrainDamageInterval) {
+					this.increaseHealth(Constants.mazubTerrainDamage);
 					this.timeSinceTerrainDamage = 0;
 				}
 				break;
@@ -459,12 +441,12 @@ public class Mazub extends GameObject {
 	@Override
 	protected void handleCollision(GameObject object) {
 		if ((object instanceof Plant) && !object.isHealthZero() && (this.getHealth() < this.getMaximumHealth())) {
-			this.increaseHealth(plantHealthGain);
+			this.increaseHealth(Constants.mazubPlantHealthGain);
         }
                 
-        if ((this.timeSinceEnemyDamage > enemyDamageInterval) && ((object instanceof Slime) || (object instanceof Shark))
+        if ((this.timeSinceEnemyDamage > Constants.mazubEnemyDamageInterval) && ((object instanceof Slime) || (object instanceof Shark))
                                 && object.isAlive()) {
-            this.increaseHealth(enemyDamage);
+            this.increaseHealth(Constants.mazubEnemyDamage);
             this.timeSinceEnemyDamage = 0;
         }
 	}

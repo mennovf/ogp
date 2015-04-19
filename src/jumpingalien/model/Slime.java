@@ -135,7 +135,6 @@ public class Slime extends GameObject {
 	
 	@Override
 	protected void handleStep(double dt) {
-		// TODO Auto-generated method stub
 		
 		if (moveTimeLeft <= 0) {
 			
@@ -155,13 +154,10 @@ public class Slime extends GameObject {
 	protected void handleCollisions(Set<GameObject> collidingObjects,
 			Set<Tile> collidingTiles) {
 		super.handleCollisions(collidingObjects, collidingTiles);
-		// TODO Auto-generated method stub
 		
 		if (!this.onGround()) {
 			this.setAcceleration(this.getAcceleration().setY(Constants.gravityAcceleration));
 		}
-		
-		// Slime collisions will only be detected by Mazub, since slimes block the movement of Mazub.
 	}
 	
 	

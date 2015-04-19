@@ -1,7 +1,5 @@
 package jumpingalien.model;
 
-import java.lang.invoke.ConstantCallSite;
-
 import jumpingalien.part2.internal.Resources;
 import jumpingalien.util.Sprite;
 

@@ -161,18 +161,6 @@ public class Slime extends GameObject {
 	}
 	
 	
-	@Override
-	protected void handleCollision(GameObject object) {
-		if ((object instanceof Slime)){
-			Slime other = (Slime)object;
-			if (other.getSchool().size() > this.getSchool().size()){
-				//TODO: Change this method, because the last called slime's school does not matter anymore...
-				School.switchSchools(this.getSchool(), other.getSchool(), this);
-			}
-		}
-	}
-	
-	
 	/**
 	 * Starts the movement of this slime in the given direction.
 	 * 
@@ -195,6 +183,21 @@ public class Slime extends GameObject {
 	private void stopMove() {
 		
 		this.setSpeed(this.getSpeed().setX(0.0));
+	}
+
+
+	@Override
+	protected void handleCollision(GameObject object) {
+		if ((object instanceof Slime)){
+			Slime other = (Slime)object;
+			if (other.getSchool().size() > this.getSchool().size()){
+				School.switchSchools(this.getSchool(), other.getSchool(), this);
+			}
+		}
+		if ((object instanceof Mazub) || (object instanceof Shark)){
+			this.increaseHealth(-50);
+			this.getSchool().takeDamageCausedBy(this);
+		}
 	}
 
 }

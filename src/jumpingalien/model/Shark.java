@@ -89,7 +89,7 @@ public class Shark extends GameObject {
 				
 				Vector<Integer> overlap = this.getKindOfOverlapWithTile(tile);
 				
-				if (overlap.y < 0) {
+				if (overlap.y < 0 || overlap.y == this.getSize().y) {
 					return true;
 				}
 			}
@@ -199,8 +199,8 @@ public class Shark extends GameObject {
 	private void stopMove() {
 		
 		this.setSpeed(this.getSpeed().setX(0.0));
-		this.stopJump();
 		this.stopMoveVertical();
+		this.stopJump();
 	}
 	
 	

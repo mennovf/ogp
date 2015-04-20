@@ -1,1 +1,9 @@
-- Wat gebeurt er als Mazub terminate() krijgt, terwijl de game world nog niet getermineerd is, moet de game world zichzelf dan termineren of een exception throwen? En mag het hier om mazub op null te zetten zonder de setter?
+- Terrain handling -> ook rekening houden met game objects die geen plant zijn
+- onGround -> ook rekening houden met game objects die geen plant zijn
+- Mazub frame switch bij botsing boven nakijken
+- Alle interacties tussen game objects nakijken
+- isTerminated nakijken
+- Algemeen terrain damage voor game objects, of kopiëren?
+- Tests afwerken
+- @post enzovoort afwerken
+- bukken tegenhouden als er terrain ofzo in de weg staat...

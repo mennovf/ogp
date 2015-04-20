@@ -700,9 +700,10 @@ public abstract class GameObject {
 				} else if (Math.abs(overlap.y) == 1 || overlap.y == 2) {
 					int correction = (overlap.y == 1 || overlap.y == 2) ? -1 : 0;
 					this.setPosition(this.getPositionInMeters().addY((overlap.y + correction) * Constants.metersPerPixel));
+					//TODO: Nakijken, want speed wordt op 0 gezet, ook als hij springt...
 					this.setSpeed(this.getSpeed().setY(0.0));
 				} else {
-					System.out.println("this is fucked up...");
+//					System.out.println("this is fucked up...");
 				}
 			}
 		}

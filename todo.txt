@@ -7,4 +7,3 @@
 - Tests afwerken
 - @post enzovoort afwerken
 - bukken tegenhouden als er terrain ofzo in de weg staat...
-- Mazub jumpt niet de eerste keer

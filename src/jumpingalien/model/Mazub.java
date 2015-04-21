@@ -52,10 +52,10 @@ public class Mazub extends GameObject {
 	
 	/**
 	 * The time since the last magma damage was taken.
-	 * By setting this to zero, Mazub will not
-	 * lose life in the first terrainDamageInterval seconds of the game.
+	 * By setting this higher than the threshold Mazub will take damage
+	 * on first contact.
 	 */
-	private double timeSinceMagmaDamage = 0;
+	private double timeSinceMagmaDamage = Constants.mazubTerrainDamageInterval + 0.1;
 	
 	// CONSTANTS
 	

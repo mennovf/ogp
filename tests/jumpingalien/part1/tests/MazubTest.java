@@ -37,7 +37,7 @@ public class MazubTest {
 	public void setUp() throws Exception {
 		world = Utilities.world();
 		mazub = new Mazub(new Vector<>(testStartPosition.x, testStartPosition.y), sprites, testVxInit, testVxMax, testStartDirection);
-		world.addGameObject(mazub);
+		world.setMazub(mazub);
 	}
 
 	@After
@@ -507,5 +507,42 @@ public class MazubTest {
 			mazub.advanceTime(Constants.maxTimeInterval);
 		}
 		assertFalse(mazub.isAlive());
+	}
+	
+	@Test 
+	public void waterDamage(){
+		mazub.setPosition(new Vector<>(0.0, 70.0 * Constants.metersPerPixel));
+		world.setTileType(new Vector<>(0, 0), TileType.GROUND);
+		world.setTileType(new Vector<>(0, 1), TileType.WATER);
+		
+		double eps = 1e-5;
+		world.advanceTime(0.2 - eps);
+		
+		assertEquals(mazub.getHealth(), 100);
+		world.advanceTime(2*eps);
+		
+		assertEquals(mazub.getHealth(), 100 +  Constants.mazubWaterDamage);
+		
+		world.advanceTime(0.2);
+		world.advanceTime(eps);
+		assertEquals(mazub.getHealth(), 100 + 2 * Constants.mazubWaterDamage);
+	}
+	
+	
+	@Test
+	public void magmaDamage(){
+		mazub.setPosition(new Vector<>(0.0, 70.0 * Constants.metersPerPixel));
+		world.setTileType(new Vector<>(0, 0), TileType.GROUND);
+		world.setTileType(new Vector<>(0, 1), TileType.MAGMA);
+		
+		double eps = 1e-5;
+		world.advanceTime(eps);
+		
+		assertEquals(mazub.getHealth(), 100 + Constants.mazubMagmaDamage);
+		
+		world.advanceTime(0.2);
+		world.advanceTime(eps);
+
+		assertEquals(mazub.getHealth(), 100 + 2 * Constants.mazubMagmaDamage);
 	}
 }

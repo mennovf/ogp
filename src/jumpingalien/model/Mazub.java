@@ -25,6 +25,7 @@ public class Mazub extends GameObject {
 	private final double vxMax; // Max running speed (not ducking)
 	
 	private boolean isMoving = false, isDucking = false, hasMoved = false;
+	private boolean wantsToStandUp = true;
 	private double movingTime = 0, timeSinceMoving = 0;
 	
 	
@@ -217,6 +218,11 @@ public class Mazub extends GameObject {
 	@Override
 	protected void handleStep(double dt) {
 		
+		if (isDucking && wantsToStandUp){
+			if (canStand()){
+				this.isDucking = false;
+			}
+		}
 		if (isMoving) {
 			this.movingTime += dt;
 		} else {
@@ -319,7 +325,7 @@ public class Mazub extends GameObject {
 	 * Determines and sets the new current sprite.
 	 */
 	@Override
-	protected void determineCurrentSprite() {
+	protected Sprite determineCurrentSprite() {
 		
 		Sprite[] sprites = this.getSprites();
 		Sprite currentSprite = this.getCurrentSprite();
@@ -350,7 +356,7 @@ public class Mazub extends GameObject {
 			currentSprite = this.getFacing() == 1 ?
 								 sprites[8+animationIndex] : sprites[9+m+animationIndex];
 		}
-		this.setCurrentSprite(currentSprite);
+		return currentSprite;
 	}
 	
 	/**
@@ -429,13 +435,46 @@ public class Mazub extends GameObject {
 	 */
 	public void startDuck() {
 		this.isDucking = true;
+		this.wantsToStandUp = false;
 	}
 	
 	/**
 	 * Ends the duck of this Mazub.
 	 */
 	public void endDuck() {
+		this.wantsToStandUp = true;
+		if (this.canStand()){
+			this.isDucking = false;
+		}
+	}
+
+	/**
+	 * Determines whether or not Mazub can stand up currently.
+	 * @return Whether Mazub can stand up currently.
+	 * 
+	 */
+	private boolean canStand() {
+		//Set up for cleanup
+		boolean oldIsDucking = this.isDucking;
+		Sprite oldSprite = this.getCurrentSprite();
+
 		this.isDucking = false;
+		this.setCurrentSprite(this.determineCurrentSprite());
+
+		Set<Tile> tiles = this.getWorld().getTilesCollidingWithObject(this);
+		boolean result = true;
+		for (Tile tile : tiles){
+			if (this.getKindOfOverlapWithTile(tile).y < 0){
+				result = false;
+				break;
+			}
+		}
+		
+		//Cleanup
+		this.isDucking = oldIsDucking;
+		this.setCurrentSprite(oldSprite);
+
+		return result;
 	}
 
 	@Override

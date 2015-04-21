@@ -590,15 +590,14 @@ public abstract class GameObject {
 	
 	
 	/**
-	 * Determines and sets the new currentSprite of this game object.
+	 * Determines the new currentSprite of this game object.
 	 * The standard implementation takes sprite 0 for left facing and
 	 * sprite 1 for right facing.
 	 * 
-	 * @post The current sprite will be set to the correct sprite.
-	 * 			| this.getCurrentSprite() == theCorrectSprite
+	 * @return The current sprite
 	 */
-	protected void determineCurrentSprite() {
-		this.setCurrentSprite(this.getSprites()[this.getFacing() == 1.0 ? 1 : 0]);
+	protected Sprite determineCurrentSprite() {
+		return this.getSprites()[this.getFacing() == 1.0 ? 1 : 0];
 	}
 	
 	
@@ -634,8 +633,8 @@ public abstract class GameObject {
 	 * 
 	 * @post All properties of this game object will be altered accordingly.
 	 * 
-	 * @effect The new current sprite will be determined.
-	 * 			| this.determineCurrentSprite()
+	 * @post The current sprite will be set to the correct sprite.
+	 * 			| this.getCurrentSprite() == theCorrectSprite
 	 */
 	public void advanceTime(double dt) {
 		
@@ -657,7 +656,7 @@ public abstract class GameObject {
 			this.handleCollisions(collidingObjects, collidingTiles);
 		}
 		
-		this.determineCurrentSprite();
+		this.setCurrentSprite(this.determineCurrentSprite());
 	}
 	
 	

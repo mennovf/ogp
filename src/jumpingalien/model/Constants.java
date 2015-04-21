@@ -54,9 +54,14 @@ public class Constants {
 	public final static int mazubEnemyDamage = -50;
 	
 	/**
-	 * The amount of health Mazub loses when colliding with WATER or MAGMA terrain.
+	 * The amount of health Mazub loses when colliding with WATER terrain.
 	 */
-	public final static int mazubTerrainDamage = -2;
+	public final static int mazubWaterDamage = -2;
+	
+	/**
+	 * The amount of health Mazub loses when colliding with MAGMA terrain.
+	 */
+	public final static int mazubMagmaDamage = -50;
 	
 	
 	

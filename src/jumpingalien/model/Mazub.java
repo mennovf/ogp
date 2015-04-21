@@ -37,11 +37,25 @@ public class Mazub extends GameObject {
 	private double timeSinceEnemyDamage = 0;
 	
 	/**
-	 * The time since the last terrain damage was taken.
+	 * The time since the last water damage was taken.
 	 * By setting this to zero, Mazub will not
 	 * lose life in the first terrainDamageInterval seconds of the game.
 	 */
-	private double timeSinceTerrainDamage = 0;
+	private double timeSinceWaterDamage = 0;
+	
+	/**
+	 * The time Mazub has been in contact with water.
+	 * When this becomes bigger than 0.2 Mazub has been in contact with
+	 * water for 0.2 seconds or more, so damage will be taken.
+	 */
+	private double timeInContactWithWater = 0;
+	
+	/**
+	 * The time since the last magma damage was taken.
+	 * By setting this to zero, Mazub will not
+	 * lose life in the first terrainDamageInterval seconds of the game.
+	 */
+	private double timeSinceMagmaDamage = 0;
 	
 	// CONSTANTS
 	
@@ -215,7 +229,33 @@ public class Mazub extends GameObject {
 		}
 		
 		this.timeSinceEnemyDamage += dt;
-		this.timeSinceTerrainDamage += dt;
+		this.timeSinceWaterDamage += dt;
+		this.timeSinceMagmaDamage += dt;
+		
+		if (this.inContactWithWater()) {
+			this.timeInContactWithWater += dt;
+		} else {
+			this.timeInContactWithWater = 0;
+		}
+	}
+	
+	
+	/**
+	 * Returns whether Mazub is in contact with water.
+	 * 
+	 * @return true if Mazub is in contact with water.
+	 */
+	private boolean inContactWithWater() {
+		
+		Set<Tile> collidingTiles = this.getWorld().getTilesCollidingWithObject(this);
+		
+		for (Tile tile : collidingTiles) {
+			if (tile.getType() == TileType.WATER) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	
@@ -224,24 +264,48 @@ public class Mazub extends GameObject {
 			Set<Tile> collidingTiles) {
 		
 		super.handleCollisions(collidingObjects, collidingTiles);
+		
 		if (!this.onGround()) {
 			this.setAcceleration(this.getAcceleration().setY(getMaxAcceleration().y));
 		}
 		
-		
 		for (Tile tile : collidingTiles) {
 			
 			switch (tile.getType()) {
-			case WATER: case MAGMA:
-				if (this.timeSinceTerrainDamage > Constants.mazubTerrainDamageInterval) {
-					this.increaseHealth(Constants.mazubTerrainDamage);
-					this.timeSinceTerrainDamage = 0;
+			
+			case WATER:
+				if (this.timeInContactWithWater > Constants.mazubTerrainDamageInterval
+						&& this.timeSinceWaterDamage > Constants.mazubTerrainDamageInterval) {
+					this.increaseHealth(Constants.mazubWaterDamage);
+					this.timeSinceWaterDamage = 0;
 				}
 				break;
+				
+			case MAGMA:
+				if (this.timeSinceMagmaDamage > Constants.mazubTerrainDamageInterval) {
+					this.increaseHealth(Constants.mazubMagmaDamage);
+					this.timeSinceMagmaDamage = 0;
+				}
+				break;
+				
 			default:
 				break;
 			}
 		}
+	}
+	
+	
+	@Override
+	protected void handleCollision(GameObject object) {
+		if ((object instanceof Plant) && !object.isHealthZero() && (this.getHealth() < this.getMaximumHealth())) {
+			this.increaseHealth(Constants.mazubPlantHealthGain);
+        }
+                
+        if ((this.timeSinceEnemyDamage > Constants.mazubEnemyDamageInterval) && ((object instanceof Slime) || (object instanceof Shark))
+                                && object.isAlive()) {
+            this.increaseHealth(Constants.mazubEnemyDamage);
+            this.timeSinceEnemyDamage = 0;
+        }
 	}
 	
 
@@ -410,18 +474,5 @@ public class Mazub extends GameObject {
 		this.setCurrentSprite(oldSprite);
 
 		return canStand;
-	}
-
-	@Override
-	protected void handleCollision(GameObject object) {
-		if ((object instanceof Plant) && !object.isHealthZero() && (this.getHealth() < this.getMaximumHealth())) {
-			this.increaseHealth(Constants.mazubPlantHealthGain);
-        }
-                
-        if ((this.timeSinceEnemyDamage > Constants.mazubEnemyDamageInterval) && ((object instanceof Slime) || (object instanceof Shark))
-                                && object.isAlive()) {
-            this.increaseHealth(Constants.mazubEnemyDamage);
-            this.timeSinceEnemyDamage = 0;
-        }
 	}
 }

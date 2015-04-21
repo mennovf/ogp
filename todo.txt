@@ -6,3 +6,4 @@
 - Algemeen terrain damage voor game objects, of kopiëren?
 - Tests afwerken
 - @post enzovoort afwerken
+- Mazub's terrain damage volgens de spec doen.

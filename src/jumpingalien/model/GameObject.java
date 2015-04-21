@@ -760,28 +760,56 @@ public abstract class GameObject {
 	 * @return A 2D vector representing the kind of overlap.
 	 */
 	protected Vector<Integer> getKindOfOverlapWithTile(Tile tile) {
-		
-		Vector<Integer> tilePos = tile.getPositionInPixels();
+		return getKindOfOverlapWith(tile.getPositionInPixels(), new Vector<>(tile.getSize(), tile.getSize()));
+	}
+	
+	/**
+	 * Returns a 2D vector representing the kind of overlap of the given GameObject
+	 * with this game object. When the overlap comes from lower coördinates
+	 * (on the left or on the bottom) a positive overlap value is returned.
+	 * When the overlap comes from higher coördinates (on the right and on 
+	 * the top) a negative value is returned.
+	 * 
+	 * @param obj
+	 * 			The obj to get the kind of overlap with.
+	 * 
+	 * @return A 2D vector representing the kind of overlap.
+	 */
+	protected Vector<Integer> getKindOfOverlapWithGameObject(GameObject obj){
+		return getKindOfOverlapWith(obj.getPositionInPixels(), obj.getSize());
+	}
+	
+	/**
+	 * Returns a 2D vector representing the kind of overlap of the given position and size
+	 * with this game object. When the overlap comes from lower coördinates
+	 * (on the left or on the bottom) a positive overlap value is returned.
+	 * When the overlap comes from higher coördinates (on the right and on 
+	 * the top) a negative value is returned.
+	 * 
+	 * @param otherPos
+	 * 			The position of the other object.
+	 * 
+	 * @param otherSize
+	 * 			The size of the other object.
+	 * 
+	 * @return A 2D vector representing the kind of overlap.
+	 */
+	protected Vector<Integer> getKindOfOverlapWith(Vector<Integer> otherPos, Vector<Integer> otherSize){
 		Vector<Integer> selfPos = this.getPositionInPixels();
-		int tileSize = tile.getSize();
 		Vector<Integer> selfSize = this.getSize();
 		
 		Vector<Integer> overlap = new Vector<>(0, 0);
 		
-		if (!correctOverlapWithTile(tile)) {
-			return overlap;
+		if (otherPos.x <= selfPos.x) {
+			overlap = overlap.setX(Math.min(selfSize.x, otherPos.x + otherSize.x - selfPos.x));
+		} else {
+			overlap = overlap.setX(Math.min(selfSize.x, otherPos.x - selfPos.x - selfSize.x));
 		}
 		
-		if (tilePos.x <= selfPos.x) {
-			overlap = overlap.setX(Math.min(selfSize.x, tilePos.x + tileSize - selfPos.x));
+		if (otherPos.y <= selfPos.y) {
+			overlap = overlap.setY(Math.min(selfSize.y, otherPos.y + otherSize.y - selfPos.y));
 		} else {
-			overlap = overlap.setX(Math.min(selfSize.x, tilePos.x - selfPos.x - selfSize.x));
-		}
-		
-		if (tilePos.y <= selfPos.y) {
-			overlap = overlap.setY(Math.min(selfSize.y, tilePos.y + tileSize - selfPos.y));
-		} else {
-			overlap = overlap.setY(Math.min(selfSize.y, tilePos.y - selfPos.y - selfSize.y));
+			overlap = overlap.setY(Math.min(selfSize.y, otherPos.y - selfPos.y - selfSize.y));
 		}
 		
 		return overlap;

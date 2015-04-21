@@ -363,7 +363,30 @@ public class MazubTest {
 		
 		assertEquals(mazub.getHeight(), height);
 	}
-	
+	@Test
+	public void duck_underObject(){
+		Vector<Double> objPos = new Vector<>(0.0, 75.0 * Constants.metersPerPixel);
+		Shark shark = Utilities.shark(objPos);
+		world.addGameObject(shark);
+		world.setMazub(mazub);
+
+		int height = mazub.getHeight();
+		mazub.startDuck();
+		mazub.advanceTime(Constants.maxTimeInterval / 10.0);
+		int duckHeight = mazub.getHeight();
+		assertTrue(duckHeight < height);
+		
+		mazub.endDuck();
+		mazub.advanceTime(Constants.maxTimeInterval / 10.0);
+		
+		assertEquals(mazub.getHeight(), duckHeight);
+		
+		world.removeGameObject(shark);
+		mazub.advanceTime(Constants.maxTimeInterval / 10.0);
+		
+		assertEquals(mazub.getHeight(), height);
+	}
+
 	@Test
 	public void moveThenJump(){
 		mazub.startMove(1);

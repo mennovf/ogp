@@ -464,9 +464,19 @@ public class Mazub extends GameObject {
 		Set<Tile> tiles = this.getWorld().getTilesCollidingWithObject(this);
 		boolean result = true;
 		for (Tile tile : tiles){
-			if (this.getKindOfOverlapWithTile(tile).y < 0){
+			if ((tile.getType() == TileType.GROUND) && this.getKindOfOverlapWithTile(tile).y < 0){
 				result = false;
 				break;
+			}
+		}
+		// If no collision has been found yet, check for a collision with a GameObject
+		if (result != false){
+			Set<GameObject> objs = this.getWorld().getObjectsCollidingWithObject(this);
+			for (GameObject obj : objs){
+				if (!(obj instanceof Plant) && this.getKindOfOverlapWithGameObject(obj).y < 0){
+					result = false;
+					break;
+				}
 			}
 		}
 		

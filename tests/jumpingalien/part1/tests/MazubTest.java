@@ -343,6 +343,28 @@ public class MazubTest {
 	}
 	
 	@Test
+	public void duck_underTerrain(){
+		Vector<Integer> tilePos = new Vector<>(0, 1);
+		world.setTileType(tilePos, TileType.GROUND);
+
+		int height = mazub.getHeight();
+		mazub.startDuck();
+		mazub.advanceTime(Constants.maxTimeInterval / 10.0);
+		int duckHeight = mazub.getHeight();
+		assertTrue(duckHeight < height);
+		
+		mazub.endDuck();
+		mazub.advanceTime(Constants.maxTimeInterval / 10.0);
+		
+		assertEquals(mazub.getHeight(), duckHeight);
+		
+		world.setTileType(tilePos, TileType.AIR);
+		mazub.advanceTime(Constants.maxTimeInterval / 10.0);
+		
+		assertEquals(mazub.getHeight(), height);
+	}
+	
+	@Test
 	public void moveThenJump(){
 		mazub.startMove(1);
 		mazub.advanceTime(Constants.maxTimeInterval);

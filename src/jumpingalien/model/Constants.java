@@ -96,6 +96,11 @@ public class Constants {
 	 */
 	public final static double slimeMaxMoveTime = 6.0;
 	
+	/**
+	 * The amount of damage a slime receives on contact with an enemy (Mazub or Shark).
+	 */
+	public final static int slimeEnemyContactDamage = 50;
+	
 	
 	
 	// SHARK

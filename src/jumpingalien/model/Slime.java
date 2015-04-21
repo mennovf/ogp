@@ -195,7 +195,7 @@ public class Slime extends GameObject {
 			}
 		}
 		if ((object instanceof Mazub) || (object instanceof Shark)){
-			this.increaseHealth(-50);
+			this.increaseHealth(-Constants.slimeEnemyContactDamage);
 			this.getSchool().takeDamageCausedBy(this);
 		}
 	}

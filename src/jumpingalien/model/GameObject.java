@@ -436,7 +436,7 @@ public abstract class GameObject {
 	
 	
 	/**
-	 * Returns a set of classes with shich the game object can collide.
+	 * Returns a set of classes with which the game object can collide.
 	 * 
 	 * @return A set of classes with which the game object can collide.
 	 */

@@ -405,8 +405,9 @@ public class Mazub extends GameObject {
 	 * 			| new.getSpeed().y != 0
 	 */
 	public void startJump() {
-		this.setSpeed(this.getSpeed().setY(Mazub.getInitialJumpSpeed()));
-//		this.setAcceleration(this.getAcceleration().setY(getMaxAcceleration().y));
+		if (onGround()){
+			this.setSpeed(this.getSpeed().setY(Mazub.getInitialJumpSpeed()));
+		}
 	}
 	
 	/**

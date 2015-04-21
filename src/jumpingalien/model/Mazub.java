@@ -157,21 +157,6 @@ public class Mazub extends GameObject {
 	
 	
 	/**
-	 * @return A 2-dimensional vector of this Mzaub's acceleration in m/s.
-	 */
-//	public Vector<Double> getAcceleration(){
-//		Vector<Double> maxAcc = Mazub.getMaxAcceleration();
-//		Vector<Double> acc = new Vector<>(0.0, 0.0);
-//		if (isMoving){
-//			acc = acc.setX(this.getFacing() * maxAcc.x);
-//		}
-//		if (!onGround()){
-//			acc = acc.setY(maxAcc.y);
-//		}
-//		return acc;
-//	}
-	
-	/**
 	 * @return	This Mazub's height in pixels.
 	 */
 	@Basic
@@ -258,67 +243,6 @@ public class Mazub extends GameObject {
 			}
 		}
 	}
-	
-	
-	/**
-	 * Advances the time for this Mazub with the given time interval and updates position, speed and acceleration.
-	 * 
-	 * @param dt
-	 * 			The time that has passed in the game world since last calling this method.
-	 * 
-	 * @throws	IllegalArgumentException
-	 * 			| (dt < 0) || (dt > Constants.maxTimeInterval)
-	 * 
-	 */
-//	public void advanceTime(double dt) throws IllegalArgumentException{
-//		
-//		// check for exceptions
-//		if (Double.isNaN(dt)) {
-//			throw new IllegalArgumentException("Delta time can not be NaN.");
-//		}
-//		if (dt > Constants.maxTimeInterval){
-//			throw new IllegalArgumentException(String.format("Delta time may not exceed %.5fs.", Constants.maxTimeInterval));
-//		}
-//		if (dt < 0){
-//			throw new IllegalArgumentException("Delta time has to be non-negative.");
-//		}
-//		
-//		// update times
-//		if (isMoving) {
-//			this.movingTime += dt;
-//		} else {
-//			this.timeSinceMoving += dt;
-//		}
-//		
-//		// update movement
-//		this.updateMovement(dt);
-//		
-//		// determine and set the new current sprite after the time and movement have been updated
-//		this.determineCurrentSprite();
-//	}
-
-	/**
-	 * Updates this Mazub's position and speed using the given time interval.
-	 * 
-	 * @param dt
-	 * 			The passed time interval since the last update in seconds.
-	 */
-//	private void updateMovement(double dt) {
-//		
-//		// Set some variables so we need to write less.
-//		Vector<Double> acc = this.getAcceleration();
-//		Vector<Double> speed = this.getSpeed();
-//		Vector<Double> position = this.getPositionInMeters();
-//		
-//		Vector<Double> newPosition = Vector.add(position, Vector.add(Vector.scale(speed, dt), Vector.scale(acc, dt*dt/2.0)));
-//		Vector<Double> newSpeed = Vector.add(speed, Vector.scale(acc, dt));
-//		
-//		this.setPosition(Utilities.clipVectorInRange(new Vector<Double>(0.0, 0.0),
-//							this.getWorld().getSizeInMeters(), newPosition));
-//		this.setSpeed(new Vector<Double>(Utilities.clipInRange(-this.getMaxHorizontalSpeed(),
-//											this.getMaxHorizontalSpeed(),
-//											newSpeed.x), this.onGround() ? 0.0 : newSpeed.y));
-//	}
 	
 
 	/**

@@ -87,7 +87,7 @@ public class Shark extends GameObject {
 			
 			if (tile.getType() == TileType.WATER) {
 				
-				Vector<Integer> overlap = this.getKindOfOverlapWithTile(tile);
+				Vector<Integer> overlap = this.getKindOfOverlapWith(tile);
 				
 				if (overlap.y < 0 || overlap.y == this.getSize().y) {
 					return true;
@@ -112,7 +112,7 @@ public class Shark extends GameObject {
 			
 			if (tile.getType() == TileType.WATER) {
 				
-				Vector<Integer> overlap = this.getKindOfOverlapWithTile(tile);
+				Vector<Integer> overlap = this.getKindOfOverlapWith(tile);
 				
 				if (overlap.y > 0) {
 					return true;

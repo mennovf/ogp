@@ -24,6 +24,8 @@ public abstract class GameObject {
 	private Sprite currentSprite;
 	private Motion motion;
 	private double facing;
+	
+	private final boolean passable;
 
 	private final int maxHealth;
 	private int health;
@@ -37,6 +39,24 @@ public abstract class GameObject {
 	 * Creates a new game object with the given health, maxHealth, position and sprites.
 	 * 
 	 * @param health
+	 * @param maxHealth
+	 * @param position
+	 * @param sprites
+	 * 
+	 * @effect GameObject(health, maxHealth, position, sprites, false)
+	 * 
+	 * @throws IllegalArgumentException
+	 */
+	protected GameObject(int health, int maxHealth, Vector<Double> position, Sprite[] sprites)
+			throws IllegalArgumentException {
+		this(health, maxHealth, position, sprites, false);
+	}
+	
+	
+	/**
+	 * Creates a new game object with the given health, maxHealth, position, sprites and passable.
+	 * 
+	 * @param health
 	 * 			The health to set.
 	 * 
 	 * @param maxHealth
@@ -48,11 +68,14 @@ public abstract class GameObject {
 	 * @param sprites
 	 * 			The sprites to set.
 	 * 
+	 * @param passable
+	 * 			Whether or not the game object is passable.
+	 * 
 	 * @throws IllegalArgumentException
 	 * 			Throws an IllegalArgumentException when the given position is not valid.
 	 * 			| !isValidPosition(position)
 	 */
-	protected GameObject(int health, int maxHealth, Vector<Double> position, Sprite[] sprites)
+	protected GameObject(int health, int maxHealth, Vector<Double> position, Sprite[] sprites, boolean passable)
 				throws IllegalArgumentException {
 		
 		if (!this.isValidPosition(position)){
@@ -61,6 +84,7 @@ public abstract class GameObject {
 		
 		// maxHealth has to be set before setHealth because it uses maxHealth.
 		this.setFacing(1);
+		this.passable = passable;
 		this.maxHealth = maxHealth;
 		this.health = 1;
 		this.setHealth(health);
@@ -174,6 +198,17 @@ public abstract class GameObject {
 		} catch (NullPointerException exc) {
 			assert !this.inWorld();
 		}
+	}
+	
+	
+	/**
+	 * Returns whether or not other game objects should not collide with this game object.
+	 * 
+	 * @return true if this game object is passable
+	 */
+	@Basic @Immutable
+	public boolean isPassable() {
+		return this.passable;
 	}
 	
 	
@@ -678,7 +713,7 @@ public abstract class GameObject {
 					continue;
 				}
 				
-				Vector<Integer> overlap = getKindOfOverlapWithTile(tile);
+				Vector<Integer> overlap = getKindOfOverlapWith(tile);
 				
 				if (overlap.x == 0 || overlap.y == 0) {
 					continue;
@@ -689,10 +724,6 @@ public abstract class GameObject {
 					continue;
 				}
 				
-//				System.out.println();
-//				System.out.println(overlap.x);
-//				System.out.println(overlap.y);
-				
 				if (Math.abs(overlap.x) == 1) {
 					this.setPosition(this.getPositionInMeters().addX(overlap.x * Constants.metersPerPixel));
 					this.setSpeed(this.getSpeed().setX(0.0));
@@ -701,8 +732,6 @@ public abstract class GameObject {
 					this.setPosition(this.getPositionInMeters().addY((overlap.y + correction) * Constants.metersPerPixel));
 					//TODO: Nakijken, want speed wordt op 0 gezet, ook als hij springt...
 					this.setSpeed(this.getSpeed().setY(0.0));
-				} else {
-//					System.out.println("this is fucked up...");
 				}
 			}
 		}
@@ -728,6 +757,7 @@ public abstract class GameObject {
 	 * 			The tiles this game object collides with.
 	 */
 	protected void handleCollisions(Set<GameObject> collidingObjects, Set<Tile> collidingTiles){
+		
 		this.handleTerrain(collidingTiles);
 
 		for (GameObject object : collidingObjects){
@@ -759,8 +789,8 @@ public abstract class GameObject {
 	 * 
 	 * @return A 2D vector representing the kind of overlap.
 	 */
-	protected Vector<Integer> getKindOfOverlapWithTile(Tile tile) {
-		return getKindOfOverlapWith(tile.getPositionInPixels(), new Vector<>(tile.getSize(), tile.getSize()));
+	protected Vector<Integer> getKindOfOverlapWith(Tile tile) {
+		return getKindOfOverlapWithRect(tile.getPositionInPixels(), new Vector<>(tile.getSize(), tile.getSize()));
 	}
 	
 	/**
@@ -775,9 +805,10 @@ public abstract class GameObject {
 	 * 
 	 * @return A 2D vector representing the kind of overlap.
 	 */
-	protected Vector<Integer> getKindOfOverlapWithGameObject(GameObject obj){
-		return getKindOfOverlapWith(obj.getPositionInPixels(), obj.getSize());
+	protected Vector<Integer> getKindOfOverlapWith(GameObject obj){
+		return getKindOfOverlapWithRect(obj.getPositionInPixels(), obj.getSize());
 	}
+	
 	
 	/**
 	 * Returns a 2D vector representing the kind of overlap of the given position and size
@@ -794,7 +825,7 @@ public abstract class GameObject {
 	 * 
 	 * @return A 2D vector representing the kind of overlap.
 	 */
-	protected Vector<Integer> getKindOfOverlapWith(Vector<Integer> otherPos, Vector<Integer> otherSize){
+	private Vector<Integer> getKindOfOverlapWithRect(Vector<Integer> otherPos, Vector<Integer> otherSize){
 		Vector<Integer> selfPos = this.getPositionInPixels();
 		Vector<Integer> selfSize = this.getSize();
 		

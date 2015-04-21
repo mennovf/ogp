@@ -20,7 +20,7 @@ public class Plant extends GameObject {
 	 */
 	public Plant(Vector<Double> position, Sprite[] sprites){
 		
-		super(1, 1, position, sprites);
+		super(1, 1, position, sprites, true);
 	}
 	
 	

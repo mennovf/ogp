@@ -462,19 +462,19 @@ public class Mazub extends GameObject {
 		this.setCurrentSprite(this.determineCurrentSprite());
 
 		Set<Tile> tiles = this.getWorld().getTilesCollidingWithObject(this);
-		boolean result = true;
+		boolean canStand = true;
 		for (Tile tile : tiles){
-			if ((tile.getType() == TileType.GROUND) && this.getKindOfOverlapWithTile(tile).y < 0){
-				result = false;
+			if ((tile.getType() == TileType.GROUND) && this.getKindOfOverlapWith(tile).y < 0) {
+				canStand = false;
 				break;
 			}
 		}
 		// If no collision has been found yet, check for a collision with a GameObject
-		if (result != false){
+		if (canStand != false) {
 			Set<GameObject> objs = this.getWorld().getObjectsCollidingWithObject(this);
-			for (GameObject obj : objs){
-				if (!(obj instanceof Plant) && this.getKindOfOverlapWithGameObject(obj).y < 0){
-					result = false;
+			for (GameObject obj : objs) {
+				if (!obj.isPassable() && this.getKindOfOverlapWith(obj).y < 0) {
+					canStand = false;
 					break;
 				}
 			}
@@ -484,7 +484,7 @@ public class Mazub extends GameObject {
 		this.isDucking = oldIsDucking;
 		this.setCurrentSprite(oldSprite);
 
-		return result;
+		return canStand;
 	}
 
 	@Override

@@ -6,4 +6,3 @@
 - Algemeen terrain damage voor game objects, of kopiëren?
 - Tests afwerken
 - @post enzovoort afwerken
-- Mazub jumpt niet de eerste keer

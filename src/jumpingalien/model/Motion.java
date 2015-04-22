@@ -53,7 +53,7 @@ public class Motion {
 	 */
 	@Basic
 	public Vector<Double> getPosition() {
-		return this.position;
+		return new Vector<>(this.position);
 	}
 	
 	/**
@@ -76,7 +76,7 @@ public class Motion {
 	 */
 	@Basic
 	public Vector<Double> getSpeed() {
-		return this.speed;
+		return new Vector<>(this.speed);
 	}
 	
 	/**
@@ -99,7 +99,7 @@ public class Motion {
 	 */
 	@Basic
 	public Vector<Double> getAcceleration() {
-		return this.acceleration;
+		return new Vector<>(this.acceleration);
 	}
 	
 	/**

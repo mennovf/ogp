@@ -453,7 +453,8 @@ public class Mazub extends GameObject {
 		Set<Tile> tiles = this.getWorld().getTilesCollidingWithObject(this);
 		boolean canStand = true;
 		for (Tile tile : tiles){
-			if ((tile.getType() == TileType.GROUND) && this.getKindOfOverlapWith(tile).y < 0) {
+			Vector<Integer> overlap = this.getKindOfOverlapWith(tile);
+			if ((tile.getType() == TileType.GROUND) && overlap.y < 0) {
 				canStand = false;
 				break;
 			}

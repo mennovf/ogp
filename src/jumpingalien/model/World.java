@@ -202,6 +202,10 @@ public class World {
 	public ArrayList<Vector<Integer>> getTilePositionsInRectangle(Vector<Integer> bottomLeftPixel, Vector<Integer> topRightPixel) {
 		assert this.pixelInWorld(bottomLeftPixel);
 		
+		if (!this.pixelInWorld(bottomLeftPixel)) {
+			System.out.println("Pixel not in world...");
+		}
+		
 		Vector<Integer> bottomLeftTile = this.getTileContainingPixel(bottomLeftPixel);
 		Vector<Integer> topRightTile = this.pixelInWorld(topRightPixel) ?
 				this.getTileContainingPixel(topRightPixel) :
@@ -273,10 +277,11 @@ public class World {
 	 * @return true if the player won the game.
 	 */
 	public boolean didPlayerWin() {
-		ArrayList<Vector<Integer>> tilePositions = this.getTilePositionsInRectangle(mazub.getPositionInPixels(), Vector.add(mazub.getPositionInPixels(), mazub.getSize()));
+		ArrayList<Vector<Integer>> tilePositions = this.getTilePositionsInRectangle(
+				mazub.getPositionInPixels(), mazub.getTopRightPixel());
 		Vector<Integer> targetTilePos = this.getTargetTilePosition();
-		for (Vector<Integer> pos : tilePositions){
-			if ((pos.x == targetTilePos.x) && (pos.y == targetTilePosition.y)){
+		for (Vector<Integer> pos : tilePositions) {
+			if ((pos.x == targetTilePos.x) && (pos.y == targetTilePosition.y)) {
 				return true;
 			}
 		}

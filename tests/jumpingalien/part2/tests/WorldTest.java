@@ -204,6 +204,7 @@ public class WorldTest {
 	
 	@Test
 	public void didPlayerWin(){
+		System.out.println("test started");
 		Vector<Double> position = Utilities.pixelsVectorToMeters(Vector.scale(world.getTargetTilePosition(), world.getTileSize()));
 		Mazub mazub = new Mazub(position, JumpingAlienSprites.ALIEN_SPRITESET, 1, 2, 1);
 		world.setMazub(mazub);

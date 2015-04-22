@@ -51,8 +51,8 @@ public class WorldTest {
 		assertEquals(world.getTileSize(), 70);
 		assertEquals((int)world.getNumberOfTiles().x, 20);
 		assertEquals((int)world.getNumberOfTiles().y, 12);
-		assertEquals((int)world.getTargetTilePosition().x, 18);
-		assertEquals((int)world.getTargetTilePosition().y, 19);
+		assertEquals((int)world.getTargetTilePosition().x, 19);
+		assertEquals((int)world.getTargetTilePosition().y, 11);
 	}
 	
 	@Test

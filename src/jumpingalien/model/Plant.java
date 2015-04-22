@@ -21,6 +21,7 @@ public class Plant extends GameObject {
 	public Plant(Vector<Double> position, Sprite[] sprites){
 		
 		super(1, 1, position, sprites, true);
+		this.setSpeed(this.getSpeed().setX(Constants.plantSpeed));
 	}
 	
 	
@@ -49,8 +50,6 @@ public class Plant extends GameObject {
 		
 		double timeLeft = Constants.plantMoveTime - directionTime;
 		directionTime = (directionTime + dt) % Constants.plantMoveTime;
-		
-		//TODO: Did not recalculate the mistake made by switching the speed too late (dt > timeLeft)
 		
 		if (dt > timeLeft){
 			this.setSpeed(this.getSpeed().setX(this.getFacing() * Constants.plantSpeed));

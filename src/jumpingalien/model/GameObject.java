@@ -718,17 +718,29 @@ public abstract class GameObject {
 					continue;
 				}
 				
+				// If both x and y overlaps are 1, the response can't be determined yet
+				// so we add it to the hard ones set
 				if (Math.abs(overlap.x) == 1 && Math.abs(overlap.y) == 1) {
 					hardOnes.add(tile);
 					continue;
 				}
 				
+				// If the x overlap is 1 and the y is not, we need to move the game object
+				// horizontally
 				if (Math.abs(overlap.x) == 1) {
+					// Adjust position
 					this.setPosition(this.getPositionInMeters().addX(overlap.x * Constants.metersPerPixel));
+					// Set horizontal speed to 0
 					this.setSpeed(this.getSpeed().setX(0.0));
+				
+				// Otherwise, if the y overlap is 1 or 2 (when standing on ground) and the
+				// x overlap is not, we need to move the game object vertically
 				} else if (Math.abs(overlap.y) == 1 || overlap.y == 2) {
-					int correction = (overlap.y == 1 || overlap.y == 2) ? -1 : 0;
+					// Calculate a correction for when the y overlap is positive
+					int correction = (overlap.y > 0) ? -1 : 0;
+					// Adjust position
 					this.setPosition(this.getPositionInMeters().addY((overlap.y + correction) * Constants.metersPerPixel));
+					// Set vertical speed to zero.
 					this.setSpeed(this.getSpeed().setY(0.0));
 				}
 			}

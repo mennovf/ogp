@@ -27,6 +27,28 @@ public class Slime extends GameObject {
 	 */
 	private double timeSinceEnemyDamage = 0;
 
+	
+	/**
+	 * The time since the last water damage was taken.
+	 * By setting this to zero, Slime will not
+	 * lose life in the first terrainDamageInterval seconds of the game.
+	 */
+	private double timeSinceWaterDamage = 0;
+	
+	/**
+	 * The time Slime has been in contact with water.
+	 * When this becomes bigger than 0.2 Slime has been in contact with
+	 * water for 0.2 seconds or more, so damage will be taken.
+	 */
+	private double timeInContactWithWater = 0;
+	
+	/**
+	 * The time since the last magma damage was taken.
+	 * By setting this higher than the threshold Slime will take damage
+	 * on first contact.
+	 */
+	private double timeSinceMagmaDamage = Constants.terrainDamageInterval + 0.1;
+
 	/**
 	 * Creates a new slime with the given positions, sprites and school.
 	 * 
@@ -144,6 +166,14 @@ public class Slime extends GameObject {
 	protected void handleStep(double dt) {
 		
 		this.timeSinceEnemyDamage += dt;
+		this.timeSinceWaterDamage += dt;
+		this.timeSinceMagmaDamage += dt;
+		
+		if (this.inContactWithTileOfType(TileType.WATER)) {
+			this.timeInContactWithWater += dt;
+		} else {
+			this.timeInContactWithWater = 0;
+		}
 
 		if (moveTimeLeft <= 0) {
 			
@@ -166,6 +196,30 @@ public class Slime extends GameObject {
 		
 		if (!this.onGround()) {
 			this.setAcceleration(this.getAcceleration().setY(Constants.gravityAcceleration));
+		}
+
+		for (Tile tile : collidingTiles) {
+			
+			switch (tile.getType()) {
+			
+			case WATER:
+				if (this.timeInContactWithWater > Constants.terrainDamageInterval
+						&& this.timeSinceWaterDamage > Constants.terrainDamageInterval) {
+					this.increaseHealth(Constants.mazubWaterDamage);
+					this.timeSinceWaterDamage = 0;
+				}
+				break;
+				
+			case MAGMA:
+				if (this.timeSinceMagmaDamage > Constants.terrainDamageInterval) {
+					this.increaseHealth(Constants.magmaDamage);
+					this.timeSinceMagmaDamage = 0;
+				}
+				break;
+				
+			default:
+				break;
+			}
 		}
 	}
 	

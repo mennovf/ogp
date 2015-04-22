@@ -276,7 +276,7 @@ public class Mazub extends GameObject {
 			case WATER:
 				if (this.timeInContactWithWater > Constants.terrainDamageInterval
 						&& this.timeSinceWaterDamage > Constants.terrainDamageInterval) {
-					this.increaseHealth(Constants.mazubWaterDamage);
+					this.increaseHealth(Constants.waterDamage);
 					this.timeSinceWaterDamage = 0;
 				}
 				break;

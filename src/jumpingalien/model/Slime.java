@@ -188,6 +188,11 @@ public class Slime extends GameObject {
 		}
 	}
 	
+	private void takeDamage(int amount){
+		this.increaseHealth(amount);
+		this.getSchool().takeDamageCausedBy(this);
+	}
+	
 	
 	@Override
 	protected void handleCollisions(Set<GameObject> collidingObjects,
@@ -205,14 +210,14 @@ public class Slime extends GameObject {
 			case WATER:
 				if (this.timeInContactWithWater > Constants.terrainDamageInterval
 						&& this.timeSinceWaterDamage > Constants.terrainDamageInterval) {
-					this.increaseHealth(Constants.mazubWaterDamage);
+					this.takeDamage(Constants.waterDamage);
 					this.timeSinceWaterDamage = 0;
 				}
 				break;
 				
 			case MAGMA:
 				if (this.timeSinceMagmaDamage > Constants.terrainDamageInterval) {
-					this.increaseHealth(Constants.magmaDamage);
+					this.takeDamage(Constants.magmaDamage);
 					this.timeSinceMagmaDamage = 0;
 				}
 				break;
@@ -258,8 +263,7 @@ public class Slime extends GameObject {
 			}
 		}
 		if ((this.timeSinceEnemyDamage > Constants.enemyDamageInterval) && (object instanceof Mazub) || (object instanceof Shark)){
-			this.increaseHealth(Constants.slimeEnemyContactDamage);
-			this.getSchool().takeDamageCausedBy(this);
+			this.takeDamage(Constants.slimeEnemyContactDamage);
 			this.timeSinceEnemyDamage = 0;
 		}
 	}

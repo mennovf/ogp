@@ -45,6 +45,10 @@ public class Constants {
 	public static double enemyDamageInterval = 0.6;
 	
 	
+	/**
+	 * The amount of health someone loses when colliding with WATER terrain.
+	 */
+	public final static int waterDamage = -2;
 	
 	
 	// MAZUB
@@ -58,13 +62,6 @@ public class Constants {
 	 * The amount of health Mazub loses when colliding with an enemy.
 	 */
 	public final static int mazubEnemyDamage = -50;
-	
-	/**
-	 * The amount of health Mazub loses when colliding with WATER terrain.
-	 */
-	public final static int mazubWaterDamage = -2;
-	
-	
 	
 	// PLANT
 	

@@ -3,6 +3,5 @@
 - Mazub frame switch bij botsing boven nakijken
 - Alle interacties tussen game objects nakijken
 - isTerminated nakijken
-- Algemeen terrain damage voor game objects, of kopiëren?
 - Tests afwerken
 - @post enzovoort afwerken

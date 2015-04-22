@@ -55,7 +55,7 @@ public class Mazub extends GameObject {
 	 * By setting this higher than the threshold Mazub will take damage
 	 * on first contact.
 	 */
-	private double timeSinceMagmaDamage = Constants.mazubTerrainDamageInterval + 0.1;
+	private double timeSinceMagmaDamage = Constants.terrainDamageInterval + 0.1;
 	
 	// CONSTANTS
 	
@@ -274,16 +274,16 @@ public class Mazub extends GameObject {
 			switch (tile.getType()) {
 			
 			case WATER:
-				if (this.timeInContactWithWater > Constants.mazubTerrainDamageInterval
-						&& this.timeSinceWaterDamage > Constants.mazubTerrainDamageInterval) {
+				if (this.timeInContactWithWater > Constants.terrainDamageInterval
+						&& this.timeSinceWaterDamage > Constants.terrainDamageInterval) {
 					this.increaseHealth(Constants.mazubWaterDamage);
 					this.timeSinceWaterDamage = 0;
 				}
 				break;
 				
 			case MAGMA:
-				if (this.timeSinceMagmaDamage > Constants.mazubTerrainDamageInterval) {
-					this.increaseHealth(Constants.mazubMagmaDamage);
+				if (this.timeSinceMagmaDamage > Constants.terrainDamageInterval) {
+					this.increaseHealth(Constants.magmaDamage);
 					this.timeSinceMagmaDamage = 0;
 				}
 				break;

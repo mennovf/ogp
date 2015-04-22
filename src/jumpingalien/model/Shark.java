@@ -16,9 +16,39 @@ import jumpingalien.util.Sprite;
  */
 public class Shark extends GameObject {
 	
+	/**
+	 * How much time there is left in the current movement period.
+	 */
 	private double moveTimeLeft = 0;
+	
+	/**
+	 * The number of movement periods without jumping there have been
+	 * since the last jumping period.
+	 */
 	private double movePeriodCount = 0;
+	
+	/**
+	 * Whether or not the shark is jumping.
+	 */
 	private boolean jumping = false;
+	
+	
+	/**
+	 * The amount of time the shark has been in contact with air.
+	 */
+	private double timeInContactWithAir = 0;
+	
+	/**
+	 * The amount of time since the last damage from air collisions
+	 * was taken.
+	 */
+	private double timeSinceAirDamage = 0;
+	
+	/**
+	 * The amount of time since the last damage from magma collisions
+	 * wast taken.
+	 */
+	private double timeSinceMagmaDamage = Constants.terrainDamageInterval + 0.1;
 
 	/**
 	 * Creates a shark with the given position and sprites.
@@ -138,6 +168,35 @@ public class Shark extends GameObject {
 			
 			moveTimeLeft -= dt;
 		}
+		
+//		this.timeSinceEnemyDamage += dt;
+		this.timeSinceAirDamage += dt;
+		this.timeSinceMagmaDamage += dt;
+		
+		if (this.inContactWithAir()) {
+			this.timeInContactWithAir += dt;
+		} else {
+			this.timeInContactWithAir = 0;
+		}
+	}
+	
+	
+	/**
+	 * Returns whether Mazub is in contact with water.
+	 * 
+	 * @return true if Mazub is in contact with water.
+	 */
+	private boolean inContactWithAir() {
+		
+		Set<Tile> collidingTiles = this.getWorld().getTilesCollidingWithObject(this);
+		
+		for (Tile tile : collidingTiles) {
+			if (tile.getType() == TileType.AIR) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	
@@ -151,6 +210,30 @@ public class Shark extends GameObject {
 		} else if (this.getAcceleration().y == Constants.gravityAcceleration) {
 			this.setSpeed(this.getSpeed().setY(0.0));
 			this.setAcceleration(this.getAcceleration().setY(0.0));
+		}
+		
+		for (Tile tile : collidingTiles) {
+			
+			switch (tile.getType()) {
+			
+			case AIR:
+				if (this.timeInContactWithAir > Constants.terrainDamageInterval
+						&& this.timeSinceAirDamage > Constants.terrainDamageInterval) {
+					this.increaseHealth(Constants.sharkAirDamage);
+					this.timeSinceAirDamage = 0;
+				}
+				break;
+				
+			case MAGMA:
+				if (this.timeSinceMagmaDamage > Constants.terrainDamageInterval) {
+					this.increaseHealth(Constants.magmaDamage);
+					this.timeSinceMagmaDamage = 0;
+				}
+				break;
+				
+			default:
+				break;
+			}
 		}
 	}
 	

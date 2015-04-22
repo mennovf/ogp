@@ -538,11 +538,11 @@ public class MazubTest {
 		double eps = 1e-5;
 		world.advanceTime(eps);
 		
-		assertEquals(mazub.getHealth(), 100 + Constants.mazubMagmaDamage);
+		assertEquals(mazub.getHealth(), 100 + Constants.magmaDamage);
 		
 		world.advanceTime(0.2);
 		world.advanceTime(eps);
 
-		assertEquals(mazub.getHealth(), 100 + 2 * Constants.mazubMagmaDamage);
+		assertEquals(mazub.getHealth(), 100 + 2 * Constants.magmaDamage);
 	}
 }

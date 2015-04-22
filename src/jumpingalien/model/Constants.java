@@ -27,6 +27,16 @@ public class Constants {
 	 */
 	public final static double metersPerPixel = 0.01;
 	
+	/**
+	 * The amount of health a game object loses when colliding with magma.
+	 */
+	public final static int magmaDamage = -50;
+	
+	/**
+	 * The time interval after terrain damage in which a game object will
+	 * not take additional terrain damage.
+	 */
+	public final static double terrainDamageInterval = 0.2;
 	
 	
 	// MAZUB
@@ -36,12 +46,6 @@ public class Constants {
 	 * not take additional enemy damage.
 	 */
 	public static double mazubEnemyDamageInterval = 0.6;
-	
-	/**
-	 * The time interval after terrain damage in which Mazub will
-	 * not take additional enemy damage.
-	 */
-	public static double mazubTerrainDamageInterval = 0.2;
 	
 	/**
 	 * The amount of health Mazub gains when eating a plant.
@@ -57,11 +61,6 @@ public class Constants {
 	 * The amount of health Mazub loses when colliding with WATER terrain.
 	 */
 	public final static int mazubWaterDamage = -2;
-	
-	/**
-	 * The amount of health Mazub loses when colliding with MAGMA terrain.
-	 */
-	public final static int mazubMagmaDamage = -50;
 	
 	
 	
@@ -154,4 +153,9 @@ public class Constants {
 	 * The amount of health a shark loses when colliding with an enemy.
 	 */
 	public final static int sharkEnemyDamage = -50;
+	
+	/**
+	 * The amount of health a shark loses when colliding with air.
+	 */
+	public final static int sharkAirDamage = -6;
 }

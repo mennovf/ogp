@@ -301,7 +301,7 @@ public class Mazub extends GameObject {
 			this.increaseHealth(Constants.mazubPlantHealthGain);
         }
                 
-        if ((this.timeSinceEnemyDamage > Constants.mazubEnemyDamageInterval) && ((object instanceof Slime) || (object instanceof Shark))
+        if ((this.timeSinceEnemyDamage > Constants.enemyDamageInterval) && ((object instanceof Slime) || (object instanceof Shark))
                                 && object.isAlive()) {
             this.increaseHealth(Constants.mazubEnemyDamage);
             this.timeSinceEnemyDamage = 0;

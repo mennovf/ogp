@@ -104,7 +104,7 @@ public class Constants {
 	/**
 	 * The amount of damage a slime receives on contact with an enemy (Mazub or Shark).
 	 */
-	public final static int slimeEnemyContactDamage = 50;
+	public final static int slimeEnemyContactDamage = -50;
 	
 	/**
 	 * The amount of time in between instances of damage taken by a Slime.

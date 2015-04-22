@@ -482,7 +482,6 @@ public abstract class GameObject {
 	 */
 	@Basic
 	public boolean collidesWithTileType(TileType type) {
-		
 		return this.getCollidableTileTypes().contains(type);
 	}
 	

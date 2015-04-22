@@ -81,6 +81,7 @@ public class Shark extends GameObject {
 		
 		HashSet<TileType> collidables = new HashSet<TileType>();
 		collidables.add(TileType.GROUND);
+		collidables.add(TileType.AIR);
 		collidables.add(TileType.WATER);
 		collidables.add(TileType.MAGMA);
 		

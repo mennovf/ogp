@@ -39,7 +39,7 @@ public class WorldTest {
 
 	@Before
 	public void setUp() throws Exception {
-		world = new World(70, 20, 12, 1024, 751, 18, 19);
+		world = new World(70, 20, 12, 1024, 751, 19, 11);
 	}
 
 	@After
@@ -343,7 +343,7 @@ public class WorldTest {
 	}
 
 	@Test
-	public void objectsOverlap_overlap_topTightCorner(){
+	public void objectsOverlap_overlap_topRightCorner(){
 		Shark shark1 = Utilities.shark(new Vector<>(0.0, 0.0));
 		world.addGameObject(shark1);
 		Shark shark2 = Utilities.shark(new Vector<>(shark1.getSize().x * Constants.metersPerPixel - 1, shark1.getSize().y * Constants.metersPerPixel - 1));
@@ -511,24 +511,15 @@ public class WorldTest {
 	@Test
 	public void getTilesCollidingWithObject_center(){
 		Shark shark = Utilities.shark(new Vector<>(0.0, 0.0));
-		Vector<Integer> size = shark.getSize();
-		int inX = (int) Math.ceil(size.x / 70.0);
-		int inY = (int) Math.ceil(size.y / 70);
-		
 		Set<Tile> tiles = world.getTilesCollidingWithObject(shark);
-		assertEquals(tiles.size(), inX * inY);
-		for (Tile tile : tiles){
-			assertTrue(tile.getPosition().x < inX);
-			assertTrue(tile.getPosition().x < inY);
-		}
+		assertEquals(tiles.size(), 1);
 	}
 
 	@Test
 	public void getTilesCollidingWithObject_cornerOfTiles(){
-		Shark shark = Utilities.shark(new Vector<>(50.0, 50.0));
-		Vector<Integer> size = shark.getSize();
-		int toX = (int) Math.ceil(shark.getPositionInPixels().x + size.x / 70.0);
-		int toY = (int) Math.ceil(shark.getPositionInPixels().y + size.y / 70);
+		Shark shark = Utilities.shark(Utilities.pixelsVectorToMeters(new Vector<>(50, 50)));
+		int toX = 2;
+		int toY = 2;
 		
 		Set<Tile> tiles = world.getTilesCollidingWithObject(shark);
 		assertEquals(tiles.size(), toX * toY);

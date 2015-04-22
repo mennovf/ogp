@@ -203,7 +203,7 @@ public class Slime extends GameObject {
 				School.switchSchools(this.getSchool(), other.getSchool(), this);
 			}
 		}
-		if ((this.timeSinceEnemyDamage > Constants.slimeEnemyDamageInterval) && (object instanceof Mazub) || (object instanceof Shark)){
+		if ((this.timeSinceEnemyDamage > Constants.enemyDamageInterval) && (object instanceof Mazub) || (object instanceof Shark)){
 			this.increaseHealth(Constants.slimeEnemyContactDamage);
 			this.getSchool().takeDamageCausedBy(this);
 			this.timeSinceEnemyDamage = 0;

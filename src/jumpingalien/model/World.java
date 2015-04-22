@@ -202,10 +202,6 @@ public class World {
 	public ArrayList<Vector<Integer>> getTilePositionsInRectangle(Vector<Integer> bottomLeftPixel, Vector<Integer> topRightPixel) {
 		assert this.pixelInWorld(bottomLeftPixel);
 		
-		if (!this.pixelInWorld(bottomLeftPixel)) {
-			System.out.println("Pixel not in world...");
-		}
-		
 		Vector<Integer> bottomLeftTile = this.getTileContainingPixel(bottomLeftPixel);
 		Vector<Integer> topRightTile = this.pixelInWorld(topRightPixel) ?
 				this.getTileContainingPixel(topRightPixel) :

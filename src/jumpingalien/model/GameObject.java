@@ -700,20 +700,20 @@ public abstract class GameObject {
 	 * @param collidingTiles
 	 * 			The tiles with which the game object is colliding.
 	 */
-	private void handleTerrain(Set<Tile> collidingTiles) {
+	private void handleBasicMovementCollisions(Set<GameObject> collidingObjects, Set<Tile> collidingTiles) {
 		
 		Set<Tile> hardOnes = new HashSet<Tile>();
 		
+		// Loop through all tiles
 		for (Tile tile: collidingTiles) {
+			
+			// If the type isn't passable, the game objects motion should be altered
 			if (!tile.getType().passable) {
 				
-				if (!correctOverlapWithTile(tile)) {
-					System.out.println("Incorrect overlap detected...");
-					continue;
-				}
-				
+				// Get the kind of overlap with the tile
 				Vector<Integer> overlap = getKindOfOverlapWith(tile);
 				
+				// If x and y overlap are zero, there is no overlap
 				if (overlap.x == 0 || overlap.y == 0) {
 					continue;
 				}
@@ -729,7 +729,6 @@ public abstract class GameObject {
 				} else if (Math.abs(overlap.y) == 1 || overlap.y == 2) {
 					int correction = (overlap.y == 1 || overlap.y == 2) ? -1 : 0;
 					this.setPosition(this.getPositionInMeters().addY((overlap.y + correction) * Constants.metersPerPixel));
-					//TODO: Nakijken, want speed wordt op 0 gezet, ook als hij springt...
 					this.setSpeed(this.getSpeed().setY(0.0));
 				}
 			}
@@ -757,7 +756,7 @@ public abstract class GameObject {
 	 */
 	protected void handleCollisions(Set<GameObject> collidingObjects, Set<Tile> collidingTiles){
 		
-		this.handleTerrain(collidingTiles);
+		this.handleBasicMovementCollisions(collidingObjects, collidingTiles);
 
 		for (GameObject object : collidingObjects){
 			//Delegate the collision to both parties involved
@@ -848,7 +847,7 @@ public abstract class GameObject {
 	 * 
 	 * @return A 2D vector representing the kind of overlap.
 	 */
-	private Vector<Integer> getKindOfOverlapWithRect(Vector<Integer> otherPos, Vector<Integer> otherSize){
+	private Vector<Integer> getKindOfOverlapWithRect(Vector<Integer> otherPos, Vector<Integer> otherSize) {
 		Vector<Integer> selfPos = this.getPositionInPixels();
 		Vector<Integer> selfSize = this.getSize();
 		
@@ -871,21 +870,19 @@ public abstract class GameObject {
 	
 	
 	/**
-	 * Returns whether this game object overlaps correctly with the given tile
-	 * for terrain handling calculations. This means the tile can only
-	 * overlap with the outer border op pixels of the game object because
-	 * the time steps make sure steps of one pixel are taken.
+	 * Returns whether this game object overlaps with the given game object.
 	 * 
-	 * @param tile
-	 * 			The tile to test overlapping with.
+	 * @param object
+	 * 			The game object to check overlap with.
 	 * 
-	 * @return True if this game object overlaps correctly with the given tile.
+	 * @return true if this game object overlaps with the given game object.
+	 * 			| !(object.getPositionInPixels().x + object.getSize().x <= self.getPositionInPixels().x
+				|	|| object.getPositionInPixels().x >= self.getPositionInPixels().x + self.getSize().x
+				|	|| object.getPositionInPixels().y + object.getSize().y <= self.getPositionInPixels().y
+				|	|| object.getPositionInPixels().y >= self.getPositionInPixels().y + self.getSize().y)
 	 */
-	private boolean correctOverlapWithTile(Tile tile) {
-		
-		//TODO: Implement this.
-		
-		return true;
+	public boolean doesOverlapWith(GameObject object) {
+		return this.doesOverlapWithRect(object.getPositionInPixels(), object.getSize());
 	}
 	
 	
@@ -895,18 +892,37 @@ public abstract class GameObject {
 	 * @param tile
 	 * 			The tile to check overlap with.
 	 * 
-	 * @return true if the tiles overlap.
+	 * @return true if this game object overlaps with the given tile.
+	 * 			| !(tile.getPositionInPixels().x + tile.getSize() <= self.getPositionInPixels().x
+				|	|| tile.getPositionInPixels().x >= self.getPositionInPixels().x + self.getSize().x
+				|	|| tile.getPositionInPixels().y + tile.getSize() <= self.getPositionInPixels().y
+				|	|| tile.getPositionInPixels().y >= self.getPositionInPixels().y + self.getSize().y)
 	 */
-	public boolean doesOverlapWithTile(Tile tile) {
+	public boolean doesOverlapWith(Tile tile) {
+		return this.doesOverlapWithRect(tile.getPositionInPixels(),
+				new Vector<>(tile.getSize(), tile.getSize()));
+	}
+	
+	
+	/**
+	 * Returns whether this game object overlaps with the given rectangle.
+	 * 
+	 * @param pos
+	 * 			The bottom left position of the rectangle.
+	 * 
+	 * @param size
+	 * 			The size of the rectangle.
+	 * 
+	 * @return true if this game object and the rectangle overlap.
+	 */
+	private boolean doesOverlapWithRect(Vector<Integer> pos, Vector<Integer> size) {
 		
-		Vector<Integer> tilePos = tile.getPositionInPixels();
 		Vector<Integer> selfPos = this.getPositionInPixels();
-		int tileSize = tile.getSize();
 		Vector<Integer> selfSize = this.getSize();
 		
-		return !(tilePos.x + tileSize <= selfPos.x
-				|| tilePos.x >= selfPos.x + selfSize.x
-				|| tilePos.y + tileSize <= selfPos.y
-				|| tilePos.y >= selfPos.y + selfSize.y);
+		return !(pos.x + size.x <= selfPos.x
+				|| pos.x >= selfPos.x + selfSize.x
+				|| pos.y + size.y <= selfPos.y
+				|| pos.y >= selfPos.y + selfSize.y);
 	}
 }

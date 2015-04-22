@@ -296,68 +296,68 @@ public class WorldTest {
 		}
 	}
 	
-	@Test
-	public void objectsOverlap_overlap_obvious(){
-		Shark shark1 = Utilities.shark(new Vector<>(0.0, 0.0));
-		world.addGameObject(shark1);
-		Shark shark2 = Utilities.shark(new Vector<>(0.0, 0.0));
-		world.addGameObject(shark2);
-		assertTrue(world.objectsOverlap(shark1, shark2));
-	}
-
-	@Test
-	public void objectsOverlap_overlap_closex(){
-		Shark shark1 = Utilities.shark(new Vector<>(0.0, 0.0));
-		world.addGameObject(shark1);
-		Shark shark2 = Utilities.shark(new Vector<>(shark1.getSize().x * Constants.metersPerPixel - 1, 0.0));
-		world.addGameObject(shark2);
-		assertTrue(world.objectsOverlap(shark1, shark2));
-	}
-
-	@Test
-	public void objectsOverlap_noOverlap_closex(){
-		Shark shark1 = Utilities.shark(new Vector<>(0.0, 0.0));
-		world.addGameObject(shark1);
-		Shark shark2 = Utilities.shark(new Vector<>(shark1.getSize().x * Constants.metersPerPixel, 0.0));
-		world.addGameObject(shark2);
-		assertFalse(world.objectsOverlap(shark1, shark2));
-	}
-
-	@Test
-	public void objectsOverlap_overlap_closey(){
-		Shark shark1 = Utilities.shark(new Vector<>(0.0, 0.0));
-		world.addGameObject(shark1);
-		Shark shark2 = Utilities.shark(new Vector<>(0.0, shark1.getSize().y * Constants.metersPerPixel - 1));
-		world.addGameObject(shark2);
-		assertTrue(world.objectsOverlap(shark1, shark2));
-	}
-
-	@Test
-	public void objectsOverlap_noOverlap_closey(){
-		Shark shark1 = Utilities.shark(new Vector<>(0.0, 0.0));
-		world.addGameObject(shark1);
-		Shark shark2 = Utilities.shark(new Vector<>(0.0, shark1.getSize().y * Constants.metersPerPixel));
-		world.addGameObject(shark2);
-		assertFalse(world.objectsOverlap(shark1, shark2));
-	}
-
-	@Test
-	public void objectsOverlap_overlap_topRightCorner(){
-		Shark shark1 = Utilities.shark(new Vector<>(0.0, 0.0));
-		world.addGameObject(shark1);
-		Shark shark2 = Utilities.shark(new Vector<>(shark1.getSize().x * Constants.metersPerPixel - 1, shark1.getSize().y * Constants.metersPerPixel - 1));
-		world.addGameObject(shark2);
-		assertTrue(world.objectsOverlap(shark1, shark2));
-	}
-
-	@Test
-	public void objectsOverlap_noOverlap_topTightCorner(){
-		Shark shark1 = Utilities.shark(new Vector<>(0.0, 0.0));
-		world.addGameObject(shark1);
-		Shark shark2 = Utilities.shark(new Vector<>(shark1.getSize().x * Constants.metersPerPixel, shark1.getSize().y * Constants.metersPerPixel));
-		world.addGameObject(shark2);
-		assertFalse(world.objectsOverlap(shark1, shark2));
-	}
+//	@Test
+//	public void objectsOverlap_overlap_obvious(){
+//		Shark shark1 = Utilities.shark(new Vector<>(0.0, 0.0));
+//		world.addGameObject(shark1);
+//		Shark shark2 = Utilities.shark(new Vector<>(0.0, 0.0));
+//		world.addGameObject(shark2);
+//		assertTrue(world.objectsOverlap(shark1, shark2));
+//	}
+//
+//	@Test
+//	public void objectsOverlap_overlap_closex(){
+//		Shark shark1 = Utilities.shark(new Vector<>(0.0, 0.0));
+//		world.addGameObject(shark1);
+//		Shark shark2 = Utilities.shark(new Vector<>(shark1.getSize().x * Constants.metersPerPixel - 1, 0.0));
+//		world.addGameObject(shark2);
+//		assertTrue(world.objectsOverlap(shark1, shark2));
+//	}
+//
+//	@Test
+//	public void objectsOverlap_noOverlap_closex(){
+//		Shark shark1 = Utilities.shark(new Vector<>(0.0, 0.0));
+//		world.addGameObject(shark1);
+//		Shark shark2 = Utilities.shark(new Vector<>(shark1.getSize().x * Constants.metersPerPixel, 0.0));
+//		world.addGameObject(shark2);
+//		assertFalse(world.objectsOverlap(shark1, shark2));
+//	}
+//
+//	@Test
+//	public void objectsOverlap_overlap_closey(){
+//		Shark shark1 = Utilities.shark(new Vector<>(0.0, 0.0));
+//		world.addGameObject(shark1);
+//		Shark shark2 = Utilities.shark(new Vector<>(0.0, shark1.getSize().y * Constants.metersPerPixel - 1));
+//		world.addGameObject(shark2);
+//		assertTrue(world.objectsOverlap(shark1, shark2));
+//	}
+//
+//	@Test
+//	public void objectsOverlap_noOverlap_closey(){
+//		Shark shark1 = Utilities.shark(new Vector<>(0.0, 0.0));
+//		world.addGameObject(shark1);
+//		Shark shark2 = Utilities.shark(new Vector<>(0.0, shark1.getSize().y * Constants.metersPerPixel));
+//		world.addGameObject(shark2);
+//		assertFalse(world.objectsOverlap(shark1, shark2));
+//	}
+//
+//	@Test
+//	public void objectsOverlap_overlap_topRightCorner(){
+//		Shark shark1 = Utilities.shark(new Vector<>(0.0, 0.0));
+//		world.addGameObject(shark1);
+//		Shark shark2 = Utilities.shark(new Vector<>(shark1.getSize().x * Constants.metersPerPixel - 1, shark1.getSize().y * Constants.metersPerPixel - 1));
+//		world.addGameObject(shark2);
+//		assertTrue(world.objectsOverlap(shark1, shark2));
+//	}
+//
+//	@Test
+//	public void objectsOverlap_noOverlap_topTightCorner(){
+//		Shark shark1 = Utilities.shark(new Vector<>(0.0, 0.0));
+//		world.addGameObject(shark1);
+//		Shark shark2 = Utilities.shark(new Vector<>(shark1.getSize().x * Constants.metersPerPixel, shark1.getSize().y * Constants.metersPerPixel));
+//		world.addGameObject(shark2);
+//		assertFalse(world.objectsOverlap(shark1, shark2));
+//	}
 	
 	@Test
 	public void getKindOfOverlap_noOverlapX_noOverlapY() {

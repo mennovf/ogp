@@ -499,31 +499,6 @@ public class World {
 	
 	
 	/**
-	 * Returns whether two game objects overlap in the game world.
-	 * 
-	 * @param first
-	 * 			The first game object.
-	 * 
-	 * @param second
-	 * 			The second game object.
-	 * 
-	 * @return true if the two given game objects overlap.
-	 */
-	public boolean objectsOverlap(GameObject first, GameObject second) {
-		
-		Vector<Integer> pos1 = first.getPositionInPixels();
-		Vector<Integer> size1 = first.getSize();
-		Vector<Integer> pos2 = second.getPositionInPixels();
-		Vector<Integer> size2 = second.getSize();
-		
-		return !(pos1.x + size1.x - 1 < pos2.x
-				|| pos2.x + size2.x - 1 < pos1.x
-				|| pos1.y + size1.y - 1 < pos2.y
-				|| pos2.y + size2.y - 1 < pos1.y);
-	}
-	
-	
-	/**
 	 * Returns a set of all game objects colliding with the given game object.
 	 * 
 	 * @param object
@@ -538,7 +513,7 @@ public class World {
 		for (GameObject obj : this.objects) {
 			
 			if (obj != object && object.collidesWithGameObjectClass(obj.getClass())
-					&& this.objectsOverlap(object, obj)) {
+					&& object.doesOverlapWith(obj)) {
 				
 				collidingObjects.add(obj);
 			}

@@ -42,7 +42,7 @@ public class Constants {
 	 * not take additional enemy damage.
 	 */
 	public static double mazubTerrainDamageInterval = 0.2;
-	
+
 	/**
 	 * The amount of health Mazub gains when eating a plant.
 	 */
@@ -106,7 +106,10 @@ public class Constants {
 	 */
 	public final static int slimeEnemyContactDamage = 50;
 	
-	
+	/**
+	 * The amount of time in between instances of damage taken by a Slime.
+	 */
+	public final static double slimeEnemyDamageInterval = mazubEnemyDamageInterval; 
 	
 	// SHARK
 	

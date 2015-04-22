@@ -39,6 +39,8 @@ public class Constants {
 	public final static double terrainDamageInterval = 0.2;
 	
 	
+	
+	
 	// MAZUB
 	
 	/**

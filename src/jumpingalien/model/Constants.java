@@ -44,6 +44,9 @@ public class Constants {
 	 */
 	public static double enemyDamageInterval = 0.6;
 	
+	
+	
+	
 	// MAZUB
 	
 	/**

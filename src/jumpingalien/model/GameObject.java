@@ -778,6 +778,30 @@ public abstract class GameObject {
 	
 	
 	/**
+	 * Returns whether or not this game object is currently in contact
+	 * with a tile of the given type.
+	 * 
+	 * @param type
+	 * 			The tile type to check contact with.
+	 * 
+	 * @return true if this game object is in contact with a tile of
+	 * 			the given type.
+	 */
+	protected boolean inContactWithTileOfType(TileType type) {
+		
+		Set<Tile> collidingTiles = this.getWorld().getTilesCollidingWithObject(this);
+		
+		for (Tile tile : collidingTiles) {
+			if (tile.getType() == type) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	
+	/**
 	 * Returns a 2D vector representing the kind of overlap of the given tile
 	 * with this game object. When the overlap comes from lower coördinates
 	 * (on the left or on the bottom) a positive overlap value is returned.

@@ -21,6 +21,13 @@ public class Slime extends GameObject {
 	
 	
 	/**
+	 * The time since the last enemy damage was taken.
+	 * By setting this to zero, Slime will not
+	 * lose life in the first enemyDamageInterval seconds of the game.
+	 */
+	private double timeSinceEnemyDamage = 0;
+
+	/**
 	 * Creates a new slime with the given positions, sprites and school.
 	 * 
 	 * @param position
@@ -136,6 +143,8 @@ public class Slime extends GameObject {
 	@Override
 	protected void handleStep(double dt) {
 		
+		this.timeSinceEnemyDamage += dt;
+
 		if (moveTimeLeft <= 0) {
 			
 			this.stopMove();
@@ -194,9 +203,10 @@ public class Slime extends GameObject {
 				School.switchSchools(this.getSchool(), other.getSchool(), this);
 			}
 		}
-		if ((object instanceof Mazub) || (object instanceof Shark)){
-			this.increaseHealth(-Constants.slimeEnemyContactDamage);
+		if ((this.timeSinceEnemyDamage > Constants.slimeEnemyDamageInterval) && (object instanceof Mazub) || (object instanceof Shark)){
+			this.increaseHealth(Constants.slimeEnemyContactDamage);
 			this.getSchool().takeDamageCausedBy(this);
+			this.timeSinceEnemyDamage = 0;
 		}
 	}
 

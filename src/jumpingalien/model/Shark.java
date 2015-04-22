@@ -182,21 +182,12 @@ public class Shark extends GameObject {
 	
 	
 	/**
-	 * Returns whether Mazub is in contact with water.
+	 * Returns whether Shark is in contact with air.
 	 * 
-	 * @return true if Mazub is in contact with water.
+	 * @return true if Shark is in contact with air.
 	 */
 	private boolean inContactWithAir() {
-		
-		Set<Tile> collidingTiles = this.getWorld().getTilesCollidingWithObject(this);
-		
-		for (Tile tile : collidingTiles) {
-			if (tile.getType() == TileType.AIR) {
-				return true;
-			}
-		}
-		
-		return false;
+		return this.inContactWithTileOfType(TileType.AIR);
 	}
 	
 	

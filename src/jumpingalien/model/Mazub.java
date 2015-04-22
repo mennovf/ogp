@@ -246,16 +246,7 @@ public class Mazub extends GameObject {
 	 * @return true if Mazub is in contact with water.
 	 */
 	private boolean inContactWithWater() {
-		
-		Set<Tile> collidingTiles = this.getWorld().getTilesCollidingWithObject(this);
-		
-		for (Tile tile : collidingTiles) {
-			if (tile.getType() == TileType.WATER) {
-				return true;
-			}
-		}
-		
-		return false;
+		return this.inContactWithTileOfType(TileType.WATER);
 	}
 	
 	

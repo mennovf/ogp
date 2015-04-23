@@ -2,6 +2,8 @@
 - @post enzovoort afwerken
 	al nagekeken:
 	+ GameObject
+	+ Tile
+	+ TileType
 - passable interface
 - cleanup
 - vector equal method

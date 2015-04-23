@@ -168,7 +168,7 @@ public class Facade implements IFacadePart2 {
 	@Override
 	public int getGeologicalFeature(World world, int pixelX, int pixelY)
 			throws ModelException {
-		return world.getTileType(new Vector<>(pixelX, pixelY)).number;
+		return world.getTileType(new Vector<>(pixelX, pixelY)).getNumber();
 	}
 
 	@Override

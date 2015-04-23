@@ -53,7 +53,7 @@ public class Tile implements Collidable {
 	 */
 	public Tile(Vector<Integer> position, int size, TileType type) throws IllegalArgumentException {
 		
-		if (size > 0) {
+		if (size <= 0) {
 			throw new IllegalArgumentException("The size should be bigger than zero.");
 		}
 		

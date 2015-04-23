@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import jumpingalien.util.Sprite;
-import jumpingalien.util.Util;
 import be.kuleuven.cs.som.annotate.*;
 
 /**
@@ -17,21 +16,57 @@ import be.kuleuven.cs.som.annotate.*;
  * 			| this.isValidHealth(this.getHealth())
  */
 public abstract class GameObject implements Collidable {
-	
-	private boolean isTerminated;
 
+	/**
+	 * An array containing the sprites of this game object.
+	 */
 	private final Sprite[] sprites;
+	
+	/**
+	 * The current sprite of this game object.
+	 */
 	private Sprite currentSprite;
+	
+	/**
+	 * A motion object containing the position, speed
+	 * and acceleration of this game object.
+	 */
 	private Motion motion;
+	
+	/**
+	 * The facing of this game object. 1 means it's
+	 * facing right, -1 means it's facing left.
+	 */
 	private double facing;
 	
+	
+	/**
+	 * A boolean value indicating whether this game
+	 * object is passable.
+	 */
 	private final boolean passable;
 
+	
+	/**
+	 * The maximum number of hitpoints this game object can have.
+	 */
 	private final int maxHealth;
+	
+	/**
+	 * The number of hitpoints this game object has.
+	 */
 	private int health;
 	
+	
+	/**
+	 * How long the health of this game object has been zero.
+	 */
 	private double deathTime = 0.0;
 	
+	
+	/**
+	 * The world this game object is in.
+	 */
 	private World world;
 	
 	
@@ -224,6 +259,7 @@ public abstract class GameObject implements Collidable {
 	 * 
 	 * @return true if this game object is passable.
 	 */
+	@Override
 	@Basic @Immutable
 	public boolean isPassable() {
 		return this.passable;
@@ -742,29 +778,32 @@ public abstract class GameObject implements Collidable {
 	 */
 	private void handleBasicMovementCollisions(Set<GameObject> collidingObjects, Set<Tile> collidingTiles) {
 		
-		Set<Tile> hardOnes = new HashSet<Tile>();
+		Set<Collidable> collidables = new HashSet<Collidable>();
+		collidables.addAll(collidingObjects);
+		collidables.addAll(collidingTiles);
 		
-		// Loop through all tiles
-		for (Tile tile: collidingTiles) {
+		Set<Collidable> hardOnes = new HashSet<Collidable>();
+		
+		// Loop through all collidables
+		for (Collidable collidable: collidables) {
 			
-			// If the type isn't passable, the game objects motion should be altered
-			if (!tile.isPassable()) {
-				
+			if (!collidable.isPassable()) {
+
 				// Get the kind of overlap with the tile
-				Vector<Integer> overlap = getKindOfOverlapWith(tile);
-				
+				Vector<Integer> overlap = getKindOfOverlapWith(collidable);
+
 				// If x and y overlap are zero, there is no overlap
 				if (overlap.x == 0 || overlap.y == 0) {
 					continue;
 				}
-				
+
 				// If both x and y overlaps are 1, the response can't be determined yet
 				// so we add it to the hard ones set
 				if (Math.abs(overlap.x) == 1 && Math.abs(overlap.y) == 1) {
-					hardOnes.add(tile);
+					hardOnes.add(collidable);
 					continue;
 				}
-				
+
 				// If the x overlap is 1 and the y is not, we need to move the game object
 				// horizontally
 				if (Math.abs(overlap.x) == 1) {
@@ -772,9 +811,9 @@ public abstract class GameObject implements Collidable {
 					this.setPositionInMeters(this.getPositionInMeters().addX(overlap.x * Constants.metersPerPixel));
 					// Set horizontal speed to 0
 					this.setSpeed(this.getSpeed().setX(0.0));
-				
-				// Otherwise, if the y overlap is 1 or 2 (when standing on ground) and the
-				// x overlap is not, we need to move the game object vertically
+
+					// Otherwise, if the y overlap is 1 or 2 (when standing on ground) and the
+					// x overlap is not, we need to move the game object vertically
 				} else if (Math.abs(overlap.y) == 1 || overlap.y == 2) {
 					// Calculate a correction for when the y overlap is positive
 					int correction = (overlap.y > 0) ? -1 : 0;
@@ -784,49 +823,6 @@ public abstract class GameObject implements Collidable {
 					this.setSpeed(this.getSpeed().setY(0.0));
 				}
 			}
-		}
-		
-		Set<GameObject> hardOnesObjects = new HashSet<GameObject>();
-		
-		for (GameObject object : collidingObjects) {
-			
-			// If the type isn't passable, the game objects motion should be altered
-						if (!object.isPassable()) {
-							
-							// Get the kind of overlap with the tile
-							Vector<Integer> overlap = getKindOfOverlapWith(object);
-							
-							// If x and y overlap are zero, there is no overlap
-							if (overlap.x == 0 || overlap.y == 0) {
-								continue;
-							}
-							
-							// If both x and y overlaps are 1, the response can't be determined yet
-							// so we add it to the hard ones set
-							if (Math.abs(overlap.x) == 1 && Math.abs(overlap.y) == 1) {
-								hardOnesObjects.add(object);
-								continue;
-							}
-							
-							// If the x overlap is 1 and the y is not, we need to move the game object
-							// horizontally
-							if (Math.abs(overlap.x) == 1) {
-								// Adjust position
-								this.setPositionInMeters(this.getPositionInMeters().addX(overlap.x * Constants.metersPerPixel));
-								// Set horizontal speed to 0
-								this.setSpeed(this.getSpeed().setX(0.0));
-							
-							// Otherwise, if the y overlap is 1 or 2 (when standing on ground) and the
-							// x overlap is not, we need to move the game object vertically
-							} else if (Math.abs(overlap.y) == 1 || overlap.y == 2) {
-								// Calculate a correction for when the y overlap is positive
-								int correction = (overlap.y > 0) ? -1 : 0;
-								// Adjust position
-								this.setPositionInMeters(this.getPositionInMeters().addY((overlap.y + correction) * Constants.metersPerPixel));
-								// Set vertical speed to zero.
-								this.setSpeed(this.getSpeed().setY(0.0));
-							}
-						}
 		}
 	}
 	
@@ -891,6 +887,34 @@ public abstract class GameObject implements Collidable {
 		}
 		
 		return false;
+	}
+	
+	
+	/**
+	 * Returns the kind of overlap with the given collidable.
+	 * 
+	 * @param collidable
+	 * 			| The collidable to get the kind of overlap with.
+	 * 
+	 * @return A 2D vector representing the kind of overlap.
+	 * 			When collidable is a Tile object:
+	 * 			| this.getKindOfOverlapWith((Tile) collidable)
+	 * 			When collidable is a GameObject object:
+	 * 			| this.getKindOfOverlapWith((GameObject) collidable)
+	 * 
+	 * @throws IllegalArgumentException
+	 * 			Throws an IllegalArgumentException when the collidable's type is unknown.
+	 * 			The type should be Tile or GameObject.
+	 * 			| !(collidable instanceof Tile || collidable instanceof GameObject)
+	 */
+	protected Vector<Integer> getKindOfOverlapWith(Collidable collidable) throws IllegalArgumentException {
+		if (collidable instanceof Tile) {
+			return this.getKindOfOverlapWith((Tile) collidable);
+		} else if (collidable instanceof GameObject) {
+			return this.getKindOfOverlapWith((GameObject) collidable);
+		} else {
+			throw new IllegalArgumentException("The given collidable is of an unknown type. It should be Tile or GameObject.");
+		}
 	}
 	
 	

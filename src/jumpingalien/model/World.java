@@ -524,67 +524,6 @@ public class World {
 	
 	
 	/**
-	 * Returns a vector representing the overlap directions in the x and y directions.
-	 * 
-	 * @param bottomLeftPixel
-	 * 			The position of the bottom left pixel of the object that is testing the collision.
-	 * 
-	 * @param topRightPixel
-	 * 			The position of the top right pixel of the object that is testing the collision.
-	 * 
-	 * @param collidingBottomLeftPixel
-	 * 			The position of the bottom left pixel of the colliding object.
-	 * 
-	 * @param collidingTopRightPixel
-	 * 			The position of the top right pixel of the colliding object.
-	 * 
-	 * @return The x and y overlap directions.
-	 */
-	public Vector<OverlapDirection> getKindOfOverlap(Vector<Integer> bottomLeftPixel,
-			Vector<Integer> topRightPixel, Vector<Integer> collidingBottomLeftPixel,
-			Vector<Integer> collidingTopRightPixel) {
-		
-		Vector<OverlapDirection> overlapDir = new Vector<>(OverlapDirection.NONE, OverlapDirection.NONE);
-		
-		//TODO: check < and <=
-		
-		if (collidingBottomLeftPixel.x <= bottomLeftPixel.x) {
-			if (collidingTopRightPixel.x <= bottomLeftPixel.x) {
-				overlapDir = overlapDir.setX(OverlapDirection.NONE);
-			} else if (collidingTopRightPixel.x < topRightPixel.x) {
-				overlapDir = overlapDir.setX(OverlapDirection.LOW);
-			} else {
-				overlapDir = overlapDir.setX(OverlapDirection.FULL);
-			}
-		} else if (collidingBottomLeftPixel.x < topRightPixel.x) {
-			if (collidingTopRightPixel.x < topRightPixel.x) {
-				overlapDir = overlapDir.setX(OverlapDirection.MIDDLE);
-			} else {
-				overlapDir = overlapDir.setX(OverlapDirection.HIGH);
-			}
-		}
-		
-		if (collidingBottomLeftPixel.y <= bottomLeftPixel.y) {
-			if (collidingTopRightPixel.y <= bottomLeftPixel.y) {
-				overlapDir = overlapDir.setY(OverlapDirection.NONE);
-			} else if (collidingTopRightPixel.y < topRightPixel.y) {
-				overlapDir = overlapDir.setY(OverlapDirection.LOW);
-			} else {
-				overlapDir = overlapDir.setY(OverlapDirection.FULL);
-			}
-		} else if (collidingBottomLeftPixel.y < topRightPixel.y) {
-			if (collidingTopRightPixel.y < topRightPixel.y) {
-				overlapDir = overlapDir.setY(OverlapDirection.MIDDLE);
-			} else {
-				overlapDir = overlapDir.setY(OverlapDirection.HIGH);
-			}
-		}
-		
-		return overlapDir;
-	}
-	
-	
-	/**
 	 * Advances the time in this game world with the given time interval and updates
 	 * position, speed and acceleration of all game objects in this game world.
 	 * 

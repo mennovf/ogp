@@ -222,10 +222,8 @@ public class Mazub extends GameObject {
 	@Override
 	protected void handleStep(double dt) {
 		
-		if (isDucking && wantsToStandUp){
-			if (canStand()){
-				this.isDucking = false;
-			}
+		if (isDucking && wantsToStandUp && canStand()){
+			this.isDucking = false;
 		}
 		if (isMoving) {
 			this.movingTime += dt;
@@ -449,23 +447,27 @@ public class Mazub extends GameObject {
 
 		this.isDucking = false;
 		this.setCurrentSprite(this.determineCurrentSprite());
-
-		Set<Tile> tiles = this.getWorld().getTilesCollidingWithObject(this);
+		
+		Set<Collidable> collidables = new HashSet<>();
+		collidables.addAll(this.getWorld().getTilesCollidingWithObject(this));
+		collidables.addAll(this.getWorld().getObjectsCollidingWithObject(this));
+		
 		boolean canStand = true;
-		for (Tile tile : tiles){
-			Vector<Integer> overlap = this.getKindOfOverlapWith(tile);
-			if ((tile.getType() == TileType.GROUND) && overlap.y < 0) {
-				canStand = false;
-				break;
-			}
-		}
-		// If no collision has been found yet, check for a collision with a GameObject
-		if (canStand != false) {
-			Set<GameObject> objs = this.getWorld().getObjectsCollidingWithObject(this);
-			for (GameObject obj : objs) {
-				if (!obj.isPassable() && this.getKindOfOverlapWith(obj).y < 0) {
-					canStand = false;
-					break;
+		for (Collidable collidable : collidables) {
+			Vector<Integer> overlap = this.getKindOfOverlapWith(collidable);
+			if (overlap.y < 0 && 4*Math.abs(overlap.x) > Math.abs(overlap.y)) {
+				if (collidable instanceof Tile) {
+					Tile tile = (Tile) collidable;
+					if (tile.getType() == TileType.GROUND) {
+						canStand = false;
+						break;
+					}
+				} else {
+					GameObject object = (GameObject) collidable;
+					if (!object.isPassable()) {
+						canStand = false;
+						break;
+					}
 				}
 			}
 		}

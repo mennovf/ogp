@@ -386,6 +386,20 @@ public abstract class GameObject implements Collidable {
 	public Vector<Integer> getPositionInPixels() {
 		return Utilities.metersVectorToPixels(this.getPositionInMeters());
 	}
+	
+	
+	/**
+	 * Returns the position of the bottom left pixel of this
+	 * game object in pixels.
+	 * 
+	 * @return The position of the bottom left pixel of this
+	 * 			game object in pixels.
+	 * 			| this.getPositionInPixels()
+	 */
+	@Override
+	public Vector<Integer> getBoundingBoxPositionInPixels() {
+		return this.getPositionInPixels();
+	}
 
 
 	/**
@@ -731,6 +745,18 @@ public abstract class GameObject implements Collidable {
 	
 	
 	/**
+	 * Returns the size of the bounding box of this game object.
+	 * 
+	 * @return The size of the bounding box of this game object.
+	 * 			| this.getSizeInPixels()
+	 */
+	@Override
+	public Vector<Integer> getBoundingBoxSizeInPixels() {
+		return this.getSize();
+	}
+	
+	
+	/**
 	 * Advances the time of this game object and adjusts it's position,
 	 * speed and acceleration accordingly. Small steps will be performed
 	 * to handle collisions as well.
@@ -896,46 +922,8 @@ public abstract class GameObject implements Collidable {
 	 * 			| !(collidable instanceof Tile || collidable instanceof GameObject)
 	 */
 	protected Vector<Integer> getKindOfOverlapWith(Collidable collidable) throws IllegalArgumentException {
-		if (collidable instanceof Tile) {
-			return this.getKindOfOverlapWith((Tile) collidable);
-		} else if (collidable instanceof GameObject) {
-			return this.getKindOfOverlapWith((GameObject) collidable);
-		} else {
-			throw new IllegalArgumentException("The given collidable is of an unknown type. It should be Tile or GameObject.");
-		}
-	}
-	
-	
-	/**
-	 * Returns a 2D vector representing the kind of overlap of the given tile
-	 * with this game object. When the overlap comes from lower coördinates
-	 * (on the left or on the bottom) a positive overlap value is returned.
-	 * When the overlap comes from higher coördinates (on the right and on 
-	 * the top) a negative value is returned.
-	 * 
-	 * @param tile
-	 * 			The tile to get the kind of overlap with.
-	 * 
-	 * @return A 2D vector representing the kind of overlap.
-	 */
-	protected Vector<Integer> getKindOfOverlapWith(Tile tile) {
-		return getKindOfOverlapWithRect(tile.getPositionInPixels(), new Vector<>(tile.getSizeInPixels(), tile.getSizeInPixels()));
-	}
-	
-	/**
-	 * Returns a 2D vector representing the kind of overlap of the given GameObject
-	 * with this game object. When the overlap comes from lower coördinates
-	 * (on the left or on the bottom) a positive overlap value is returned.
-	 * When the overlap comes from higher coördinates (on the right and on 
-	 * the top) a negative value is returned.
-	 * 
-	 * @param obj
-	 * 			The obj to get the kind of overlap with.
-	 * 
-	 * @return A 2D vector representing the kind of overlap.
-	 */
-	protected Vector<Integer> getKindOfOverlapWith(GameObject obj){
-		return getKindOfOverlapWithRect(obj.getPositionInPixels(), obj.getSize());
+		return this.getKindOfOverlapWithRect(collidable.getBoundingBoxPositionInPixels(),
+				collidable.getBoundingBoxSizeInPixels());
 	}
 	
 	

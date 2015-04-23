@@ -8,7 +8,7 @@ import be.kuleuven.cs.som.annotate.*;
  * @author Rugen Heidbuchel, Menno Vanfrachem
  */
 @Value
-public enum TileType implements Collidable {
+public enum TileType {
 	AIR		(0, true),
 	GROUND	(1, false),
 	WATER	(2, true),
@@ -81,7 +81,6 @@ public enum TileType implements Collidable {
 	 * 
 	 * @return true if this tile type is passable.
 	 */
-	@Override
 	@Basic @Immutable
 	public boolean isPassable() {
 		return this.passable;

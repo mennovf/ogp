@@ -12,5 +12,25 @@ public interface Collidable {
 	 * 
 	 * @return true if the object is passable.
 	 */
-	public boolean isPassable();
+	boolean isPassable();
+	
+	
+	/**
+	 * Returns the bottom left position of the bounding
+	 * box of the collidable in pixels.
+	 * 
+	 * @return The bottom left positition of the bounding
+	 * 			box of the collidable in pixels.
+	 */
+	Vector<Integer> getBoundingBoxPositionInPixels();
+	
+	
+	/**
+	 * Returns the size of the bounding box of the collidable
+	 * in pixels.
+	 * 
+	 * @return The size of the bounding box of the collidable
+	 * 			in pixels.
+	 */
+	Vector<Integer> getBoundingBoxSizeInPixels();
 }

@@ -99,6 +99,20 @@ public class Tile implements Collidable {
 	
 	
 	/**
+	 * Returns the position of the bottom left pixel of this
+	 * tile in pixels.
+	 * 
+	 * @return The position of the bottom left pixel of this
+	 * 			tile in pixels.
+	 * 			| this.getPositionInPixels()
+	 */
+	@Override
+	public Vector<Integer> getBoundingBoxPositionInPixels() {
+		return this.getPositionInPixels();
+	}
+	
+	
+	/**
 	 * Returns the position of the top right pixel of this tile in pixels.
 	 * 
 	 * @return The position of the top right pixel of this tile in pixels.
@@ -130,6 +144,18 @@ public class Tile implements Collidable {
 	@Immutable
 	public Vector<Integer> getSizeVectorInPixels() {
 		return new Vector<>(this.getSizeInPixels(), this.getSizeInPixels());
+	}
+	
+	
+	/**
+	 * Returns the size of the bounding box of this tile in pixels.
+	 * 
+	 * @return The size of the bounding box of this tile in pixels.
+	 * 			| this.getSizeVectorInPixels()
+	 */
+	@Override
+	public Vector<Integer> getBoundingBoxSizeInPixels() {
+		return this.getSizeVectorInPixels();
 	}
 	
 	

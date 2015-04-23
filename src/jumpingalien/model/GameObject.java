@@ -501,29 +501,21 @@ public abstract class GameObject implements Collidable {
 	public boolean onGround() {
 		
 		//TODO: Test this method
-		
 		Set<Tile> collidingTiles = this.getWorld().getTilesCollidingWithObject(this);
-		
-		for (Tile tile : collidingTiles) {
-			if (!tile.isPassable()) {
-				Vector<Integer> overlap = this.getKindOfOverlapWith(tile);
-				if (overlap.y > 0) {
-					return true;
-				}
-			}
-		}
-		
 		Set<GameObject> collidingObjects = this.getWorld().getObjectsCollidingWithObject(this);
 		
-		for (GameObject object : collidingObjects) {
-			if (!object.isPassable()) {
-				Vector<Integer> overlap = this.getKindOfOverlapWith(object);
+		Set<Collidable> collidables  = new HashSet<Collidable>();
+		collidables.addAll(collidingTiles);
+		collidables.addAll(collidingObjects);
+		
+		for (Collidable collidable : collidables) {
+			if (!collidable.isPassable()) {
+				Vector<Integer> overlap = this.getKindOfOverlapWith(collidable);
 				if (overlap.y > 0) {
 					return true;
 				}
 			}
 		}
-		
 		return false;
 	}
 	

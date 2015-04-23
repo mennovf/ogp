@@ -51,6 +51,7 @@ public class Constants {
 	public final static int waterDamage = -2;
 	
 	
+	
 	// MAZUB
 	
 	/**
@@ -62,6 +63,14 @@ public class Constants {
 	 * The amount of health Mazub loses when colliding with an enemy.
 	 */
 	public final static int mazubEnemyDamage = -50;
+	
+	/**
+	 * The time Mazub should stay in it's facing sprite
+	 * after stopping with moving.
+	 */
+	public final static double mazubAfterMoveStayTime = 1;
+	
+	
 	
 	// PLANT
 	

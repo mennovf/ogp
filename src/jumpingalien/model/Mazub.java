@@ -21,12 +21,45 @@ import jumpingalien.model.Utilities;
  * @version 1.0
  */
 public class Mazub extends GameObject {
-	private final double vxInit; // Initial moving speed
-	private final double vxMax; // Max running speed (not ducking)
 	
-	private boolean isMoving = false, isDucking = false, hasMoved = false;
+	/**
+	 * The horizontal speed Mazub gets when he start
+	 * moving.
+	 */
+	private final double vxInit;
+	
+	/**
+	 * Mazub's maximum horizontal speed when he's not
+	 * ducking.
+	 */
+	private final double vxMax;
+	
+	
+	/**
+	 * A boolean to indicate Mazub is moving.
+	 */
+	private boolean isMoving = false;
+	
+	/**
+	 * A boolean to indicate Mazub is ducking.
+	 */
+	private boolean isDucking = false;
+	
+	/**
+	 * A boolean to indicate Mazub is ducking but
+	 * he wants to stand up.
+	 */
 	private boolean wantsToStandUp = true;
-	private double movingTime = 0, timeSinceMoving = 0;
+	
+	/**
+	 * The time Mazub has been moving without stopping.
+	 */
+	private double movingTime = 0;
+	
+	/**
+	 * The time since Mazub last moved.
+	 */
+	private double timeSinceMoving = Constants.mazubAfterMoveStayTime;
 	
 	
 	/**
@@ -168,7 +201,6 @@ public class Mazub extends GameObject {
 	 */
 	@Override
 	public void setSpeed(Vector<Double> speed) {
-		
 		super.setSpeed(new Vector<Double>(Utilities.clipInRange(-this.getMaxHorizontalSpeed(),
 											this.getMaxHorizontalSpeed(),
 											speed.x), speed.y));
@@ -312,7 +344,7 @@ public class Mazub extends GameObject {
 		Sprite[] sprites = this.getSprites();
 		Sprite currentSprite = this.getCurrentSprite();
 		int m = (sprites.length - 8) / 2 - 1;
-		boolean recentlyMoved = timeSinceMoving < 1 && this.hasMoved;
+		boolean recentlyMoved = timeSinceMoving < Constants.mazubAfterMoveStayTime;
 		if (!(isMoving || isDucking)){
 			if (!recentlyMoved){
 				currentSprite = sprites[0];
@@ -361,7 +393,9 @@ public class Mazub extends GameObject {
 		this.isMoving = true;
 		this.setFacing(direction);
 		this.setSpeed(this.getSpeed().setX(direction * this.vxInit));
-		this.setAcceleration(this.getAcceleration().setX(direction * getMaxAcceleration().x));
+		if (!this.isDucking) {
+			this.setAcceleration(this.getAcceleration().setX(direction * getMaxAcceleration().x));
+		}
 		this.movingTime = 0;
 		this.amountOfTimesStartMoveCalled += 1;
 	}
@@ -378,7 +412,6 @@ public class Mazub extends GameObject {
 			this.isMoving = false;
 			this.setSpeed(this.getSpeed().setX(0.0));
 			this.setAcceleration(this.getAcceleration().setX(0.0));
-			this.hasMoved = true;
 			this.timeSinceMoving = 0;
 		}
 	}

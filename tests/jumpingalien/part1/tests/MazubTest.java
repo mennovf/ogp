@@ -16,7 +16,7 @@ public class MazubTest {
 	
 	private final double testAccuracy = 1e-7;
 	
-	private final Vector<Double> testStartPosition = new Vector<>(0.0, 0.0);
+	private final Vector<Double> testStartPosition = Utilities.pixelsVectorToMeters(new Vector<>(70, 69));
 	private final double testVxInit = 1.0;
 	private final double testVxMax = 3.0;
 	private final double testStartDirection = 1.0;
@@ -36,6 +36,22 @@ public class MazubTest {
 	@Before
 	public void setUp() throws Exception {
 		world = Utilities.world();
+		world.setTileType(new Vector<>(0, 0), TileType.GROUND);
+		world.setTileType(new Vector<>(1, 0), TileType.GROUND);
+		world.setTileType(new Vector<>(2, 0), TileType.GROUND);
+		world.setTileType(new Vector<>(3, 0), TileType.GROUND);
+		world.setTileType(new Vector<>(0, 1), TileType.GROUND);
+		world.setTileType(new Vector<>(1, 1), TileType.AIR);
+		world.setTileType(new Vector<>(2, 1), TileType.AIR);
+		world.setTileType(new Vector<>(3, 1), TileType.AIR);
+		world.setTileType(new Vector<>(0, 2), TileType.GROUND);
+		world.setTileType(new Vector<>(1, 2), TileType.AIR);
+		world.setTileType(new Vector<>(2, 2), TileType.AIR);
+		world.setTileType(new Vector<>(3, 2), TileType.AIR);
+		world.setTileType(new Vector<>(0, 3), TileType.GROUND);
+		world.setTileType(new Vector<>(1, 3), TileType.AIR);
+		world.setTileType(new Vector<>(2, 3), TileType.AIR);
+		world.setTileType(new Vector<>(3, 3), TileType.AIR);
 		mazub = new Mazub(new Vector<>(testStartPosition.x, testStartPosition.y), sprites, testVxInit, testVxMax, testStartDirection);
 		world.setMazub(mazub);
 	}
@@ -212,9 +228,7 @@ public class MazubTest {
 	
 	@Test
 	public void getPosition_notMoved() {
-		
-		assertEquals((int)mazub.getPositionInPixels().x, 0);
-		assertEquals((int)mazub.getPositionInPixels().y, 0);
+		assertEquals(testStartPosition, mazub.getPositionInMeters());
 	}
 	
 	@Test
@@ -223,8 +237,8 @@ public class MazubTest {
 		mazub.startMove(1);
 		mazub.advanceTime(Constants.maxTimeInterval);
 		
-		assertNotEquals((int)mazub.getPositionInPixels().x, 0);
-		assertEquals((int)mazub.getPositionInPixels().y, 0);
+		assertNotEquals((int)mazub.getPositionInPixels().x, testStartPosition.x);
+		assertEquals((int)mazub.getPositionInPixels().y, Utilities.metersToPixels(testStartPosition.y));
 	}
 	
 	@Test
@@ -233,8 +247,8 @@ public class MazubTest {
 		mazub.startJump();
 		mazub.advanceTime(Constants.maxTimeInterval);
 		
-		assertEquals((int)mazub.getPositionInPixels().x, 0);
-		assertNotEquals((int)mazub.getPositionInPixels().y, 0);
+		assertTrue(Util.fuzzyEquals(mazub.getPositionInMeters().x, testStartPosition.x));
+		assertNotEquals(mazub.getPositionInMeters().y, testStartPosition.x);
 	}
 	
 	
@@ -344,7 +358,7 @@ public class MazubTest {
 	
 	@Test
 	public void duck_underTerrain(){
-		Vector<Integer> tilePos = new Vector<>(0, 1);
+		Vector<Integer> tilePos = new Vector<>(1, 2);
 		world.setTileType(tilePos, TileType.GROUND);
 
 		int height = mazub.getHeight();
@@ -365,7 +379,7 @@ public class MazubTest {
 	}
 	@Test
 	public void duck_underObject(){
-		Vector<Double> objPos = new Vector<>(0.0, 75.0 * Constants.metersPerPixel);
+		Vector<Double> objPos = Utilities.pixelsVectorToMeters(new Vector<>(70, 145));
 		Shark shark = Utilities.shark(objPos);
 		world.addGameObject(shark);
 		world.setMazub(mazub);
@@ -462,19 +476,19 @@ public class MazubTest {
 	public void jumpDuckAndMove(){
 		int height = mazub.getHeight();
 		mazub.startJump();
-		mazub.startMove(-1);
+		mazub.startMove(1);
 		mazub.startDuck();
 		mazub.advanceTime(Constants.maxTimeInterval);
 		
 		int duckingHeight = mazub.getHeight();
 		assertTrue(duckingHeight < height);
-		assertTrue(mazub.getSpeed().x < 0);
+		assertTrue(mazub.getSpeed().x > 0);
 		assertTrue(mazub.getSpeed().y > 0);
 		
 		mazub.endDuck();
 		mazub.advanceTime(Constants.maxTimeInterval);
 		assertTrue(mazub.getHeight() > duckingHeight);
-		assertTrue(mazub.getSpeed().x < 0);
+		assertTrue(mazub.getSpeed().x > 0);
 		assertTrue(mazub.getSpeed().y > 0);
 		
 		mazub.endMove();
@@ -511,9 +525,8 @@ public class MazubTest {
 	
 	@Test 
 	public void waterDamage(){
-		mazub.setPositionInMeters(new Vector<>(0.0, 70.0 * Constants.metersPerPixel));
-		world.setTileType(new Vector<>(0, 0), TileType.GROUND);
-		world.setTileType(new Vector<>(0, 1), TileType.WATER);
+		mazub.setPositionInMeters(Utilities.pixelsVectorToMeters(new Vector<>(70, 140)));
+		world.setTileType(new Vector<>(1, 1), TileType.WATER);
 		
 		double eps = 1e-5;
 		world.advanceTime(0.2 - eps);

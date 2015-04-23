@@ -1,11 +1,14 @@
 package jumpingalien.model;
 
+import be.kuleuven.cs.som.annotate.*;
+
 /**
- * @author Rugen en Menno
- * 
  * An enum representing the type of a tile in the game world.
+ * 
+ * @author Rugen Heidbuchel, Menno Vanfrachem
  */
-public enum TileType {
+@Value
+public enum TileType implements Collidable {
 	AIR		(0, true),
 	GROUND	(1, false),
 	WATER	(2, true),
@@ -14,16 +17,16 @@ public enum TileType {
 	/**
 	 * An id number for the tile type.
 	 */
-	public final int number;
+	private final int number;
 	
 	/**
 	 * A boolean that indicates whether the type of terrain is passable or not.
 	 */
-	public final boolean passable;
+	private final boolean passable;
 	
 	
 	/**
-	 * Constructs a tile type with the given number and passibility.
+	 * Constructs a tile type with the given number and passability.
 	 * 
 	 * @param number
 	 * 			The id number of the tile type.
@@ -59,5 +62,28 @@ public enum TileType {
 		}
 		
 		throw new IllegalArgumentException("The given number does not conform to a known tile type.");
+	}
+	
+	
+	/**
+	 * Returns the id number of this tile type.
+	 * 
+	 * @return The id number of this tile type.
+	 */
+	@Basic @Immutable
+	public int getNumber() {
+		return this.number;
+	}
+	
+	
+	/**
+	 * Returns whether this tile type is passable.
+	 * 
+	 * @return true if this tile type is passable.
+	 */
+	@Override
+	@Basic @Immutable
+	public boolean isPassable() {
+		return this.passable;
 	}
 }

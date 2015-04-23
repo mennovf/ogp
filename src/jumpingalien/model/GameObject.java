@@ -16,7 +16,7 @@ import be.kuleuven.cs.som.annotate.*;
  * @invar The health of the game object is never higher than the max health, nor is it negative.
  * 			| this.isValidHealth(this.getHealth())
  */
-public abstract class GameObject {
+public abstract class GameObject implements Collidable {
 	
 	private boolean isTerminated;
 
@@ -452,7 +452,7 @@ public abstract class GameObject {
 		Set<Tile> collidingTiles = this.getWorld().getTilesCollidingWithObject(this);
 		
 		for (Tile tile : collidingTiles) {
-			if (!tile.getType().passable) {
+			if (!tile.isPassable()) {
 				Vector<Integer> overlap = this.getKindOfOverlapWith(tile);
 				if (overlap.y > 0) {
 					return true;
@@ -748,7 +748,7 @@ public abstract class GameObject {
 		for (Tile tile: collidingTiles) {
 			
 			// If the type isn't passable, the game objects motion should be altered
-			if (!tile.getType().passable) {
+			if (!tile.isPassable()) {
 				
 				// Get the kind of overlap with the tile
 				Vector<Integer> overlap = getKindOfOverlapWith(tile);
@@ -907,7 +907,7 @@ public abstract class GameObject {
 	 * @return A 2D vector representing the kind of overlap.
 	 */
 	protected Vector<Integer> getKindOfOverlapWith(Tile tile) {
-		return getKindOfOverlapWithRect(tile.getPositionInPixels(), new Vector<>(tile.getSize(), tile.getSize()));
+		return getKindOfOverlapWithRect(tile.getPositionInPixels(), new Vector<>(tile.getSizeInPixels(), tile.getSizeInPixels()));
 	}
 	
 	/**
@@ -995,7 +995,7 @@ public abstract class GameObject {
 	 */
 	public boolean doesOverlapWith(Tile tile) {
 		return this.doesOverlapWithRect(tile.getPositionInPixels(),
-				new Vector<>(tile.getSize(), tile.getSize()));
+				new Vector<>(tile.getSizeInPixels(), tile.getSizeInPixels()));
 	}
 	
 	

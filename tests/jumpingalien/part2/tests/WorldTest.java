@@ -533,8 +533,8 @@ public class WorldTest {
 		Set<Tile> tiles = world.getTilesCollidingWithObject(shark);
 		assertEquals(tiles.size(), toX * toY);
 		for (Tile tile : tiles){
-			assertTrue(tile.getPosition().x < toX);
-			assertTrue(tile.getPosition().x < toY);
+			assertTrue(tile.getPositionInTiles().x < toX);
+			assertTrue(tile.getPositionInTiles().x < toY);
 		}
 	}
 	

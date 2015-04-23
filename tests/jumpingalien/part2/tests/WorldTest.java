@@ -64,14 +64,13 @@ public class WorldTest {
 	
 	@Test
 	public void getSizeInPixels_ok(){
-		assertEquals((int)world.getSizeInPixels().x, 70 * 20);
-		assertEquals((int)world.getSizeInPixels().y, 70 * 12);
+		assertEquals(world.getSizeInPixels(), new Vector<>(70*20, 70*12));
 	}
 	
 	@Test
 	public void getSizeInMeters_ok(){
-		assertEquals((double)world.getSizeInMeters().x, 70 * 20 * Constants.metersPerPixel, testingEps);
-		assertEquals((double)world.getSizeInMeters().y, 70 * 12 * Constants.metersPerPixel, testingEps);
+		assertEquals(world.getSizeInMeters(), new Vector<Double>(70 * 20 * Constants.metersPerPixel,
+				70 * 12 * Constants.metersPerPixel));
 	}
 	
 	@Test
@@ -119,12 +118,10 @@ public class WorldTest {
 	@Test
 	public void getBottomLeftPixelOfTile(){
 		Vector<Integer> p = world.getBottomLeftPixelOfTile(new Vector<>(0, 0));
-		assertEquals((int)p.x, 0);
-		assertEquals((int)p.y, 0);
+		assertEquals(p, new Vector<>(0, 0));
 
 		p = world.getBottomLeftPixelOfTile(new Vector<>(5, 5));
-		assertEquals((int)p.x, 5 * 70);
-		assertEquals((int)p.y, 5 * 70);
+		assertEquals(p, new Vector<>(5*70, 5*70));
 	}
 	
 	@Test

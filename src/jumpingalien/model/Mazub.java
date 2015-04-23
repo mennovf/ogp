@@ -30,6 +30,11 @@ public class Mazub extends GameObject {
 	
 	
 	/**
+	 * The amount of time startMove is called.
+	 */
+	int amountOfTimesStartMoveCalled = 0;
+	
+	/**
 	 * The time since the last enemy damage was taken.
 	 * By setting this to zero, Mazub will not
 	 * lose life in the first enemyDamageInterval seconds of the game.
@@ -360,6 +365,7 @@ public class Mazub extends GameObject {
 		this.setSpeed(this.getSpeed().setX(direction * this.vxInit));
 		this.setAcceleration(this.getAcceleration().setX(direction * getMaxAcceleration().x));
 		this.movingTime = 0;
+		this.amountOfTimesStartMoveCalled += 1;
 	}
 	
 	/**
@@ -369,11 +375,14 @@ public class Mazub extends GameObject {
 	 * 			| new.getSpeed().x == 0
 	 */
 	public void endMove() {
-		this.isMoving = false;
-		this.setSpeed(this.getSpeed().setX(0.0));
-		this.setAcceleration(this.getAcceleration().setX(0.0));
-		this.hasMoved = true;
-		this.timeSinceMoving = 0;
+		this.amountOfTimesStartMoveCalled -= 1;
+		if (amountOfTimesStartMoveCalled == 0){
+			this.isMoving = false;
+			this.setSpeed(this.getSpeed().setX(0.0));
+			this.setAcceleration(this.getAcceleration().setX(0.0));
+			this.hasMoved = true;
+			this.timeSinceMoving = 0;
+		}
 	}
 	
 	

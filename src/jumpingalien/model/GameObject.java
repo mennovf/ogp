@@ -784,42 +784,27 @@ public abstract class GameObject implements Collidable {
 		
 		Set<Collidable> hardOnes = new HashSet<Collidable>();
 		
-		// Loop through all collidables
 		for (Collidable collidable: collidables) {
-			
 			if (!collidable.isPassable()) {
 
-				// Get the kind of overlap with the tile
 				Vector<Integer> overlap = getKindOfOverlapWith(collidable);
 
-				// If x and y overlap are zero, there is no overlap
 				if (overlap.x == 0 || overlap.y == 0) {
 					continue;
 				}
 
-				// If both x and y overlaps are 1, the response can't be determined yet
-				// so we add it to the hard ones set
 				if (Math.abs(overlap.x) == 1 && Math.abs(overlap.y) == 1) {
 					hardOnes.add(collidable);
 					continue;
 				}
 
-				// If the x overlap is 1 and the y is not, we need to move the game object
-				// horizontally
-				if (Math.abs(overlap.x) == 1) {
-					// Adjust position
+				if ((Math.abs(overlap.x) == 1 || Math.abs(overlap.x) < Math.abs(overlap.y))
+						&& !(Math.abs(overlap.y) == 1 || overlap.y == 2)) {
 					this.setPositionInMeters(this.getPositionInMeters().addX(overlap.x * Constants.metersPerPixel));
-					// Set horizontal speed to 0
 					this.setSpeed(this.getSpeed().setX(0.0));
-
-					// Otherwise, if the y overlap is 1 or 2 (when standing on ground) and the
-					// x overlap is not, we need to move the game object vertically
 				} else if (Math.abs(overlap.y) == 1 || overlap.y == 2) {
-					// Calculate a correction for when the y overlap is positive
 					int correction = (overlap.y > 0) ? -1 : 0;
-					// Adjust position
 					this.setPositionInMeters(this.getPositionInMeters().addY((overlap.y + correction) * Constants.metersPerPixel));
-					// Set vertical speed to zero.
 					this.setSpeed(this.getSpeed().setY(0.0));
 				}
 			}

@@ -13,7 +13,7 @@ public class Plant extends GameObject {
 	 * Creates a plant with the given position and sprites.
 	 * 
 	 * @param position
-	 * 			The position of the plant in pixels.
+	 * 			The position of the plant in meters.
 	 * 
 	 * @param sprites
 	 * 			The sprites of the plant.

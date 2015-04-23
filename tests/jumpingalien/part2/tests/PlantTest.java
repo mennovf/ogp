@@ -33,7 +33,7 @@ public class PlantTest {
 	@Before
 	public void setUp() throws Exception {
 		startPos = new Vector<>(10.0, 1.0);
-		sprites = new Sprite[] {Resources.SLIME_SPRITE_LEFT, Resources.SLIME_SPRITE_RIGHT};
+		sprites = new Sprite[] {Resources.PLANT_SPRITE_LEFT, Resources.PLANT_SPRITE_RIGHT};
 		plant = new Plant(startPos, sprites);
 		world = Utilities.world();
 		world.addGameObject(plant);

@@ -1,6 +1,8 @@
 - Tests afwerken
 - @post enzovoort afwerken
 	al nagekeken:
+	+ Collidable
+	+ Constants
 	+ GameObject
 	+ Tile
 	+ TileType

@@ -70,6 +70,21 @@ public class Constants {
 	 */
 	public final static double mazubAfterMoveStayTime = 1;
 	
+	/**
+	 * The initial vertical speed Mazub gets when he starts jumping.
+	 */
+	public final static double mazubInitialJumpSpeed = 8;
+	
+	/**
+	 * Mazub's maximum horizontal speed while ducking.
+	 */
+	public final static double mazubMaxSpeedDucking = 1.0;
+	
+	/**
+	 * Mazub's horizontal moving acceleration.
+	 */
+	public final static double mazubHorizontalAcceleration = 0.9;
+	
 	
 	
 	// PLANT

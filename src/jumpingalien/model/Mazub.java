@@ -11,9 +11,6 @@ import jumpingalien.model.Utilities;
 /**
  * A class representing a single Mazub.
  * 
- * @invar Mazub's bottom-left position remains within the bounds of the world.
- * 			| Mazub.isValidPosition(this.getPosition())
- * 
  * @invar Mazub's horizontal speed does not exceed the maximum speed.
  * 			| Mazub.isValidSpeed(this.getSpeed())
  * 
@@ -95,14 +92,7 @@ public class Mazub extends GameObject {
 	 */
 	private double timeSinceMagmaDamage = Constants.terrainDamageInterval + 0.1;
 	
-	// CONSTANTS
 	
-	// Speed
-	public final static double vxMaxDucking = 1.0; // Max running speed while ducking
-	public final static double vInitJump = 8.0; // Initial jump speed
-	
-	// Acceleration
-	public final static Vector<Double> maxAcceleration = new Vector<>(0.9, Constants.gravityAcceleration);
 
 	/**
 	 * @param x
@@ -157,22 +147,7 @@ public class Mazub extends GameObject {
 		this.vxMax = vxMax;
 		this.setFacing(direction);
 		
-		this.setAcceleration(this.getAcceleration().setY(getMaxAcceleration().y));
-	}
-	
-	@Basic @Immutable
-	public static double getMaxSpeedWhileDucking() {
-		return vxMaxDucking;
-	}
-
-	@Basic @Immutable
-	public static double getInitialJumpSpeed() {
-		return vInitJump;
-	}
-
-	@Basic @Immutable
-	public static Vector<Double> getMaxAcceleration() {
-		return maxAcceleration;
+		this.setAcceleration(this.getAcceleration().setY(Constants.gravityAcceleration));
 	}
 	
 
@@ -192,7 +167,7 @@ public class Mazub extends GameObject {
 	 * @return The maximum horizontal speed of this Mazub in m/s.
 	 */
 	private double getMaxHorizontalSpeed(){
-		return this.isDucking ? Mazub.getMaxSpeedWhileDucking() : this.vxMax;
+		return this.isDucking ? Constants.mazubMaxSpeedDucking : this.vxMax;
 	}
 	
 	
@@ -292,7 +267,7 @@ public class Mazub extends GameObject {
 		super.handleCollisions(collidingObjects, collidingTiles);
 		
 		if (!this.onGround()) {
-			this.setAcceleration(this.getAcceleration().setY(getMaxAcceleration().y));
+			this.setAcceleration(this.getAcceleration().setY(Constants.gravityAcceleration));
 		}
 		
 		for (Tile tile : collidingTiles) {
@@ -394,7 +369,7 @@ public class Mazub extends GameObject {
 		this.setFacing(direction);
 		this.setSpeed(this.getSpeed().setX(direction * this.vxInit));
 		if (!this.isDucking) {
-			this.setAcceleration(this.getAcceleration().setX(direction * getMaxAcceleration().x));
+			this.setAcceleration(this.getAcceleration().setX(direction * Constants.mazubHorizontalAcceleration));
 		}
 		this.movingTime = 0;
 		this.amountOfTimesStartMoveCalled += 1;
@@ -425,7 +400,7 @@ public class Mazub extends GameObject {
 	 */
 	public void startJump() {
 		if (onGround()){
-			this.setSpeed(this.getSpeed().setY(Mazub.getInitialJumpSpeed()));
+			this.setSpeed(this.getSpeed().setY(Constants.mazubInitialJumpSpeed));
 		}
 	}
 	

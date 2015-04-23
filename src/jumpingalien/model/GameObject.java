@@ -14,6 +14,9 @@ import be.kuleuven.cs.som.annotate.*;
  * 
  * @invar The health of the game object is never higher than the max health, nor is it negative.
  * 			| this.isValidHealth(this.getHealth())
+ * 
+ * @invar The position of the game object is always valid.
+ * 			| this.isValidPosition(this.getPositionInMeters());
  */
 public abstract class GameObject implements Collidable {
 

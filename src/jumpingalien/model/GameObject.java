@@ -800,6 +800,9 @@ public abstract class GameObject implements Collidable {
 
 				if ((Math.abs(overlap.x) == 1 || Math.abs(overlap.x) < Math.abs(overlap.y))
 						&& !(Math.abs(overlap.y) == 1 || overlap.y == 2)) {
+					if (collidable instanceof GameObject) {
+						((GameObject) collidable).setSpeed(((GameObject) collidable).getSpeed().setX(0.0));
+					}
 					this.setPositionInMeters(this.getPositionInMeters().addX(overlap.x * Constants.metersPerPixel));
 					this.setSpeed(this.getSpeed().setX(0.0));
 				} else if (Math.abs(overlap.y) == 1 || overlap.y == 2) {

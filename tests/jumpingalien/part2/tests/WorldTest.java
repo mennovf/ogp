@@ -127,36 +127,29 @@ public class WorldTest {
 	@Test
 	public void getTileContainingPixel(){
 		Vector<Integer> tile = world.getTileContainingPixel(new Vector<>(0, 0));
-		assertEquals((int)tile.x, 0);
-		assertEquals((int)tile.y, 0);
+		assertEquals(tile, new Vector<>(0, 0));
 
-		tile = world.getTileContainingPixel(new Vector<>(70 * 20 - 1, 70 * 12 -1));
-		assertEquals((int)tile.x, 19);
-		assertEquals((int)tile.y, 11);
+		tile = world.getTileContainingPixel(new Vector<>(70 * 20 - 1, 70 * 12 - 1));
+		assertEquals(tile, new Vector<>(19, 11));
 
 		tile = world.getTileContainingPixel(new Vector<>(70 * 18 + 35, 70 * 10 + 35));
-		assertEquals((int)tile.x, 18);
-		assertEquals((int)tile.y, 10);
+		assertEquals(tile, new Vector<>(18, 10));
 
 		tile = world.getTileContainingPixel(new Vector<>(70 * 18 - 35, 70 * 10 - 35));
-		assertEquals((int)tile.x, 17);
-		assertEquals((int)tile.y, 9);
+		assertEquals(tile, new Vector<>(17, 9));
 	}
 	
 	@Test
 	public void getTilePositionsInRectangle(){
 		//Small rectangle
 		ArrayList<Vector<Integer>> tiles = world.getTilePositionsInRectangle(new Vector<>(0, 0), new Vector<>(69, 69));
-		ArrayList<Vector<Integer>> correct =  new ArrayList<>();
-		correct.add(new Vector<>(0, 0));
 		assertEquals(tiles.size(), 1);
-		assertEquals((int)tiles.get(0).x, 0);
-		assertEquals((int)tiles.get(0).y, 0);
+		assertEquals(tiles.get(0), new Vector<>(0, 0));
 		
 		
 		//Whole world rectangle
 		tiles = world.getTilePositionsInRectangle(new Vector<>(0, 0), new Vector<>(70 * 20 - 1, 70 * 12 - 1));
-		correct =  new ArrayList<>();
+		ArrayList<Vector<Integer>> correct =  new ArrayList<>();
 		for (int i = 0; i < 20; ++i){
 			for (int j = 0; j < 12; ++j){
 				correct.add(new Vector<>(i, j));
@@ -166,7 +159,7 @@ public class WorldTest {
 		for (Vector<Integer> correctTile : correct){
 			boolean found = false;
 			for (Vector<Integer> tile: tiles){
-				if (tile.x == correctTile.x && tile.y == correctTile.y){
+				if (tile.equals(correctTile)){
 					found = true;
 				}
 			}
@@ -182,7 +175,7 @@ public class WorldTest {
 		for (Vector<Integer> correctTile : correct){
 			boolean found = false;
 			for (Vector<Integer> tile: tiles){
-				if (tile.x == correctTile.x && tile.y == correctTile.y){
+				if (tile.equals(correctTile)){
 					found = true;
 				}
 			}
@@ -226,7 +219,6 @@ public class WorldTest {
 		assertFalse(world.isGameOver());
 		
 		world.advanceTime(Constants.maxTimeInterval);
-//		mazub.setPositionInMeters(new Vector<>(0.0, -1.0));
 		
 		assertTrue(mazub.isHealthZero());
 		assertTrue(world.isGameOver());
@@ -239,7 +231,7 @@ public class WorldTest {
 	}
 	
 	@Test
-	public void unnasignedTileShouldBeAir(){
+	public void unassignedTileShouldBeAir(){
 		assertEquals(world.getTileType(new Vector<>(5, 5)), TileType.AIR);
 	}
 	
@@ -362,133 +354,6 @@ public class WorldTest {
 //		world.addGameObject(shark2);
 //		assertFalse(world.objectsOverlap(shark1, shark2));
 //	}
-	
-	@Test
-	public void getKindOfOverlap_noOverlapX_noOverlapY() {
-		Vector<OverlapDirection> overlapDir = world.getKindOfOverlap(
-				new Vector<Integer>(70, 70),
-				new Vector<Integer>(140, 140),
-				new Vector<Integer>(0, 0),
-				new Vector<Integer>(20, 20));
-		assertEquals(overlapDir.x, OverlapDirection.NONE);
-		assertEquals(overlapDir.y, OverlapDirection.NONE);
-		
-		overlapDir = world.getKindOfOverlap(
-				new Vector<Integer>(70, 70),
-				new Vector<Integer>(140, 140),
-				new Vector<Integer>(0, 0),
-				new Vector<Integer>(70, 70));
-		assertEquals(overlapDir.x, OverlapDirection.NONE);
-		assertEquals(overlapDir.y, OverlapDirection.NONE);
-	}
-	
-	@Test
-	public void getKindOfOverlap_lowOverlapX_lowOverlapY() {
-		Vector<OverlapDirection> overlapDir = world.getKindOfOverlap(
-				new Vector<Integer>(70, 70),
-				new Vector<Integer>(140, 140),
-				new Vector<Integer>(0, 0),
-				new Vector<Integer>(71, 71));
-		assertEquals(overlapDir.x, OverlapDirection.LOW);
-		assertEquals(overlapDir.y, OverlapDirection.LOW);
-		
-		overlapDir = world.getKindOfOverlap(
-				new Vector<Integer>(70, 70),
-				new Vector<Integer>(140, 140),
-				new Vector<Integer>(0, 0),
-				new Vector<Integer>(139, 139));
-		assertEquals(overlapDir.x, OverlapDirection.LOW);
-		assertEquals(overlapDir.y, OverlapDirection.LOW);
-		
-		overlapDir = world.getKindOfOverlap(
-				new Vector<Integer>(70, 70),
-				new Vector<Integer>(140, 140),
-				new Vector<Integer>(70, 70),
-				new Vector<Integer>(139, 139));
-		assertEquals(overlapDir.x, OverlapDirection.LOW);
-		assertEquals(overlapDir.y, OverlapDirection.LOW);
-	}
-	
-	@Test
-	public void getKindOfOverlap_fullOverlapX_fullOverlapY() {
-		Vector<OverlapDirection> overlapDir = world.getKindOfOverlap(
-				new Vector<Integer>(70, 70),
-				new Vector<Integer>(140, 140),
-				new Vector<Integer>(0, 0),
-				new Vector<Integer>(140, 140));
-		assertEquals(overlapDir.x, OverlapDirection.FULL);
-		assertEquals(overlapDir.y, OverlapDirection.FULL);
-		
-		overlapDir = world.getKindOfOverlap(
-				new Vector<Integer>(70, 70),
-				new Vector<Integer>(140, 140),
-				new Vector<Integer>(0, 0),
-				new Vector<Integer>(150, 150));
-		assertEquals(overlapDir.x, OverlapDirection.FULL);
-		assertEquals(overlapDir.y, OverlapDirection.FULL);
-		
-		overlapDir = world.getKindOfOverlap(
-				new Vector<Integer>(70, 70),
-				new Vector<Integer>(140, 140),
-				new Vector<Integer>(70, 70),
-				new Vector<Integer>(140, 140));
-		assertEquals(overlapDir.x, OverlapDirection.FULL);
-		assertEquals(overlapDir.y, OverlapDirection.FULL);
-		
-		overlapDir = world.getKindOfOverlap(
-				new Vector<Integer>(70, 70),
-				new Vector<Integer>(140, 140),
-				new Vector<Integer>(70, 70),
-				new Vector<Integer>(150, 150));
-		assertEquals(overlapDir.x, OverlapDirection.FULL);
-		assertEquals(overlapDir.y, OverlapDirection.FULL);
-	}
-	
-	@Test
-	public void getKindOfOverlap_middleOverlapX_middleOverlapY() {
-		Vector<OverlapDirection> overlapDir = world.getKindOfOverlap(
-				new Vector<Integer>(70, 70),
-				new Vector<Integer>(140, 140),
-				new Vector<Integer>(71, 71),
-				new Vector<Integer>(139, 139));
-		assertEquals(overlapDir.x, OverlapDirection.MIDDLE);
-		assertEquals(overlapDir.y, OverlapDirection.MIDDLE);
-		
-		overlapDir = world.getKindOfOverlap(
-				new Vector<Integer>(70, 70),
-				new Vector<Integer>(140, 140),
-				new Vector<Integer>(90, 90),
-				new Vector<Integer>(100, 100));
-		assertEquals(overlapDir.x, OverlapDirection.MIDDLE);
-		assertEquals(overlapDir.y, OverlapDirection.MIDDLE);
-	}
-	
-	@Test
-	public void getKindOfOverlap_highOverlapX_highOverlapY() {
-		Vector<OverlapDirection> overlapDir = world.getKindOfOverlap(
-				new Vector<Integer>(70, 70),
-				new Vector<Integer>(140, 140),
-				new Vector<Integer>(71, 71),
-				new Vector<Integer>(140, 140));
-		assertEquals(overlapDir.x, OverlapDirection.HIGH);
-		assertEquals(overlapDir.y, OverlapDirection.HIGH);
-		
-		overlapDir = world.getKindOfOverlap(
-				new Vector<Integer>(70, 70),
-				new Vector<Integer>(140, 140),
-				new Vector<Integer>(71, 71),
-				new Vector<Integer>(150, 150));
-		assertEquals(overlapDir.x, OverlapDirection.HIGH);
-		assertEquals(overlapDir.y, OverlapDirection.HIGH);
-		
-		overlapDir = world.getKindOfOverlap(
-				new Vector<Integer>(70, 70),
-				new Vector<Integer>(140, 140),
-				new Vector<Integer>(139, 139),
-				new Vector<Integer>(150, 150));
-		assertEquals(overlapDir.x, OverlapDirection.HIGH);
-		assertEquals(overlapDir.y, OverlapDirection.HIGH);
-	}
 	
 	@Test
 	public void getObjectsCollidingWithObject_some(){

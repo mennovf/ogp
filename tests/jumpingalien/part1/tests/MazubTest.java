@@ -511,7 +511,7 @@ public class MazubTest {
 	
 	@Test 
 	public void waterDamage(){
-		mazub.setPositionInMeters(new Vector<>(0.0, 70.0 * Constants.metersPerPixel));
+		mazub.setPositionInMeters(new Vector<>(0.0, 71.0 * Constants.metersPerPixel));
 		world.setTileType(new Vector<>(0, 0), TileType.GROUND);
 		world.setTileType(new Vector<>(0, 1), TileType.WATER);
 		
@@ -524,7 +524,6 @@ public class MazubTest {
 		assertEquals(mazub.getHealth(), 100 +  Constants.waterDamage);
 		
 		world.advanceTime(0.2);
-		world.advanceTime(eps);
 		assertEquals(mazub.getHealth(), 100 + 2 * Constants.waterDamage);
 	}
 	

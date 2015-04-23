@@ -453,6 +453,18 @@ public class World {
 		return this.canHaveAsMazub(this.getMazub()) && this.getMazub().getWorld() == this;
 	}
 	
+
+	/**
+	 * Returns a set of all the GameObjects in this world including Mazub.
+	 * @return A set of all the GameObjects in this world including Mazub.
+	 */
+	public Set<GameObject> getGameObjects() {
+		Set<GameObject> objs = new HashSet<GameObject>(this.objects);
+		if (this.hasProperMazub()){
+			objs.add(this.getMazub());
+		}
+		return objs;
+	}
 	
 	/**
 	 * @param cls
@@ -462,7 +474,7 @@ public class World {
 	 */
 	public <T extends GameObject> Set<T> getGameObjectWithClass(Class<T> cls) {
 		Set<T> objects = new HashSet<T>();
-		for (GameObject obj : this.objects){
+		for (GameObject obj : this.getGameObjects()){
 			if (obj.getClass() == cls){
 				objects.add(cls.cast(obj));
 			}
@@ -507,7 +519,7 @@ public class World {
 		
 		HashSet<GameObject> collidingObjects = new HashSet<GameObject>();
 		
-		for (GameObject obj : this.objects) {
+		for (GameObject obj : this.getGameObjects()) {
 			
 			if (obj != object && object.collidesWithGameObjectClass(obj.getClass())
 					&& object.doesOverlapWith(obj)) {

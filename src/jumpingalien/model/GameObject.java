@@ -1,8 +1,10 @@
 package jumpingalien.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import jumpingalien.model.Reactions.CollisionDamager;
 import jumpingalien.util.Sprite;
 import be.kuleuven.cs.som.annotate.*;
 
@@ -14,6 +16,14 @@ import be.kuleuven.cs.som.annotate.*;
  * 
  * @invar The health of the game object is never higher than the max health, nor is it negative.
  * 			| this.isValidHealth(this.getHealth())
+ */
+/**
+ * @author Menno
+ *
+ */
+/**
+ * @author Menno
+ *
  */
 public abstract class GameObject implements Collidable {
 
@@ -69,6 +79,11 @@ public abstract class GameObject implements Collidable {
 	 */
 	private World world;
 	
+	
+	/**
+	 * An array of CollisionDamagers used for common damage reactions to a collision.
+	 */
+	private ArrayList<CollisionDamager> collisionDamagers = new ArrayList<CollisionDamager>();
 	
 	/**
 	 * Creates a new game object with the given health, maxHealth, position and sprites.
@@ -287,6 +302,17 @@ public abstract class GameObject implements Collidable {
 		return this.health;
 	}
 	
+	/**
+	 * Adds a CollisionDamager to this GameObject.
+	 * 
+	 * @param damager
+	 * 			| Adds a damager to this GameObject.
+	 * @post This GameObject will receive damage due to collisions in this object's world
+	 * 		 according to damager.
+	 */
+	public void addCollisionDamager(CollisionDamager damager) {
+		this.collisionDamagers.add(damager);
+	}
 
 	/**
 	 * Returns whether the object is alive, this means the object should still be
@@ -327,6 +353,17 @@ public abstract class GameObject implements Collidable {
 		this.setHealth(this.getHealth() + diff);
 	}
 	
+	
+	/**
+	 * Causes this object to take lose an amount of hitpoints specified by damage.
+	 * @param damage
+	 * 			The amount of damage taken.
+	 * @effect Lowers the health of this object by damage.
+	 * 			| this.increaseHealht(damage).
+	 */
+	public void takeDamage(int damage) {
+		this.increaseHealth(damage);
+	}
 	
 	/**
 	 * Returns whether the given health is a valid health for this game object.
@@ -783,6 +820,10 @@ public abstract class GameObject implements Collidable {
 				deathTime += stepTime;
 			}
 			
+			for (CollisionDamager damager : this.collisionDamagers){
+				damager.advanceTime(stepTime);
+			}
+
 			Set<GameObject> collidingObjects = this.getWorld().getObjectsCollidingWithObject(this);
 			Set<Tile> collidingTiles = this.getWorld().getTilesCollidingWithObject(this);
 			
@@ -866,6 +907,17 @@ public abstract class GameObject implements Collidable {
 		
 		this.handleBasicMovementCollisions(collidingObjects, collidingTiles);
 
+		Set<Collidable> collidables = new HashSet<Collidable>();
+		collidables.addAll(collidingObjects);
+		collidables.addAll(collidingTiles);
+		for (Collidable collidable : collidables){
+			for (CollisionDamager damager : this.collisionDamagers){
+				if (damager.doesReactTo(collidable)){
+					damager.reactTo(collidable);
+				}
+			}
+		}
+		
 		for (GameObject object : collidingObjects){
 			//Delegate the collision to both parties involved
 			//Each party only has to worry about it's own state changes
@@ -893,7 +945,7 @@ public abstract class GameObject implements Collidable {
 	 * @return true if this game object is in contact with a tile of
 	 * 			the given type.
 	 */
-	protected boolean inContactWithTileOfType(TileType type) {
+	public boolean inContactWithTileOfType(TileType type) {
 		
 		Set<Tile> collidingTiles = this.getWorld().getTilesCollidingWithObject(this);
 		

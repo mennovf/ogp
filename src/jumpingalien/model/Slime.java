@@ -3,6 +3,8 @@ package jumpingalien.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import jumpingalien.model.Reactions.GameObjectCollisionDamager;
+import jumpingalien.model.Reactions.TerrainCollisionDamager;
 import jumpingalien.util.Sprite;
 
 /**
@@ -20,35 +22,6 @@ public class Slime extends GameObject {
 	private School school;
 	
 	
-	/**
-	 * The time since the last enemy damage was taken.
-	 * By setting this to zero, Slime will not
-	 * lose life in the first enemyDamageInterval seconds of the game.
-	 */
-	private double timeSinceEnemyDamage = 0;
-
-	
-	/**
-	 * The time since the last water damage was taken.
-	 * By setting this to zero, Slime will not
-	 * lose life in the first terrainDamageInterval seconds of the game.
-	 */
-	private double timeSinceWaterDamage = 0;
-	
-	/**
-	 * The time Slime has been in contact with water.
-	 * When this becomes bigger than 0.2 Slime has been in contact with
-	 * water for 0.2 seconds or more, so damage will be taken.
-	 */
-	private double timeInContactWithWater = 0;
-	
-	/**
-	 * The time since the last magma damage was taken.
-	 * By setting this higher than the threshold Slime will take damage
-	 * on first contact.
-	 */
-	private double timeSinceMagmaDamage = Constants.terrainDamageInterval + 0.1;
-
 	/**
 	 * Creates a new slime with the given positions, sprites and school.
 	 * 
@@ -71,6 +44,11 @@ public class Slime extends GameObject {
 		
 		this.setSchool(school);
 		school.addSlime(this);
+		
+		this.addCollisionDamager(new GameObjectCollisionDamager<Mazub>(this, Constants.slimeEnemyContactDamage, Constants.enemyDamageInterval, Mazub.class));
+		this.addCollisionDamager(new GameObjectCollisionDamager<Shark>(this, Constants.slimeEnemyContactDamage, Constants.enemyDamageInterval, Shark.class));
+		this.addCollisionDamager(new TerrainCollisionDamager(this, Constants.magmaDamage, Constants.terrainDamageInterval, 0, TileType.MAGMA));
+		this.addCollisionDamager(new TerrainCollisionDamager(this, Constants.waterDamage, Constants.terrainDamageInterval, Constants.terrainDamageInterval, TileType.WATER));
 	}
 	
 	
@@ -165,16 +143,6 @@ public class Slime extends GameObject {
 	@Override
 	protected void handleStep(double dt) {
 		
-		this.timeSinceEnemyDamage += dt;
-		this.timeSinceWaterDamage += dt;
-		this.timeSinceMagmaDamage += dt;
-		
-		if (this.inContactWithTileOfType(TileType.WATER)) {
-			this.timeInContactWithWater += dt;
-		} else {
-			this.timeInContactWithWater = 0;
-		}
-
 		if (moveTimeLeft <= 0) {
 			
 			this.stopMove();
@@ -188,8 +156,20 @@ public class Slime extends GameObject {
 		}
 	}
 	
-	private void takeDamage(int amount){
-		this.increaseHealth(amount);
+	/**
+	 * Causes this Slime to take lose an amount of hitpoints specified by damage.
+	 * Every slime part of the school to which this Slime belongs, also loses 1 health.
+	 * 
+	 * @param amount
+	 * 			The amount of damage taken.
+	 * @effect Lowers the health of this object by damage and deal 1 point of 
+	 * 			damage to the slimes belonging to this slime's school.
+	 * 			| this.increaseHealht(damage).
+	 * 			| this.getSchool().takeDamageCausedBy(this)
+	 */
+	@Override
+	public void takeDamage(int amount){
+		super.takeDamage(amount);
 		this.getSchool().takeDamageCausedBy(this);
 	}
 	
@@ -201,30 +181,6 @@ public class Slime extends GameObject {
 		
 		if (!this.onGround()) {
 			this.setAcceleration(this.getAcceleration().setY(Constants.gravityAcceleration));
-		}
-
-		for (Tile tile : collidingTiles) {
-			
-			switch (tile.getType()) {
-			
-			case WATER:
-				if (this.timeInContactWithWater > Constants.terrainDamageInterval
-						&& this.timeSinceWaterDamage > Constants.terrainDamageInterval) {
-					this.takeDamage(Constants.waterDamage);
-					this.timeSinceWaterDamage = 0;
-				}
-				break;
-				
-			case MAGMA:
-				if (this.timeSinceMagmaDamage > Constants.terrainDamageInterval) {
-					this.takeDamage(Constants.magmaDamage);
-					this.timeSinceMagmaDamage = 0;
-				}
-				break;
-				
-			default:
-				break;
-			}
 		}
 	}
 	
@@ -261,10 +217,6 @@ public class Slime extends GameObject {
 			if (other.getSchool().size() > this.getSchool().size()){
 				School.switchSchools(this.getSchool(), other.getSchool(), this);
 			}
-		}
-		if ((this.timeSinceEnemyDamage > Constants.enemyDamageInterval) && (object instanceof Mazub) || (object instanceof Shark)){
-			this.takeDamage(Constants.slimeEnemyContactDamage);
-			this.timeSinceEnemyDamage = 0;
 		}
 	}
 

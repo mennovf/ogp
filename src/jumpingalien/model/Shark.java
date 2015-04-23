@@ -3,6 +3,8 @@ package jumpingalien.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import jumpingalien.model.Reactions.GameObjectCollisionDamager;
+import jumpingalien.model.Reactions.TerrainCollisionDamager;
 import jumpingalien.util.Sprite;
 
 /**
@@ -34,23 +36,6 @@ public class Shark extends GameObject {
 	
 	
 	/**
-	 * The amount of time the shark has been in contact with air.
-	 */
-	private double timeInContactWithAir = 0;
-	
-	/**
-	 * The amount of time since the last damage from air collisions
-	 * was taken.
-	 */
-	private double timeSinceAirDamage = 0;
-	
-	/**
-	 * The amount of time since the last damage from magma collisions
-	 * wast taken.
-	 */
-	private double timeSinceMagmaDamage = Constants.terrainDamageInterval + 0.1;
-
-	/**
 	 * Creates a shark with the given position and sprites.
 	 * 
 	 * @param position
@@ -61,6 +46,11 @@ public class Shark extends GameObject {
 	 */
 	public Shark(Vector<Double> position, Sprite[] sprites) {
 		super(Constants.sharkBeginHealth, Constants.sharkMaxHealth, position, sprites);
+		
+		this.addCollisionDamager(new TerrainCollisionDamager(this, Constants.sharkAirDamage, Constants.terrainDamageInterval, Constants.terrainDamageInterval, TileType.AIR));
+		this.addCollisionDamager(new TerrainCollisionDamager(this, Constants.magmaDamage, Constants.terrainDamageInterval, 0, TileType.MAGMA));
+		this.addCollisionDamager(new GameObjectCollisionDamager<Mazub>(this, Constants.sharkEnemyDamage, Constants.enemyDamageInterval, Mazub.class));
+		this.addCollisionDamager(new GameObjectCollisionDamager<Slime>(this, Constants.sharkEnemyDamage, Constants.enemyDamageInterval, Slime.class));
 	}
 	
 	
@@ -169,27 +159,7 @@ public class Shark extends GameObject {
 			
 			moveTimeLeft -= dt;
 		}
-		
-//		this.timeSinceEnemyDamage += dt;
-		this.timeSinceAirDamage += dt;
-		this.timeSinceMagmaDamage += dt;
-		
-		if (this.inContactWithAir()) {
-			this.timeInContactWithAir += dt;
-		} else {
-			this.timeInContactWithAir = 0;
-		}
-	}
-	
-	
-	/**
-	 * Returns whether Shark is in contact with air.
-	 * 
-	 * @return true if Shark is in contact with air.
-	 */
-	private boolean inContactWithAir() {
-		return this.inContactWithTileOfType(TileType.AIR);
-	}
+	}	
 	
 	
 	@Override
@@ -202,39 +172,6 @@ public class Shark extends GameObject {
 		} else if (this.getAcceleration().y == Constants.gravityAcceleration) {
 			this.setSpeed(this.getSpeed().setY(0.0));
 			this.setAcceleration(this.getAcceleration().setY(0.0));
-		}
-		
-		for (Tile tile : collidingTiles) {
-			
-			switch (tile.getType()) {
-			
-			case AIR:
-				if (this.timeInContactWithAir > Constants.terrainDamageInterval
-						&& this.timeSinceAirDamage > Constants.terrainDamageInterval) {
-					this.increaseHealth(Constants.sharkAirDamage);
-					this.timeSinceAirDamage = 0;
-				}
-				break;
-				
-			case MAGMA:
-				if (this.timeSinceMagmaDamage > Constants.terrainDamageInterval) {
-					this.increaseHealth(Constants.magmaDamage);
-					this.timeSinceMagmaDamage = 0;
-				}
-				break;
-				
-			default:
-				break;
-			}
-		}
-	}
-	
-	
-	@Override
-	protected void handleCollision(GameObject object) {
-		
-		if (object instanceof Mazub || object instanceof Slime) {
-			this.increaseHealth(Constants.sharkEnemyDamage);
 		}
 	}
 	
@@ -328,4 +265,8 @@ public class Shark extends GameObject {
 		}
 		this.setAcceleration(this.getAcceleration().setY(0.0));
 	}
+
+
+	@Override
+	protected void handleCollision(GameObject object) {}
 }

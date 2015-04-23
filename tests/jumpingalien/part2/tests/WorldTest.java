@@ -10,7 +10,6 @@ import jumpingalien.common.sprites.JumpingAlienSprites;
 import jumpingalien.model.Constants;
 import jumpingalien.model.GameObject;
 import jumpingalien.model.Mazub;
-import jumpingalien.model.OverlapDirection;
 import jumpingalien.model.Shark;
 import jumpingalien.model.Tile;
 import jumpingalien.model.TileType;
@@ -26,7 +25,6 @@ import org.junit.Test;
 
 public class WorldTest {
 
-	double testingEps = 1e-7;
 	World world;
 	
 	@BeforeClass
@@ -51,15 +49,6 @@ public class WorldTest {
 		assertEquals(world.getTileSize(), 70);
 		assertEquals(world.getNumberOfTiles(), new Vector<>(20, 12));
 		assertEquals(world.getTargetTilePosition(), new Vector<>(19, 11));
-	}
-	
-	@Test
-	public void terminate_ok(){
-        world.terminate();
-		assertTrue(world.isTerminated());
-		// Check if it's still terminated after a second time
-		world.terminate();
-		assertTrue(world.isTerminated());
 	}
 	
 	@Test

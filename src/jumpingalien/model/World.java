@@ -14,8 +14,6 @@ import be.kuleuven.cs.som.annotate.*;
  *
  */
 public class World {
-	
-	private boolean isTerminated;
 
 	private final int tileSize;
 	private final Vector<Integer> nbTiles;
@@ -45,28 +43,6 @@ public class World {
 				this.tiles[x][y] = TileType.AIR;
 			}
 		}
-	}
-	
-	
-	/**
-	 * Terminates this game world.
-	 * 
-	 * @post The world will be terminated
-	 * 			| new.isTerminated() == true
-	 */
-	public void terminate() {
-		//TODO: Inverse connections?
-		this.mazub = null;
-		this.objects = null;
-		this.isTerminated = true;
-	}
-	
-	
-	/**
-	 * @return true if this game world is terminated.
-	 */
-	public boolean isTerminated() {
-		return this.isTerminated;
 	}
 	
 	

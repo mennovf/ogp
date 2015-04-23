@@ -49,10 +49,8 @@ public class WorldTest {
 	@Test
 	public void constructor_ok(){
 		assertEquals(world.getTileSize(), 70);
-		assertEquals((int)world.getNumberOfTiles().x, 20);
-		assertEquals((int)world.getNumberOfTiles().y, 12);
-		assertEquals((int)world.getTargetTilePosition().x, 19);
-		assertEquals((int)world.getTargetTilePosition().y, 11);
+		assertEquals(world.getNumberOfTiles(), new Vector<>(20, 12));
+		assertEquals(world.getTargetTilePosition(), new Vector<>(19, 11));
 	}
 	
 	@Test
@@ -279,7 +277,6 @@ public class WorldTest {
 	
 	@Test
 	public void canHaveAsMazub_cant(){
-		Mazub mazub = new Mazub(new Vector<>(0.0, 0.0), JumpingAlienSprites.ALIEN_SPRITESET, 1, 2, 1);
 		assertFalse(world.canHaveAsMazub(null));
 	}
 	

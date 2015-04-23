@@ -40,6 +40,7 @@ public class Vector <T> {
 	 * 
 	 * @return A new vector of the same type with x value
 	 * 			set to x.
+	 * 			| new Vector<>(x, this.y)
 	 */
 	public Vector<T> setX(T x) {
 		return new Vector<>(x, this.y);
@@ -55,6 +56,7 @@ public class Vector <T> {
 	 * 
 	 * @return A new vector of the same type with x added
 	 * 			to the x value of this vector.
+	 * 			| new Vector<>(this.x + x, this.y)
 	 */
 	public Vector<T> addX(T x) {
 		return new Vector<>(add(this.x, x), this.y);
@@ -70,6 +72,7 @@ public class Vector <T> {
 	 * 
 	 * @return A new vector of the same type with y value
 	 * 			set to y.
+	 * 			| new Vector<>(this.x, y)
 	 */
 	public Vector<T> setY(T y) {
 		return new Vector<>(this.x, y);
@@ -85,6 +88,7 @@ public class Vector <T> {
 	 * 
 	 * @return A new vector of the same type with y added
 	 * 			to the y value of this vector.
+	 * 			| new Vector<>(this.x, this.y + y)
 	 */
 	public Vector<T> addY(T y) {
 		return new Vector<>(this.x, add(this.y, y));
@@ -102,6 +106,7 @@ public class Vector <T> {
 	 * 			The right vector is the sum.
 	 * 
 	 * @return The sum of the two given vectors.
+	 * 			| new Vector<>(left.x + right.x, left.y + right.y)
 	 */
 	public static <S> Vector<S> add(Vector<S> left, Vector<S> right) {
 		return new Vector<S>(add(left.x, right.x), add(left.y, right.y));
@@ -118,6 +123,7 @@ public class Vector <T> {
 	 * 			The right value in the sum.
 	 * 
 	 * @return The sum of the two given values.
+	 * 			| left + right
 	 */
 	@SuppressWarnings("unchecked")
 	private static <S> S add(S left, S right) {
@@ -141,6 +147,7 @@ public class Vector <T> {
 	 * 			The scalar to multiply the vector with.
 	 * 
 	 * @return The product of the scalar and the vector.
+	 * 			| new Vector<>(vector.x * scalar, vector.y * scalar)
 	 */
 	public static <S> Vector<S> scale(Vector<S> vector, S scalar) {
 		return new Vector<S>(multiply(vector.x, scalar), multiply(vector.y, scalar));
@@ -157,6 +164,7 @@ public class Vector <T> {
 	 * 			The right value in the multiplication.
 	 * 
 	 * @return The product of the given values.
+	 * 			| left * right
 	 */
 	@SuppressWarnings("unchecked")
 	private static <S> S multiply(S left, S right) {
@@ -167,5 +175,25 @@ public class Vector <T> {
 			return (S) (Double) ((Double) left * (Double) right);
 		}
 		return null;
+	}
+	
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public boolean equals(Object object) {
+		if (this == object) {
+			return true;
+		}
+		if (!(object instanceof Vector<?>)) {
+			return false;
+		}
+		Vector<T> vector = (Vector<T>) object;
+		return this.x.equals(vector.x) && this.y.equals(vector.y);
+	}
+	
+	
+	@Override
+	public String toString() {
+		return "[" + this.x + ", " + this.y + "]";
 	}
 }

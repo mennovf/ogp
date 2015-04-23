@@ -832,6 +832,9 @@ public abstract class GameObject implements Collidable {
 					this.setPositionInMeters(this.getPositionInMeters().addX(overlap.x * Constants.metersPerPixel));
 					this.setSpeed(this.getSpeed().setX(0.0));
 				} else if (Math.abs(overlap.y) == 1 || overlap.y == 2) {
+					if (collidable instanceof GameObject) {
+						((GameObject) collidable).setSpeed(((GameObject) collidable).getSpeed().setY(0.0));
+					}
 					int correction = (overlap.y > 0) ? -1 : 0;
 					this.setPositionInMeters(this.getPositionInMeters().addY((overlap.y + correction) * Constants.metersPerPixel));
 					this.setSpeed(this.getSpeed().setY(0.0));

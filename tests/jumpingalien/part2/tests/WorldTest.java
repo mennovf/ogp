@@ -218,8 +218,22 @@ public class WorldTest {
 		mazub.setHealth(0);
 		assertTrue(world.isGameOver());
 		
-		mazub.setPosition(Utilities.pixelsVectorToMeters(world.getTargetTilePosition()));
+		mazub.setPositionInMeters(Utilities.pixelsVectorToMeters(world.getTargetTilePosition()));
 		world.advanceTime(Constants.maxTimeInterval);
+		assertTrue(world.isGameOver());
+	}
+	
+	@Test
+	public void isGameOver_MazubUnderMap() {
+		Mazub mazub = new Mazub(new Vector<>(0.0, 0.0), JumpingAlienSprites.ALIEN_SPRITESET, 1, 2, 1);
+		world.setMazub(mazub);
+		
+		assertFalse(world.isGameOver());
+		
+		world.advanceTime(Constants.maxTimeInterval);
+//		mazub.setPositionInMeters(new Vector<>(0.0, -1.0));
+		
+		assertTrue(mazub.isHealthZero());
 		assertTrue(world.isGameOver());
 	}
 	
@@ -267,10 +281,6 @@ public class WorldTest {
 	public void canHaveAsMazub_cant(){
 		Mazub mazub = new Mazub(new Vector<>(0.0, 0.0), JumpingAlienSprites.ALIEN_SPRITESET, 1, 2, 1);
 		assertFalse(world.canHaveAsMazub(null));
-		mazub.terminate();
-		assertFalse(world.canHaveAsMazub(mazub));
-		world.terminate();
-		assertFalse(world.canHaveAsMazub(mazub));
 	}
 	
 	@Test

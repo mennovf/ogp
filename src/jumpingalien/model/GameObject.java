@@ -39,11 +39,21 @@ public abstract class GameObject {
 	 * Creates a new game object with the given health, maxHealth, position and sprites.
 	 * 
 	 * @param health
+	 * 			The health of the game object.
+	 * 
 	 * @param maxHealth
+	 * 			The max health of the game object.
+	 * 
 	 * @param position
+	 * 			The position of the game object in meters.
+	 * 
 	 * @param sprites
+	 * 			The set of sprites of the game object.
 	 * 
 	 * @effect GameObject(health, maxHealth, position, sprites, false)
+	 * 
+	 * @post Passable will be set to false.
+	 * 			| new.isPassable() == false
 	 * 
 	 * @throws IllegalArgumentException
 	 */
@@ -71,6 +81,32 @@ public abstract class GameObject {
 	 * @param passable
 	 * 			Whether or not the game object is passable.
 	 * 
+	 * @post The facing will be set to 1.
+	 * 			| new.getFacing() == 1
+	 * 
+	 * @post Passable will be set to passable
+	 * 			| new.isPassable() == passable
+	 * 
+	 * @post Max health will be set to maxHealth
+	 * 			| new.getMaximumHealth() == maxHealth
+	 * 
+	 * @effect setHealth(health)
+	 * 
+	 * @post The sprites will be set to sprites.
+	 * 			| new.getSprites() == sprites
+	 * 
+	 * @post The current sprite will be set to the first sprite.
+	 * 			| new.getCurrentSprite() == sprites[0]
+	 * 
+	 * @post The position will be set to the position.
+	 * 			| new.getPosition() == position
+	 * 
+	 * @post The speed will be set to zero.
+	 * 			| new.getSpeed() == new Vector<Double>(0.0, 0.0)
+	 * 
+	 * @post The acceleration will be set to zero.
+	 * 			| new.getAcceleration() == new Vector<Double>(0.0, 0.0)
+	 * 
 	 * @throws IllegalArgumentException
 	 * 			Throws an IllegalArgumentException when the given position is not valid.
 	 * 			| !isValidPosition(position)
@@ -95,44 +131,22 @@ public abstract class GameObject {
 	
 	
 	/**
-	 * Terminates this game object and removes it from it's game world.
-	 * @post This GameObject will be terminated.
-	 * 			| new.isTerminated() == true
-	 */
-	public void terminate() {
-		this.removeFromWorld();
-		this.isTerminated = true;
-	}
-	
-	
-	/**
-	 * @return true if this game object is terminated.
-	 */
-	public boolean isTerminated() {
-		return this.isTerminated;
-	}
-	
-	
-	/**
+	 * Returns whether this game object can have the given world as it's world.
+	 * 
 	 * @param world
 	 * 			The world to check.
 	 * 
 	 * @return true if this game object can have the given world as it's game world.
-	 * 			This game object can not be terminated.
-	 * 			| !this.isTerminated()
 	 * 			The given world can not be null.
 	 * 			| world != null
-	 * 			The given world can not be terminated.
-	 * 			| !world.isTerminated()
 	 */
 	public boolean canHaveAsWorld(World world) {
-		if (this.isTerminated() || (world == null) || world.isTerminated()) {
-			return false;
-		}
-		return true;
+		return world != null;
 	}
 	
 	/**
+	 * Returns whether this game object has a proper world.
+	 * 
 	 * @return true if this game object has a proper world.
 	 * 			This game object needs to be able to have it's current world as it's game world.
 	 * 			| this.canHaveAsWorld()
@@ -144,6 +158,8 @@ public abstract class GameObject {
 	}
 	
 	/**
+	 * Returns this game object's world.
+	 * 
 	 * @return This game object's game world.
 	 */
 	@Basic
@@ -178,33 +194,35 @@ public abstract class GameObject {
 	}
 	
 	/**
+	 * Returns whether this game object belongs to a game world.
+	 * 
 	 * @return true if a world contains this game object.
-	 * 			| this.getWorld() != null;
+	 * 			| this.getWorld() != null && this.getWorld().containsGameObject(this)
 	 */
 	public boolean inWorld() {
 		return this.getWorld() != null && this.getWorld().containsGameObject(this);
 	}
 	
 	/**
-	 * Removes this game object from it's world if it's contained by a world.
+	 * Removes this game object from it's world if it's contained by one.
 	 * 
-	 * @post The GameObject will have no references to the old world and neither will the old world have a reference to this.
+	 * @post The GameObject will have no references to the old world and
+	 * 			neither will the old world have a reference to this.
 	 * 			| new.getWorld() == null && old.getWorld().containsGameObject(new) == false
+	 * 			| !new.inWorld()
 	 */
 	public void removeFromWorld() {
-		try {
+		if (this.inWorld()) {
 			this.getWorld().removeGameObject(this);
 			this.world = null;
-		} catch (NullPointerException exc) {
-			assert !this.inWorld();
 		}
 	}
 	
 	
 	/**
-	 * Returns whether or not other game objects should not collide with this game object.
+	 * Returns whether other game objects shouldn't collide with this game object.
 	 * 
-	 * @return true if this game object is passable
+	 * @return true if this game object is passable.
 	 */
 	@Basic @Immutable
 	public boolean isPassable() {
@@ -235,6 +253,9 @@ public abstract class GameObject {
 	
 
 	/**
+	 * Returns whether the object is alive, this means the object should still be
+	 * visible in the game world.
+	 * 
 	 * @return Whether the object is alive or not. The object is considered dead when it's health
 	 * 		   is zero and has been zero for longer than Constants.deathTime.
 	 * 			| !((this.isHealthZero()) && (this.deathTime > Constants.deathTime))
@@ -260,7 +281,8 @@ public abstract class GameObject {
 	 * Negative numbers are allowed. The health will be kept in the 
 	 * zero to maximumHealth range.
 	 * 
-	 * @param diff The amount with which to increase health.
+	 * @param diff
+	 * 			The amount with which to increase health.
 	 * 
 	 * @effect Sets the health to the sum of the current health and diff.
 	 * 			| this.setHealth(this.getHealth() + diff)
@@ -273,7 +295,8 @@ public abstract class GameObject {
 	/**
 	 * Returns whether the given health is a valid health for this game object.
 	 * 
-	 * @param health The health to check for validity.
+	 * @param health
+	 * 			The health to check for validity.
 	 * 
 	 * @return Whether the provided health does not exceed the maximum allowed health
 	 * 			and is bigger or equal to zero.
@@ -288,7 +311,8 @@ public abstract class GameObject {
 	 * Sets the health of this game object to the given health. The health will be kept
 	 * in the zero to maximumHealth range.
 	 * 
-	 * @param health The suggested health for this object.
+	 * @param health
+	 * 			The suggested health for this object.
 	 * 
 	 * @post Set this object's health to health if health is smaller than the maximum allowed health
 	 * 		 otherwise it sets it to the maximum allowed amount. If the health of this object is equal to zero
@@ -346,12 +370,18 @@ public abstract class GameObject {
 	 * 			| new.getPositionInMeters() == position
 	 */
 	@Basic
-	public void setPosition(Vector<Double> position) throws NullPointerException,
+	public void setPositionInMeters(Vector<Double> position) throws NullPointerException,
 			IllegalArgumentException {
 		if (position == null) {
 			throw new NullPointerException("The position can not be null.");
 		} else if (!isValidPosition(position)) {
-			throw new IllegalArgumentException("The given position is not valid, see isValidPosition.");
+			if (position.y < 0 && position.x >= 0 &&
+					((this.hasProperWorld() && position.x < this.getWorld().getSizeInMeters().x)
+							|| !this.hasProperWorld())) {
+				this.setHealth(0);
+			} else {
+				throw new IllegalArgumentException("The given position is not valid, see isValidPosition.");
+			}
 		}
 				
 		this.motion.setPosition(position);
@@ -365,9 +395,12 @@ public abstract class GameObject {
 	 * @param pos
 	 * 			The position to check
 	 * 
-	 * @return Whether pos is valid (is inside the bounds of the world)
+	 * @return Whether pos is valid
+	 * 			When this game object has a proper world, the position has to lie in the game world.
 	 * 			| (pos.x >= 0) && (pos.x <= bounds.x)
 	 *			 && (pos.y >= 0) && (pos.y <= bounds.y)
+	 *			Otherwise the position has to be positive
+	 *			| (pos.x >= 0) && (pos.y >= 0)
 	 */
 	public boolean isValidPosition(Vector<Double> pos) {
 		if (this.hasProperWorld()) {
@@ -382,6 +415,7 @@ public abstract class GameObject {
 	 * Returns the location of the top right pixel of this game object.
 	 * 
 	 * @return The location of the top right pixel of this game object.
+	 * 			| Vector.add(this.getPositionInPixels(), this.getSize())
 	 */
 	public Vector<Integer> getTopRightPixel() {
 		return Vector.add(this.getPositionInPixels(), this.getSize());
@@ -394,6 +428,9 @@ public abstract class GameObject {
 	 * components are floored.
 	 * 
 	 * @return The position of the center of this GameObject.
+	 * 			| size = this.getSize()
+	 * 			| Vector.add(this.getPositionInPixels(),
+	 * 				new Vector<Integer>((int)(size.x * 0.5), (int)(size.y * 0.5)))
 	 */
 	public Vector<Integer> getCenterInPixels(){
 		Vector<Integer> size = this.getSize();
@@ -402,30 +439,33 @@ public abstract class GameObject {
 	
 	
 	/**
-	 * Returns whether this game object is standing on impassable terrain.
+	 * Returns whether this game object is standing on impassable terrain or
+	 * on an impassable game object.
 	 * 
-	 * @return Whether this game object is standing on impassable terrain.
+	 * @return Whether this game object is standing on impassable terrain or
+	 * 			on an impassable game object.
 	 */
 	public boolean onGround() {
 		
-		//TODO: Mazub should be able to fall through the ground and die.
-		
 		//TODO: Test this method
-		if (Util.fuzzyEquals(this.getPositionInPixels().y, 0.0)) {
-			return true;
-		}
 		
-		Set<Tile> collidingTiles = world.getTilesCollidingWithObject(this);
+		Set<Tile> collidingTiles = this.getWorld().getTilesCollidingWithObject(this);
 		
 		for (Tile tile : collidingTiles) {
 			if (!tile.getType().passable) {
-				Vector<Integer> tilePos = tile.getPosition();
-				int tileSize = this.getWorld().getTileSize();
-				Vector<OverlapDirection> overlapDir = this.getWorld().getKindOfOverlap(
-						this.getPositionInPixels(), Vector.add(this.getPositionInPixels(), this.getSize()),
-						tilePos, Vector.add(tilePos, new Vector<>(tileSize, tileSize)));
-				
-				if (overlapDir.y == OverlapDirection.LOW || overlapDir.y == OverlapDirection.NONE) {
+				Vector<Integer> overlap = this.getKindOfOverlapWith(tile);
+				if (overlap.y > 0) {
+					return true;
+				}
+			}
+		}
+		
+		Set<GameObject> collidingObjects = this.getWorld().getObjectsCollidingWithObject(this);
+		
+		for (GameObject object : collidingObjects) {
+			if (!object.isPassable()) {
+				Vector<Integer> overlap = this.getKindOfOverlapWith(object);
+				if (overlap.y > 0) {
 					return true;
 				}
 			}
@@ -456,7 +496,6 @@ public abstract class GameObject {
 	 */
 	@Basic
 	public boolean collidesWithGameObjectClass(Class<? extends GameObject> objectClass) {
-		
 		return this.getCollidableObjectClasses().contains(objectClass);
 	}
 	
@@ -493,7 +532,6 @@ public abstract class GameObject {
 	 */
 	@Basic
 	public Vector<Double> getSpeed() {
-		
 		return this.motion.getSpeed();
 	}
 	
@@ -509,7 +547,6 @@ public abstract class GameObject {
 	 */
 	@Basic
 	protected void setSpeed(Vector<Double> speed) {
-		
 		this.motion.setSpeed(speed);
 	}
 	
@@ -695,7 +732,10 @@ public abstract class GameObject {
 	
 	
 	/**
-	 * Handles the basic collisions with terrain.
+	 * Handles the basic collisions with terrain and impassable game objects.
+	 * 
+	 * @param collidingObjects
+	 * 			The objects with which the game object is colliding.
 	 * 
 	 * @param collidingTiles
 	 * 			The tiles with which the game object is colliding.
@@ -729,7 +769,7 @@ public abstract class GameObject {
 				// horizontally
 				if (Math.abs(overlap.x) == 1) {
 					// Adjust position
-					this.setPosition(this.getPositionInMeters().addX(overlap.x * Constants.metersPerPixel));
+					this.setPositionInMeters(this.getPositionInMeters().addX(overlap.x * Constants.metersPerPixel));
 					// Set horizontal speed to 0
 					this.setSpeed(this.getSpeed().setX(0.0));
 				
@@ -739,11 +779,54 @@ public abstract class GameObject {
 					// Calculate a correction for when the y overlap is positive
 					int correction = (overlap.y > 0) ? -1 : 0;
 					// Adjust position
-					this.setPosition(this.getPositionInMeters().addY((overlap.y + correction) * Constants.metersPerPixel));
+					this.setPositionInMeters(this.getPositionInMeters().addY((overlap.y + correction) * Constants.metersPerPixel));
 					// Set vertical speed to zero.
 					this.setSpeed(this.getSpeed().setY(0.0));
 				}
 			}
+		}
+		
+		Set<GameObject> hardOnesObjects = new HashSet<GameObject>();
+		
+		for (GameObject object : collidingObjects) {
+			
+			// If the type isn't passable, the game objects motion should be altered
+						if (!object.isPassable()) {
+							
+							// Get the kind of overlap with the tile
+							Vector<Integer> overlap = getKindOfOverlapWith(object);
+							
+							// If x and y overlap are zero, there is no overlap
+							if (overlap.x == 0 || overlap.y == 0) {
+								continue;
+							}
+							
+							// If both x and y overlaps are 1, the response can't be determined yet
+							// so we add it to the hard ones set
+							if (Math.abs(overlap.x) == 1 && Math.abs(overlap.y) == 1) {
+								hardOnesObjects.add(object);
+								continue;
+							}
+							
+							// If the x overlap is 1 and the y is not, we need to move the game object
+							// horizontally
+							if (Math.abs(overlap.x) == 1) {
+								// Adjust position
+								this.setPositionInMeters(this.getPositionInMeters().addX(overlap.x * Constants.metersPerPixel));
+								// Set horizontal speed to 0
+								this.setSpeed(this.getSpeed().setX(0.0));
+							
+							// Otherwise, if the y overlap is 1 or 2 (when standing on ground) and the
+							// x overlap is not, we need to move the game object vertically
+							} else if (Math.abs(overlap.y) == 1 || overlap.y == 2) {
+								// Calculate a correction for when the y overlap is positive
+								int correction = (overlap.y > 0) ? -1 : 0;
+								// Adjust position
+								this.setPositionInMeters(this.getPositionInMeters().addY((overlap.y + correction) * Constants.metersPerPixel));
+								// Set vertical speed to zero.
+								this.setSpeed(this.getSpeed().setY(0.0));
+							}
+						}
 		}
 	}
 	

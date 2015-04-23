@@ -17,6 +17,9 @@ public class Plant extends GameObject {
 	 * 
 	 * @param sprites
 	 * 			The sprites of the plant.
+	 * 
+	 * @effect The GameObject constructor will be called.
+	 * 			| super(1, 1, position, sprites, true);
 	 */
 	public Plant(Vector<Double> position, Sprite[] sprites){
 		

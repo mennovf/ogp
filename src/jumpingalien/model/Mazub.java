@@ -119,7 +119,7 @@ public class Mazub extends GameObject {
 		this.vxMax = vxMax;
 		this.setFacing(direction);
 		
-//		this.setAcceleration(this.getAcceleration().setY(getMaxAcceleration().y));
+		this.setAcceleration(this.getAcceleration().setY(getMaxAcceleration().y));
 	}
 	
 	@Basic @Immutable

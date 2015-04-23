@@ -1,7 +1,7 @@
-- Terrain handling -> ook rekening houden met game objects die geen plant zijn
-- onGround -> ook rekening houden met game objects die geen plant zijn
-- Mazub frame switch bij botsing boven nakijken
-- Alle interacties tussen game objects nakijken
-- isTerminated nakijken
 - Tests afwerken
 - @post enzovoort afwerken
+	al nagekeken:
+	+ GameObject
+- passable interface
+- cleanup
+- vector equal method

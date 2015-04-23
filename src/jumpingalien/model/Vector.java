@@ -89,20 +89,7 @@ public class Vector <T> {
 	public Vector<T> addY(T y) {
 		return new Vector<>(this.x, add(this.y, y));
 	}
-
 	
-	/**
-	 * Creates a new vector as a copy of the given vector.
-	 * 
-	 * @param vector
-	 * 			The vector to copy.
-	 */
-	public Vector(Vector<T> vector) {
-		this(vector.x, vector.y);
-	}
-	
-	
-	//TODO: Maybe equal method?
 
 
 	/**

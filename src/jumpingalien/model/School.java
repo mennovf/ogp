@@ -28,7 +28,7 @@ public class School {
 	 * @return Whether this school can have the given slime as a slime.
 	 */
 	public static boolean canHaveAsSlime(Slime slime) {
-		return !(slime == null) && !slime.isTerminated();
+		return slime != null;
 	}
 	
 	

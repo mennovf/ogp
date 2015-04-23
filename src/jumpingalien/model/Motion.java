@@ -2,6 +2,12 @@ package jumpingalien.model;
 
 import be.kuleuven.cs.som.annotate.*;
 
+/**
+ * @author Rugen Heidbuchel, Menno Vanfrachem
+ * 
+ * A class to manage all motion properties: position, speed and acceleration.
+ * It also takes care of all time-related calculations using it's properties.
+ */
 public class Motion {
 	
 	private Vector<Double> position;
@@ -25,8 +31,7 @@ public class Motion {
 	 * @param acceleration
 	 * 			The acceleration in m/(s^2) to create the motion object with.
 	 */
-	Motion(@Raw GameObject gameObject, Vector<Double> position, Vector<Double> speed, Vector<Double> acceleration) {
-		//TODO: gameObject setter
+	public Motion(@Raw GameObject gameObject, Vector<Double> position, Vector<Double> speed, Vector<Double> acceleration) {
 		this.gameObject = gameObject;
 		this.position = position;
 		this.speed = speed;
@@ -41,7 +46,7 @@ public class Motion {
 	 */
 	@Basic
 	public Vector<Double> getPosition() {
-		return new Vector<>(this.position);
+		return this.position;
 	}
 	
 	/**
@@ -66,7 +71,7 @@ public class Motion {
 	 */
 	@Basic
 	public Vector<Double> getSpeed() {
-		return new Vector<>(this.speed);
+		return this.speed;
 	}
 	
 	/**
@@ -91,7 +96,7 @@ public class Motion {
 	 */
 	@Basic
 	public Vector<Double> getAcceleration() {
-		return new Vector<>(this.acceleration);
+		return this.acceleration;
 	}
 	
 	/**
@@ -149,8 +154,7 @@ public class Motion {
 		Vector<Double> newPosition = Vector.add(r, Vector.add(Vector.scale(v, dt), Vector.scale(a, dt*dt/2.0)));
 		Vector<Double> newSpeed = Vector.add(v, Vector.scale(a, dt));
 		
-		this.gameObject.setPosition(Utilities.clipVectorInRange(new Vector<Double>(0.0, 0.0),
-							this.gameObject.getWorld().getSizeInMeters(), newPosition));
+		this.gameObject.setPositionInMeters(newPosition);
 		this.gameObject.setSpeed(newSpeed);
 		
 		return dt;

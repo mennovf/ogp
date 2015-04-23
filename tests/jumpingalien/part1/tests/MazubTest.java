@@ -511,7 +511,7 @@ public class MazubTest {
 	
 	@Test 
 	public void waterDamage(){
-		mazub.setPosition(new Vector<>(0.0, 70.0 * Constants.metersPerPixel));
+		mazub.setPositionInMeters(new Vector<>(0.0, 70.0 * Constants.metersPerPixel));
 		world.setTileType(new Vector<>(0, 0), TileType.GROUND);
 		world.setTileType(new Vector<>(0, 1), TileType.WATER);
 		
@@ -531,7 +531,7 @@ public class MazubTest {
 	
 	@Test
 	public void magmaDamage(){
-		mazub.setPosition(new Vector<>(0.0, 70.0 * Constants.metersPerPixel));
+		mazub.setPositionInMeters(new Vector<>(0.0, 70.0 * Constants.metersPerPixel));
 		world.setTileType(new Vector<>(0, 0), TileType.GROUND);
 		world.setTileType(new Vector<>(0, 1), TileType.MAGMA);
 		

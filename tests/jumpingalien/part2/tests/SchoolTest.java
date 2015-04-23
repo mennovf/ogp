@@ -42,8 +42,6 @@ public class SchoolTest {
 	@Test
 	public void canHaveAsSlime_invalid(){
 		assertFalse(School.canHaveAsSlime(null));
-		slime.terminate();
-		assertFalse(School.canHaveAsSlime(slime));
 	}
 	
 	@Test

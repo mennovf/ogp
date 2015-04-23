@@ -95,7 +95,7 @@ public class World {
 	@Basic
 	@Immutable
 	public Vector<Integer> getNumberOfTiles() {
-		return new Vector<>(this.nbTiles);
+		return this.nbTiles;
 	}
 	
 	
@@ -249,7 +249,7 @@ public class World {
 	@Basic
 	@Immutable
 	public Vector<Integer> getTargetTilePosition() {
-		return new Vector<>(this.targetTilePosition);
+		return this.targetTilePosition;
 	}
 	
 	
@@ -438,10 +438,7 @@ public class World {
 	 * 			| !mazub.isTerminated()
 	 */
 	public boolean canHaveAsMazub(@Raw Mazub mazub) {
-		if (this.isTerminated() || (mazub == null) || mazub.isTerminated()) {
-			return false;
-		}
-		return true;
+		return mazub != null;
 	}
 	
 	
@@ -490,7 +487,7 @@ public class World {
 	 * 			| new.containsGameObject(object)
 	 */
 	public void addGameObject(GameObject object) throws IllegalArgumentException {
-		if (object == null || object.isTerminated()) {
+		if (object == null) {
 			throw new IllegalArgumentException("The GameObject can't be null or terminated.");
 		}
 		this.objects.add(object);

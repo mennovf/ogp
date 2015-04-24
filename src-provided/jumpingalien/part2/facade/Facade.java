@@ -117,9 +117,7 @@ public class Facade implements IFacadePart2 {
 	}
 
 	@Override
-	public void startGame(World world) {
-		world.startGame();
-	}
+	public void startGame(World world) {}
 
 	@Override
 	public boolean isGameOver(World world) {

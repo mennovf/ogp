@@ -334,14 +334,6 @@ public class World {
 	
 	
 	/**
-	 * Starts the game in this game world.
-	 */
-	public void startGame() {
-		//TODO: Implement this method
-	}
-	
-	
-	/**
 	 * Returns whether the game has ended.
 	 * 
 	 * @return true if the game has ended.

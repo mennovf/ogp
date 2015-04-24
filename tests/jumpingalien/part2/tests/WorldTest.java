@@ -173,13 +173,6 @@ public class WorldTest {
 	}
 	
 	@Test
-	public void startGame(){
-		world.setMazub(new Mazub(new Vector<>(0.0, 0.0), JumpingAlienSprites.ALIEN_SPRITESET, 1, 2, 1));
-		world.startGame();
-		assertFalse(world.isGameOver());
-	}
-	
-	@Test
 	public void didPlayerWin(){
 		Vector<Double> position = Utilities.pixelsVectorToMeters(Vector.scale(world.getTargetTilePosition(), world.getTileSize()));
 		Mazub mazub = new Mazub(position, JumpingAlienSprites.ALIEN_SPRITESET, 1, 2, 1);

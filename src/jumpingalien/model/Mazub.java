@@ -227,14 +227,6 @@ public class Mazub extends GameObject {
 	}
 	
 	
-//	@Override
-//	protected void handleCollision(GameObject object) {
-//		if ((object instanceof Plant) && !object.isHealthZero() && (this.getHealth() < this.getMaximumHealth())) {
-//			this.increaseHealth(Constants.mazubPlantHealthGain);
-//        }
-//	}
-	
-
 	/**
 	 * Determines and sets the new current sprite.
 	 */

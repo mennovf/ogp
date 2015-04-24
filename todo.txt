@@ -7,3 +7,6 @@
 - passable interface
 - cleanup
 - vector equal method
+- Bij het opeten van de plant die Mazub 500 levens zou geven verdwijnt die laatste plants niet
+  omdat mazub zijn healht wordt geupdated vóór de plant de collision verwerkt. (Kan opgelost worden door de "updates" te queuen
+  tot na beide objecten het verwekt hebben.)

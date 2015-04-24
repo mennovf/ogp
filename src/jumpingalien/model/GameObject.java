@@ -1,6 +1,5 @@
 package jumpingalien.model;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -83,7 +82,7 @@ public abstract class GameObject implements Collidable {
 	/**
 	 * An array of CollisionDamagers used for common damage reactions to a collision.
 	 */
-	private ArrayList<CollisionDamager> collisionDamagers = new ArrayList<CollisionDamager>();
+	private Set<CollisionDamager> collisionDamagers = new HashSet<CollisionDamager>();
 	
 	/**
 	 * Creates a new game object with the given health, maxHealth, position and sprites.

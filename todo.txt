@@ -6,6 +6,8 @@
 	+ GameObject
 	+ Tile
 	+ TileType
+	+ Vector
+	+ World
 - passable interface
 - cleanup
 - vector equal method

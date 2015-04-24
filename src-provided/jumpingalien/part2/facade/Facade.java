@@ -8,7 +8,6 @@ import jumpingalien.model.Plant;
 import jumpingalien.model.School;
 import jumpingalien.model.Shark;
 import jumpingalien.model.Slime;
-import jumpingalien.model.Tile;
 import jumpingalien.model.TileType;
 import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
@@ -201,7 +200,7 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public Collection<Plant> getPlants(World world) {
-		return world.getGameObjectWithClass(Plant.class);
+		return world.getGameObjectsWithClass(Plant.class);
 	}
 
 	@Override
@@ -227,7 +226,7 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public Collection<Shark> getSharks(World world) {
-		return world.getGameObjectWithClass(Shark.class);
+		return world.getGameObjectsWithClass(Shark.class);
 	}
 
 	@Override
@@ -258,7 +257,7 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public Collection<Slime> getSlimes(World world) {
-		return world.getGameObjectWithClass(Slime.class);
+		return world.getGameObjectsWithClass(Slime.class);
 	}
 
 	@Override

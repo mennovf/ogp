@@ -273,7 +273,7 @@ public class WorldTest {
 			sharks.add(shark);
 			world.addGameObject(shark);
 		}
-		Set<Shark> objs = world.getGameObjectWithClass(Shark.class);
+		Set<Shark> objs = world.getGameObjectsWithClass(Shark.class);
 		
 		assertEquals(objs.size(), sharks.size());
 		for (Shark shark : sharks){

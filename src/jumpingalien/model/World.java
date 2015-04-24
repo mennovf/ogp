@@ -10,29 +10,108 @@ import be.kuleuven.cs.som.annotate.*;
 /**
  * A class representing a rectangular game world, also responsible of managing all game objects it contains.
  * 
- * @author Rugen and Menno 
- *
+ * @author Rugen Heidbuchel, Menno Vanfrachem
  */
 public class World {
 
+	/**
+	 * The size of a tile in pixels.
+	 */
 	private final int tileSize;
-	private final Vector<Integer> nbTiles;
+	
+	/**
+	 * The position of the bottom left pixel of the visible window in pixels.
+	 */
 	private Vector<Integer> visibleWindowBottomLeft;
+	
+	/**
+	 * The position of the top right pixel of the visible window in pixels.
+	 */
 	private Vector<Integer> visibleWindowTopRight;
+	
+	/**
+	 * The position of the target tile in tiles.
+	 */
 	private final Vector<Integer> targetTilePosition;
 	
+	/**
+	 * A 2 dimensional array containing the types of tiles in the game world.
+	 */
 	private TileType[][] tiles;
 	
+	
+	/**
+	 * The Mazub of this game world.
+	 */
 	private Mazub mazub;
+	
+	/**
+	 * A set of game objects of this game world.
+	 */
 	private Set<GameObject> objects = new HashSet<>();
 	
+	
+	
+	/**
+	 * Creates a new world with the given parameters.
+	 * 
+	 * @param tileSize
+	 * 			The size of a tile in pixels.
+	 * 
+	 * @param nbTilesX
+	 * 			The number of tiles in the x dimension.
+	 * 
+	 * @param nbTilesY
+	 * 			The number of tiles in the y dimension.
+	 * 
+	 * @param visibleWindowWidth
+	 * 			The width of the visible window in pixels.
+	 * 
+	 * @param visibleWindowHeight
+	 * 			The height of the visisble window in pixels.
+	 * 
+	 * @param targetTileX
+	 * 			The x position of the target tile in tiles.
+	 * 
+	 * @param targetTileY
+	 * 			The y position of the target tile in tiles.
+	 * 
+	 * @post The tile size of this world will be tileSize.
+	 * 			| new.getTileSize() == tileSize
+	 * 
+	 * @post The number of tiles will be nbTilesX in the x
+	 * 			dimension and nbTilesY in the y dimension.
+	 * 			| new.getNumberOfTiles() == new Vector<>(nbTilesX, nbTilesY)
+	 * 
+	 * @post The position of the bottom left pixel of the
+	 * 			visible window will be set to [0, 0].
+	 * 			The position of the top right pixel of the
+	 * 			visible window will be set to
+	 * 			[visibleWindowWidth, visibleWindowHeight]
+	 * 			| new.getVisibleWindow() ==
+	 * 			|	{0, 0, visibleWindowWidth, visibleWindowHeight}
+	 * 
+	 * @post The entire world will be filled with AIR tiles.
+	 * 			| for each tileType in new.getTileTypes:
+	 * 			|	tileType == TileType.AIR
+	 * 
+	 * @throws IllegalArgumentException
+	 * 			Throws an IllegalArgumentException when the
+	 * 			number of tiles in either dimension is less
+	 * 			than or equal to zero.
+	 * 			| nbTilesX <= 0 || nbTilesY <= 0
+	 */
 	@Raw
 	public World(int tileSize, int nbTilesX, int nbTilesY,
 			int visibleWindowWidth, int visibleWindowHeight, int targetTileX,
-			int targetTileY) {
+			int targetTileY) throws IllegalArgumentException {
+		
+		if (nbTilesX <= 0 || nbTilesY <= 0) {
+			throw new IllegalArgumentException("The number of tiles provided should be bigger"
+					+ "than zero in both dimensions.");
+		}
 		
 		this.tileSize = tileSize;
-		this.nbTiles = new Vector<>(nbTilesX, nbTilesY);
 		this.visibleWindowBottomLeft = new Vector<>(0, 0);
 		this.visibleWindowTopRight = new Vector<>(visibleWindowWidth, visibleWindowHeight);
 		this.targetTilePosition = new Vector<>(targetTileX, targetTileY);
@@ -47,6 +126,8 @@ public class World {
 	
 	
 	/**
+	 * Returns the size of one tile in the game world in pixels.
+	 * 
 	 * @return The size of one tile in the game world in pixels.
 	 */
 	@Basic
@@ -57,6 +138,8 @@ public class World {
 	
 	
 	/**
+	 * Returns the size of one tile in the game world in meters.
+	 * 
 	 * @return The size of one tile in the game world in meters.
 	 */
 	@Immutable
@@ -66,17 +149,23 @@ public class World {
 	
 	
 	/**
-	 * @return A 2D vector containing the number of tiles in the x, respectively y directions.
+	 * Returns the number of tiles in this game world in the x and y dimensions.
+	 * 
+	 * @return A 2D vector containing the number of tiles in the x, respectively y dimensions.
+	 * 			| new Vector<>(this.getTileTypes().length, this.getTileTypes()[0].length)
 	 */
-	@Basic
 	@Immutable
 	public Vector<Integer> getNumberOfTiles() {
-		return this.nbTiles;
+		return new Vector<>(this.getTileTypes().length, this.getTileTypes()[0].length);
 	}
 	
 	
 	/**
+	 * Returns the total size of the world in pixels.
+	 * 
 	 * @return A 2D vector representing the size of the game world in pixels.
+	 * 			| new Vector<>(this.getNumberOfTiles().x * this.getTileSize(),
+	 * 			|	this.getNumberOfTiles().y * this.getTileSize())
 	 */
 	@Immutable
 	public Vector<Integer> getSizeInPixels() {
@@ -85,7 +174,10 @@ public class World {
 	
 	
 	/**
+	 * Returns the total size of the world in meters.
+	 * 
 	 * @return A 2D vector representing the size of the game world in meters.
+	 * 			| Utilities.pixelsVectorToMeters(this.getSizeInPixels())
 	 */
 	@Immutable
 	public Vector<Double> getSizeInMeters() {
@@ -94,10 +186,16 @@ public class World {
 	
 	
 	/**
+	 * Returns whether the given pixel's position lies
+	 * inside the game world.
+	 * 
 	 * @param pixel
 	 * 			The pixel to check.
 	 * 
 	 * @return true if the pixel lies in the game world.
+	 * 			| worldSize = this.getSizeInPixels()
+	 * 			| pixel.x >= 0 && pixel.x < worldSize.x
+	 * 			|	&& pixel.y >= 0 && pixel.y < worldSize.y
 	 */
 	public boolean pixelInWorld(Vector<Integer> pixel) {
 		Vector<Integer> worldSize = this.getSizeInPixels();
@@ -113,6 +211,9 @@ public class World {
 	 * 			The tile position to check.
 	 * 
 	 * @return true if the tile lies in the game world.
+	 * 			| numberOfTiles = this.getNumberOfTiles()
+	 * 			| tile.x >= 0 && tile.x < numberOfTiles.x
+	 * 			|	&& tile.y >= 0 && tile.y < numberOfTiles.y
 	 */
 	public boolean tilePositionInWorld(Vector<Integer> tile) {
 		Vector<Integer> numberOfTiles = this.getNumberOfTiles();
@@ -124,18 +225,14 @@ public class World {
 	/**
 	 * Returns the position of the bottom left pixel of the tile at the given tile position.
 	 * 
-	 * @param tileX
-	 * 			The x index of the specified tile.
-	 * 
-	 * @param tileY
-	 * 			The y index of the specified tile.
+	 * @param tile
+	 * 			The position of the tile to check in tiles.
 	 * 
 	 * @return A 2D vector representing the bottom left pixel position of the specified tile.
+	 * 			| new Vector<>(tile.x * this.getTileSize(), tile.y * this.getTileSize())
 	 * 
 	 * @pre The given tile must lie in the game world.
 	 * 			| this.tileInWorld(tile)
-	 * 
-	 * geen stijl gespecifieerd -> nominally
 	 */
 	public Vector<Integer> getBottomLeftPixelOfTile(Vector<Integer> tile) {
 		assert this.tilePositionInWorld(tile);
@@ -144,15 +241,17 @@ public class World {
 	
 	
 	/**
+	 * Returns the position of the tile containing the given pixel's
+	 * position in tiles.
+	 * 
 	 * @param pixel
 	 * 			The pixel to get the containing tile of.
 	 * 
 	 * @return A 2D vector representing the position of the tile containing the given pixel.
+	 * 			| new Vector<>(pixel.x / this.getTileSize(), pixel.y / this.getTileSize())
 	 * 
 	 * @pre The given pixel must lie in the game world.
 	 * 			| this.pixelInWorld(pixel)
-	 * 
-	 * geen stijl gespecifieerd -> nominally
 	 */
 	public Vector<Integer> getTileContainingPixel(Vector<Integer> pixel) {
 		assert this.pixelInWorld(pixel);
@@ -162,6 +261,7 @@ public class World {
 	
 	/**
 	 * Returns a list containing the positions of the tiles the given rectangle intersects with.
+	 * The positions are expressed in tiles.
 	 * 
 	 * @param bottomLeftPixel
 	 * 			The position of the bottom left pixel of the rectangle.
@@ -169,8 +269,8 @@ public class World {
 	 * @param topRightPixel
 	 * 			The position of the top right pixel of the rectangle.
 	 * 
-	 * @return An array of 2D arrays representing the positions of the tiles intersecting with the
-	 * 			specified rectangle in pixels.
+	 * @return An array of 2D vectors representing the positions of the tiles intersecting with the
+	 * 			specified rectangle in tiles.
 	 * 
 	 * @pre The bottom left pixel must lie inside the game world.
 	 * 			| this.pixelInWorld(bottomLeftPixel)
@@ -200,6 +300,8 @@ public class World {
 	
 	
 	/**
+	 * Returns the rectangle of the visible window.
+	 * 
 	 * @return An array representing the location of the bottom left and top right corners of the visible window in pixels.
 	 * 		   The array uses the following format {bottomLeft.x, bottomLeft.y, topRight.x, topRight.y};
 	 */
@@ -220,6 +322,8 @@ public class World {
 	
 	
 	/**
+	 * Returns the position of the target tile in tiles.
+	 * 
 	 * @return A 2D vector representing the position of the target tile.
 	 */
 	@Basic
@@ -238,7 +342,10 @@ public class World {
 	
 	
 	/**
-	 * @return true if the game has ended. This means the player is dead or the player reached the target tile.
+	 * Returns whether the game has ended.
+	 * 
+	 * @return true if the game has ended.
+	 * 			This means the player is dead or the player reached the target tile.
 	 */
 	public boolean isGameOver() {
 		return this.getMazub().isHealthZero() || this.didPlayerWin();
@@ -246,6 +353,8 @@ public class World {
 	
 	
 	/**
+	 * Returns whether the player won the game.
+	 * 
 	 * @return true if the player won the game.
 	 */
 	public boolean didPlayerWin() {
@@ -262,6 +371,9 @@ public class World {
 	
 	
 	/**
+	 * Returns a grid representing the tile types of the tiles in 
+	 * the game world.
+	 * 
 	 * @return A 2D array representing the game world's tiles' types.
 	 */
 	@Basic
@@ -271,12 +383,14 @@ public class World {
 	
 	
 	/**
-	 * Returns the type of the tile that contains the given pixel.
+	 * Returns the type of the tile that contains the given pixel's location.
 	 * 
 	 * @param pixel
 	 * 			A 2D vector representing the position of the pixel to get the tile type of.
 	 * 
 	 * @return The type of the tile that contains the given pixel.
+	 * 			| tilePosition = this.getTileContainingPixel(pixel)
+	 * 			| this.getTileTypes()[tilePosition.x][tilePosition.y]
 	 * 
 	 * @throws ModelException
 	 * 			Throws a ModelException when the given pixel does not lie in the game world.
@@ -298,6 +412,7 @@ public class World {
 	 * 			The position of the tile.
 	 * 
 	 * @return The type of the tile at the given tile position.
+	 * 			| this.getTileTypes()[position.x][position.y]
 	 * 
 	 * @throws ModelException
 	 * 			Throws a model exception when the given tile position
@@ -313,13 +428,13 @@ public class World {
 	
 	
 	/**
-	 * Sets the tile of the given tile position.
+	 * Sets the type of the given tile position.
 	 * 
 	 * @param position
-	 * 			The position of the tile to set.
+	 * 			The position of the tile to set in tiles.
 	 * 
-	 * @param tile
-	 * 			The tile to set.
+	 * @param type
+	 * 			The type to set.
 	 * 
 	 * @pre The given tile position must lie in the game world.
 	 * 			| this.tilePositionInWorld(position)
@@ -335,12 +450,16 @@ public class World {
 	
 	
 	/**
+	 * Returns whether this game world contains the given
+	 * game object.
+	 * 
 	 * @param gameObject
 	 * 			The game object to check.
 	 * 
 	 * @return true if this game world contains the given game object.
 	 */
 	public boolean containsGameObject(GameObject gameObject) {
+		//TODO: Deze documentatie moet nagekeken worden voor de @return en @Basic
 		if (gameObject instanceof Mazub) {
 			return this.getMazub() == mazub;
 		}
@@ -356,7 +475,6 @@ public class World {
 	 * 
 	 * @post This world will no longer hold a reference to gameObject
 	 * 			| new.containsGameObject(gameObject) == false
-	 * no style specified -> totally
 	 */
 	public void removeGameObject(GameObject gameObject) {
 		if ((gameObject instanceof Mazub) && this.getMazub() == gameObject) {
@@ -369,8 +487,11 @@ public class World {
 	
 	
 	/**
+	 * Returns the mazub of this game world.
+	 * 
 	 * @return This game world's mazub.
 	 */
+	@Basic
 	public Mazub getMazub() {
 		return this.mazub;
 	}
@@ -402,16 +523,14 @@ public class World {
 	
 	
 	/**
+	 * Returns whether this game world can have the given mazub as it's mazub.
+	 * 
 	 * @param mazub
 	 * 			The mazub to check.
 	 * 
 	 * @return true if this game world can have the given mazub as it's mazub.
-	 * 			This game world can not be terminated.
-	 * 			| !this.isTerminated()
 	 * 			The given mazub can not be null.
 	 * 			| mazub != null
-	 * 			The given mazub can not be terminated.
-	 * 			| !mazub.isTerminated()
 	 */
 	public boolean canHaveAsMazub(@Raw Mazub mazub) {
 		return mazub != null;
@@ -419,6 +538,8 @@ public class World {
 	
 	
 	/**
+	 * Return whether this world has a proper mazub.
+	 * 
 	 * @return true if this game world has a proper mazub.
 	 * 			This game world needs to be able to have it's current mazub as it's mazub.
 	 * 			| this.canHaveAsMazub(this.getMazub())
@@ -431,12 +552,16 @@ public class World {
 	
 	
 	/**
+	 * Returns a set containing the game objects in this world of the 
+	 * given class.
+	 * 
 	 * @param cls
-	 * 			The class of which to return GameObjects
+	 * 			The class of which to return game objects.
 	 * 
 	 * @return The collection of all object with class "type" in this game world.
 	 */
-	public <T extends GameObject> Set<T> getGameObjectWithClass(Class<T> cls) {
+	@Basic
+	public <T extends GameObject> Set<T> getGameObjectsWithClass(Class<T> cls) {
 		Set<T> objects = new HashSet<T>();
 		for (GameObject obj : this.objects){
 			if (obj.getClass() == cls){
@@ -456,11 +581,12 @@ public class World {
 	 * @post The given GameObject will be added to the collection of GameObjects in this game world.
 	 * 			| new.containsGameObject(object)
 	 * 
+	 * @post The object will have this world as it's world.
+	 * 			| (new object).getWorld() == new
+	 * 
 	 * @throw IllegalArgumentException
 	 * 			Throws an IllegalArgumentException if the given GameObject is null or terminated.
 	 * 			| object == null || object.isTerminated()
-	 * @post The world will contain a reference to object
-	 * 			| new.containsGameObject(object)
 	 */
 	public void addGameObject(GameObject object) throws IllegalArgumentException {
 		if (object == null) {
@@ -482,6 +608,10 @@ public class World {
 	public Set<GameObject> getObjectsCollidingWithObject(GameObject object) {
 		
 		HashSet<GameObject> collidingObjects = new HashSet<GameObject>();
+		
+		if (object == null) {
+			return collidingObjects;
+		}
 		
 		for (GameObject obj : this.objects) {
 			
@@ -508,6 +638,10 @@ public class World {
 		
 		Set<Tile> collidingTiles = new HashSet<Tile>();
 		
+		if (object == null) {
+			return collidingTiles;
+		}
+		
 		ArrayList<Vector<Integer>> positions = this.getTilePositionsInRectangle(object.getPositionInPixels(),
 				Vector.add(object.getPositionInPixels(), object.getSize()));
 		
@@ -529,6 +663,9 @@ public class World {
 	 * 
 	 * @param dt
 	 * 			The time that has passed in the game world since last calling this method.
+	 * 
+	 * @post All properties of this world and the game objects in this world
+	 * 			will be updated accordingly.
 	 * 
 	 * @throws	IllegalArgumentException
 	 * 			| (dt < 0) || (dt > Constants.maxTimeInterval) || dt.isNan()

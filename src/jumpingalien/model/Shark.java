@@ -1,10 +1,12 @@
 package jumpingalien.model;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 import jumpingalien.model.Reactions.GameObjectCollisionDamager;
 import jumpingalien.model.Reactions.TerrainCollisionDamager;
+import jumpingalien.model.Reactions.TerrainDamageInfo;
 import jumpingalien.util.Sprite;
 
 /**
@@ -47,10 +49,15 @@ public class Shark extends GameObject {
 	public Shark(Vector<Double> position, Sprite[] sprites) {
 		super(Constants.sharkBeginHealth, Constants.sharkMaxHealth, position, sprites);
 		
-		this.addCollisionDamager(new TerrainCollisionDamager(this, Constants.sharkAirDamage, Constants.terrainDamageInterval, Constants.terrainDamageInterval, TileType.AIR));
-		this.addCollisionDamager(new TerrainCollisionDamager(this, Constants.magmaDamage, Constants.terrainDamageInterval, 0, TileType.MAGMA));
-		this.addCollisionDamager(new GameObjectCollisionDamager(this, Constants.sharkEnemyDamage, Constants.enemyDamageInterval, Mazub.class));
-		this.addCollisionDamager(new GameObjectCollisionDamager(this, Constants.sharkEnemyDamage, Constants.enemyDamageInterval, Slime.class));
+		Collection<TerrainDamageInfo> terrainInfos= new HashSet<>();
+		terrainInfos.add(new TerrainDamageInfo(TileType.MAGMA, Constants.magmaDamage, 0));
+		terrainInfos.add(new TerrainDamageInfo(TileType.AIR, Constants.sharkAirDamage, Constants.terrainDamageInterval));
+		this.addCollisionDamager(new TerrainCollisionDamager(this, Constants.terrainDamageInterval, terrainInfos));
+
+		Collection<Class<? extends GameObject>> damageClasses = new HashSet<Class<? extends GameObject>>();
+		damageClasses.add(Mazub.class);
+		damageClasses.add(Slime.class);
+		this.addCollisionDamager(new GameObjectCollisionDamager(this, Constants.sharkEnemyDamage, Constants.enemyDamageInterval, damageClasses));
 	}
 	
 	

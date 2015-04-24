@@ -1,43 +1,70 @@
 package jumpingalien.model.Reactions;
 
+import java.util.Collection;
+
 import jumpingalien.model.Collidable;
 import jumpingalien.model.GameObject;
 import jumpingalien.model.Tile;
-import jumpingalien.model.TileType;
 
 public class TerrainCollisionDamager extends CollisionDamager {
 	
-	private TileType type;
-	private double timeIn;
-	private final double timeDelay;
+	private final Collection<TerrainDamageInfo> infos;
 
-	public TerrainCollisionDamager(GameObject owner, int damage,
-			double timeInterval, double timeDelay, TileType type) {
-		super(owner, damage, timeInterval);
-		this.timeIn = 0;
-		this.timeDelay = timeDelay;
-		this.type = type;
+	public TerrainCollisionDamager(GameObject owner, double timeInterval, Collection<TerrainDamageInfo> infos) {
+		super(owner, 0, timeInterval);
+		this.infos = infos;
 	}
 
 	@Override
 	public boolean doesReactTo(Collidable obj) {
-		return (obj instanceof Tile) && (((Tile)obj).getType() == this.type);
+		if (obj instanceof Tile){
+			Tile tile = (Tile)obj;
+			for (TerrainDamageInfo info : this.infos){
+				if (tile.getType() == info.type){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public void reactTo(Collidable collidable) {
+		Tile tile = (Tile)collidable;
+		if (canTakeDamage()){
+			for (TerrainDamageInfo info : this.infos) {
+				if (tile.getType() == info.type){
+					owner.takeDamage(info.damage);
+					this.timeSince = 0;
+					break;
+				}
+			}
+		}
 	}
 
 	@Override
 	protected boolean canTakeDamage(){
-		return super.canTakeDamage() && (timeIn >= timeDelay);
+		if (super.canTakeDamage()){
+			for (TerrainDamageInfo info : this.infos){
+				if (info.timeIn >= info.timeDelay){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	@Override
 	public void advanceTime(double dt) {
 		super.advanceTime(dt);
 		
-		if (this.owner.inContactWithTileOfType(this.type)){
-			this.timeIn += dt;
-		}
-		else {
-			this.timeIn = 0;
+		for (TerrainDamageInfo info : this.infos){
+			if (this.owner.inContactWithTileOfType(info.type)){
+				info.timeIn += dt;
+			}
+			else {
+				info.timeIn = 0;
+			}
 		}
 	}
 }

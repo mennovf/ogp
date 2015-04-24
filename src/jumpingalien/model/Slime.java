@@ -1,10 +1,12 @@
 package jumpingalien.model;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 import jumpingalien.model.Reactions.GameObjectCollisionDamager;
 import jumpingalien.model.Reactions.TerrainCollisionDamager;
+import jumpingalien.model.Reactions.TerrainDamageInfo;
 import jumpingalien.util.Sprite;
 
 /**
@@ -45,10 +47,15 @@ public class Slime extends GameObject {
 		this.setSchool(school);
 		school.addSlime(this);
 		
-		this.addCollisionDamager(new GameObjectCollisionDamager(this, Constants.slimeEnemyContactDamage, Constants.enemyDamageInterval, Mazub.class));
-		this.addCollisionDamager(new GameObjectCollisionDamager(this, Constants.slimeEnemyContactDamage, Constants.enemyDamageInterval, Shark.class));
-		this.addCollisionDamager(new TerrainCollisionDamager(this, Constants.magmaDamage, Constants.terrainDamageInterval, 0, TileType.MAGMA));
-		this.addCollisionDamager(new TerrainCollisionDamager(this, Constants.waterDamage, Constants.terrainDamageInterval, Constants.terrainDamageInterval, TileType.WATER));
+		Collection<Class<? extends GameObject>> damageClasses = new HashSet<Class<? extends GameObject>>();
+		damageClasses.add(Mazub.class);
+		damageClasses.add(Shark.class);
+		this.addCollisionDamager(new GameObjectCollisionDamager(this, Constants.slimeEnemyContactDamage, Constants.enemyDamageInterval, damageClasses));
+
+		Collection<TerrainDamageInfo> terrainInfos= new HashSet<>();
+		terrainInfos.add(new TerrainDamageInfo(TileType.MAGMA, Constants.magmaDamage, 0));
+		terrainInfos.add(new TerrainDamageInfo(TileType.WATER, Constants.waterDamage, Constants.terrainDamageInterval));
+		this.addCollisionDamager(new TerrainCollisionDamager(this, Constants.terrainDamageInterval, terrainInfos));
 	}
 	
 	

@@ -16,6 +16,7 @@ import jumpingalien.model.TileType;
 import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
 import jumpingalien.model.World;
+import jumpingalien.util.ModelException;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -44,23 +45,73 @@ public class WorldTest {
 	public void tearDown() throws Exception {
 	}
 
+	
+	
 	@Test
 	public void constructor_ok(){
 		assertEquals(world.getTileSize(), 70);
 		assertEquals(world.getNumberOfTiles(), new Vector<>(20, 12));
 		assertEquals(world.getTargetTilePosition(), new Vector<>(19, 11));
+		assertEquals(TileType.AIR, world.getTileTypeOfTile(new Vector<>(12, 8)));
 	}
 	
+	@Test(expected=IllegalArgumentException.class)
+	public void constructor_zero_nb_tiles_x() {
+		world = new World(70, 0, 12, 1024, 751, 19, 11);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void constructor_zero_nb_tiles_y() {
+		world = new World(70, 20, 0, 1024, 751, 19, 11);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void constructor_negative_nb_tiles_x() {
+		world = new World(70, 20, -3, 1024, 751, 19, 11);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void constructor_negative_nb_tiles_y() {
+		world = new World(70, 20, -3, 1024, 751, 19, 11);
+	}
+	
+	
+	
 	@Test
-	public void getSizeInPixels_ok(){
+	public void getTileSize() {
+		assertEquals(70, world.getTileSize());
+	}
+	
+	
+	
+	@Test
+	public void getTileSizeInMeters() {
+		assertTrue(world.getTileSizeInMeters() == 70 * Constants.metersPerPixel);
+	}
+	
+	
+	
+	@Test
+	public void getNumberOfTiles() {
+		assertEquals(new Vector<>(20, 12), world.getNumberOfTiles());
+	}
+	
+	
+	
+	@Test
+	public void getSizeInPixels(){
 		assertEquals(world.getSizeInPixels(), new Vector<>(70*20, 70*12));
 	}
 	
+	
+	
 	@Test
-	public void getSizeInMeters_ok(){
+	public void getSizeInMeters(){
 		assertEquals(world.getSizeInMeters(), new Vector<Double>(70 * 20 * Constants.metersPerPixel,
 				70 * 12 * Constants.metersPerPixel));
 	}
+	
+	
 	
 	@Test
 	public void pixelInWorld_inside(){
@@ -83,6 +134,8 @@ public class WorldTest {
 		assertFalse(world.pixelInWorld(new Vector<>(70 * 20, 70 * 12)));
 	}
 	
+	
+	
 	@Test
 	public void tilePositionInWorld_inside(){
 		assertTrue(world.tilePositionInWorld(new Vector<>(0, 0)));
@@ -104,6 +157,7 @@ public class WorldTest {
 	}
 	
 	
+	
 	@Test
 	public void getBottomLeftPixelOfTile(){
 		Vector<Integer> p = world.getBottomLeftPixelOfTile(new Vector<>(0, 0));
@@ -112,6 +166,8 @@ public class WorldTest {
 		p = world.getBottomLeftPixelOfTile(new Vector<>(5, 5));
 		assertEquals(p, new Vector<>(5*70, 5*70));
 	}
+	
+	
 	
 	@Test
 	public void getTileContainingPixel(){
@@ -127,6 +183,8 @@ public class WorldTest {
 		tile = world.getTileContainingPixel(new Vector<>(70 * 18 - 35, 70 * 10 - 35));
 		assertEquals(tile, new Vector<>(17, 9));
 	}
+	
+	
 	
 	@Test
 	public void getTilePositionsInRectangle(){
@@ -172,13 +230,49 @@ public class WorldTest {
 		}
 	}
 	
+	
+	
 	@Test
-	public void didPlayerWin(){
-		Vector<Double> position = Utilities.pixelsVectorToMeters(Vector.scale(world.getTargetTilePosition(), world.getTileSize()));
-		Mazub mazub = new Mazub(position, JumpingAlienSprites.ALIEN_SPRITESET, 1, 2, 1);
+	public void getVisibleWindow_bottomLeftEdge(){
+		Mazub mazub = new Mazub(new Vector<>(0.0, 0.0), JumpingAlienSprites.ALIEN_SPRITESET, 1, 2, 1);
 		world.setMazub(mazub);
-		assertTrue(world.didPlayerWin());
+		int[] window = world.getVisibleWindow();
+		assertEquals(window[0], 0);
+		assertEquals(window[1], 0);
+		assertEquals(window[2], 1024);
+		assertEquals(window[3], 751);
 	}
+
+	@Test
+	public void getVisibleWindow_topRightEdge(){
+		Mazub mazub = new Mazub(new Vector<>(70 * 20 * Constants.metersPerPixel, 70 * 12 * Constants.metersPerPixel), JumpingAlienSprites.ALIEN_SPRITESET, 1, 2, 1);
+		world.setMazub(mazub);
+		int[] window = world.getVisibleWindow();
+		assertEquals(window[0], 70 * 20 - 1024 - 1);
+		assertEquals(window[1], 70 * 12 - 751 - 1);
+		assertEquals(window[2], 70 * 20 - 1);
+		assertEquals(window[3], 70 * 12 - 1);
+	}
+
+	@Test
+	public void getVisibleWindow_middle(){
+		Mazub mazub = new Mazub(new Vector<>(70 * 10 * Constants.metersPerPixel, 70 * 6 * Constants.metersPerPixel), JumpingAlienSprites.ALIEN_SPRITESET, 1, 2, 1);
+		world.setMazub(mazub);
+		int[] window = world.getVisibleWindow();
+		assertTrue(mazub.getPositionInPixels().x - window[0] > 200);
+		assertTrue(mazub.getPositionInPixels().y - window[1] > 200);
+		assertTrue(window[2] - mazub.getPositionInPixels().x - mazub.getSize().x > 200);
+		assertTrue(window[3] - mazub.getPositionInPixels().y - mazub.getSize().y > 200);
+	}
+	
+	
+	
+	@Test
+	public void getTargetTilePosition() {
+		assertEquals(new Vector<>(19, 11), world.getTargetTilePosition());
+	}
+	
+	
 	
 	@Test
 	public void isGameOver(){
@@ -206,23 +300,111 @@ public class WorldTest {
 		assertTrue(world.isGameOver());
 	}
 	
+	
+	
+	@Test
+	public void didPlayerWin(){
+		Vector<Double> position = Utilities.pixelsVectorToMeters(
+				Vector.scale(world.getTargetTilePosition(), world.getTileSize()));
+		Mazub mazub = new Mazub(position, JumpingAlienSprites.ALIEN_SPRITESET, 1, 2, 1);
+		world.setMazub(mazub);
+		assertTrue(world.didPlayerWin());
+	}
+	
+	@Test
+	public void didPlayerWin_player_already_dead() {
+		Mazub mazub = new Mazub(new Vector<>(0.0, 0.0),
+				JumpingAlienSprites.ALIEN_SPRITESET, 1, 2, 1);
+		world.setMazub(mazub);
+		mazub.setHealth(0);
+		mazub.setPositionInMeters(Utilities.pixelsVectorToMeters(
+				Vector.scale(world.getTargetTilePosition(), world.getTileSize())));
+		assertFalse(world.didPlayerWin());
+	}
+	
+	
+	
+	@Test
+	public void getTileTypes() {
+		TileType[][] types = world.getTileTypes();
+		assertNotNull(types);
+		assertEquals(20, types.length);
+		assertEquals(12, types[0].length);
+		for (TileType[] row : types) {
+			for (TileType type : row) {
+				assertEquals(TileType.AIR, type);
+			}
+		}
+	}
+	
+	
+	
+	@Test
+	public void getTileTypeOfPixel() {
+		assertEquals(TileType.AIR, world.getTileTypeOfPixel(new Vector<>(0, 0)));
+		assertEquals(TileType.AIR, world.getTileTypeOfPixel(new Vector<>(345, 276)));
+		world.setTileType(new Vector<>(1, 1), TileType.MAGMA);
+		assertEquals(TileType.MAGMA, world.getTileTypeOfPixel(new Vector<>(70, 70)));
+		assertEquals(TileType.MAGMA, world.getTileTypeOfPixel(new Vector<>(139, 139)));
+		assertEquals(TileType.AIR, world.getTileTypeOfPixel(new Vector<>(140, 140)));
+	}
+	
+	@Test(expected = ModelException.class)
+	public void getTileTypeOfPixel_pixelNotInWorld() {
+		world.getTileTypeOfPixel(new Vector<>(-10, 80));
+	}
+	
+	
+	
+	@Test
+	public void getTileTypeOfTile() {
+		assertEquals(TileType.AIR, world.getTileTypeOfTile(new Vector<>(2, 5)));
+		world.setTileType(new Vector<>(2, 8), TileType.MAGMA);
+		assertEquals(TileType.AIR, world.getTileTypeOfTile(new Vector<>(2, 5)));
+		assertEquals(TileType.MAGMA, world.getTileTypeOfTile(new Vector<>(2, 8)));
+	}
+	
+	@Test(expected = ModelException.class)
+	public void getTileTypeOfTile_tileNotInWorld() {
+		world.getTileTypeOfTile(new Vector<>(-1, 8));
+	}
+	
+	
+	
 	@Test
 	public void setTileType(){
 		world.setTileType(new Vector<>(0, 0), TileType.GROUND);
-		assertEquals(world.getTileType(new Vector<>(0, 0)), TileType.GROUND);
+		assertEquals(world.getTileTypeOfTile(new Vector<>(0, 0)), TileType.GROUND);
 	}
 	
-	@Test
-	public void unassignedTileShouldBeAir(){
-		assertEquals(world.getTileType(new Vector<>(5, 5)), TileType.AIR);
-	}
+	
 	
 	@Test
-	public void addGameObject(){
+	public void containsGameObject() {
 		Shark shark = Utilities.shark(new Vector<>(0.0, 0.0));
 		world.addGameObject(shark);
 		assertTrue(world.containsGameObject(shark));
+		
+		Vector<Double> position = Utilities.pixelsVectorToMeters(
+				Vector.scale(world.getTargetTilePosition(), world.getTileSize()));
+		Mazub mazub = new Mazub(position, JumpingAlienSprites.ALIEN_SPRITESET, 1, 2, 1);
+		world.addGameObject(mazub);
+		assertTrue(world.containsGameObject(mazub));
+		assertEquals(world.getMazub(), mazub);
+		
+		world.removeGameObject(shark);
+		assertFalse(world.containsGameObject(shark));
+		
+		world.removeGameObject(mazub);
+		assertFalse(world.containsGameObject(mazub));
+		
+		world.setMazub(mazub);
+		assertTrue(world.containsGameObject(mazub));
+		
+		assertFalse(world.containsGameObject(null));
 	}
+	
+	
 	
 	@Test
 	public void removeGameObject(){
@@ -231,7 +413,43 @@ public class WorldTest {
 		assertTrue(world.containsGameObject(shark));
 		world.removeGameObject(shark);
 		assertFalse(world.containsGameObject(shark));
+		
+		Vector<Double> position = Utilities.pixelsVectorToMeters(
+				Vector.scale(world.getTargetTilePosition(), world.getTileSize()));
+		Mazub mazub = new Mazub(position, JumpingAlienSprites.ALIEN_SPRITESET, 1, 2, 1);
+		world.setMazub(mazub);
+		world.removeGameObject(mazub);
+		assertFalse(world.containsGameObject(mazub));
 	}
+	
+	
+	
+	@Test
+	public void addGameObject(){
+		Shark shark = Utilities.shark(new Vector<>(0.0, 0.0));
+		world.addGameObject(shark);
+		assertTrue(world.containsGameObject(shark));
+		
+		Vector<Double> position = Utilities.pixelsVectorToMeters(
+				Vector.scale(world.getTargetTilePosition(), world.getTileSize()));
+		Mazub mazub = new Mazub(position, JumpingAlienSprites.ALIEN_SPRITESET, 1, 2, 1);
+		world.addGameObject(mazub);
+		assertTrue(world.containsGameObject(mazub));
+		assertEquals(mazub, world.getMazub());
+	}
+	
+	
+	
+	@Test
+	public void getMazub() {
+		Vector<Double> position = Utilities.pixelsVectorToMeters(
+				Vector.scale(world.getTargetTilePosition(), world.getTileSize()));
+		Mazub mazub = new Mazub(position, JumpingAlienSprites.ALIEN_SPRITESET, 1, 2, 1);
+		world.setMazub(mazub);
+		assertEquals(mazub, world.getMazub());
+	}
+	
+	
 	
 	@Test
 	public void setMazub(){
@@ -239,6 +457,13 @@ public class WorldTest {
 		world.setMazub(mazub);
 		assertEquals(world.getMazub(), mazub);
 	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void setMazub_invalid() {
+		world.setMazub(null);
+	}
+	
+	
 	
 	@Test
 	public void canHaveAsMazub_ok(){
@@ -251,12 +476,17 @@ public class WorldTest {
 		assertFalse(world.canHaveAsMazub(null));
 	}
 	
+	
+	
 	@Test
 	public void hasProperMazub(){
+		assertFalse(world.hasProperMazub());
 		Mazub mazub = new Mazub(new Vector<>(0.0, 0.0), JumpingAlienSprites.ALIEN_SPRITESET, 1, 2, 1);
 		world.setMazub(mazub);
 		assertTrue(world.hasProperMazub());
 	}
+	
+	
 	
 	@Test
 	public void getGameObjectWithClass(){
@@ -272,7 +502,20 @@ public class WorldTest {
 		for (Shark shark : sharks){
 			assertTrue(objs.contains(shark));
 		}
+		
+		assertEquals(0, world.getGameObjectsWithClass(Mazub.class).size());
+		
+		Vector<Double> position = Utilities.pixelsVectorToMeters(
+				Vector.scale(world.getTargetTilePosition(), world.getTileSize()));
+		Mazub mazub = new Mazub(position, JumpingAlienSprites.ALIEN_SPRITESET, 1, 2, 1);
+		world.setMazub(mazub);
+		
+		Set<Mazub> mazubs = world.getGameObjectsWithClass(Mazub.class);
+		assertEquals(1, mazubs.size());
+		assertTrue(mazubs.contains(mazub));
 	}
+	
+	
 	
 //	@Test
 //	public void objectsOverlap_overlap_obvious(){
@@ -337,6 +580,8 @@ public class WorldTest {
 //		assertFalse(world.objectsOverlap(shark1, shark2));
 //	}
 	
+	
+	
 	@Test
 	public void getObjectsCollidingWithObject_some(){
 		Shark shark1 = Utilities.shark(new Vector<>(0.0, 0.0));
@@ -358,6 +603,8 @@ public class WorldTest {
 		assertEquals(coll.size(), 0);
 	}
 	
+	
+	
 	@Test
 	public void getTilesCollidingWithObject_center(){
 		Shark shark = Utilities.shark(new Vector<>(0.0, 0.0));
@@ -377,38 +624,5 @@ public class WorldTest {
 			assertTrue(tile.getPositionInTiles().x < toX);
 			assertTrue(tile.getPositionInTiles().x < toY);
 		}
-	}
-	
-	@Test
-	public void getVisibleWindow_bottomLeftEdge(){
-		Mazub mazub = new Mazub(new Vector<>(0.0, 0.0), JumpingAlienSprites.ALIEN_SPRITESET, 1, 2, 1);
-		world.setMazub(mazub);
-		int[] window = world.getVisibleWindow();
-		assertEquals(window[0], 0);
-		assertEquals(window[1], 0);
-		assertEquals(window[2], 1024);
-		assertEquals(window[3], 751);
-	}
-
-	@Test
-	public void getVisibleWindow_topRightEdge(){
-		Mazub mazub = new Mazub(new Vector<>(70 * 20 * Constants.metersPerPixel, 70 * 12 * Constants.metersPerPixel), JumpingAlienSprites.ALIEN_SPRITESET, 1, 2, 1);
-		world.setMazub(mazub);
-		int[] window = world.getVisibleWindow();
-		assertEquals(window[0], 70 * 20 - 1024 - 1);
-		assertEquals(window[1], 70 * 12 - 751 - 1);
-		assertEquals(window[2], 70 * 20 - 1);
-		assertEquals(window[3], 70 * 12 - 1);
-	}
-
-	@Test
-	public void getVisibleWindow_middle(){
-		Mazub mazub = new Mazub(new Vector<>(70 * 10 * Constants.metersPerPixel, 70 * 6 * Constants.metersPerPixel), JumpingAlienSprites.ALIEN_SPRITESET, 1, 2, 1);
-		world.setMazub(mazub);
-		int[] window = world.getVisibleWindow();
-		assertTrue(mazub.getPositionInPixels().x - window[0] > 200);
-		assertTrue(mazub.getPositionInPixels().y - window[1] > 200);
-		assertTrue(window[2] - mazub.getPositionInPixels().x - mazub.getSize().x > 200);
-		assertTrue(window[3] - mazub.getPositionInPixels().y - mazub.getSize().y > 200);
 	}
 }

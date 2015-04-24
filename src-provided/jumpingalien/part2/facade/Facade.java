@@ -117,7 +117,8 @@ public class Facade implements IFacadePart2 {
 	}
 
 	@Override
-	public void startGame(World world) {}
+	public void startGame(World world) {
+	}
 
 	@Override
 	public boolean isGameOver(World world) {
@@ -165,7 +166,7 @@ public class Facade implements IFacadePart2 {
 	@Override
 	public int getGeologicalFeature(World world, int pixelX, int pixelY)
 			throws ModelException {
-		return world.getTileType(new Vector<>(pixelX, pixelY)).getNumber();
+		return world.getTileTypeOfTile(new Vector<>(pixelX, pixelY)).getNumber();
 	}
 
 	@Override

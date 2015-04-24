@@ -350,6 +350,9 @@ public class World {
 	 * @return true if the player won the game.
 	 */
 	public boolean didPlayerWin() {
+		if (mazub.isHealthZero()) {
+			return false;
+		}
 		ArrayList<Vector<Integer>> tilePositions = this.getTilePositionsInRectangle(
 				mazub.getPositionInPixels(), mazub.getTopRightPixel());
 		Vector<Integer> targetTilePos = this.getTargetTilePosition();
@@ -411,7 +414,7 @@ public class World {
 	 * 			does not lie in the game world.
 	 * 			| !this.tilePositionInWorld(position)
 	 */
-	public TileType getTileType(Vector<Integer> position) throws ModelException {
+	public TileType getTileTypeOfTile(Vector<Integer> position) throws ModelException {
 		if (!this.tilePositionInWorld(position)) {
 			throw new ModelException("The tile position has to lie in the game world.");
 		}
@@ -453,7 +456,7 @@ public class World {
 	public boolean containsGameObject(GameObject gameObject) {
 		//TODO: Deze documentatie moet nagekeken worden voor de @return en @Basic
 		if (gameObject instanceof Mazub) {
-			return this.getMazub() == mazub;
+			return this.getMazub() == (Mazub) gameObject;
 		}
 		return objects.contains(gameObject);
 	}
@@ -471,9 +474,41 @@ public class World {
 	public void removeGameObject(GameObject gameObject) {
 		if ((gameObject instanceof Mazub) && this.getMazub() == gameObject) {
 			this.mazub = null;
-		}
-		if (this.objects.contains(gameObject)) {
+		} else if (this.objects.contains(gameObject)) {
 			this.objects.remove(gameObject);
+		}
+	}
+	
+	
+	/**
+	 * Adds the given GameObject to the collection of GameObjects in this game world.
+	 * 
+	 * @param object
+	 * 			The GameObject to add.
+	 * 
+	 * @post The given GameObject will be added to the collection of GameObjects in this game world.
+	 * 			| new.containsGameObject(object)
+	 * 
+	 * @post The object will have this world as it's world.
+	 * 			| (new object).getWorld() == new
+	 * 
+	 * @throw IllegalArgumentException
+	 * 			Throws an IllegalArgumentException if the given GameObject is null or terminated.
+	 * 			| object == null || object.isTerminated()
+	 */
+	public void addGameObject(GameObject object) throws IllegalArgumentException {
+		if (object == null) {
+			throw new IllegalArgumentException("The GameObject can't be null or terminated.");
+		}
+		
+		if (object instanceof Mazub) {
+			if (this.getMazub() != null) {
+				throw new IllegalArgumentException("This game world already has a mazub.");
+			}
+			this.setMazub((Mazub) object);
+		} else {
+			this.objects.add(object);
+			object.setWorld(this);
 		}
 	}
 	
@@ -555,37 +590,18 @@ public class World {
 	@Basic
 	public <T extends GameObject> Set<T> getGameObjectsWithClass(Class<T> cls) {
 		Set<T> objects = new HashSet<T>();
+		if (cls.equals(Mazub.class)) {
+			if (this.getMazub() != null) {
+				objects.add(cls.cast(this.getMazub()));
+			}
+			return objects;
+		}
 		for (GameObject obj : this.objects){
 			if (obj.getClass() == cls){
 				objects.add(cls.cast(obj));
 			}
 		}
 		return objects;
-	}
-	
-	
-	/**
-	 * Adds the given GameObject to the collection of GameObjects in this game world.
-	 * 
-	 * @param object
-	 * 			The GameObject to add.
-	 * 
-	 * @post The given GameObject will be added to the collection of GameObjects in this game world.
-	 * 			| new.containsGameObject(object)
-	 * 
-	 * @post The object will have this world as it's world.
-	 * 			| (new object).getWorld() == new
-	 * 
-	 * @throw IllegalArgumentException
-	 * 			Throws an IllegalArgumentException if the given GameObject is null or terminated.
-	 * 			| object == null || object.isTerminated()
-	 */
-	public void addGameObject(GameObject object) throws IllegalArgumentException {
-		if (object == null) {
-			throw new IllegalArgumentException("The GameObject can't be null or terminated.");
-		}
-		this.objects.add(object);
-		object.setWorld(this);
 	}
 	
 	
@@ -638,7 +654,7 @@ public class World {
 				Vector.add(object.getPositionInPixels(), object.getSize()));
 		
 		for (Vector<Integer> position : positions) {
-			TileType type = this.getTileType(position);
+			TileType type = this.getTileTypeOfTile(position);
 			if (object.collidesWithTileType(type)) {
 				Tile tile = new Tile(position, this.getTileSize(), type);
 				collidingTiles.add(tile);

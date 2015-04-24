@@ -625,4 +625,16 @@ public class WorldTest {
 			assertTrue(tile.getPositionInTiles().x < toY);
 		}
 	}
+	
+	
+	
+	@Test
+	public void advanceTime() {
+		Vector<Double> position = Utilities.pixelsVectorToMeters(new Vector<>(70, 140));
+		Mazub mazub = new Mazub(position, JumpingAlienSprites.ALIEN_SPRITESET, 1, 2, 1);
+		world.setMazub(mazub);
+		world.advanceTime(Constants.maxTimeInterval);
+		assertNotEquals(position, mazub.getPositionInMeters());
+	}
+
 }

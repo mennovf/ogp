@@ -49,8 +49,8 @@ public class Shark extends GameObject {
 		
 		this.addCollisionDamager(new TerrainCollisionDamager(this, Constants.sharkAirDamage, Constants.terrainDamageInterval, Constants.terrainDamageInterval, TileType.AIR));
 		this.addCollisionDamager(new TerrainCollisionDamager(this, Constants.magmaDamage, Constants.terrainDamageInterval, 0, TileType.MAGMA));
-		this.addCollisionDamager(new GameObjectCollisionDamager<Mazub>(this, Constants.sharkEnemyDamage, Constants.enemyDamageInterval, Mazub.class));
-		this.addCollisionDamager(new GameObjectCollisionDamager<Slime>(this, Constants.sharkEnemyDamage, Constants.enemyDamageInterval, Slime.class));
+		this.addCollisionDamager(new GameObjectCollisionDamager(this, Constants.sharkEnemyDamage, Constants.enemyDamageInterval, Mazub.class));
+		this.addCollisionDamager(new GameObjectCollisionDamager(this, Constants.sharkEnemyDamage, Constants.enemyDamageInterval, Slime.class));
 	}
 	
 	
@@ -265,8 +265,4 @@ public class Shark extends GameObject {
 		}
 		this.setAcceleration(this.getAcceleration().setY(0.0));
 	}
-
-
-	@Override
-	protected void handleCollision(GameObject object) {}
 }

@@ -3,6 +3,8 @@ package jumpingalien.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import jumpingalien.model.Reactions.GameObjectCollisionDamager;
+import jumpingalien.model.Reactions.PlantMazubCollisionDamager;
 import jumpingalien.util.Sprite;
 
 public class Plant extends GameObject {
@@ -25,6 +27,8 @@ public class Plant extends GameObject {
 		
 		super(1, 1, position, sprites, true);
 		this.setSpeed(this.getSpeed().setX(Constants.plantSpeed));
+		
+		this.addCollisionDamager(new PlantMazubCollisionDamager(this, -1, 0));
 	}
 	
 	
@@ -61,13 +65,13 @@ public class Plant extends GameObject {
 	}
 	
 	
-	@Override
-	protected void handleCollision(GameObject object) {
-		if (this.isAlive()){
-			if ((object instanceof Mazub) && !(this.isHealthZero()) && (object.getHealth() != object.getMaximumHealth())){
-				this.setHealth(0);
-			}
-		}
+//	@Override
+//	protected void handleCollision(GameObject object) {
+//		if (this.isAlive()){
+//			if ((object instanceof Mazub) && !(this.isHealthZero()) && (object.getHealth() != object.getMaximumHealth())){
+//				this.setHealth(0);
+//			}
+//		}
 		
 	}
 	
@@ -88,4 +92,3 @@ public class Plant extends GameObject {
 //        this.setPosition(newPosition);
 //        this.setCurrentSprite(this.getSprites()[this.getFacing() < 0 ? 0 : 1]);
 //	}
-}

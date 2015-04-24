@@ -26,7 +26,7 @@ public abstract class CollisionDamager {
 	}
 	
 	protected boolean canTakeDamage() {
-		return (this.timeSince > this.timeInterval);
+		return (this.timeSince > this.timeInterval) && !(owner.isHealthZero());
 	}
 
 	public void advanceTime(double dt) {

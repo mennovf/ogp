@@ -910,29 +910,30 @@ public abstract class GameObject implements Collidable {
 		Set<Collidable> collidables = new HashSet<Collidable>();
 		collidables.addAll(collidingObjects);
 		collidables.addAll(collidingTiles);
-		for (Collidable collidable : collidables){
-			for (CollisionDamager damager : this.collisionDamagers){
-				if (damager.doesReactTo(collidable)){
-					damager.reactTo(collidable);
-				}
-			}
-		}
 		
-		for (GameObject object : collidingObjects){
+		for (Collidable collidable : collidables){
 			//Delegate the collision to both parties involved
 			//Each party only has to worry about it's own state changes
-			handleCollision(object);
-			object.handleCollision(this);
+			this.handleCollision(collidable);
+			if (collidable instanceof GameObject){
+				((GameObject)collidable).handleCollision(this);
+			}
 		}
 	}
 	
 	/**
 	 * Handle the collision of a single game object.
 	 * 
-	 * @param object
+	 * @param collidable
 	 * 			The object with which this one collides.
 	 */
-	protected abstract void handleCollision(GameObject object);
+	protected void handleCollision(Collidable collidable){
+		for (CollisionDamager damager : this.collisionDamagers){
+			if (damager.doesReactTo(collidable)){
+				damager.reactTo(collidable);
+			}
+		}
+	}
 	
 	
 	/**

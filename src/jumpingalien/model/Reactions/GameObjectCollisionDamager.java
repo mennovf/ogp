@@ -3,17 +3,17 @@ package jumpingalien.model.Reactions;
 import jumpingalien.model.Collidable;
 import jumpingalien.model.GameObject;
 
-public class GameObjectCollisionDamager<T extends GameObject> extends CollisionDamager {
+public class GameObjectCollisionDamager extends CollisionDamager {
 
-	Class<T> collideWith;
+	Class<? extends GameObject> collideWith;
 	public GameObjectCollisionDamager(GameObject owner, int damage,
-			double timeInterval, Class<T> gameobj) {
+			double timeInterval, Class<? extends GameObject> gameobj) {
 		super(owner, damage, timeInterval);
 		this.collideWith = gameobj;
 	}
 
 	@Override
 	public boolean doesReactTo(Collidable obj) {
-		return (obj.getClass() == collideWith);
+		return (obj.getClass() == collideWith) && !(((GameObject)obj).isHealthZero());
 	}
 }

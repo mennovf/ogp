@@ -100,8 +100,9 @@ public class Mazub extends GameObject {
 		
 		this.setAcceleration(this.getAcceleration().setY(getMaxAcceleration().y));
 		
-		this.addCollisionDamager(new GameObjectCollisionDamager<Shark>(this, Constants.mazubEnemyDamage, Constants.enemyDamageInterval, Shark.class));
-		this.addCollisionDamager(new GameObjectCollisionDamager<Slime>(this, Constants.mazubEnemyDamage, Constants.enemyDamageInterval, Slime.class));
+		this.addCollisionDamager(new GameObjectCollisionDamager(this, Constants.mazubEnemyDamage, Constants.enemyDamageInterval, Shark.class));
+		this.addCollisionDamager(new GameObjectCollisionDamager(this, Constants.mazubEnemyDamage, Constants.enemyDamageInterval, Slime.class));
+		this.addCollisionDamager(new GameObjectCollisionDamager(this, Constants.mazubPlantHealthGain, 0, Plant.class));
 		this.addCollisionDamager(new TerrainCollisionDamager(this, Constants.magmaDamage, Constants.terrainDamageInterval, 0, TileType.MAGMA));
 		this.addCollisionDamager(new TerrainCollisionDamager(this, Constants.waterDamage, Constants.terrainDamageInterval, Constants.terrainDamageInterval, TileType.WATER));
 	}
@@ -226,12 +227,12 @@ public class Mazub extends GameObject {
 	}
 	
 	
-	@Override
-	protected void handleCollision(GameObject object) {
-		if ((object instanceof Plant) && !object.isHealthZero() && (this.getHealth() < this.getMaximumHealth())) {
-			this.increaseHealth(Constants.mazubPlantHealthGain);
-        }
-	}
+//	@Override
+//	protected void handleCollision(GameObject object) {
+//		if ((object instanceof Plant) && !object.isHealthZero() && (this.getHealth() < this.getMaximumHealth())) {
+//			this.increaseHealth(Constants.mazubPlantHealthGain);
+//        }
+//	}
 	
 
 	/**

@@ -45,8 +45,8 @@ public class Slime extends GameObject {
 		this.setSchool(school);
 		school.addSlime(this);
 		
-		this.addCollisionDamager(new GameObjectCollisionDamager<Mazub>(this, Constants.slimeEnemyContactDamage, Constants.enemyDamageInterval, Mazub.class));
-		this.addCollisionDamager(new GameObjectCollisionDamager<Shark>(this, Constants.slimeEnemyContactDamage, Constants.enemyDamageInterval, Shark.class));
+		this.addCollisionDamager(new GameObjectCollisionDamager(this, Constants.slimeEnemyContactDamage, Constants.enemyDamageInterval, Mazub.class));
+		this.addCollisionDamager(new GameObjectCollisionDamager(this, Constants.slimeEnemyContactDamage, Constants.enemyDamageInterval, Shark.class));
 		this.addCollisionDamager(new TerrainCollisionDamager(this, Constants.magmaDamage, Constants.terrainDamageInterval, 0, TileType.MAGMA));
 		this.addCollisionDamager(new TerrainCollisionDamager(this, Constants.waterDamage, Constants.terrainDamageInterval, Constants.terrainDamageInterval, TileType.WATER));
 	}
@@ -211,9 +211,10 @@ public class Slime extends GameObject {
 
 
 	@Override
-	protected void handleCollision(GameObject object) {
-		if ((object instanceof Slime)){
-			Slime other = (Slime)object;
+	protected void handleCollision(Collidable collidable) {
+		super.handleCollision(collidable);
+		if ((collidable instanceof Slime)){
+			Slime other = (Slime)collidable;
 			if (other.getSchool().size() > this.getSchool().size()){
 				School.switchSchools(this.getSchool(), other.getSchool(), this);
 			}

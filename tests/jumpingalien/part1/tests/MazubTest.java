@@ -21,6 +21,9 @@ public class MazubTest {
 	private final double testVxMax = 3.0;
 	private final double testStartDirection = 1.0;
     private final Sprite[] sprites = JumpingAlienSprites.ALIEN_SPRITESET;
+    
+    private Mazub mazub;
+	private World world;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -29,9 +32,6 @@ public class MazubTest {
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 	}
-	
-	private Mazub mazub;
-	private World world;
 
 	@Before
 	public void setUp() throws Exception {
@@ -49,14 +49,6 @@ public class MazubTest {
 
 	@After
 	public void tearDown() throws Exception {
-	}
-	
-	
-	
-	// Constructor tests
-	@Test(expected=IllegalArgumentException.class)
-	public void contructor_invalidPosition(){
-		new Mazub(new Vector<>(-1.0, 0.0), JumpingAlienSprites.ALIEN_SPRITESET, testVxInit, testVxMax, 1);
 	}
 	
 	

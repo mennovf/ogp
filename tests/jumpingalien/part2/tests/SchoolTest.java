@@ -1,5 +1,9 @@
 package jumpingalien.part2.tests;
 import static org.junit.Assert.*;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import jumpingalien.model.School;
 import jumpingalien.model.Slime;
 import jumpingalien.model.Utilities;
@@ -63,6 +67,22 @@ public class SchoolTest {
 		school.addSlime(null);
 	}
 	
+	
+	
+	@Test
+	public void removeSlime() {
+		school.removeSlime(slime);
+		assertFalse(school.containsSlime(slime));
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void removeSlime_notContainedSlime() {
+		school.removeSlime(slime);
+		school.removeSlime(slime);
+	}
+	
+	
+	
 	@Test
 	public void containSlime_contains(){
 		school.addSlime(slime);
@@ -73,6 +93,8 @@ public class SchoolTest {
 	public void containsSlime_doesntContain(){
 		assertFalse(school.containsSlime(null));
 	}
+	
+	
 	
 	@Test
 	public void switchSchoolsOfSlimeTo_ok(){
@@ -101,6 +123,17 @@ public class SchoolTest {
 		}
 	}
 	
+	
+	
+	@Test
+	public void getSlimes() {
+		Set<Slime> slimes = new HashSet<Slime>();
+		slimes.add(slime);
+		assertEquals(slimes, school.getSlimes());
+	}
+	
+	
+	
 	@Test
 	public void size(){
 		assertEquals(school.size(), 1);
@@ -108,6 +141,8 @@ public class SchoolTest {
 		School.switchSchoolsOfSlimeTo(slime, otherSchool);
 		assertEquals(school.size(), 0);
 	}
+	
+	
 	
 	@Test
 	public void takeDamageCausedBy(){

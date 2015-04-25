@@ -118,7 +118,8 @@ public class Mazub extends GameObject {
 			double vxInit, double vxMax, double direction)
 			throws NullPointerException, IllegalArgumentException{
 		
-		super(100, 500, position, sprites);
+		super(Constants.mazubBeginHealth, Constants.mazubMaxHealth,
+				position, sprites);
 		
 		if (!Mazub.isValidDirection(direction)) {
 			throw new IllegalArgumentException("direction is not valid.");

@@ -16,6 +16,11 @@
 	+ TileType
 	+ Vector
 	+ World
+	+ Motion
+	+ Mazub
+	+ Plant
+	+ Shark
+	+ Slime
 - cleanup
 - Bij het opeten van de plant die Mazub 500 levens zou geven verdwijnt die laatste plants niet
   omdat mazub zijn healht wordt geupdated voor de plant de collision verwerkt. (Kan opgelost worden door de "updates" te queuen

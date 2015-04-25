@@ -1,6 +1,7 @@
 package jumpingalien.part2.tests;
 
 import static org.junit.Assert.*;
+import jumpingalien.model.Constants;
 import jumpingalien.model.Shark;
 import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
@@ -32,7 +33,23 @@ public class SharkTest {
 	}
 	
 	@Test
-	public void constructor_ok(){
+	public void constructor_ok() {
 		assertTrue(shark.getPositionInPixels().x == 0.0 && shark.getPositionInPixels().y == 0.0);
+	}
+	
+	@Test
+	public void setSpeed_ok() {
+		shark.setSpeed(new Vector<>(0.0, 0.0));
+		assertEquals(0.0, shark.getSpeed().x, 1e-7);
+		assertEquals(0.0, shark.getSpeed().y, 1e-7);
+	}
+
+	@Test
+	public void setSpeed_clipped() {
+		shark.setSpeed(new Vector<>(Constants.sharkMaxHorizontalSpeed + 1, 0.0));
+		assertEquals(Constants.sharkMaxHorizontalSpeed, shark.getSpeed().x, 1e-7);
+
+		shark.setSpeed(new Vector<>(-Constants.sharkMaxHorizontalSpeed - 1, 0.0));
+		assertEquals(-Constants.sharkMaxHorizontalSpeed, shark.getSpeed().x, 1e-7);
 	}
 }

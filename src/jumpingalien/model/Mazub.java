@@ -18,6 +18,8 @@ import jumpingalien.model.Reactions.TerrainDamageInfo;
  * @invar Mazub's horizontal speed does not exceed the maximum speed.
  * 			| Mazub.isValidSpeed(this.getSpeed())
  * 
+ * @invar See GameObject
+ * 
  * @author Rugen Heidbuchel & Menno Vanfrachem
  * @version 1.0
  */
@@ -89,10 +91,10 @@ public class Mazub extends GameObject {
 	 * @param direction
 	 * 			The direction Mazub is facing. -1 means he's facing left, +1 means he's facing right.
 	 * 
-	 * @post The sprites should not be null
+	 * @pre The sprites should not be null
 	 * 			| sprites != null
 	 * 
-	 * @post The amount of sprites should be bigger than or 8 and even.
+	 * @pre The amount of sprites should be bigger than or 8 and even.
 	 * 			| sprites.length > 8 && (sprites.length % 2) == 0
 	 * 
 	 * @throws NullPointerException
@@ -102,6 +104,15 @@ public class Mazub extends GameObject {
 	 * @throws IllegalArgumentException
 	 * 			Throws an IllegalArgumentException when the position and/or direction are not valid.
 	 * 			| !Mazub.isValidPosition(new Vector<>(x, y)) || !Mazub.isValidDirection(direction)
+	 * 
+	 * @effect 
+	 * 			| setPositionInMeters(position)
+	 * 
+	 * @effect
+	 * 			| setFacing(direction)
+	 * 
+	 * @post The currentSprite will be sprite 0.
+	 * 			| new.getCurrentSprite() == sprites[0]
 	 */
 	public Mazub(Vector<Double> position, Sprite[] sprites,
 			double vxInit, double vxMax, double direction)
@@ -292,8 +303,12 @@ public class Mazub extends GameObject {
 	 * @post	The horizontal speed shall be set to +- vxInit.
 	 * 			| new.getSpeed().x == direction * this.vxInit
 	 * 
-	 * @post	isMoving shall be set to true.
-	 * 			| new.isMoving == true
+	 * @post If this Mazub's not ducking, he'll have a positive acceleration in the facing direction.
+	 * 			| if (mazub not ducking)
+	 * 			| then new.getAcceleration().x == direction * Constants.mazubHorizontalAcceleration
+	 * 
+	 * @effect
+	 * 			| setFacing(direction)
 	 */
 	public void startMove(double direction) {
 		assert Mazub.isValidDirection(direction);
@@ -312,6 +327,9 @@ public class Mazub extends GameObject {
 	 * 
 	 * @post Horizontal speed will be zero
 	 * 			| new.getSpeed().x == 0
+	 * 
+	 * @post Horizontal acceleration will be zero.
+	 * 			| new.getAcceleration().x == 0
 	 */
 	public void endMove() {
 		this.amountOfTimesStartMoveCalled -= 1;
@@ -327,8 +345,8 @@ public class Mazub extends GameObject {
 	/**
 	 * Starts the jump of this Mazub.
 	 * 
-	 * @post Mazub's vertical speed will be different from zero
-	 * 			| new.getSpeed().y != 0
+	 * @post Mazub's vertical speed will be equal to Constants.mazubInitialJumpSpeed.
+	 * 			| new.getSpeed().y == Constants.mazubInitialJumpSpeed
 	 */
 	public void startJump() {
 		if (onGround()){
@@ -367,6 +385,9 @@ public class Mazub extends GameObject {
 	
 	/**
 	 * Ends the duck of this Mazub.
+	 * 
+	 * @post If mazub can stand up where he is right now, he'll stand up.
+	 * 		 Otherwise he'll stand up as soon as he can.
 	 */
 	public void endDuck() {
 		this.wantsToStandUp = true;
@@ -377,8 +398,8 @@ public class Mazub extends GameObject {
 
 	/**
 	 * Determines whether or not Mazub can stand up currently.
-	 * @return Whether Mazub can stand up currently.
 	 * 
+	 * @return Whether Mazub can stand up currently.
 	 */
 	private boolean canStand() {
 		//Set up for cleanup

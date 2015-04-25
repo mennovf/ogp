@@ -17,6 +17,8 @@ import jumpingalien.util.Sprite;
  * 
  * @invar The slime must always have a valid school.
  * 			| this.hasProperSchool()
+ * 
+ * @invar See GameObject.
  */
 public class Slime extends GameObject {
 	
@@ -43,11 +45,12 @@ public class Slime extends GameObject {
 	 * @param school
 	 * 			The school of the slime.
 	 * 
-	 * @effect super(Constants.slimeBeginHealth, Constants.slimeMaxHealth,
-	 * 			position, sprites)
+	 * @effect Sets the school of the slime.
+	 * 			| this.setSchool(school)
 	 * 
-	 * @effect this.setSchool(school)
-	 */
+	 * @effect Calls GameObject's constructor.
+	 * 			| super(Constants.slimeBeginHealth, Constants.slimeMaxHealth, position, sprites)
+	 */ 
 	public Slime(Vector<Double> position, Sprite[] sprites, School school) throws IllegalArgumentException {
 		
 		super(Constants.slimeBeginHealth, Constants.slimeMaxHealth, position, sprites);
@@ -165,6 +168,10 @@ public class Slime extends GameObject {
 	
 	/**
 	 * Overrides the setSpeed method of gameObject to clip the speed within the allowed range.
+	 * 
+	 * @post The horizontal speed of this slime (in absolute value) will not be bigger than the
+	 * 			maximum allowed horizontal speed.
+	 * 			| Math.abs(new.getSpeed().x) <= Constants.slimeMaxHorizontalSpeed
 	 */
 	@Override
 	public void setSpeed(Vector<Double> speed) {
@@ -199,9 +206,10 @@ public class Slime extends GameObject {
 	 * @param amount
 	 * 			The amount of damage taken.
 	 * 
-	 * @effect Lowers the health of this object by damage and deal 1 point of 
-	 * 			damage to the slimes belonging to this slime's school.
-	 * 			| this.increaseHealht(damage).
+	 * @effect Lowers the health of this object by damage.
+	 * 			| this.increaseHealth(damage).
+	 * 
+	 * @effect  Deal 1 point of damage to the slimes belonging to this slime's school.
 	 * 			| this.getSchool().takeDamageCausedBy(this)
 	 */
 	@Override
@@ -253,7 +261,7 @@ public class Slime extends GameObject {
 		if ((collidable instanceof Slime)){
 			Slime other = (Slime)collidable;
 			if (other.getSchool().size() > this.getSchool().size()){
-				School.switchSchools(this.getSchool(), other.getSchool(), this);
+				School.switchSchoolsOfSlimeTo(this, other.getSchool());
 			}
 		}
 	}

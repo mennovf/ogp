@@ -30,6 +30,15 @@ public class Motion {
 	 * 
 	 * @param acceleration
 	 * 			The acceleration in m/(s^2) to create the motion object with.
+	 * 
+	 * @effect
+	 * 			| setPosition(position)
+	 * 
+	 * @effect
+	 * 			| setSpeed(speed)
+	 * 
+	 * @effect
+	 * 			| setAcceleration(acceleration)
 	 */
 	public Motion(@Raw GameObject gameObject, Vector<Double> position, Vector<Double> speed, Vector<Double> acceleration) {
 		this.gameObject = gameObject;
@@ -116,6 +125,9 @@ public class Motion {
 	/**
 	 * Lets this motion object make one time step.
 	 * 
+	 * @param maxStep
+	 * 			The maximum amount of time step() may progress.
+	 * 
 	 * @return The time this motion object stepped.
 	 * 
 	 * @post The position and speed will be altered accordingly.
@@ -126,13 +138,13 @@ public class Motion {
 	 * 			| (new r) = (old r) + v*dt + a*(dt^2)/2
 	 * 			| (new v) = (old v) + a*dt
 	 */
-	public Double step(double totalTime) {
+	public Double step(double maxStep) {
 		
 		Vector<Double> a = this.getAcceleration();
 		Vector<Double> v = this.getSpeed();
 		Vector<Double> r = this.getPosition();
 		
-		double dt = totalTime;
+		double dt = maxStep;
 		
 		if (v.x != 0) {
 			double candidateDt = Math.abs(0.01 / v.x);

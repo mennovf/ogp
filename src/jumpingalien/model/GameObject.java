@@ -301,6 +301,15 @@ public abstract class GameObject implements Collidable {
 	}
 	
 	/**
+	 * Returns the set of collision damagers this game object
+	 * contains.
+	 */
+	@Basic
+	public Set<CollisionDamager> getCollisionDamagers() {
+		return this.collisionDamagers;
+	}
+	
+	/**
 	 * Adds a CollisionDamager to this GameObject.
 	 * 
 	 * @param damager
@@ -308,6 +317,7 @@ public abstract class GameObject implements Collidable {
 	 * @post This GameObject will receive damage due to collisions in this object's world
 	 * 		 according to damager.
 	 */
+	@Basic
 	public void addCollisionDamager(CollisionDamager damager) {
 		this.collisionDamagers.add(damager);
 	}
@@ -354,8 +364,10 @@ public abstract class GameObject implements Collidable {
 	
 	/**
 	 * Causes this object to take lose an amount of hitpoints specified by damage.
+	 * 
 	 * @param damage
 	 * 			The amount of damage taken.
+	 * 
 	 * @effect Lowers the health of this object by damage.
 	 * 			| this.increaseHealht(damage).
 	 */

@@ -55,6 +55,16 @@ public class Constants {
 	// MAZUB
 	
 	/**
+	 * The amount of hitpoints a mazub begins with.
+	 */
+	public final static int mazubBeginHealth = 100;
+	
+	/**
+	 * The maximum amount of hitpoints a mazub can have.
+	 */
+	public final static int mazubMaxHealth = 500;
+	
+	/**
 	 * The amount of health Mazub gains when eating a plant.
 	 */
 	public final static int mazubPlantHealthGain = 50;

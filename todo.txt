@@ -1,6 +1,7 @@
 - Tests afwerken
 	al afgewerkt:
 	+ GameObject
+	+ Slime
 	+ Tile
 	+ TileType
 	+ Vector

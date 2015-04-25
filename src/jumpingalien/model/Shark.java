@@ -94,7 +94,7 @@ public class Shark extends GameObject {
 	/**
 	 * Overrides the setSpeed method of gameObject to clip the speed within the allowed range.
 	 * 
-	 * @post The speed of this shark (in absolute value) will not be bigger than the
+	 * @post The horizontal speed of this shark (in absolute value) will not be bigger than the
 	 * 			maximum allowed horizontal speed.
 	 * 			| Math.abs(new.getSpeed().x) <= Constants.sharkMaxHorizontalSpeed
 	 */

@@ -1,10 +1,10 @@
 - Tests afwerken
 	al afgewerkt:
-	+ World
 	+ GameObject
 	+ Tile
 	+ TileType
 	+ Vector
+	+ World
 - @post enzovoort afwerken
 	al nagekeken:
 	+ Collidable

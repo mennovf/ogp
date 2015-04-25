@@ -242,7 +242,7 @@ public class Slime extends GameObject {
 		if ((collidable instanceof Slime)){
 			Slime other = (Slime)collidable;
 			if (other.getSchool().size() > this.getSchool().size()){
-				School.switchSchools(this.getSchool(), other.getSchool(), this);
+				School.switchSchoolsOfSlimeTo(this, other.getSchool());
 			}
 		}
 	}

@@ -75,7 +75,7 @@ public class SchoolTest {
 	}
 	
 	@Test
-	public void switchSchools_ok(){
+	public void switchSchoolsOfSlimeTo_ok(){
 		int amount1 = 5;
 		for (int i = 0; i < amount1; ++i){
 			Utilities.slime(new Vector<>(0.0, 0.0), school);
@@ -86,7 +86,7 @@ public class SchoolTest {
 			Utilities.slime(new Vector<>(0.0, 0.0), school2);
 		}
 		school.addSlime(slime);
-		School.switchSchools(school, school2, slime);
+		School.switchSchoolsOfSlimeTo(slime, school2);
 		assertTrue(school2.containsSlime(slime));
 		assertFalse(school.containsSlime(slime));
 		assertEquals(slime.getSchool(), school2);
@@ -105,7 +105,7 @@ public class SchoolTest {
 	public void size(){
 		assertEquals(school.size(), 1);
 		School otherSchool = new School();
-		School.switchSchools(school, otherSchool, slime);
+		School.switchSchoolsOfSlimeTo(slime, otherSchool);
 		assertEquals(school.size(), 0);
 	}
 	

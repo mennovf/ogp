@@ -114,17 +114,14 @@ public class School {
 	/**
 	 * Switches the slime between the two given schools and updates the hitpoints accordingly.
 	 * 
-	 * @param fromSchool
-	 * 			The school to leave from.
-	 * 
 	 * @param toSchool
 	 * 			The school to go to.
 	 * 
 	 * @param slime
 	 * 			The slime to switch.
 	 * 
-	 * @pre The school the slime wants to switch from has to contain the slime.
-	 * 			| fromSchool.containsSlime(slime)
+	 * @pre The slime should be part of a school.
+	 * 			| slime.hasProperSchool()
 	 * 
 	 * @pre The school the slime wants to switch to has to be able to contain the slime.
 	 * 			| toSchool.canHaveAsSlime(slime)
@@ -133,13 +130,13 @@ public class School {
 	 * 			| (new toSchool).containsSlime(new slime)
 	 * 
 	 * @post The school the slime switched from will no longer contain the slime.
-	 * 			| !(new fromSchool).containsSlime(new slime)
+	 * 			| !(new (oldSlime.getSchool())).containsSlime(new slime)
 	 * 
 	 * @post The slime will now have the school it switched to as it's school.
 	 * 			| (new slime).getSchool() == (new toSchool)
 	 * 
 	 * @effect All slimes in the old school will gain one hitpoint.
-	 * 			| for each schoolSlime in fromSchool.getSlimes():
+	 * 			| for each schoolSlime in oldSlime.getSchool().getSlimes():
 	 * 			|	if schoolSlime != slime:
 	 * 			|		schoolSlime.increaseHealth(1)
 	 * 
@@ -151,16 +148,19 @@ public class School {
 	 * 			school and lost 1 hitpoint from every slime in the old school.
 	 * 			| slime.increaseHealth(toSchool.size() - 1 - fromSchool.size())
 	 */
-	public static void switchSchools(School fromSchool, School toSchool, Slime slime) {
+	public static void switchSchoolsOfSlimeTo(Slime slime, School toSchool) {
+		assert slime.hasProperSchool();
+		School fromSchool = slime.getSchool();
 		assert fromSchool.containsSlime(slime) && School.canHaveAsSlime(slime);
-		fromSchool.removeSlime(slime);
 		for (Slime fromSlime: fromSchool.getSlimes()) {
-			fromSlime.increaseHealth(1);
+			if (fromSlime != slime) {
+				fromSlime.increaseHealth(1);
+			}
 		}
 		for (Slime toSlime: toSchool.getSlimes()) {
 			toSlime.increaseHealth(-1);
 		}
-		slime.increaseHealth(toSchool.size() - fromSchool.size());
+		slime.increaseHealth(toSchool.size() - fromSchool.size() + 1);
 		toSchool.addSlime(slime);
 	}
 	

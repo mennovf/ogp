@@ -3,27 +3,43 @@ package jumpingalien.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import be.kuleuven.cs.som.annotate.*;
+
 /**
  * A class representing a school of slimes.
+ * 
+ * @invar All slimes this school contains will be valid slimes.
+ * 			| for each slime in this.getSlimes():
+ * 			|	this.canHaveAsSlime(slime)
  * 
  * @author Rugen Heidbuchel, Menno Vanfrachem
  */
 public class School {
 
+	/**
+	 * A set will all slimes this school contains.
+	 */
 	private Set<Slime> slimes = new HashSet<>();
 	
 	
 	/**
 	 * Creates a new empty school.
+	 * 
+	 * @post The school will have no slimes.
+	 * 			| new.getSlimes() == new HashSet<Slime>()
 	 */
 	public School() {}
 	
 	
 	/**
+	 * Returns whether this school can have the given slime as a slime.
+	 * 
 	 * @param slime
 	 * 			The slime to check.
 	 * 
 	 * @return Whether this school can have the given slime as a slime.
+	 * 			The slime cannot be null.
+	 * 			| slime != null
 	 */
 	public static boolean canHaveAsSlime(Slime slime) {
 		return slime != null;
@@ -47,6 +63,7 @@ public class School {
 	 * 			Throws an IllegalArgumentException when this school can't have the given slime as a slime.
 	 * 			| !this.canHaveAsSlime(slime)
 	 */
+	@Basic
 	public void addSlime(Slime slime) throws IllegalArgumentException {
 		if (!School.canHaveAsSlime(slime)) {
 			throw new IllegalArgumentException("The given slime is not valid.");
@@ -71,6 +88,7 @@ public class School {
 	 * 			Throws an IllegalArgumentException when this school does not contain the given slime.
 	 * 			| !this.containsSlime(slime)
 	 */
+	@Basic
 	public void removeSlime(Slime slime) {
 		if (!this.containsSlime(slime)) {
 			throw new IllegalArgumentException("School does not contain the slime to remove.");
@@ -80,13 +98,16 @@ public class School {
 	
 	
 	/**
+	 * Returns whether this school contains the given slime.
+	 * 
 	 * @param slime
 	 * 			The slime to check.
 	 * 
 	 * @return Whether this school contains the given slime.
+	 * 			| slime == null ? false : this.getSlimes().contains(slime)
 	 */
 	public boolean containsSlime(Slime slime) {
-		return slime == null ? false : this.slimes.contains(slime);
+		return slime == null ? false : this.getSlimes().contains(slime);
 	}
 	
 	
@@ -117,7 +138,18 @@ public class School {
 	 * @post The slime will now have the school it switched to as it's school.
 	 * 			| (new slime).getSchool() == (new toSchool)
 	 * 
-	 * no style specified -> nominally
+	 * @effect All slimes in the old school will gain one hitpoint.
+	 * 			| for each schoolSlime in fromSchool.getSlimes():
+	 * 			|	if schoolSlime != slime:
+	 * 			|		schoolSlime.increaseHealth(1)
+	 * 
+	 * @effect All slimes in the new school will lose one hitpoint.
+	 * 			| for each schoolSlime in toSchool.getSlimes():
+	 * 			|	schoolSlime.increaseHealth(-1);
+	 * 
+	 * @effect The slime will gain 1 hitpoint from every slime in the new
+	 * 			school and lost 1 hitpoint from every slime in the old school.
+	 * 			| slime.increaseHealth(toSchool.size() - 1 - fromSchool.size())
 	 */
 	public static void switchSchools(School fromSchool, School toSchool, Slime slime) {
 		assert fromSchool.containsSlime(slime) && School.canHaveAsSlime(slime);
@@ -128,14 +160,17 @@ public class School {
 		for (Slime toSlime: toSchool.getSlimes()) {
 			toSlime.increaseHealth(-1);
 		}
-		slime.increaseHealth(toSchool.getSlimes().size() - fromSchool.getSlimes().size());
+		slime.increaseHealth(toSchool.size() - fromSchool.size());
 		toSchool.addSlime(slime);
 	}
 	
+	
 	/**
 	 * Returns a set of all the slimes in this school.
+	 * 
 	 * @return A set of all the slimes in this school.
 	 */
+	@Basic
 	public Set<Slime> getSlimes(){
 		return this.slimes;
 	}
@@ -143,23 +178,25 @@ public class School {
 	
 	/**
 	 * Returns the number of slimes currently part of this school.
+	 * 
 	 * @return The number of slimes currently part of this school.
+	 * 			| this.getSlimes.size()
 	 */
 	public int size(){
-		return this.slimes.size();
+		return this.getSlimes().size();
 	}
 	
 	/**
-	 * Has every slime part of this school take 1 point of damage. The Slime slime is ignored.
-	 * @param slime
-	 * 			The slime which has recieved damage.
+	 * Has every slime part of this school take 1 point of damage.
+	 * The Slime slime is ignored.
 	 * 
-	 * @post Every slime will have lost one health.
-	 * 			| for (Slime slime : getSlimes()){
-	 * 			| 	slime.getHealth() == (old)slime.getHealth(-1)
-	 * 			|}
-	 * @post The Slime slime will have it's health unaffected.
-	 * 			| slime.getHealth() == old.getHealth()
+	 * @param slime
+	 * 			The slime which has received damage.
+	 * 
+	 * @effect Every slime will lose one hitpoint.
+	 * 			| for each schoolSlime in this.getSlimes():
+	 * 			|	if schoolSlime != slime:
+	 * 			|		schoolSlime.increaseHealth(-1)
 	 */
 	public void takeDamageCausedBy(Slime slime){
 		for (Slime member : this.slimes){

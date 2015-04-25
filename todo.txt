@@ -11,6 +11,7 @@
 	+ Collidable
 	+ Constants
 	+ GameObject
+	+ School
 	+ Tile
 	+ TileType
 	+ Vector

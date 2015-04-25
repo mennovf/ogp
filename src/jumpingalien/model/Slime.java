@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import be.kuleuven.cs.som.annotate.*;
 import jumpingalien.model.Reactions.GameObjectCollisionDamager;
 import jumpingalien.model.Reactions.TerrainCollisionDamager;
 import jumpingalien.model.Reactions.TerrainDamageInfo;
@@ -19,8 +20,14 @@ import jumpingalien.util.Sprite;
  */
 public class Slime extends GameObject {
 	
+	/**
+	 * The time left in the current movement period of this slime.
+	 */
 	private double moveTimeLeft = 0;
 	
+	/**
+	 * The school this slime is in.
+	 */
 	private School school;
 	
 	
@@ -72,8 +79,7 @@ public class Slime extends GameObject {
 	 * 			| !(school == null)
 	 */
 	public static boolean canHaveAsSchool(School school) {
-		return !(school == null) /*&& !school.isTerminated()*/;
-		//TODO: Check exact definition of isTerminated
+		return school != null;
 	}
 	
 	
@@ -98,12 +104,14 @@ public class Slime extends GameObject {
 	 * @post The new school will contain this slime.
 	 * 			| new.getSchool().containsSlime(new)
 	 * 
-	 * @post The old school will no longer contain this slime.
+	 * @post If this slime already had a school, the old school
+	 * 			will no longer contain this slime.
 	 * 			| !old.getSchool().containsSlime(new)
 	 * 
 	 * @throws IllegalArgumentException
 	 * 			Throws an IllegalArgumentException when this slime can't have the given school as school.
 	 */
+	@Raw
 	public void setSchool(School school) throws IllegalArgumentException {
 		if (!canHaveAsSchool(school)) {
 			throw new IllegalArgumentException("Invalid school provided.");

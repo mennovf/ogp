@@ -14,8 +14,11 @@ import org.junit.Test;
 
 public class SchoolTest {
 
+	
 	School school;
 	Slime slime;
+	
+	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 	}
@@ -33,6 +36,8 @@ public class SchoolTest {
 	@After
 	public void tearDown() throws Exception {
 	}
+	
+	
 
 	@Test
 	public void canHaveAsSlime_valid(){
@@ -43,6 +48,8 @@ public class SchoolTest {
 	public void canHaveAsSlime_invalid(){
 		assertFalse(School.canHaveAsSlime(null));
 	}
+	
+	
 	
 	@Test
 	public void addSlime_ok(){

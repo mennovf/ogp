@@ -33,7 +33,7 @@ public class TerrainCollisionDamager extends CollisionDamager {
 		Tile tile = (Tile)collidable;
 		if (canTakeDamage()){
 			for (TerrainDamageInfo info : this.infos) {
-				if (tile.getType() == info.type){
+				if (tile.getType() == info.type && (info.timeIn >= info.timeDelay)){
 					owner.takeDamage(info.damage);
 					this.timeSince = 0;
 					break;
@@ -42,18 +42,6 @@ public class TerrainCollisionDamager extends CollisionDamager {
 		}
 	}
 
-	@Override
-	protected boolean canTakeDamage(){
-		if (super.canTakeDamage()){
-			for (TerrainDamageInfo info : this.infos){
-				if (info.timeIn >= info.timeDelay){
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	
 	@Override
 	public void advanceTime(double dt) {
 		super.advanceTime(dt);

@@ -10,7 +10,7 @@ import jumpingalien.model.GameObject;
 public abstract class CollisionDamager {
 	protected final GameObject owner;
 	protected double timeSince;
-	private final double timeInterval;
+	protected final double timeInterval;
 	private final int damage;
 
 	/**

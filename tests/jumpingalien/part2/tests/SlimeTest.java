@@ -14,8 +14,11 @@ import org.junit.Test;
 
 public class SlimeTest {
 
+	
 	School school;
 	Slime slime;
+	
+	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 	}
@@ -33,11 +36,17 @@ public class SlimeTest {
 	@After
 	public void tearDown() throws Exception {
 	}
+	
+	
+	
 
 	@Test
 	public void constructor_ok(){
 		assertEquals(slime.getSchool(), school);
 	}
+	
+	
+	
 	
 	@Test
 	public void canHaveAsSchool_ok(){
@@ -48,11 +57,15 @@ public class SlimeTest {
 	public void canHaveAsSchool_null(){
 		assertFalse(Slime.canHaveAsSchool(null));
 	}
+	
+	
 
 	@Test
 	public void hasProperSchool(){
 		assertTrue(slime.hasProperSchool());
 	}
+	
+	
 	
 	@Test
 	public void setSchool(){

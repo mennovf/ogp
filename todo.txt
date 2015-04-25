@@ -1,4 +1,9 @@
 - Tests afwerken
+	al nagekeken:
+	+ World
+	+ GameObject
+	+ Tile
+	+ TileType
 - @post enzovoort afwerken
 	al nagekeken:
 	+ Collidable

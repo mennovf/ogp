@@ -4,6 +4,8 @@ import be.kuleuven.cs.som.annotate.*;
 
 /**
  * An enum representing the type of a tile in the game world.
+ * It contains information about the passability and the integer
+ * used to represent it in the Facade.
  * 
  * @author Rugen Heidbuchel, Menno Vanfrachem
  */

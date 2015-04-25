@@ -16,6 +16,10 @@ import be.kuleuven.cs.som.annotate.*;
  * 			| this.isValidHealth(this.getHealth())
  * 
  * @invar The position of the game object is always valid.
+ * 			This means the the x value is always greater than
+ *			or equal to zero. When the game object has a proper
+ *			world, the x and y values will always be smaller than
+ *			the size of the world. The y value can become negative.
  * 			| this.isValidPosition(this.getPositionInMeters());
  */
 public abstract class GameObject implements Collidable {

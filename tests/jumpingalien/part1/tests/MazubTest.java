@@ -41,17 +41,8 @@ public class MazubTest {
 		world.setTileType(new Vector<>(2, 0), TileType.GROUND);
 		world.setTileType(new Vector<>(3, 0), TileType.GROUND);
 		world.setTileType(new Vector<>(0, 1), TileType.GROUND);
-		world.setTileType(new Vector<>(1, 1), TileType.AIR);
-		world.setTileType(new Vector<>(2, 1), TileType.AIR);
-		world.setTileType(new Vector<>(3, 1), TileType.AIR);
 		world.setTileType(new Vector<>(0, 2), TileType.GROUND);
-		world.setTileType(new Vector<>(1, 2), TileType.AIR);
-		world.setTileType(new Vector<>(2, 2), TileType.AIR);
-		world.setTileType(new Vector<>(3, 2), TileType.AIR);
 		world.setTileType(new Vector<>(0, 3), TileType.GROUND);
-		world.setTileType(new Vector<>(1, 3), TileType.AIR);
-		world.setTileType(new Vector<>(2, 3), TileType.AIR);
-		world.setTileType(new Vector<>(3, 3), TileType.AIR);
 		mazub = new Mazub(new Vector<>(testStartPosition.x, testStartPosition.y), sprites, testVxInit, testVxMax, testStartDirection);
 		world.setMazub(mazub);
 	}
@@ -61,11 +52,14 @@ public class MazubTest {
 	}
 	
 	
+	
 	// Constructor tests
 	@Test(expected=IllegalArgumentException.class)
 	public void contructor_invalidPosition(){
 		new Mazub(new Vector<>(-1.0, 0.0), JumpingAlienSprites.ALIEN_SPRITESET, testVxInit, testVxMax, 1);
 	}
+	
+	
 	
 	// getCurrentSprite tests
 	@Test

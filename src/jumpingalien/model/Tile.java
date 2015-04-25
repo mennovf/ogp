@@ -7,6 +7,9 @@ import be.kuleuven.cs.som.annotate.*;
  * It contains information about the position, the size
  * and the type of the tile.
  * 
+ * @invar The position of a tile will always be positive.
+ * 			| this.getPositionInTiles() >= 0
+ * 
  * @invar The size of a tile will always be bigger than zero.
  * 			| this.getSizeInPixels() > 0
  * 
@@ -52,6 +55,10 @@ public class Tile implements Collidable {
 	 * 			| new.getType() == type.
 	 */
 	public Tile(Vector<Integer> position, int size, TileType type) throws IllegalArgumentException {
+		
+		if (position.x < 0 || position.y < 0) {
+			throw new IllegalArgumentException("The position has to be positive.");
+		}
 		
 		if (size <= 0) {
 			throw new IllegalArgumentException("The size should be bigger than zero.");

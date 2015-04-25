@@ -47,6 +47,9 @@ public class Shark extends GameObject {
 	 * 
 	 * @param sprites
 	 * 			The sprite list.
+	 * 
+	 * @effect Calling GameObject's constructor.
+	 * 			| super(Constants.sharkBeginHealth, Constants.sharkMaxHealth, position, sprites)
 	 */
 	public Shark(Vector<Double> position, Sprite[] sprites) {
 		super(Constants.sharkBeginHealth, Constants.sharkMaxHealth, position, sprites);

@@ -43,6 +43,9 @@ public class Slime extends GameObject {
 	 * @param school
 	 * 			The school of the slime.
 	 * 
+	 * @effect super(Constants.slimeBeginHealth, Constants.slimeMaxHealth,
+	 * 			position, sprites)
+	 * 
 	 * @effect this.setSchool(school)
 	 */
 	public Slime(Vector<Double> position, Sprite[] sprites, School school) throws IllegalArgumentException {
@@ -64,19 +67,25 @@ public class Slime extends GameObject {
 	
 	
 	/**
+	 * Returns the school of this slime.
+	 * 
 	 * @return The school of this slime.
 	 */
+	@Basic
 	public School getSchool() {
 		return this.school;
 	}
 	
 	
 	/**
+	 * Returns whether this slime can have the given
+	 * school as it's school.
+	 * 
 	 * @param school
 	 * 			The school to check.
 	 * 
 	 * @return Whether this slime can have the given school as it's school.
-	 * 			| !(school == null)
+	 * 			| school != null
 	 */
 	public static boolean canHaveAsSchool(School school) {
 		return school != null;
@@ -84,6 +93,8 @@ public class Slime extends GameObject {
 	
 	
 	/**
+	 * Returns whether this slime has a proper school.
+	 * 
 	 * @return Whether this slime has a proper school.
 	 * 			| this.canHaveAsSchool(this.getSchool())
 	 */

@@ -13,6 +13,8 @@ import jumpingalien.util.Sprite;
  * 
  * @invar Plants will either have 1 or 0 health.
  * 			| plant.getHealth() == 0 || plant.getHealht() == 1
+ * 
+ * @invar See GameObject.
  */
 public class Plant extends GameObject {
 	

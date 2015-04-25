@@ -17,6 +17,8 @@ import jumpingalien.util.Sprite;
  * 
  * @invar The slime must always have a valid school.
  * 			| this.hasProperSchool()
+ * 
+ * @invar See GameObject.
  */
 public class Slime extends GameObject {
 	

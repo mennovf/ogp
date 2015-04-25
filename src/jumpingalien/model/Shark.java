@@ -17,6 +17,8 @@ import jumpingalien.util.Sprite;
  * @invar The speed of a shark will never be bigger than it's maximum allowed
  * 			horizontal speed.
  * 			| Math.abs(this.getSpeed().x) <= Constants.sharkMaxHorizontalSpeed 
+ * 
+ * @invar See GameObject.
  */
 public class Shark extends GameObject {
 	

@@ -531,7 +531,6 @@ public class MazubTest {
 		assertEquals(mazub.getHealth(), 100 +  Constants.waterDamage);
 		
 		world.advanceTime(0.2);
-		world.advanceTime(eps);
 		assertEquals(mazub.getHealth(), 100 + 2 * Constants.waterDamage);
 	}
 	

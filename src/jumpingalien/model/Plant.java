@@ -3,6 +3,7 @@ package jumpingalien.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import jumpingalien.model.Reactions.PlantMazubCollisionDamager;
 import jumpingalien.util.Sprite;
 
 public class Plant extends GameObject {
@@ -25,6 +26,8 @@ public class Plant extends GameObject {
 		
 		super(1, 1, position, sprites, true);
 		this.setSpeed(this.getSpeed().setX(Constants.plantSpeed));
+		
+		this.addCollisionDamager(new PlantMazubCollisionDamager(this, -1, 0));
 	}
 	
 	
@@ -59,33 +62,4 @@ public class Plant extends GameObject {
 			this.setFacing(this.getFacing() * -1);
 		}
 	}
-	
-	
-	@Override
-	protected void handleCollision(GameObject object) {
-		if (this.isAlive()){
-			if ((object instanceof Mazub) && !(this.isHealthZero()) && (object.getHealth() != object.getMaximumHealth())){
-				this.setHealth(0);
-			}
-		}
-		
-	}
-	
-//	@Override
-//	public void advanceTime(double dt){
-//		double timeLeft = maxDirectionTime - directionTime;
-//		directionTime = (directionTime + dt) % maxDirectionTime;
-//		Vector<Double> newPosition = new Vector<>(this.getPositionInMeters());
-//		// If the alternation of direction happens in this time interval
-//		// process the part of the interval before the alternation first.
-//		if (dt > timeLeft){
-//			newPosition = newPosition.setX(newPosition.x + this.getFacing() * this.speed * timeLeft);
-//			dt = dt - timeLeft;
-//			this.setFacing(this.getFacing() * -1);
-//		}
-//		// Then update the position with what's left
-//        newPosition = newPosition.setX(newPosition.x + this.getFacing() * this.speed * dt);
-//        this.setPosition(newPosition);
-//        this.setCurrentSprite(this.getSprites()[this.getFacing() < 0 ? 0 : 1]);
-//	}
 }

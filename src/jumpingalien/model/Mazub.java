@@ -1,5 +1,6 @@
 package jumpingalien.model;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -7,6 +8,9 @@ import be.kuleuven.cs.som.annotate.*;
 import jumpingalien.util.Sprite;
 import jumpingalien.model.Constants;
 import jumpingalien.model.Utilities;
+import jumpingalien.model.Reactions.GameObjectCollisionDamager;
+import jumpingalien.model.Reactions.TerrainCollisionDamager;
+import jumpingalien.model.Reactions.TerrainDamageInfo;
 
 /**
  * A class representing a single Mazub.
@@ -64,34 +68,6 @@ public class Mazub extends GameObject {
 	 */
 	int amountOfTimesStartMoveCalled = 0;
 	
-	/**
-	 * The time since the last enemy damage was taken.
-	 * By setting this to zero, Mazub will not
-	 * lose life in the first enemyDamageInterval seconds of the game.
-	 */
-	private double timeSinceEnemyDamage = 0;
-	
-	/**
-	 * The time since the last water damage was taken.
-	 * By setting this to zero, Mazub will not
-	 * lose life in the first terrainDamageInterval seconds of the game.
-	 */
-	private double timeSinceWaterDamage = 0;
-	
-	/**
-	 * The time Mazub has been in contact with water.
-	 * When this becomes bigger than 0.2 Mazub has been in contact with
-	 * water for 0.2 seconds or more, so damage will be taken.
-	 */
-	private double timeInContactWithWater = 0;
-	
-	/**
-	 * The time since the last magma damage was taken.
-	 * By setting this higher than the threshold Mazub will take damage
-	 * on first contact.
-	 */
-	private double timeSinceMagmaDamage = Constants.terrainDamageInterval + 0.1;
-	
 	
 
 	/**
@@ -148,9 +124,23 @@ public class Mazub extends GameObject {
 		this.setFacing(direction);
 		
 		this.setAcceleration(this.getAcceleration().setY(Constants.gravityAcceleration));
+		
+		Collection<Class<? extends GameObject>> damageClasses = new HashSet<Class<? extends GameObject>>();
+		damageClasses.add(Shark.class);
+		damageClasses.add(Slime.class);
+		this.addCollisionDamager(new GameObjectCollisionDamager(this, Constants.mazubEnemyDamage, Constants.enemyDamageInterval, damageClasses));
+
+		Collection<Class<? extends GameObject>> plantClass = new HashSet<Class<? extends GameObject>>();
+		plantClass.add(Plant.class);
+		this.addCollisionDamager(new GameObjectCollisionDamager(this, Constants.mazubPlantHealthGain, 0, plantClass));
+
+		Collection<TerrainDamageInfo> terrainInfos= new HashSet<>();
+		terrainInfos.add(new TerrainDamageInfo(TileType.MAGMA, Constants.magmaDamage, 0));
+		terrainInfos.add(new TerrainDamageInfo(TileType.WATER, Constants.waterDamage, Constants.terrainDamageInterval));
+
+		this.addCollisionDamager(new TerrainCollisionDamager(this, Constants.terrainDamageInterval, terrainInfos));
 	}
 	
-
 	/**
 	 * @param speed
 	 * 			The speed to check
@@ -237,26 +227,6 @@ public class Mazub extends GameObject {
 		} else {
 			this.timeSinceMoving += dt;
 		}
-		
-		this.timeSinceEnemyDamage += dt;
-		this.timeSinceWaterDamage += dt;
-		this.timeSinceMagmaDamage += dt;
-		
-		if (this.inContactWithWater()) {
-			this.timeInContactWithWater += dt;
-		} else {
-			this.timeInContactWithWater = 0;
-		}
-	}
-	
-	
-	/**
-	 * Returns whether Mazub is in contact with water.
-	 * 
-	 * @return true if Mazub is in contact with water.
-	 */
-	private boolean inContactWithWater() {
-		return this.inContactWithTileOfType(TileType.WATER);
 	}
 	
 	
@@ -269,47 +239,9 @@ public class Mazub extends GameObject {
 		if (!this.onGround()) {
 			this.setAcceleration(this.getAcceleration().setY(Constants.gravityAcceleration));
 		}
-		
-		for (Tile tile : collidingTiles) {
-			
-			switch (tile.getType()) {
-			
-			case WATER:
-				if (this.timeInContactWithWater > Constants.terrainDamageInterval
-						&& this.timeSinceWaterDamage > Constants.terrainDamageInterval) {
-					this.increaseHealth(Constants.waterDamage);
-					this.timeSinceWaterDamage = 0;
-				}
-				break;
-				
-			case MAGMA:
-				if (this.timeSinceMagmaDamage > Constants.terrainDamageInterval) {
-					this.increaseHealth(Constants.magmaDamage);
-					this.timeSinceMagmaDamage = 0;
-				}
-				break;
-				
-			default:
-				break;
-			}
-		}
 	}
 	
 	
-	@Override
-	protected void handleCollision(GameObject object) {
-		if ((object instanceof Plant) && !object.isHealthZero() && (this.getHealth() < this.getMaximumHealth())) {
-			this.increaseHealth(Constants.mazubPlantHealthGain);
-        }
-                
-        if ((this.timeSinceEnemyDamage > Constants.enemyDamageInterval) && ((object instanceof Slime) || (object instanceof Shark))
-                                && object.isAlive()) {
-            this.increaseHealth(Constants.mazubEnemyDamage);
-            this.timeSinceEnemyDamage = 0;
-        }
-	}
-	
-
 	/**
 	 * Determines and sets the new current sprite.
 	 */

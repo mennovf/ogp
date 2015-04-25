@@ -3,6 +3,7 @@ package jumpingalien.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import jumpingalien.model.Reactions.CollisionDamager;
 import jumpingalien.util.Sprite;
 import be.kuleuven.cs.som.annotate.*;
 
@@ -14,6 +15,7 @@ import be.kuleuven.cs.som.annotate.*;
  * 
  * @invar The health of the game object is never higher than the max health, nor is it negative.
  * 			| this.isValidHealth(this.getHealth())
+<<<<<<< HEAD
  * 
  * @invar The position of the game object is always valid.
  * 			This means the the x value is always greater than
@@ -21,6 +23,16 @@ import be.kuleuven.cs.som.annotate.*;
  *			world, the x and y values will always be smaller than
  *			the size of the world. The y value can become negative.
  * 			| this.isValidPosition(this.getPositionInMeters());
+=======
+ */
+/**
+ * @author Menno
+ *
+ */
+/**
+ * @author Menno
+ *
+>>>>>>> refs/heads/reactions
  */
 public abstract class GameObject implements Collidable {
 
@@ -76,6 +88,11 @@ public abstract class GameObject implements Collidable {
 	 */
 	private World world;
 	
+	
+	/**
+	 * An array of CollisionDamagers used for common damage reactions to a collision.
+	 */
+	private Set<CollisionDamager> collisionDamagers = new HashSet<CollisionDamager>();
 	
 	/**
 	 * Creates a new game object with the given health, maxHealth, position and sprites.
@@ -294,6 +311,17 @@ public abstract class GameObject implements Collidable {
 		return this.health;
 	}
 	
+	/**
+	 * Adds a CollisionDamager to this GameObject.
+	 * 
+	 * @param damager
+	 * 			| Adds a damager to this GameObject.
+	 * @post This GameObject will receive damage due to collisions in this object's world
+	 * 		 according to damager.
+	 */
+	public void addCollisionDamager(CollisionDamager damager) {
+		this.collisionDamagers.add(damager);
+	}
 
 	/**
 	 * Returns whether the object is alive, this means the object should still be
@@ -334,6 +362,17 @@ public abstract class GameObject implements Collidable {
 		this.setHealth(this.getHealth() + diff);
 	}
 	
+	
+	/**
+	 * Causes this object to take lose an amount of hitpoints specified by damage.
+	 * @param damage
+	 * 			The amount of damage taken.
+	 * @effect Lowers the health of this object by damage.
+	 * 			| this.increaseHealht(damage).
+	 */
+	public void takeDamage(int damage) {
+		this.increaseHealth(damage);
+	}
 	
 	/**
 	 * Returns whether the given health is a valid health for this game object.
@@ -782,6 +821,10 @@ public abstract class GameObject implements Collidable {
 				deathTime += stepTime;
 			}
 			
+			for (CollisionDamager damager : this.collisionDamagers){
+				damager.advanceTime(stepTime);
+			}
+
 			Set<GameObject> collidingObjects = this.getWorld().getObjectsCollidingWithObject(this);
 			Set<Tile> collidingTiles = this.getWorld().getTilesCollidingWithObject(this);
 			
@@ -865,21 +908,33 @@ public abstract class GameObject implements Collidable {
 		
 		this.handleBasicMovementCollisions(collidingObjects, collidingTiles);
 
-		for (GameObject object : collidingObjects){
+		Set<Collidable> collidables = new HashSet<Collidable>();
+		collidables.addAll(collidingObjects);
+		collidables.addAll(collidingTiles);
+		
+		for (Collidable collidable : collidables){
 			//Delegate the collision to both parties involved
 			//Each party only has to worry about it's own state changes
-			handleCollision(object);
-			object.handleCollision(this);
+			this.handleCollision(collidable);
+			if (collidable instanceof GameObject){
+				((GameObject)collidable).handleCollision(this);
+			}
 		}
 	}
 	
 	/**
 	 * Handle the collision of a single game object.
 	 * 
-	 * @param object
+	 * @param collidable
 	 * 			The object with which this one collides.
 	 */
-	protected abstract void handleCollision(GameObject object);
+	protected void handleCollision(Collidable collidable){
+		for (CollisionDamager damager : this.collisionDamagers){
+			if (damager.doesReactTo(collidable)){
+				damager.reactTo(collidable);
+			}
+		}
+	}
 	
 	
 	/**
@@ -892,7 +947,7 @@ public abstract class GameObject implements Collidable {
 	 * @return true if this game object is in contact with a tile of
 	 * 			the given type.
 	 */
-	protected boolean inContactWithTileOfType(TileType type) {
+	public boolean inContactWithTileOfType(TileType type) {
 		
 		Set<Tile> collidingTiles = this.getWorld().getTilesCollidingWithObject(this);
 		

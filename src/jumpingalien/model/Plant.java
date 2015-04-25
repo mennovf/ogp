@@ -6,6 +6,14 @@ import java.util.Set;
 import jumpingalien.model.Reactions.PlantMazubCollisionDamager;
 import jumpingalien.util.Sprite;
 
+/**
+ * A class representing a Plant, food for Mazub.
+ * 
+ * @author Rugen Heidbuchel & Menno Vanfrachem
+ * 
+ * @invar Plants will either have 1 or 0 health.
+ * 			| plant.getHealth() == 0 || plant.getHealht() == 1
+ */
 public class Plant extends GameObject {
 	
 	private double directionTime = Constants.plantMoveTime;
@@ -21,6 +29,9 @@ public class Plant extends GameObject {
 	 * 
 	 * @effect The GameObject constructor will be called.
 	 * 			| super(1, 1, position, sprites, true);
+	 * 
+	 * @effect The plant will start moving to the right with a speed of Constants.plantSpeed.
+	 * 			| plant.setSpeed(this.getSpeed().setX(Constants.plantSpeed))
 	 */
 	public Plant(Vector<Double> position, Sprite[] sprites){
 		

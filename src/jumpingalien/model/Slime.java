@@ -45,7 +45,11 @@ public class Slime extends GameObject {
 	 * @param school
 	 * 			The school of the slime.
 	 * 
-	 * @effect this.setSchool(school)
+	 * @effect
+	 * 			| this.setSchool(school)
+	 * 
+	 * @effect Calls GameObject's constructor.
+	 * 			| super(Constants.slimeBeginHealth, Constants.slimeMaxHealth, position, sprites)
 	 */
 	public Slime(Vector<Double> position, Sprite[] sprites, School school) throws IllegalArgumentException {
 		
@@ -68,6 +72,7 @@ public class Slime extends GameObject {
 	/**
 	 * @return The school of this slime.
 	 */
+	@Basic
 	public School getSchool() {
 		return this.school;
 	}
@@ -86,6 +91,8 @@ public class Slime extends GameObject {
 	
 	
 	/**
+	 * Returns whether this slime has a proper school.
+	 * 
 	 * @return Whether this slime has a proper school.
 	 * 			| this.canHaveAsSchool(this.getSchool())
 	 */
@@ -156,6 +163,10 @@ public class Slime extends GameObject {
 	
 	/**
 	 * Overrides the setSpeed method of gameObject to clip the speed within the allowed range.
+	 * 
+	 * @post The horizontal speed of this slime (in absolute value) will not be bigger than the
+	 * 			maximum allowed horizontal speed.
+	 * 			| Math.abs(new.getSpeed().x) <= Constants.slimeMaxHorizontalSpeed
 	 */
 	@Override
 	public void setSpeed(Vector<Double> speed) {
@@ -190,9 +201,10 @@ public class Slime extends GameObject {
 	 * @param amount
 	 * 			The amount of damage taken.
 	 * 
-	 * @effect Lowers the health of this object by damage and deal 1 point of 
-	 * 			damage to the slimes belonging to this slime's school.
-	 * 			| this.increaseHealht(damage).
+	 * @effect Lowers the health of this object by damage.
+	 * 			| this.increaseHealth(damage).
+	 * 
+	 * @effect  Deal 1 point of damage to the slimes belonging to this slime's school.
 	 * 			| this.getSchool().takeDamageCausedBy(this)
 	 */
 	@Override

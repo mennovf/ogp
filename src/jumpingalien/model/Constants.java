@@ -104,6 +104,16 @@ public class Constants {
 	// SLIME
 	
 	/**
+	 * The amount of hitpoints a slime starts with.
+	 */
+	public final static int slimeBeginHealth = 100;
+	
+	/**
+	 * The maximum amount of hitpoints a slime can have.
+	 */
+	public final static int slimeMaxHealth = 100;
+	
+	/**
 	 * The horizontal acceleration of a slime.
 	 */
 	public final static double slimeHorizontalAcceleration = 0.7;

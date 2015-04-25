@@ -4,11 +4,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * 
- * @author Rugen en Menno
- * 
  * A class representing a school of slimes.
- *
+ * 
+ * @author Rugen Heidbuchel, Menno Vanfrachem
  */
 public class School {
 
@@ -54,7 +52,9 @@ public class School {
 			throw new IllegalArgumentException("The given slime is not valid.");
 		}
 		this.slimes.add(slime);
-		slime.setSchool(this);
+		if (slime.getSchool() != this) {
+			slime.setSchool(this);
+		}
 	}
 	
 	
@@ -71,7 +71,7 @@ public class School {
 	 * 			Throws an IllegalArgumentException when this school does not contain the given slime.
 	 * 			| !this.containsSlime(slime)
 	 */
-	private void removeSlime(Slime slime) {
+	public void removeSlime(Slime slime) {
 		if (!this.containsSlime(slime)) {
 			throw new IllegalArgumentException("School does not contain the slime to remove.");
 		}

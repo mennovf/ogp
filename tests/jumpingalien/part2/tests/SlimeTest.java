@@ -1,10 +1,13 @@
 package jumpingalien.part2.tests;
 
 import static org.junit.Assert.*;
+import jumpingalien.model.Constants;
 import jumpingalien.model.School;
 import jumpingalien.model.Slime;
 import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
+import jumpingalien.part2.internal.Resources;
+import jumpingalien.util.Sprite;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -17,6 +20,8 @@ public class SlimeTest {
 	
 	School school;
 	Slime slime;
+	Sprite[] sprites;
+	Vector<Double> position;
 	
 	
 	@BeforeClass
@@ -30,7 +35,9 @@ public class SlimeTest {
 	@Before
 	public void setUp() throws Exception {
 		school = new School();
-		slime = Utilities.slime(new Vector<>(0.0, 0.0), school);
+		sprites = new Sprite[] {Resources.SLIME_SPRITE_LEFT, Resources.SLIME_SPRITE_RIGHT};
+		position = new Vector<>(0.0, 0.0);
+		slime = Utilities.slime(position, school);
 	}
 
 	@After
@@ -41,8 +48,20 @@ public class SlimeTest {
 	
 
 	@Test
-	public void constructor_ok(){
-		assertEquals(slime.getSchool(), school);
+	public void constructor() {
+		assertEquals(school, slime.getSchool());
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void constructor_invalidSchool() {
+		new Slime(position, sprites, null);
+	}
+	
+	
+	
+	@Test
+	public void getSchool() {
+		assertEquals(school, slime.getSchool());
 	}
 	
 	
@@ -70,11 +89,30 @@ public class SlimeTest {
 	@Test
 	public void setSchool(){
 		slime.setSchool(school);
-		assertEquals(slime.getSchool(), school);
+		assertEquals(school, slime.getSchool());
+		assertTrue(school.containsSlime(slime));
+		
+		School secondSchool = new School();
+		slime.setSchool(secondSchool);
+		assertEquals(secondSchool, slime.getSchool());
+		assertTrue(secondSchool.containsSlime(slime));
+		assertFalse(school.containsSlime(slime));
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void setSchool_null(){
 		slime.setSchool(null);
+	}
+	
+	
+	
+	@Test
+	public void takeDamage() {
+		Slime secondSlime = new Slime(position, sprites, school);
+		
+		int damage = -20;
+		slime.takeDamage(damage);
+		assertEquals(Constants.slimeBeginHealth + damage, slime.getHealth());
+		assertEquals(Constants.slimeBeginHealth - 1, secondSlime.getHealth());
 	}
 }

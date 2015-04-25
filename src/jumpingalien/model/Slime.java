@@ -36,16 +36,13 @@ public class Slime extends GameObject {
 	 * @param school
 	 * 			The school of the slime.
 	 * 
-	 * TODO: dit nakijken 
 	 * @effect this.setSchool(school)
 	 */
 	public Slime(Vector<Double> position, Sprite[] sprites, School school) throws IllegalArgumentException {
 		
-		// GameObject
-		super(100, 100, position, sprites);
+		super(Constants.slimeBeginHealth, Constants.slimeMaxHealth, position, sprites);
 		
 		this.setSchool(school);
-		school.addSlime(this);
 		
 		Collection<Class<? extends GameObject>> damageClasses = new HashSet<Class<? extends GameObject>>();
 		damageClasses.add(Mazub.class);
@@ -82,8 +79,7 @@ public class Slime extends GameObject {
 	
 	/**
 	 * @return Whether this slime has a proper school.
-	 * 
-	 * @effect this.canHaveAsSchool(this.getSchool())
+	 * 			| this.canHaveAsSchool(this.getSchool())
 	 */
 	public boolean hasProperSchool() {
 		return canHaveAsSchool(this.getSchool());
@@ -99,6 +95,12 @@ public class Slime extends GameObject {
 	 * @post This slime will have the given school as it's school.
 	 * 			| new.getSchool() == (new school)
 	 * 
+	 * @post The new school will contain this slime.
+	 * 			| new.getSchool().containsSlime(new)
+	 * 
+	 * @post The old school will no longer contain this slime.
+	 * 			| !old.getSchool().containsSlime(new)
+	 * 
 	 * @throws IllegalArgumentException
 	 * 			Throws an IllegalArgumentException when this slime can't have the given school as school.
 	 */
@@ -107,7 +109,14 @@ public class Slime extends GameObject {
 			throw new IllegalArgumentException("Invalid school provided.");
 		}
 		
+		if (this.hasProperSchool()) {
+			this.getSchool().removeSlime(this);
+		}
+		
 		this.school = school;
+		if (!school.containsSlime(this)) {
+			school.addSlime(this);
+		}
 	}
 	
 	
@@ -140,7 +149,6 @@ public class Slime extends GameObject {
 	 */
 	@Override
 	public void setSpeed(Vector<Double> speed) {
-		
 		super.setSpeed(new Vector<Double>(Utilities.clipInRange(-Constants.slimeMaxHorizontalSpeed,
 											Constants.slimeMaxHorizontalSpeed,
 											speed.x), speed.y));
@@ -163,12 +171,15 @@ public class Slime extends GameObject {
 		}
 	}
 	
+	
+	
 	/**
 	 * Causes this Slime to take lose an amount of hitpoints specified by damage.
 	 * Every slime part of the school to which this Slime belongs, also loses 1 health.
 	 * 
 	 * @param amount
 	 * 			The amount of damage taken.
+	 * 
 	 * @effect Lowers the health of this object by damage and deal 1 point of 
 	 * 			damage to the slimes belonging to this slime's school.
 	 * 			| this.increaseHealht(damage).

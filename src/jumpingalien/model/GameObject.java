@@ -407,7 +407,7 @@ public abstract class GameObject implements Collidable {
 	 * 			|	   else new.getHealth() == 0
 	 */
 	public void setHealth(int health){
-		if (! this.isHealthZero()){
+		if (!this.isHealthZero()){
 			this.health = Utilities.clipInRange(0, this.getMaximumHealth(), health);
 		}
 	}
@@ -515,7 +515,7 @@ public abstract class GameObject implements Collidable {
 	 * 			| Vector.add(this.getPositionInPixels(), this.getSize())
 	 */
 	public Vector<Integer> getTopRightPixel() {
-		return Vector.add(this.getPositionInPixels(), this.getSize());
+		return Vector.add(this.getPositionInPixels(), this.getSizeInPixels());
 	}
 	
 	
@@ -530,7 +530,7 @@ public abstract class GameObject implements Collidable {
 	 * 				new Vector<Integer>((int)(size.x * 0.5), (int)(size.y * 0.5)))
 	 */
 	public Vector<Integer> getCenterInPixels(){
-		Vector<Integer> size = this.getSize();
+		Vector<Integer> size = this.getSizeInPixels();
 		return Vector.add(this.getPositionInPixels(), new Vector<Integer>((int)(size.x * 0.5), (int)(size.y * 0.5)));
 	}
 	
@@ -544,7 +544,6 @@ public abstract class GameObject implements Collidable {
 	 */
 	public boolean onGround() {
 		
-		//TODO: Test this method
 		Set<Tile> collidingTiles = this.getWorld().getTilesCollidingWithObject(this);
 		Set<GameObject> collidingObjects = this.getWorld().getObjectsCollidingWithObject(this);
 		
@@ -767,7 +766,7 @@ public abstract class GameObject implements Collidable {
 	 * @return The size of this game object in pixels.
 	 */
 	@Basic
-	public Vector<Integer> getSize() {
+	public Vector<Integer> getSizeInPixels() {
 		Sprite sprite = this.getCurrentSprite();
 		return new Vector<Integer>(sprite.getWidth(), sprite.getHeight());
 	}
@@ -779,7 +778,7 @@ public abstract class GameObject implements Collidable {
 	 * @return The size of this game object in meters.
 	 */
 	public Vector<Double> getSizeInMeters() {
-		return Utilities.pixelsVectorToMeters(this.getSize());
+		return Utilities.pixelsVectorToMeters(this.getSizeInPixels());
 	}
 	
 	
@@ -791,7 +790,7 @@ public abstract class GameObject implements Collidable {
 	 */
 	@Override
 	public Vector<Integer> getBoundingBoxSizeInPixels() {
-		return this.getSize();
+		return this.getSizeInPixels();
 	}
 	
 	
@@ -1002,7 +1001,7 @@ public abstract class GameObject implements Collidable {
 	 */
 	private Vector<Integer> getKindOfOverlapWithRect(Vector<Integer> otherPos, Vector<Integer> otherSize) {
 		Vector<Integer> selfPos = this.getPositionInPixels();
-		Vector<Integer> selfSize = this.getSize();
+		Vector<Integer> selfSize = this.getSizeInPixels();
 		
 		Vector<Integer> overlap = new Vector<>(0, 0);
 		
@@ -1035,7 +1034,7 @@ public abstract class GameObject implements Collidable {
 				|	|| object.getPositionInPixels().y >= self.getPositionInPixels().y + self.getSize().y)
 	 */
 	public boolean doesOverlapWith(GameObject object) {
-		return this.doesOverlapWithRect(object.getPositionInPixels(), object.getSize());
+		return this.doesOverlapWithRect(object.getPositionInPixels(), object.getSizeInPixels());
 	}
 	
 	
@@ -1071,7 +1070,7 @@ public abstract class GameObject implements Collidable {
 	private boolean doesOverlapWithRect(Vector<Integer> pos, Vector<Integer> size) {
 		
 		Vector<Integer> selfPos = this.getPositionInPixels();
-		Vector<Integer> selfSize = this.getSize();
+		Vector<Integer> selfSize = this.getSizeInPixels();
 		
 		return !(pos.x + size.x <= selfPos.x
 				|| pos.x >= selfPos.x + selfSize.x

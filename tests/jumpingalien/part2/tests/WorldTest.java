@@ -261,8 +261,8 @@ public class WorldTest {
 		int[] window = world.getVisibleWindow();
 		assertTrue(mazub.getPositionInPixels().x - window[0] > 200);
 		assertTrue(mazub.getPositionInPixels().y - window[1] > 200);
-		assertTrue(window[2] - mazub.getPositionInPixels().x - mazub.getSize().x > 200);
-		assertTrue(window[3] - mazub.getPositionInPixels().y - mazub.getSize().y > 200);
+		assertTrue(window[2] - mazub.getPositionInPixels().x - mazub.getSizeInPixels().x > 200);
+		assertTrue(window[3] - mazub.getPositionInPixels().y - mazub.getSizeInPixels().y > 200);
 	}
 	
 	
@@ -597,7 +597,7 @@ public class WorldTest {
 	public void getObjectsCollidingWithObject_none(){
 		Shark shark1 = Utilities.shark(new Vector<>(0.0, 0.0));
 		world.addGameObject(shark1);
-		Shark shark2 = Utilities.shark(new Vector<>(shark1.getSize().x * Constants.metersPerPixel, 0.0));
+		Shark shark2 = Utilities.shark(new Vector<>(shark1.getSizeInPixels().x * Constants.metersPerPixel, 0.0));
 		world.addGameObject(shark2);
 		Set<GameObject> coll = world.getObjectsCollidingWithObject(shark1);
 		assertEquals(coll.size(), 0);

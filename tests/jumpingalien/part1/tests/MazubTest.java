@@ -80,38 +80,6 @@ public class MazubTest {
 		mazub.advanceTime(0.076);
 		assertEquals(mazub.getCurrentSprite(), sprites[8 + 1]);
 	}
-
-	// isValidPosition Tests
-	
-	@Test
-	public void isValidPosition_valid() {
-		
-		assertTrue(mazub.isValidPosition(new Vector<Double>(0.0, 0.0)));
-	}
-	
-	@Test
-	public void isValidPosition_xTooSmall() {
-		
-		assertFalse(mazub.isValidPosition(new Vector<Double>(-3.0, 0.0)));
-	}
-	
-	@Test
-	public void isValidPosition_yTooSmall() {
-		
-		assertFalse(mazub.isValidPosition(new Vector<Double>(0.0, -3.0)));
-	}
-	
-	@Test
-	public void isValidPosition_xTooBig() {
-		
-		assertFalse(mazub.isValidPosition(new Vector<Double>(world.getSizeInMeters().x + 1.0, 0.0)));
-	}
-	
-	@Test
-	public void isValidPosition_yTooBig() {
-		
-		assertFalse(mazub.isValidPosition(new Vector<Double>(0.0, world.getSizeInMeters().y + 1.0)));
-	}
 	
 	
 	// isValidSpeed Tests
@@ -487,12 +455,6 @@ public class MazubTest {
 		assertTrue(mazub.getHeight() > duckingHeight);
 		assertEquals(mazub.getSpeed().x, 0.0, testAccuracy);
 		assertEquals(mazub.getSpeed().y, 0.0, testAccuracy);
-	}
-	
-	@Test
-	public void getCenterInPixels(){
-		assertEquals((int)mazub.getCenterInPixels().x, mazub.getPositionInPixels().x + (int)(0.5 * mazub.getSize().x));
-		assertEquals((int)mazub.getCenterInPixels().y, mazub.getPositionInPixels().y + (int)(0.5 * mazub.getSize().y));
 	}
 	
 	@Test

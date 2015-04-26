@@ -278,9 +278,11 @@ public class World {
 	public ArrayList<Vector<Integer>> getTilePositionsInRectangle(Vector<Integer> bottomLeftPixel, Vector<Integer> topRightPixel) {
 		assert this.pixelInWorld(bottomLeftPixel);
 		
+		Vector<Integer> topRightRectPixel = Vector.add(topRightPixel, new Vector<>(-1, -1));
+		
 		Vector<Integer> bottomLeftTile = this.getTileContainingPixel(bottomLeftPixel);
-		Vector<Integer> topRightTile = this.pixelInWorld(topRightPixel) ?
-				this.getTileContainingPixel(topRightPixel) :
+		Vector<Integer> topRightTile = this.pixelInWorld(topRightRectPixel) ?
+				this.getTileContainingPixel(topRightRectPixel) :
 				this.getTileContainingPixel(Utilities.clipVectorInRange(new Vector<>(0, 0), this.getSizeInPixels(), topRightPixel));
 		
 		int blockWidth = topRightTile.x - bottomLeftTile.x + 1;
@@ -657,7 +659,7 @@ public class World {
 		}
 		
 		ArrayList<Vector<Integer>> positions = this.getTilePositionsInRectangle(object.getPositionInPixels(),
-				Vector.add(object.getPositionInPixels(), object.getSize()));
+				Vector.add(object.getPositionInPixels(), object.getSizeInPixels()));
 		
 		for (Vector<Integer> position : positions) {
 			TileType type = this.getTileTypeOfTile(position);

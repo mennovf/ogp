@@ -13,6 +13,7 @@ import jumpingalien.model.Mazub;
 import jumpingalien.model.Plant;
 import jumpingalien.model.Shark;
 import jumpingalien.model.Slime;
+import jumpingalien.model.Tile;
 import jumpingalien.model.TileType;
 import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
@@ -75,10 +76,10 @@ public class GameObjectTest {
 	
 	
 	@Test
-	public void constructor_notPassableForPlant() {
+	public void constructor_passableForPlant() {
 		Sprite[] plantSprites = new Sprite[] {Resources.PLANT_SPRITE_LEFT, Resources.PLANT_SPRITE_RIGHT};
 		Plant plant = new Plant(new Vector<>(0.0, 0.0), plantSprites);
-		assertFalse(plant.isPassable());
+		assertTrue(plant.isPassable());
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
@@ -163,7 +164,7 @@ public class GameObjectTest {
 		
 		Sprite[] plantSprites = new Sprite[] {Resources.PLANT_SPRITE_LEFT, Resources.PLANT_SPRITE_RIGHT};
 		Plant plant = new Plant(new Vector<>(0.0, 0.0), plantSprites);
-		assertFalse(plant.isPassable());
+		assertTrue(plant.isPassable());
 	}
 	
 	
@@ -184,20 +185,7 @@ public class GameObjectTest {
 	
 	@Test
 	public void getCollisionDamagers() {
-		Set<CollisionDamager> damagers = new HashSet<CollisionDamager>();
-		Collection<Class<? extends GameObject>> damageClasses = new HashSet<Class<? extends GameObject>>();
-		damageClasses.add(Shark.class);
-		damageClasses.add(Slime.class);
-		damagers.add(new GameObjectCollisionDamager(mazub, Constants.mazubEnemyDamage, Constants.enemyDamageInterval, damageClasses));
-		Collection<Class<? extends GameObject>> plantClass = new HashSet<Class<? extends GameObject>>();
-		plantClass.add(Plant.class);
-		damagers.add(new GameObjectCollisionDamager(mazub, Constants.mazubPlantHealthGain, 0, plantClass));
-		Collection<TerrainDamageInfo> terrainInfos= new HashSet<>();
-		terrainInfos.add(new TerrainDamageInfo(TileType.MAGMA, Constants.magmaDamage, 0));
-		terrainInfos.add(new TerrainDamageInfo(TileType.WATER, Constants.waterDamage, Constants.terrainDamageInterval));
-		damagers.add(new TerrainCollisionDamager(mazub, Constants.terrainDamageInterval, terrainInfos));
-		
-		assertEquals(damagers, mazub.getCollisionDamagers());
+		assertEquals(3, mazub.getCollisionDamagers().size());
 	}
 	
 	
@@ -282,7 +270,212 @@ public class GameObjectTest {
 	
 	@Test
 	public void isValidHealth_tooBig() {
-		assertFalse(mazub.isValidHealth(mazub.getMaximumHealth()));
+		assertFalse(mazub.isValidHealth(mazub.getMaximumHealth() + 1));
+	}
+	
+	
+	
+	@Test
+	public void setHealth() {
+		mazub.setHealth(1);
+		assertEquals(1, mazub.getHealth());
+		
+		mazub.setHealth(Constants.mazubMaxHealth + 10);
+		assertEquals(Constants.mazubMaxHealth, mazub.getHealth());
+		
+		mazub.setHealth(0);
+		assertEquals(0, mazub.getHealth());
+		
+		mazub.setHealth(Constants.mazubBeginHealth);
+		assertEquals(0, mazub.getHealth());
+	}
+	
+	
+	
+	@Test
+	public void getPositionInMeters() {
+		assertEquals(testStartPosition, mazub.getPositionInMeters());
+	}
+	
+	
+	
+	@Test
+	public void getPositionInPixels() {
+		assertEquals(Utilities.metersVectorToPixels(testStartPosition), mazub.getPositionInPixels());
+	}
+	
+	
+	
+	@Test
+	public void getBoundingBoxPositionInPixels() {
+		assertEquals(mazub.getPositionInPixels(), mazub.getBoundingBoxPositionInPixels());
+	}
+	
+	
+	
+	@Test
+	public void setPositionInMeters() {
+		Vector<Double> testPos = Utilities.pixelsVectorToMeters(new Vector<>(71, 70));
+		mazub.setPositionInMeters(testPos);
+		assertEquals(testPos, mazub.getPositionInMeters());
+	}
+	
+	@Test(expected = NullPointerException.class)
+	public void setPositionInMeters_null() {
+		mazub.setPositionInMeters(null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void setPositionInMeters_invalidPosition() {
+		Vector<Double> testPos = new Vector<>(-10.0, 20.0);
+		mazub.setPositionInMeters(testPos);
+	}
+	
+	
+	
+	@Test
+	public void isValidPosition_valid() {
+		assertTrue(mazub.isValidPosition(new Vector<Double>(0.0, 0.0)));
+	}
+	
+	@Test
+	public void isValidPosition_xTooSmall() {
+		assertFalse(mazub.isValidPosition(new Vector<Double>(-3.0, 0.0)));
+	}
+	
+	@Test
+	public void isValidPosition_yTooSmall() {
+		assertFalse(mazub.isValidPosition(new Vector<Double>(0.0, -3.0)));
+	}
+	
+	@Test
+	public void isValidPosition_xTooBig() {
+		assertFalse(mazub.isValidPosition(new Vector<Double>(world.getSizeInMeters().x + 1.0, 0.0)));
+	}
+	
+	@Test
+	public void isValidPosition_yTooBig() {
+		assertFalse(mazub.isValidPosition(new Vector<Double>(0.0, world.getSizeInMeters().y + 1.0)));
+	}
+	
+	
+	
+	@Test
+	public void getTopRightPixel() {
+		assertEquals(Vector.add(mazub.getPositionInPixels(), mazub.getSizeInPixels()), mazub.getTopRightPixel());
+	}
+	
+	
+	
+	@Test
+	public void getCenterInPixels(){
+		assertEquals((int)mazub.getCenterInPixels().x, mazub.getPositionInPixels().x + (int)(0.5 * mazub.getSizeInPixels().x));
+		assertEquals((int)mazub.getCenterInPixels().y, mazub.getPositionInPixels().y + (int)(0.5 * mazub.getSizeInPixels().y));
+	}
+	
+	
+	
+	@Test
+	public void onGround_leftWallOnGround() {
+		assertTrue(mazub.onGround());
+	}
+	
+	@Test
+	public void onGround_leftWallNotOnGround() {
+		mazub.setPositionInMeters(testStartPosition.addY(Constants.metersPerPixel));
+		assertFalse(mazub.onGround());
+		
+		mazub.setPositionInMeters(mazub.getPositionInMeters().addY(Constants.metersPerPixel));
+		assertFalse(mazub.onGround());
+	}
+	
+	@Test
+	public void onGround_noWalls() {
+		mazub.setPositionInMeters(testStartPosition.addX(Constants.metersPerPixel));
+		assertTrue(mazub.onGround());
+	}
+	
+	@Test
+	public void onGround_rightWallOnGround() {
+		world.setTileType(new Vector<>(3, 1), TileType.GROUND);
+		mazub.setPositionInMeters(Utilities.pixelsVectorToMeters(new Vector<>(210 - mazub.getSizeInPixels().x, 69)));
+		assertTrue(mazub.onGround());
+		
+		mazub.setPositionInMeters(Utilities.pixelsVectorToMeters(new Vector<>(210 - mazub.getSizeInPixels().x + 1, 69)));
+		assertTrue(mazub.onGround());
+	}
+	
+	@Test
+	public void onGround_rightWallNotOnGround() {
+		world.setTileType(new Vector<>(3, 1), TileType.GROUND);
+		mazub.setPositionInMeters(Utilities.pixelsVectorToMeters(new Vector<>(210 - mazub.getSizeInPixels().x, 70)));
+		assertFalse(mazub.onGround());
+	}
+	
+	@Test
+	public void onGround_notOnGround() {
+		mazub.setPositionInMeters(Vector.add(mazub.getPositionInMeters(),
+				new Vector<>(Constants.metersPerPixel, Constants.metersPerPixel)));
+		assertFalse(mazub.onGround());
+	}
+	
+	@Test
+	public void onGround_topWallNotOnGround() {
+		world.setTileType(new Vector<>(2, 3), TileType.GROUND);
+		mazub.setPositionInMeters(Utilities.pixelsVectorToMeters(new Vector<>(140, 210 - mazub.getSizeInPixels().y)));
+		assertFalse(mazub.onGround());
+		
+		mazub.setPositionInMeters(Utilities.pixelsVectorToMeters(new Vector<>(140, 210 - mazub.getSizeInPixels().y + 1)));
+		assertFalse(mazub.onGround());
+	}
+	
+	
+	
+	@Test
+	public void collidesWithGameObjectClass() {
+		assertTrue(mazub.collidesWithGameObjectClass(Shark.class));
+	}
+	
+	
+	
+	@Test
+	public void collidesWithTileType_collides() {
+		assertTrue(mazub.collidesWithTileType(TileType.GROUND));
+	}
+	
+	@Test
+	public void collidesWithTileType_doesNotCollide() {
+		assertFalse(mazub.collidesWithTileType(TileType.AIR));
+	}
+	
+	
+	
+	@Test
+	public void getSpeed() {
+		assertEquals(new Vector<>(0.0, 0.0), mazub.getSpeed());
+	}
+	
+	
+	
+	@Test
+	public void getAcceleration() {
+		assertEquals(new Vector<>(0.0, 0.0), mazub.getAcceleration());
+	}
+	
+	
+	
+	@Test
+	public void setAcceleration() {
+		Vector<Double> testAcc = new Vector<>(10.0, -9.81);
+		mazub.setAcceleration(testAcc);
+		assertEquals(testAcc, mazub.getAcceleration());
+	}
+	
+	
+	
+	@Test
+	public void getFacing() {
+		assertEquals(1.0, mazub.getFacing(), testAccuracy);
 	}
 
 	
@@ -296,6 +489,78 @@ public class GameObjectTest {
 		assertFalse(GameObject.isValidDirection(-2));
 		assertFalse(GameObject.isValidDirection(0.5));
 		assertFalse(GameObject.isValidDirection(-0.5));
+	}
+	
+	
+	
+	@Test
+	public void getCurrentSprite() {
+		assertEquals(sprites[0], mazub.getCurrentSprite());
+	}
+	
+	
+	
+	@Test
+	public void getSizeInPixels() {
+		Sprite sprite = mazub.getCurrentSprite();
+		assertEquals(new Vector<>(sprite.getWidth(), sprite.getHeight()), mazub.getSizeInPixels());
+	}
+	
+	
+	
+	@Test
+	public void getSizeInMeters() {
+		Sprite sprite = mazub.getCurrentSprite();
+		assertEquals(Utilities.pixelsVectorToMeters(new Vector<>(sprite.getWidth(), sprite.getHeight())),
+				mazub.getSizeInMeters());
+	}
+	
+	
+	
+	@Test
+	public void getBoundingBoxSizeInPixels() {
+		assertEquals(mazub.getSizeInPixels(), mazub.getBoundingBoxSizeInPixels());
+	}
+	
+	
+	
+	@Test
+	public void inContactWithTileOfType_true() {
+		assertTrue(mazub.inContactWithTileOfType(TileType.GROUND));
+		assertFalse(mazub.inContactWithTileOfType(TileType.AIR));
+	}
+	
+	@Test
+	public void inContactWithTileOfType_false() {
+		assertFalse(mazub.inContactWithTileOfType(TileType.WATER));
+		assertFalse(mazub.inContactWithTileOfType(TileType.MAGMA));
+	}
+	
+	
+	
+	@Test
+	public void doesOverLapWith_GameObject_true() {
+		Shark shark = Utilities.shark(testStartPosition);
+		assertTrue(mazub.doesOverlapWith(shark));
+	}
+	
+	@Test
+	public void doesOverLapWith_GameObject_false() {
+		Shark shark = Utilities.shark(Utilities.pixelsVectorToMeters(mazub.getTopRightPixel()));
+		assertFalse(mazub.doesOverlapWith(shark));
+	}
+	
+	@Test
+	public void doesOverLapWith_Tile_true() {
+		Tile tile = new Tile(world.getTileContainingPixel(Utilities.metersVectorToPixels(testStartPosition)),
+				70, TileType.GROUND);
+		assertTrue(mazub.doesOverlapWith(tile));
+	}
+	
+	@Test
+	public void doesOverLapWith_Tile_false() {
+		Tile tile = new Tile(mazub.getTopRightPixel(), 70, TileType.GROUND);
+		assertFalse(mazub.doesOverlapWith(tile));
 	}
 
 }

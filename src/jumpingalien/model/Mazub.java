@@ -189,7 +189,7 @@ public class Mazub extends GameObject {
 	 */
 	@Basic
 	public int getHeight(){
-		return this.getSize().y;
+		return this.getSizeInPixels().y;
 	}
 
 	/**
@@ -197,7 +197,7 @@ public class Mazub extends GameObject {
 	 */
 	@Basic
 	public int getWidth(){
-		return this.getSize().x;
+		return this.getSizeInPixels().x;
 	}
 	
 	

@@ -3,7 +3,9 @@ package jumpingalien.part2.tests;
 import static org.junit.Assert.*;
 import jumpingalien.model.Constants;
 import jumpingalien.model.Mazub;
+import jumpingalien.model.School;
 import jumpingalien.model.Shark;
+import jumpingalien.model.Slime;
 import jumpingalien.model.TileType;
 import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
@@ -103,6 +105,22 @@ public class SharkTest {
 	@Test
 	public void mazubDamage() {
 		mazub.setPositionInMeters(new Vector<>(70 * 0.01, 70 * 0.01));
+		world.advanceTime(Constants.maxTimeInterval);
+		
+		assertEquals(Constants.sharkBeginHealth + Constants.sharkEnemyDamage, shark.getHealth());
+		
+		for (int i = 0; i * Constants.maxTimeInterval <= Constants.enemyDamageInterval; ++i) {
+			world.advanceTime(Constants.maxTimeInterval);
+		}
+		
+		assertEquals(Constants.sharkBeginHealth + 2 * Constants.sharkEnemyDamage, shark.getHealth());
+	}
+
+	@Test
+	public void slimeDamage() {
+		School school = new School();
+		Slime slime = Utilities.slime(new Vector<>(70 * 0.01, 70 * 0.01), school);
+		world.addGameObject(slime);
 		world.advanceTime(Constants.maxTimeInterval);
 		
 		assertEquals(Constants.sharkBeginHealth + Constants.sharkEnemyDamage, shark.getHealth());

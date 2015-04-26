@@ -6,7 +6,6 @@ import java.util.Set;
 
 import jumpingalien.model.School;
 import jumpingalien.model.Slime;
-import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
 
 import org.junit.After;
@@ -34,7 +33,7 @@ public class SchoolTest {
 	@Before
 	public void setUp() throws Exception {
 		school = new School();
-		slime = Utilities.slime(new Vector<>(0.0, 0.0), school);
+		slime = TestUtilities.slime(new Vector<>(0.0, 0.0), school);
 	}
 
 	@After
@@ -100,12 +99,12 @@ public class SchoolTest {
 	public void switchSchoolsOfSlimeTo_ok(){
 		int amount1 = 5;
 		for (int i = 0; i < amount1; ++i){
-			Utilities.slime(new Vector<>(0.0, 0.0), school);
+			TestUtilities.slime(new Vector<>(0.0, 0.0), school);
 		}
 		School school2 = new School();
 		int amount2 = 7;
 		for (int i = 0; i < amount2; ++i){
-			Utilities.slime(new Vector<>(0.0, 0.0), school2);
+			TestUtilities.slime(new Vector<>(0.0, 0.0), school2);
 		}
 		school.addSlime(slime);
 		School.switchSchoolsOfSlimeTo(slime, school2);
@@ -149,8 +148,8 @@ public class SchoolTest {
 		school.takeDamageCausedBy(slime);
 		assertEquals(slime.getHealth(), 100);
 		
-		Slime slime2 = Utilities.slime(new Vector<>(0.0, 0.0), school);
-		Slime slime3 = Utilities.slime(new Vector<>(0.0, 0.0), school);
+		Slime slime2 = TestUtilities.slime(new Vector<>(0.0, 0.0), school);
+		Slime slime3 = TestUtilities.slime(new Vector<>(0.0, 0.0), school);
 		
 		school.takeDamageCausedBy(slime);
 		assertEquals(slime.getHealth(), 100);

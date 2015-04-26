@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 import jumpingalien.model.Constants;
 import jumpingalien.model.School;
 import jumpingalien.model.Slime;
-import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
 import jumpingalien.part2.internal.Resources;
 import jumpingalien.util.Sprite;
@@ -37,7 +36,7 @@ public class SlimeTest {
 		school = new School();
 		sprites = new Sprite[] {Resources.SLIME_SPRITE_LEFT, Resources.SLIME_SPRITE_RIGHT};
 		position = new Vector<>(0.0, 0.0);
-		slime = Utilities.slime(position, school);
+		slime = TestUtilities.slime(position, school);
 	}
 
 	@After

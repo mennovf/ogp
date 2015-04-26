@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 import jumpingalien.model.Constants;
 import jumpingalien.model.Mazub;
 import jumpingalien.model.Plant;
-import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
 import jumpingalien.model.World;
 import jumpingalien.part2.internal.Resources;
@@ -36,7 +35,7 @@ public class PlantTest {
 		startPos = new Vector<>(10.0, 1.0);
 		sprites = new Sprite[] {Resources.PLANT_SPRITE_LEFT, Resources.PLANT_SPRITE_RIGHT};
 		plant = new Plant(startPos, sprites);
-		world = Utilities.world();
+		world = TestUtilities.world();
 		world.addGameObject(plant);
 	}
 
@@ -74,7 +73,7 @@ public class PlantTest {
 	
 	@Test
 	public void getEaten_ok() {
-		Mazub mazub = Utilities.mazub(startPos);
+		Mazub mazub = TestUtilities.mazub(startPos);
 		world.setMazub(mazub);
 		
 		assertTrue(plant.isAlive());
@@ -94,7 +93,7 @@ public class PlantTest {
 	
 	@Test
 	public void dontGetEaten_mazubFullHealth() {
-		Mazub mazub = Utilities.mazub(startPos);
+		Mazub mazub = TestUtilities.mazub(startPos);
 		world.setMazub(mazub);
 		mazub.setHealth(Constants.mazubMaxHealth);
 		
@@ -105,7 +104,7 @@ public class PlantTest {
 	
 	@Test
 	public void getEaten_mazubAlmostFull() {
-		Mazub mazub = Utilities.mazub(startPos);
+		Mazub mazub = TestUtilities.mazub(startPos);
 		world.setMazub(mazub);
 		mazub.setHealth(Constants.mazubMaxHealth - Constants.mazubPlantHealthGain + 1);
 		

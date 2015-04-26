@@ -33,7 +33,7 @@ public class SharkTest {
 
 	@Before
 	public void setUp() throws Exception {
-		world = Utilities.world();
+		world = TestUtilities.world();
 		
 		world.setTileType(new Vector<Integer>(0, 0), TileType.GROUND);
 		world.setTileType(new Vector<Integer>(0, 1), TileType.GROUND);
@@ -41,11 +41,11 @@ public class SharkTest {
 		world.setTileType(new Vector<Integer>(2, 0), TileType.GROUND);
 		world.setTileType(new Vector<Integer>(2, 1), TileType.GROUND);
 		world.setTileType(new Vector<Integer>(1, 1), TileType.WATER);
-		mazub = Utilities.mazub(new Vector<>(0.0, 140 * 0.01));
+		mazub = TestUtilities.mazub(new Vector<>(0.0, 140 * 0.01));
 		world.setMazub(mazub);
 
 		startPos = Utilities.pixelsVectorToMeters(new Vector<>(world.getTileSize(), world.getTileSize()));
-		shark = Utilities.shark(startPos);
+		shark = TestUtilities.shark(startPos);
 		world.addGameObject(shark);
 	}
 
@@ -119,7 +119,7 @@ public class SharkTest {
 	@Test
 	public void slimeDamage() {
 		School school = new School();
-		Slime slime = Utilities.slime(new Vector<>(70 * 0.01, 70 * 0.01), school);
+		Slime slime = TestUtilities.slime(new Vector<>(70 * 0.01, 70 * 0.01), school);
 		world.addGameObject(slime);
 		world.advanceTime(Constants.maxTimeInterval);
 		

@@ -47,7 +47,7 @@ public class GameObjectTest {
 
 	@Before
 	public void setUp() throws Exception {
-		world = Utilities.world();
+		world = TestUtilities.world();
 		world.setTileType(new Vector<>(0, 0), TileType.GROUND);
 		world.setTileType(new Vector<>(1, 0), TileType.GROUND);
 		world.setTileType(new Vector<>(2, 0), TileType.GROUND);
@@ -98,7 +98,7 @@ public class GameObjectTest {
 	
 	@Test
 	public void hasProperWorld_false() {
-		Shark shark = Utilities.shark(testStartPosition);
+		Shark shark = TestUtilities.shark(testStartPosition);
 		assertFalse(shark.hasProperWorld());
 	}
 	
@@ -132,7 +132,7 @@ public class GameObjectTest {
 	
 	@Test
 	public void inWorld_false() {
-		Shark shark = Utilities.shark(testStartPosition);
+		Shark shark = TestUtilities.shark(testStartPosition);
 		assertFalse(shark.inWorld());
 	}
 	
@@ -530,13 +530,13 @@ public class GameObjectTest {
 	
 	@Test
 	public void doesOverLapWith_GameObject_true() {
-		Shark shark = Utilities.shark(testStartPosition);
+		Shark shark = TestUtilities.shark(testStartPosition);
 		assertTrue(mazub.doesOverlapWith(shark));
 	}
 	
 	@Test
 	public void doesOverLapWith_GameObject_false() {
-		Shark shark = Utilities.shark(Utilities.pixelsVectorToMeters(mazub.getTopRightPixel()));
+		Shark shark = TestUtilities.shark(Utilities.pixelsVectorToMeters(mazub.getTopRightPixel()));
 		assertFalse(mazub.doesOverlapWith(shark));
 	}
 	

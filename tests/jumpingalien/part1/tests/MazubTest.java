@@ -2,6 +2,7 @@ package jumpingalien.part1.tests;
 
 import static org.junit.Assert.*;
 import jumpingalien.model.*;
+import jumpingalien.part2.tests.TestUtilities;
 import jumpingalien.util.Sprite;
 import jumpingalien.util.Util;
 import jumpingalien.common.sprites.JumpingAlienSprites;
@@ -35,7 +36,7 @@ public class MazubTest {
 
 	@Before
 	public void setUp() throws Exception {
-		world = Utilities.world();
+		world = TestUtilities.world();
 		world.setTileType(new Vector<>(0, 0), TileType.GROUND);
 		world.setTileType(new Vector<>(1, 0), TileType.GROUND);
 		world.setTileType(new Vector<>(2, 0), TileType.GROUND);
@@ -349,7 +350,7 @@ public class MazubTest {
 		// It does pass when you run it in debug mode.
 		
 		Vector<Double> objPos = Utilities.pixelsVectorToMeters(new Vector<>(70, 145));
-		Shark shark = Utilities.shark(objPos);
+		Shark shark = TestUtilities.shark(objPos);
 		world.addGameObject(shark);
 		world.setMazub(mazub);
 

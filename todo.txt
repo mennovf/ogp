@@ -1,6 +1,5 @@
 - Tests afwerken
 	moet nog gedaan worden:
-	+ Motion?
 	+ Shark (vooral dan de movement, moeilijk met Random?)
 	+ Utilities?
 - Bij het opeten van de plant die Mazub 500 levens zou geven verdwijnt die laatste plants niet

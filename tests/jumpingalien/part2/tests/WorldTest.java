@@ -381,7 +381,7 @@ public class WorldTest {
 	
 	@Test
 	public void containsGameObject() {
-		Shark shark = Utilities.shark(new Vector<>(0.0, 0.0));
+		Shark shark = TestUtilities.shark(new Vector<>(0.0, 0.0));
 		world.addGameObject(shark);
 		assertTrue(world.containsGameObject(shark));
 		
@@ -408,7 +408,7 @@ public class WorldTest {
 	
 	@Test
 	public void removeGameObject(){
-		Shark shark = Utilities.shark(new Vector<>(0.0, 0.0));
+		Shark shark = TestUtilities.shark(new Vector<>(0.0, 0.0));
 		world.addGameObject(shark);
 		assertTrue(world.containsGameObject(shark));
 		world.removeGameObject(shark);
@@ -426,7 +426,7 @@ public class WorldTest {
 	
 	@Test
 	public void addGameObject(){
-		Shark shark = Utilities.shark(new Vector<>(0.0, 0.0));
+		Shark shark = TestUtilities.shark(new Vector<>(0.0, 0.0));
 		world.addGameObject(shark);
 		assertTrue(world.containsGameObject(shark));
 		
@@ -492,7 +492,7 @@ public class WorldTest {
 	public void getGameObjectWithClass(){
 		HashSet<Shark> sharks = new HashSet<>();
 		for (int i = 0; i < 3; ++i){
-			Shark shark = Utilities.shark(new Vector<>(0.0, 0.0));
+			Shark shark = TestUtilities.shark(new Vector<>(0.0, 0.0));
 			sharks.add(shark);
 			world.addGameObject(shark);
 		}
@@ -584,9 +584,9 @@ public class WorldTest {
 	
 	@Test
 	public void getObjectsCollidingWithObject_some(){
-		Shark shark1 = Utilities.shark(new Vector<>(0.0, 0.0));
+		Shark shark1 = TestUtilities.shark(new Vector<>(0.0, 0.0));
 		world.addGameObject(shark1);
-		Shark shark2 = Utilities.shark(new Vector<>(0.0, 0.0));
+		Shark shark2 = TestUtilities.shark(new Vector<>(0.0, 0.0));
 		world.addGameObject(shark2);
 		Set<GameObject> coll = world.getObjectsCollidingWithObject(shark1);
 		assertEquals(coll.size(), 1);
@@ -595,9 +595,9 @@ public class WorldTest {
 
 	@Test
 	public void getObjectsCollidingWithObject_none(){
-		Shark shark1 = Utilities.shark(new Vector<>(0.0, 0.0));
+		Shark shark1 = TestUtilities.shark(new Vector<>(0.0, 0.0));
 		world.addGameObject(shark1);
-		Shark shark2 = Utilities.shark(new Vector<>(shark1.getSizeInPixels().x * Constants.metersPerPixel, 0.0));
+		Shark shark2 = TestUtilities.shark(new Vector<>(shark1.getSizeInPixels().x * Constants.metersPerPixel, 0.0));
 		world.addGameObject(shark2);
 		Set<GameObject> coll = world.getObjectsCollidingWithObject(shark1);
 		assertEquals(coll.size(), 0);
@@ -607,14 +607,14 @@ public class WorldTest {
 	
 	@Test
 	public void getTilesCollidingWithObject_center(){
-		Shark shark = Utilities.shark(new Vector<>(0.0, 0.0));
+		Shark shark = TestUtilities.shark(new Vector<>(0.0, 0.0));
 		Set<Tile> tiles = world.getTilesCollidingWithObject(shark);
 		assertEquals(tiles.size(), 1);
 	}
 
 	@Test
 	public void getTilesCollidingWithObject_cornerOfTiles(){
-		Shark shark = Utilities.shark(Utilities.pixelsVectorToMeters(new Vector<>(50, 50)));
+		Shark shark = TestUtilities.shark(Utilities.pixelsVectorToMeters(new Vector<>(50, 50)));
 		int toX = 2;
 		int toY = 2;
 		

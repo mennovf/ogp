@@ -1,28 +1,12 @@
 - Tests afwerken
-	al afgewerkt:
-	+ GameObject
-	+ School
-	+ Slime
-	+ Tile
-	+ TileType
-	+ Vector
-	+ World
-- @post enzovoort afwerken
-	al nagekeken:
-	+ Collidable
-	+ Constants
-	+ GameObject
-	+ Mazub
-	+ Motion
+	moet nog gedaan worden:
+	+ Motion?
 	+ Plant
-	+ School
 	+ Shark
-	+ Slime
-	+ Tile
-	+ TileType
-	+ Vector
-	+ World
-- cleanup
+	+ Utilities?
+- @post enzovoort afwerken
+	moet nog gedaan worden:
+	+ Utilities
 - Bij het opeten van de plant die Mazub 500 levens zou geven verdwijnt die laatste plants niet
   omdat mazub zijn healht wordt geupdated voor de plant de collision verwerkt. (Kan opgelost worden door de "updates" te queuen
   tot na beide objecten het verwekt hebben.)

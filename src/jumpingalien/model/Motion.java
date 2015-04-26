@@ -8,7 +8,7 @@ import be.kuleuven.cs.som.annotate.*;
  * A class to manage all motion properties: position, speed and acceleration.
  * It also takes care of all time-related calculations using it's properties.
  */
-public class Motion {
+class Motion {
 	
 	private Vector<Double> position;
 	private Vector<Double> speed;

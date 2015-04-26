@@ -53,10 +53,14 @@ public class SharkTest {
 	public void tearDown() throws Exception {
 	}
 	
+	
+	
 	@Test
 	public void constructor_ok() {
 		assertEquals(startPos, shark.getPositionInMeters());
 	}
+	
+	
 	
 	@Test
 	public void setSpeed_ok() {
@@ -74,6 +78,8 @@ public class SharkTest {
 		assertEquals(-Constants.sharkMaxHorizontalSpeed, shark.getSpeed().x, 1e-7);
 	}
 	
+	
+	
 	@Test
 	public void airDamage() {
 		world.setTileType(new Vector<Integer>(1, 1), TileType.AIR);
@@ -88,7 +94,6 @@ public class SharkTest {
 		world.advanceTime(Constants.maxTimeInterval);
 		assertEquals(Constants.sharkBeginHealth + 2 * Constants.sharkAirDamage, shark.getHealth());
 	}
-	
 	
 	@Test
 	public void magmaDamage() {

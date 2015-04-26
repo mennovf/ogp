@@ -810,6 +810,9 @@ public abstract class GameObject implements Collidable {
 	public void advanceTime(double dt) {
 		
 		double time = 0.0;
+		
+		this.handleStep(0.0);
+		
 		while (time < dt) {
 			
 			double stepTime = this.motion.step(dt - time);

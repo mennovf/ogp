@@ -43,6 +43,8 @@ public class PlantTest {
 	public void tearDown() throws Exception {
 	}
 	
+	
+	
 	@Test
 	public void moveRight(){
 		plant.advanceTime(Constants.maxTimeInterval);
@@ -59,6 +61,8 @@ public class PlantTest {
 		assertTrue(plant.getPositionInMeters().x < xPos);
 	}
 	
+	
+	
 	@Test
 	public void directionToggle(){
 		double eps = 0.00001;
@@ -70,6 +74,8 @@ public class PlantTest {
 		plant.advanceTime(2 * eps);
 		assertEquals(-1.0, plant.getFacing(), 1e-7);
 	}
+	
+	
 	
 	@Test
 	public void getEaten_ok() {

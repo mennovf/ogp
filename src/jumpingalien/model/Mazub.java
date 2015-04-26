@@ -250,14 +250,6 @@ public class Mazub extends GameObject {
 		} else {
 			this.timeSinceMoving += dt;
 		}
-	}
-	
-	
-	@Override
-	protected void handleCollisions(Set<GameObject> collidingObjects,
-			Set<Tile> collidingTiles) {
-		
-		super.handleCollisions(collidingObjects, collidingTiles);
 		
 		if (!this.onGround()) {
 			this.setAcceleration(this.getAcceleration().setY(Constants.gravityAcceleration));

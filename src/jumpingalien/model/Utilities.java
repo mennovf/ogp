@@ -129,7 +129,8 @@ public class Utilities {
 	}
 
 	/**
-	 * A convenience method (for testing) to construct a slime using it's sprites.
+	 * A convenience method (for testing) to construct a slime using its sprites.
+	 * 
 	 * @param pos The position of the slime
 	 * @param school The school of the slime
 	 * @return A slime with pos as it's position and school as it's school.
@@ -139,11 +140,27 @@ public class Utilities {
 		return new Slime(pos, sprites, school);
 	}
 
+	/**
+	 * A convenience method (for testing) to construct a shark using its sprites.
+	 * 	
+	 * @param pos
+	 * 			The position of the new shark.
+	 * 
+	 * @return A shark object.
+	 * 			| shark.getPositionInMeters() == pos
+	 *			| shark.getCurrentSprite() == Resources.SHARK_SPRITE_LEFT 
+	 */
 	public static Shark shark(Vector<Double> pos){
 		Sprite[] sprites = new Sprite[] {Resources.SHARK_SPRITE_LEFT, Resources.SHARK_SPRITE_RIGHT};
 		return new Shark(pos, sprites);
 	}
 	
+	/**
+	 * A convenience method (for testing) to construct a shark using its sprites.
+	 * 
+	 * @return Returns a default world.
+	 * 			| new World(70, 20, 12, 1024, 751, 18, 9)
+	 */
 	public static World world(){
 		return new World(70, 20, 12, 1024, 751, 18, 9);
 	}

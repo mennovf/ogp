@@ -164,4 +164,17 @@ public class Utilities {
 	public static World world(){
 		return new World(70, 20, 12, 1024, 751, 18, 9);
 	}
+	
+	/**
+	 * A convenience method (for testing) to construct a Mazub using its sprites.
+	 * 
+	 * @param pos
+	 * 			Mazubs position.
+	 * 
+	 * @return A Mazub.
+	 * 			| new Mazub(pos, Resources.ALIEN_SPRITESET, 1, 3, 1)
+	 */
+	public static Mazub mazub(Vector<Double> pos) {
+		return new Mazub(pos, Resources.ALIEN_SPRITESET, 1, 3, 1);
+	}
 }

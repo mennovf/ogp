@@ -2,6 +2,7 @@ package jumpingalien.part2.tests;
 
 import static org.junit.Assert.*;
 import jumpingalien.model.Constants;
+import jumpingalien.model.Mazub;
 import jumpingalien.model.Plant;
 import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
@@ -47,7 +48,6 @@ public class PlantTest {
 	public void moveRight(){
 		plant.advanceTime(Constants.maxTimeInterval);
 		assertTrue(plant.getPositionInMeters().x > startPos.x);
-		assertTrue(plant.getCurrentSprite() == sprites[1]);
 	}
 
 	@Test
@@ -58,17 +58,59 @@ public class PlantTest {
 		double xPos = plant.getPositionInMeters().x;
 		plant.advanceTime(Constants.maxTimeInterval);
 		assertTrue(plant.getPositionInMeters().x < xPos);
-		assertTrue(plant.getCurrentSprite() == sprites[0]);
 	}
 	
 	@Test
 	public void directionToggle(){
 		double eps = 0.00001;
-		plant.advanceTime(0.5 - eps);
-		assertTrue(plant.getFacing() == 1.0);
+		plant.advanceTime(0.2);
+		plant.advanceTime(0.2);
+		plant.advanceTime(0.1 - eps);
+		assertEquals(1.0, plant.getFacing(), 1e-7);
 		
 		plant.advanceTime(2 * eps);
-		assertTrue(plant.getFacing() == -1.0);
+		assertEquals(-1.0, plant.getFacing(), 1e-7);
 	}
-
+	
+	@Test
+	public void getEaten_ok() {
+		Mazub mazub = Utilities.mazub(startPos);
+		world.setMazub(mazub);
+		
+		assertTrue(plant.isAlive());
+		
+		world.advanceTime(Constants.maxTimeInterval);
+		
+		assertTrue(plant.isAlive());
+		assertTrue(plant.isHealthZero());
+		
+		
+		world.advanceTime(Constants.maxTimeInterval);
+		world.advanceTime(Constants.maxTimeInterval);
+		world.advanceTime(1e-5);
+		
+		assertFalse(plant.isAlive());
+	}
+	
+	@Test
+	public void dontGetEaten_mazubFullHealth() {
+		Mazub mazub = Utilities.mazub(startPos);
+		world.setMazub(mazub);
+		mazub.setHealth(Constants.mazubMaxHealth);
+		
+		world.advanceTime(Constants.maxTimeInterval);
+		
+		assertFalse(plant.isHealthZero());
+	}
+	
+	@Test
+	public void getEaten_mazubAlmostFull() {
+		Mazub mazub = Utilities.mazub(startPos);
+		world.setMazub(mazub);
+		mazub.setHealth(Constants.mazubMaxHealth - Constants.mazubPlantHealthGain + 1);
+		
+		world.advanceTime(Constants.maxTimeInterval);
+		
+		assertTrue(plant.isHealthZero());
+	}
 }

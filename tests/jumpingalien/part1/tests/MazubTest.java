@@ -53,7 +53,6 @@ public class MazubTest {
 	
 	
 	
-	// getCurrentSprite tests
 	@Test
 	public void getCurrentSprite_start(){
 		assertEquals(mazub.getCurrentSprite(), sprites[0]);
@@ -82,35 +81,66 @@ public class MazubTest {
 	}
 	
 	
-	// isValidSpeed Tests
 	
 	@Test
 	public void isValidSpeed_validNotDucking() {
-		
 		assertTrue(mazub.isValidSpeed(new Vector<Double>(testVxMax, 0.0)));
 	}
 	
 	@Test
 	public void isValidSpeed_validDucking() {
-		
 		mazub.startDuck();
 		assertTrue(mazub.isValidSpeed(new Vector<Double>(Constants.mazubMaxSpeedDucking, 0.0)));
 	}
 	
 	@Test
 	public void isValidSpeed_xTooSmall() {
-		
 		assertFalse(mazub.isValidSpeed(new Vector<Double>(-(testVxMax+1), 0.0)));
 	}
 	
 	@Test
 	public void isValidSpeed_xTooBig() {
-		
 		assertFalse(mazub.isValidSpeed(new Vector<Double>(testVxMax+1, 0.0)));
 	}
 	
 	
-	// getAcceleration Tests
+	
+	@Test
+	public void setSpeed_ok() {
+		Vector<Double> testSpeed = new Vector<>(testVxMax, 10.0);
+		mazub.setSpeed(testSpeed);
+		assertEquals(testSpeed, mazub.getSpeed());
+	}
+	
+	@Test
+	public void setSpeed_xTooSmall() {
+		Vector<Double> testSpeed = new Vector<>(-(testVxMax + 1.0), 10.0);
+		mazub.setSpeed(testSpeed);
+		assertEquals(testSpeed.setX(-testVxMax), mazub.getSpeed());
+	}
+	
+	@Test
+	public void setSpeed_xTooBig() {
+		Vector<Double> testSpeed = new Vector<>(testVxMax + 1.0, 10.0);
+		mazub.setSpeed(testSpeed);
+		assertEquals(testSpeed.setX(testVxMax), mazub.getSpeed());
+	}
+	
+	
+	
+	@Test
+	public void getHeight() {
+		assertEquals(mazub.getHeight(), mazub.getCurrentSprite().getHeight());
+	}
+	
+	
+	
+	@Test
+	public void getWidth() {
+		assertEquals(mazub.getWidth(), mazub.getCurrentSprite().getWidth());
+	}
+	
+	
 	
 	@Test
 	public void getAcceleration_notMoving() {
@@ -124,7 +154,7 @@ public class MazubTest {
 		
 		mazub.startMove(1);
 		
-		assertEquals(mazub.getAcceleration().x, Constants.mazubMaxSpeedDucking, testAccuracy);
+		assertEquals(mazub.getAcceleration().x, Constants.mazubHorizontalAcceleration, testAccuracy);
 		assertEquals(mazub.getAcceleration().y, 0.0, testAccuracy);
 	}
 	
@@ -133,7 +163,7 @@ public class MazubTest {
 		
 		mazub.startMove(-1);
 		
-		assertEquals(mazub.getAcceleration().x, -Constants.mazubMaxSpeedDucking, testAccuracy);
+		assertEquals(mazub.getAcceleration().x, -Constants.mazubHorizontalAcceleration, testAccuracy);
 		assertEquals(mazub.getAcceleration().y, 0.0, testAccuracy);
 	}
 	
@@ -148,7 +178,6 @@ public class MazubTest {
 	}
 	
 	
-	// getSpeed Tests
 
 	@Test
 	public void getSpeed_notMoving() {
@@ -178,7 +207,6 @@ public class MazubTest {
 	}
 	
 	
-	// getPosition Tests
 	
 	@Test
 	public void getPosition_notMoved() {
@@ -206,25 +234,6 @@ public class MazubTest {
 	}
 	
 	
-	// getHeight Tests
-	
-	@Test
-	public void getHeight() {
-		
-		assertEquals(mazub.getHeight(), mazub.getCurrentSprite().getHeight());
-	}
-	
-	
-	// getWidth Tests
-	
-	@Test
-	public void getWidth() {
-		
-		assertEquals(mazub.getWidth(), mazub.getCurrentSprite().getWidth());
-	}
-	
-	
-	// onGround Tests
 	
 	@Test
 	public void onGround_notMoving() {
@@ -251,7 +260,6 @@ public class MazubTest {
 	}
 	
 	
-	// startMove and endMove Tests
 	
 	@Test
 	public void move() {
@@ -267,7 +275,6 @@ public class MazubTest {
 	}
 	
 	
-	// startJump and endJump Tests
 	
 	@Test
 	public void jump() {
@@ -287,7 +294,6 @@ public class MazubTest {
 	}
 	
 	
-	// startDuck and endDuck Tests
 	
 	@Test
 	public void duck() {
@@ -312,6 +318,10 @@ public class MazubTest {
 	
 	@Test
 	public void duck_underTerrain(){
+		
+		// This test probably fails due to an error in JUnit
+		// It does pass when you run it in debug mode.
+		
 		Vector<Integer> tilePos = new Vector<>(1, 2);
 		world.setTileType(tilePos, TileType.GROUND);
 
@@ -331,8 +341,13 @@ public class MazubTest {
 		
 		assertEquals(mazub.getHeight(), height);
 	}
+	
 	@Test
 	public void duck_underObject(){
+		
+		// This test probably fails due to an error in JUnit
+		// It does pass when you run it in debug mode.
+		
 		Vector<Double> objPos = Utilities.pixelsVectorToMeters(new Vector<>(70, 145));
 		Shark shark = Utilities.shark(objPos);
 		world.addGameObject(shark);
@@ -355,6 +370,8 @@ public class MazubTest {
 		assertEquals(mazub.getHeight(), height);
 	}
 
+	
+	
 	@Test
 	public void moveThenJump(){
 		mazub.startMove(1);
@@ -457,6 +474,8 @@ public class MazubTest {
 		assertEquals(mazub.getSpeed().y, 0.0, testAccuracy);
 	}
 	
+	
+	
 	@Test
 	public void deadAfterTime(){
 		assertTrue(mazub.isAlive());
@@ -470,6 +489,8 @@ public class MazubTest {
 		}
 		assertFalse(mazub.isAlive());
 	}
+	
+	
 	
 	@Test 
 	public void waterDamage(){
@@ -487,6 +508,7 @@ public class MazubTest {
 		world.advanceTime(0.2);
 		assertEquals(mazub.getHealth(), 100 + 2 * Constants.waterDamage);
 	}
+	
 	
 	
 	@Test

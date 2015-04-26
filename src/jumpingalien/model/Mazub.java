@@ -135,8 +135,6 @@ public class Mazub extends GameObject {
 		this.vxMax = vxMax;
 		this.setFacing(direction);
 		
-		this.setAcceleration(this.getAcceleration().setY(Constants.gravityAcceleration));
-		
 		Collection<Class<? extends GameObject>> damageClasses = new HashSet<Class<? extends GameObject>>();
 		damageClasses.add(Shark.class);
 		damageClasses.add(Slime.class);
@@ -154,6 +152,8 @@ public class Mazub extends GameObject {
 	}
 	
 	/**
+	 * Returns whether the given speed is a valid speed for this mazub.
+	 * 
 	 * @param speed
 	 * 			The speed to check
 	 * 
@@ -166,6 +166,8 @@ public class Mazub extends GameObject {
 	
 	
 	/**
+	 * Returns the maximum horizontal speed of this Mazub in m/s.
+	 * 
 	 * @return The maximum horizontal speed of this Mazub in m/s.
 	 */
 	private double getMaxHorizontalSpeed(){
@@ -175,6 +177,11 @@ public class Mazub extends GameObject {
 	
 	/**
 	 * Overrides the setSpeed method of gameObject to clip the speed within the allowed range.
+	 * 
+	 * @effect Uses the GameObject setter with the x value clipped in the valid range.
+	 * 			| super.setSpeed(new Vector<Double>(Utilities.clipInRange(-this.getMaxHorizontalSpeed(),
+				|							this.getMaxHorizontalSpeed(),
+				|							speed.x), speed.y))
 	 */
 	@Override
 	public void setSpeed(Vector<Double> speed) {
@@ -185,6 +192,8 @@ public class Mazub extends GameObject {
 	
 	
 	/**
+	 * Returns the height of this mazub in pixels.
+	 * 
 	 * @return	This Mazub's height in pixels.
 	 */
 	@Basic
@@ -193,6 +202,8 @@ public class Mazub extends GameObject {
 	}
 
 	/**
+	 * Returns the widht of this mazub if pixels.
+	 * 
 	 * @return	This Mazub's width in pixels.
 	 */
 	@Basic
@@ -250,13 +261,12 @@ public class Mazub extends GameObject {
 		
 		if (!this.onGround()) {
 			this.setAcceleration(this.getAcceleration().setY(Constants.gravityAcceleration));
+		} else if (this.getAcceleration().y == Constants.gravityAcceleration) {
+			this.setAcceleration(this.getAcceleration().setY(0.0));
 		}
 	}
 	
 	
-	/**
-	 * Determines and sets the new current sprite.
-	 */
 	@Override
 	protected Sprite determineCurrentSprite() {
 		
@@ -292,6 +302,7 @@ public class Mazub extends GameObject {
 		return currentSprite;
 	}
 	
+	
 	/**
 	 * Starts this Mazub's movement in the given direction.
 	 * 
@@ -308,7 +319,7 @@ public class Mazub extends GameObject {
 	 * 			| if (mazub not ducking)
 	 * 			| then new.getAcceleration().x == direction * Constants.mazubHorizontalAcceleration
 	 * 
-	 * @effect
+	 * @effect Sets the facing to the given direction.
 	 * 			| setFacing(direction)
 	 */
 	public void startMove(double direction) {
@@ -322,6 +333,7 @@ public class Mazub extends GameObject {
 		this.movingTime = 0;
 		this.amountOfTimesStartMoveCalled += 1;
 	}
+	
 	
 	/**
 	 * Ends this Mazub's movement.
@@ -346,14 +358,17 @@ public class Mazub extends GameObject {
 	/**
 	 * Starts the jump of this Mazub.
 	 * 
-	 * @post Mazub's vertical speed will be equal to Constants.mazubInitialJumpSpeed.
-	 * 			| new.getSpeed().y == Constants.mazubInitialJumpSpeed
+	 * @post Mazub's vertical speed will be equal to Constants.mazubInitialJumpSpeed
+	 * 			if mazub was on ground.
+	 * 			| if old.onGround():
+	 * 			| 	new.getSpeed().y == Constants.mazubInitialJumpSpeed
 	 */
 	public void startJump() {
 		if (onGround()){
 			this.setSpeed(this.getSpeed().setY(Constants.mazubInitialJumpSpeed));
 		}
 	}
+	
 	
 	/**
 	 * Ends the jump of this Mazub.
@@ -384,6 +399,7 @@ public class Mazub extends GameObject {
 		this.wantsToStandUp = false;
 	}
 	
+	
 	/**
 	 * Ends the duck of this Mazub.
 	 * 
@@ -397,6 +413,7 @@ public class Mazub extends GameObject {
 		}
 	}
 
+	
 	/**
 	 * Determines whether or not Mazub can stand up currently.
 	 * 

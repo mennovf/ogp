@@ -2,27 +2,18 @@ package jumpingalien.part2.tests;
 
 import static org.junit.Assert.*;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
 import jumpingalien.common.sprites.JumpingAlienSprites;
 import jumpingalien.model.Constants;
 import jumpingalien.model.GameObject;
 import jumpingalien.model.Mazub;
 import jumpingalien.model.Plant;
 import jumpingalien.model.Shark;
-import jumpingalien.model.Slime;
 import jumpingalien.model.Tile;
 import jumpingalien.model.TileType;
 import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
 import jumpingalien.model.World;
-import jumpingalien.model.Reactions.CollisionDamager;
-import jumpingalien.model.Reactions.GameObjectCollisionDamager;
 import jumpingalien.model.Reactions.PlantMazubCollisionDamager;
-import jumpingalien.model.Reactions.TerrainCollisionDamager;
-import jumpingalien.model.Reactions.TerrainDamageInfo;
 import jumpingalien.part2.internal.Resources;
 import jumpingalien.util.Sprite;
 

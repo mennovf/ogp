@@ -5,9 +5,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import be.kuleuven.cs.som.annotate.*;
-import jumpingalien.model.Reactions.GameObjectCollisionDamager;
-import jumpingalien.model.Reactions.TerrainCollisionDamager;
-import jumpingalien.model.Reactions.TerrainDamageInfo;
+import jumpingalien.model.reactions.GameObjectCollisionDamager;
+import jumpingalien.model.reactions.TerrainCollisionDamager;
+import jumpingalien.model.reactions.TerrainDamageInfo;
 import jumpingalien.util.Sprite;
 
 /**

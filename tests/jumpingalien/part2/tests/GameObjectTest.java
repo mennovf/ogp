@@ -1,7 +1,6 @@
 package jumpingalien.part2.tests;
 
 import static org.junit.Assert.*;
-
 import jumpingalien.common.sprites.JumpingAlienSprites;
 import jumpingalien.model.Constants;
 import jumpingalien.model.GameObject;
@@ -13,7 +12,7 @@ import jumpingalien.model.TileType;
 import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
 import jumpingalien.model.World;
-import jumpingalien.model.Reactions.PlantMazubCollisionDamager;
+import jumpingalien.model.reactions.PlantMazubCollisionDamager;
 import jumpingalien.part2.internal.Resources;
 import jumpingalien.util.Sprite;
 

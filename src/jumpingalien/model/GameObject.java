@@ -3,7 +3,7 @@ package jumpingalien.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import jumpingalien.model.Reactions.CollisionDamager;
+import jumpingalien.model.reactions.CollisionDamager;
 import jumpingalien.util.Sprite;
 import be.kuleuven.cs.som.annotate.*;
 

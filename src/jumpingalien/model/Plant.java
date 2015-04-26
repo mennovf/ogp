@@ -3,7 +3,7 @@ package jumpingalien.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import jumpingalien.model.Reactions.PlantMazubCollisionDamager;
+import jumpingalien.model.reactions.PlantMazubCollisionDamager;
 import jumpingalien.util.Sprite;
 
 /**

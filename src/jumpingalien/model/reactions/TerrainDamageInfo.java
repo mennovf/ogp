@@ -1,4 +1,4 @@
-package jumpingalien.model.Reactions;
+package jumpingalien.model.reactions;
 
 import jumpingalien.model.TileType;
 

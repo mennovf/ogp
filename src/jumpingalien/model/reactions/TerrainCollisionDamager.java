@@ -5,6 +5,7 @@ import java.util.Collection;
 import jumpingalien.model.Collidable;
 import jumpingalien.model.GameObject;
 import jumpingalien.model.Tile;
+import jumpingalien.model.Utilities;
 
 /**
  * Manages the administration for collisions with terrain.
@@ -76,9 +77,10 @@ public class TerrainCollisionDamager extends CollisionDamager {
 		Tile tile = (Tile)collidable;
 		if (canTakeDamage()){
 			for (TerrainDamageInfo info : this.infos) {
-				if (tile.getType() == info.type && (info.timeIn >= info.timeDelay)){
+				if (tile.getType() == info.type
+					&& (this.timeSince - info.timeDelay + info.timeIn >= (info.timeDelay + this.timeInterval))){
 					owner.takeDamage(info.damage);
-					this.timeSince = 0;
+					this.timeSince -= this.timeInterval;
 					break;
 				}
 			}
@@ -106,14 +108,20 @@ public class TerrainCollisionDamager extends CollisionDamager {
 	@Override
 	public void advanceTime(double dt) {
 		super.advanceTime(dt);
-		
+
+		boolean inContact = false;
+
 		for (TerrainDamageInfo info : this.infos){
 			if (this.owner.inContactWithTileOfType(info.type)){
-				info.timeIn += dt;
-			}
-			else {
+				info.timeIn = Utilities.clipInRange(0.0, info.timeDelay, info.timeIn + dt);
+				inContact = true;
+			} else {
 				info.timeIn = 0;
 			}
+		}
+		
+		if (!inContact) {
+			this.timeSince = Utilities.clipInRange(0.0, this.timeInterval, this.timeSince);
 		}
 	}
 }

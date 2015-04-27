@@ -16,21 +16,21 @@ public class Utilities {
 	 * 			The value to clip.
 	 * 
 	 * @return	The value clipped to the given range. If it's bigger than max, max will be returned. If it's smaller than min, min will be returned.
-	 * 			| if (value < min)
+	 * 			| if (value <= min)
 	 * 			|	return min
 	 * 			| if (value > max)
 	 * 			|	return max
 	 * 			| else
 	 * 			|	return value
 	 * 
-	 * @pre		Max should be bigger than min.
-	 * 			| max > min
+	 * @pre		Max should be bigger than or equal to min.
+	 * 			| max >= min
 	 */
 	public static <T extends Comparable<T>> T clipInRange(T min, T max, T value) {
 		
-		assert max.compareTo(min) > 0;
+		assert max.compareTo(min) >= 0;
 		
-		if (value.compareTo(min) < 0) {
+		if (value.compareTo(min) <= 0) {
 			return min;
 		} else if (value.compareTo(max) > 0) {
 			return max;

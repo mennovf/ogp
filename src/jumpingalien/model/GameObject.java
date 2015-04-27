@@ -864,12 +864,12 @@ public abstract class GameObject implements Collidable {
 					continue;
 				}
 
-				if (Math.abs(overlap.x) == 1 && Math.abs(overlap.y) == 1) {
+				if (Math.abs(overlap.x) == Math.abs(overlap.y)) {
 					hardOnes.add(collidable);
 					continue;
 				}
 
-				if ((Math.abs(overlap.x) == 1 && !(Math.abs(overlap.y) == 1 || overlap.y == 2) || Math.abs(overlap.x) < Math.abs(overlap.y))
+				if ((Math.abs(overlap.x) == 1 || Math.abs(overlap.x) < Math.abs(overlap.y))
 						&& !(Math.abs(overlap.y) == 1 || overlap.y == 2)) {
 					if (collidable instanceof GameObject) {
 						((GameObject) collidable).setSpeed(((GameObject) collidable).getSpeed().setX(0.0));

@@ -92,6 +92,7 @@ public class PlantTest {
 		
 		world.advanceTime(Constants.maxTimeInterval);
 		world.advanceTime(Constants.maxTimeInterval);
+		world.advanceTime(Constants.maxTimeInterval);
 		world.advanceTime(1e-5);
 		
 		assertFalse(plant.isAlive());

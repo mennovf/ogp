@@ -1,6 +1,7 @@
 package jumpingalien.model;
 
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 import jumpingalien.common.sprites.ImageSprite;
@@ -762,10 +763,11 @@ public abstract class GameObject implements Collidable {
 	
 	
 	protected Sprite[] getGoreSprites() {
-		int numberOfBloodSprites = 25;
+		int numberOfBloodSprites = 60;
+		Random random = new Random();
 		Sprite[] spriteSet = new Sprite[numberOfBloodSprites];
 		for (int i = 0; i < numberOfBloodSprites; i++) {
-			spriteSet[i] = ImageSprite.createSprite("levels/gore/blood/blood_" + (Math.random() < 0.5 ? 1 : 2) + ".png");
+			spriteSet[i] = ImageSprite.createSprite("levels/gore/blood/blood_" + (random.nextInt(3) + 1) + ".png");
 		}
 		return spriteSet;
 	}

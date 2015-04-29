@@ -14,6 +14,11 @@ import be.kuleuven.cs.som.annotate.*;
  * @author Rugen Heidbuchel, Menno Vanfrachem
  */
 public class World {
+	
+	/**
+	 * A boolean value to determine whether gore should be used.
+	 */
+	private static final boolean useGore = true;
 
 	/**
 	 * The size of a tile in pixels.
@@ -713,10 +718,12 @@ public class World {
 			}
 		}
 		
-		for (GameObject object : deaths) {
-			if (!(object instanceof Gore)) {
-				for (Sprite sprite : object.getGoreSprites()) {
-					this.addGameObject(Gore.create(Utilities.pixelsVectorToMeters(object.getCenterInPixels()), sprite));
+		if (useGore) {
+			for (GameObject object : deaths) {
+				if (!(object instanceof Gore)) {
+					for (Sprite sprite : object.getGoreSprites()) {
+						this.addGameObject(Gore.create(Utilities.pixelsVectorToMeters(object.getCenterInPixels()), sprite));
+					}
 				}
 			}
 		}

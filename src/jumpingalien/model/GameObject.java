@@ -3,6 +3,7 @@ package jumpingalien.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import jumpingalien.common.sprites.ImageSprite;
 import jumpingalien.model.reactions.CollisionDamager;
 import jumpingalien.util.Sprite;
 import be.kuleuven.cs.som.annotate.*;
@@ -757,6 +758,16 @@ public abstract class GameObject implements Collidable {
 	 */
 	protected Sprite determineCurrentSprite() {
 		return this.getSprites()[this.getFacing() == 1.0 ? 1 : 0];
+	}
+	
+	
+	protected Sprite[] getGoreSprites() {
+		int numberOfBloodSprites = 25;
+		Sprite[] spriteSet = new Sprite[numberOfBloodSprites];
+		for (int i = 0; i < numberOfBloodSprites; i++) {
+			spriteSet[i] = ImageSprite.createSprite("levels/gore/blood/blood_" + (Math.random() < 0.5 ? 1 : 2) + ".png");
+		}
+		return spriteSet;
 	}
 	
 	

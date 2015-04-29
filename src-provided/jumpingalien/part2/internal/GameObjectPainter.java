@@ -9,6 +9,7 @@ import java.util.HashMap;
 import jumpingalien.common.gui.AlienGUIUtils;
 import jumpingalien.common.gui.painters.AbstractAlienPainter;
 import jumpingalien.common.sprites.ImageSprite;
+import jumpingalien.model.Gore;
 import jumpingalien.model.Plant;
 import jumpingalien.model.School;
 import jumpingalien.model.Shark;
@@ -37,6 +38,9 @@ public final class GameObjectPainter extends
 		paintPlants(g);
 		paintSharks(g);
 		paintSlimes(g);
+		
+		//TODO: We added this!!!
+		paintBlood(g);
 	}
 
 	protected void paintMazubDebugInfo(Graphics2D g) {
@@ -44,6 +48,21 @@ public final class GameObjectPainter extends
 		aip.getAlienXY().ifPresent(
 				xy -> paintDebugInfo(g, getGame().getAlien(), xy));
 	}
+	
+	
+	//TODO: We added this!!!
+	protected void paintBlood(Graphics2D g) {
+		ObjectInfoProvider oip = getGame().getObjectInfoProvider();
+		for (Gore blood : oip.getBlood()) {
+			oip.getLocation(blood).ifPresent(
+					xy -> {
+						oip.getCurrentSprite(blood).ifPresent(
+								sprite -> paintSprite(g, sprite, xy));
+						paintDebugInfo(g, blood, xy);
+					});
+		}
+	}
+	
 
 	protected void paintSharks(Graphics2D g) {
 		ObjectInfoProvider oip = getGame().getObjectInfoProvider();

@@ -18,6 +18,7 @@ import jumpingalien.part2.internal.tmxfile.data.Layer;
 import jumpingalien.part2.internal.tmxfile.data.Map;
 import jumpingalien.part2.internal.tmxfile.data.MapObject;
 import jumpingalien.part2.internal.tmxfile.data.ImageTile.TileType;
+import jumpingalien.model.Gore;
 import jumpingalien.model.Plant;
 import jumpingalien.model.School;
 import jumpingalien.model.Shark;
@@ -346,6 +347,31 @@ public class JumpingAlienGamePart2 extends JumpingAlienGame {
 
 	protected ObjectInfoProvider createObjectInfoProvider() {
 		return new ObjectInfoProvider() {
+			
+			//TODO: We added this!!!
+			@Override
+			public Collection<Gore> getBlood() {
+				Collection<Gore> result = getFacade().getBlood(world);
+				if (result == null) {
+					result = Collections.emptyList();
+				}
+				return result;
+			}
+			
+			//TODO: We added this!!!
+			@Override
+			public Optional<int[]> getLocation(Gore blood) {
+				// TODO Auto-generated method stub
+				return Optional.of(getFacade().getLocation(blood));
+			}
+			
+			//TODO: We added this!!!
+			@Override
+			public Optional<ImageSprite> getCurrentSprite(Gore blood) {
+				return Optional.of((ImageSprite) getFacade().getCurrentSprite(
+						blood));
+			}
+			
 
 			@Override
 			public Collection<Slime> getSlimes() {

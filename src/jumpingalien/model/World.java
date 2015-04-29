@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import jumpingalien.util.ModelException;
+import jumpingalien.util.Sprite;
 import be.kuleuven.cs.som.annotate.*;
 
 /**
@@ -711,6 +712,15 @@ public class World {
 				deaths.add(object);
 			}
 		}
+		
+		for (GameObject object : deaths) {
+			if (!(object instanceof Gore)) {
+				for (Sprite sprite : object.getGoreSprites()) {
+					this.addGameObject(Gore.create(Utilities.pixelsVectorToMeters(object.getCenterInPixels()), sprite));
+				}
+			}
+		}
+		
 		this.objects.removeAll(deaths);
 	}
 }

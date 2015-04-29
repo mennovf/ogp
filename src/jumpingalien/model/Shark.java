@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import jumpingalien.common.sprites.ImageSprite;
 import jumpingalien.model.reactions.GameObjectCollisionDamager;
 import jumpingalien.model.reactions.TerrainCollisionDamager;
 import jumpingalien.model.reactions.TerrainCollisionDamager.TerrainDamageInfo;
@@ -63,6 +64,26 @@ public class Shark extends GameObject {
 		damageClasses.add(Mazub.class);
 		damageClasses.add(Slime.class);
 		this.addCollisionDamager(new GameObjectCollisionDamager(this, Constants.sharkEnemyDamage, Constants.enemyDamageInterval, damageClasses));
+	}
+	
+	
+	@Override
+	protected Sprite[] getGoreSprites() {
+		Sprite[] bloodSprites = super.getGoreSprites();
+		
+		int numberOfGoreSprites = 5;
+		int numberOfBloodSprites = 10;
+		Sprite[] spriteSet = new Sprite[numberOfGoreSprites + numberOfBloodSprites];
+		
+		for (int i = 1; i <= numberOfGoreSprites + numberOfBloodSprites; i++) {
+			if (i <= numberOfGoreSprites) {
+				spriteSet[i-1] = ImageSprite.createSprite("levels/gore/fish/fishGore_" + i + ".png");
+			} else {
+				spriteSet[i-1] = bloodSprites[i - numberOfGoreSprites - 1];
+			}
+		}
+		
+		return spriteSet;
 	}
 	
 	

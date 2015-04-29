@@ -3,6 +3,7 @@ package jumpingalien.part2.facade;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import jumpingalien.model.Gore;
 import jumpingalien.model.Mazub;
 import jumpingalien.model.Plant;
 import jumpingalien.model.School;
@@ -272,6 +273,23 @@ public class Facade implements IFacadePart2 {
 	@Override
 	public School getSchool(Slime slime) {
 		return slime.getSchool();
+	}
+	
+	
+	//TODO: We added this!!!
+	@Override
+	public Collection<Gore> getBlood(World world) {
+		return world.getGameObjectsWithClass(Gore.class);
+	}
+	
+	@Override
+	public int[] getLocation(Gore blood) {
+		return Utilities.intVectorToArray(blood.getPositionInPixels());
+	}
+	
+	@Override
+	public Sprite getCurrentSprite(Gore blood) {
+		return blood.getCurrentSprite();
 	}
 	
 }

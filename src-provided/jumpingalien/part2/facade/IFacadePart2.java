@@ -2,6 +2,7 @@ package jumpingalien.part2.facade;
 
 import java.util.Collection;
 
+import jumpingalien.model.Gore;
 import jumpingalien.model.Plant;
 import jumpingalien.model.Shark;
 import jumpingalien.model.Mazub;
@@ -521,5 +522,11 @@ public interface IFacadePart2 extends jumpingalien.part1.facade.IFacade {
 	 * @return The current school of the given slime.
 	 */
 	School getSchool(Slime slime);
+
+	//TODO: We added this!!!
+	Collection<Gore> getBlood(World world);
+	int[] getLocation(Gore blood);
+	public Sprite getCurrentSprite(Gore blood);
+	
 
 }

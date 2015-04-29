@@ -3,6 +3,7 @@ package jumpingalien.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import jumpingalien.common.sprites.ImageSprite;
 import jumpingalien.model.reactions.PlantMazubCollisionDamager;
 import jumpingalien.util.Sprite;
 
@@ -41,6 +42,20 @@ public class Plant extends GameObject {
 		this.setSpeed(this.getSpeed().setX(Constants.plantSpeed));
 		
 		this.addCollisionDamager(new PlantMazubCollisionDamager(this, -1, 0));
+	}
+	
+	
+	@Override
+	protected Sprite[] getGoreSprites() {
+	
+		int numberOfGoreSprites = 8;
+		Sprite[] spriteSet = new Sprite[numberOfGoreSprites];
+		
+		for (int i = 1; i <= numberOfGoreSprites; i++) {
+			spriteSet[i-1] = ImageSprite.createSprite("levels/gore/plant/plantGore_" + i + ".png");
+		}
+		
+		return spriteSet;
 	}
 	
 	

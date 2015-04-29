@@ -320,17 +320,16 @@ public class MazubTest {
 	@Test
 	public void duck_underTerrain(){
 		
-		// This test probably fails due to an error in JUnit
-		// It does pass when you run it in debug mode.
-		
 		Vector<Integer> tilePos = new Vector<>(1, 2);
-		world.setTileType(tilePos, TileType.GROUND);
 
 		int height = mazub.getHeight();
 		mazub.startDuck();
 		mazub.advanceTime(Constants.maxTimeInterval / 10.0);
 		int duckHeight = mazub.getHeight();
 		assertTrue(duckHeight < height);
+		
+		world.setTileType(tilePos, TileType.GROUND);
+		mazub.advanceTime(Constants.maxTimeInterval / 10.0);
 		
 		mazub.endDuck();
 		mazub.advanceTime(Constants.maxTimeInterval / 10.0);

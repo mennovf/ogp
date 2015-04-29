@@ -10,7 +10,7 @@ import jumpingalien.model.Constants;
 import jumpingalien.model.Utilities;
 import jumpingalien.model.reactions.GameObjectCollisionDamager;
 import jumpingalien.model.reactions.TerrainCollisionDamager;
-import jumpingalien.model.reactions.TerrainDamageInfo;
+import jumpingalien.model.reactions.TerrainCollisionDamager.TerrainDamageInfo;
 
 /**
  * A class representing a single Mazub.

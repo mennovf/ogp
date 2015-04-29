@@ -963,6 +963,28 @@ public abstract class GameObject implements Collidable {
 		return false;
 	}
 	
+
+	/**
+	 * Returns whether or not this game object is currently in contact
+	 * with a GameObject with class cls.
+	 * 
+	 * @param cls
+	 * 			The class to check for.
+	 * 
+	 * @return true if this game object is in contact with a GameObject 
+	 * 			of class cls.
+	 */
+	public boolean inContactWithGameObjectWithClass(Class<? extends GameObject> cls) {
+		Set<GameObject> collidingObjs = this.getWorld().getObjectsCollidingWithObject(this);
+		
+		for (GameObject obj : collidingObjs) {
+			if (obj.getClass() == cls) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	
 	/**
 	 * Returns the kind of overlap with the given collidable.

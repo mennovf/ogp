@@ -41,11 +41,11 @@ public class SharkTest {
 		world.setTileType(new Vector<Integer>(2, 0), TileType.GROUND);
 		world.setTileType(new Vector<Integer>(2, 1), TileType.GROUND);
 		world.setTileType(new Vector<Integer>(1, 1), TileType.WATER);
-		mazub = TestUtilities.mazub(new Vector<>(0.0, 140 * 0.01));
-		world.setMazub(mazub);
-
 		startPos = Utilities.pixelsVectorToMeters(new Vector<>(world.getTileSize(), world.getTileSize()));
 		shark = TestUtilities.shark(startPos);
+		mazub = TestUtilities.mazub(Vector.add(startPos, shark.getSizeInMeters()));
+		world.setMazub(mazub);
+
 		world.addGameObject(shark);
 	}
 

@@ -72,10 +72,9 @@ public class Shark extends GameObject {
 		Sprite[] bloodSprites = super.getGoreSprites();
 		
 		int numberOfGoreSprites = 5;
-		int numberOfBloodSprites = 10;
-		Sprite[] spriteSet = new Sprite[numberOfGoreSprites + numberOfBloodSprites];
+		Sprite[] spriteSet = new Sprite[numberOfGoreSprites + Settings.sharkNumberOfBloodParticles];
 		
-		for (int i = 1; i <= numberOfGoreSprites + numberOfBloodSprites; i++) {
+		for (int i = 1; i <= numberOfGoreSprites + Settings.sharkNumberOfBloodParticles; i++) {
 			if (i <= numberOfGoreSprites) {
 				spriteSet[i-1] = ImageSprite.createSprite("levels/gore/fish/fishGore_" + i + ".png");
 			} else {

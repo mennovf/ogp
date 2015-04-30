@@ -768,10 +768,9 @@ public abstract class GameObject implements Collidable {
 	 * @return A list of sprites for the gore objects.
 	 */
 	protected Sprite[] getGoreSprites() {
-		int numberOfBloodSprites = 60;
 		Random random = new Random();
-		Sprite[] spriteSet = new Sprite[numberOfBloodSprites];
-		for (int i = 0; i < numberOfBloodSprites; i++) {
+		Sprite[] spriteSet = new Sprite[Settings.gameObjectNumberOfBloodParticles];
+		for (int i = 0; i < Settings.gameObjectNumberOfBloodParticles; i++) {
 			spriteSet[i] = ImageSprite.createSprite("levels/gore/blood/blood_" + (random.nextInt(3) + 1) + ".png");
 		}
 		return spriteSet;

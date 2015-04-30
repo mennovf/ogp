@@ -42,7 +42,16 @@ public class Gore extends GameObject {
 		return collidables;
 	}
 
+	/**
+	 * Does absolutely nothing.
+	 */
 	@Override
 	protected void handleStep(double dt) {}
-
+	
+	/**
+	 * Does absolutely nothing.
+	 */
+	@Override
+	public void onRemove() {}
+	
 }

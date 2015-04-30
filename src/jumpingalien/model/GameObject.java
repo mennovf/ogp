@@ -1115,4 +1115,17 @@ public abstract class GameObject implements Collidable {
 				|| pos.y + size.y <= selfPos.y
 				|| pos.y >= selfPos.y + selfSize.y);
 	}
+	
+	
+	/**
+	 * On removal of this GameObject from the world, spawns gore.
+	 * 
+	 * @post Several Gore objects will be added to the world.
+	 * 			| any (world.getGameObjects instanceof Gore)
+	 */
+	public void onRemove() {
+		for (Sprite sprite : this.getGoreSprites()) {
+			this.getWorld().addGameObject(Gore.create(Utilities.pixelsVectorToMeters(this.getCenterInPixels()), sprite));
+		}
+	}
 }

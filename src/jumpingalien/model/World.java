@@ -720,11 +720,7 @@ public class World {
 		
 		if (useGore) {
 			for (GameObject object : deaths) {
-				if (!(object instanceof Gore)) {
-					for (Sprite sprite : object.getGoreSprites()) {
-						this.addGameObject(Gore.create(Utilities.pixelsVectorToMeters(object.getCenterInPixels()), sprite));
-					}
-				}
+				object.onRemove();
 			}
 		}
 		

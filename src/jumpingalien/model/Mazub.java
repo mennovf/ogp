@@ -426,7 +426,7 @@ public class Mazub extends GameObject {
 		boolean canStand = true;
 		for (Collidable collidable : collidables) {
 			Vector<Integer> overlap = this.getKindOfOverlapWith(collidable);
-			if (overlap.y < 0 && 4*Math.abs(overlap.x) > Math.abs(overlap.y)) {
+			if (overlap.y < 0 && 10*Math.abs(overlap.x) > Math.abs(overlap.y)) {
 				if (collidable instanceof Tile) {
 					Tile tile = (Tile) collidable;
 					if (tile.getType() == TileType.GROUND) {

@@ -762,6 +762,11 @@ public abstract class GameObject implements Collidable {
 	}
 	
 	
+	/**
+	 * Returns a list of sprites for the gore objects.
+	 * 
+	 * @return A list of sprites for the gore objects.
+	 */
 	protected Sprite[] getGoreSprites() {
 		int numberOfBloodSprites = 60;
 		Random random = new Random();

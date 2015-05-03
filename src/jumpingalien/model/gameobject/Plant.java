@@ -1,10 +1,13 @@
-package jumpingalien.model;
+package jumpingalien.model.gameobject;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import jumpingalien.common.sprites.ImageSprite;
+import jumpingalien.model.Constants;
+import jumpingalien.model.Vector;
 import jumpingalien.model.reactions.PlantMazubCollisionDamager;
+import jumpingalien.model.world.TileType;
 import jumpingalien.util.Sprite;
 
 /**

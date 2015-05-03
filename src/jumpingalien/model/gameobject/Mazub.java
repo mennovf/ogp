@@ -1,4 +1,4 @@
-package jumpingalien.model;
+package jumpingalien.model.gameobject;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -6,11 +6,15 @@ import java.util.Set;
 
 import be.kuleuven.cs.som.annotate.*;
 import jumpingalien.util.Sprite;
+import jumpingalien.model.Collidable;
 import jumpingalien.model.Constants;
 import jumpingalien.model.Utilities;
+import jumpingalien.model.Vector;
 import jumpingalien.model.reactions.GameObjectCollisionDamager;
 import jumpingalien.model.reactions.TerrainCollisionDamager;
 import jumpingalien.model.reactions.TerrainCollisionDamager.TerrainDamageInfo;
+import jumpingalien.model.world.Tile;
+import jumpingalien.model.world.TileType;
 
 /**
  * A class representing a single Mazub.

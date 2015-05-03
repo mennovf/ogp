@@ -3,10 +3,10 @@ package jumpingalien.model.reactions;
 import java.util.Collection;
 
 import jumpingalien.model.Collidable;
-import jumpingalien.model.GameObject;
-import jumpingalien.model.Tile;
-import jumpingalien.model.TileType;
 import jumpingalien.model.Utilities;
+import jumpingalien.model.gameobject.GameObject;
+import jumpingalien.model.world.Tile;
+import jumpingalien.model.world.TileType;
 
 /**
  * Manages the administration for collisions with terrain.

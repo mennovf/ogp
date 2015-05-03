@@ -1,9 +1,15 @@
-package jumpingalien.model;
+package jumpingalien.model.world;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import jumpingalien.model.Constants;
+import jumpingalien.model.Settings;
+import jumpingalien.model.Utilities;
+import jumpingalien.model.Vector;
+import jumpingalien.model.gameobject.GameObject;
+import jumpingalien.model.gameobject.Mazub;
 import jumpingalien.util.ModelException;
 import be.kuleuven.cs.som.annotate.*;
 

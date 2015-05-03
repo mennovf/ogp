@@ -4,9 +4,9 @@ import static org.junit.Assert.*;
 import java.util.HashSet;
 import java.util.Set;
 
-import jumpingalien.model.School;
-import jumpingalien.model.Slime;
 import jumpingalien.model.Vector;
+import jumpingalien.model.gameobject.School;
+import jumpingalien.model.gameobject.Slime;
 
 import org.junit.After;
 import org.junit.AfterClass;

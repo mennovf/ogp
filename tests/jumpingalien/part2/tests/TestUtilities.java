@@ -1,11 +1,11 @@
 package jumpingalien.part2.tests;
 
-import jumpingalien.model.Mazub;
-import jumpingalien.model.School;
-import jumpingalien.model.Shark;
-import jumpingalien.model.Slime;
 import jumpingalien.model.Vector;
-import jumpingalien.model.World;
+import jumpingalien.model.gameobject.Mazub;
+import jumpingalien.model.gameobject.School;
+import jumpingalien.model.gameobject.Shark;
+import jumpingalien.model.gameobject.Slime;
+import jumpingalien.model.world.World;
 import jumpingalien.part2.internal.Resources;
 import jumpingalien.util.Sprite;
 

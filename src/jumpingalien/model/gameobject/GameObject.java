@@ -1,11 +1,19 @@
-package jumpingalien.model;
+package jumpingalien.model.gameobject;
 
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
 import jumpingalien.common.sprites.ImageSprite;
+import jumpingalien.model.Collidable;
+import jumpingalien.model.Constants;
+import jumpingalien.model.Settings;
+import jumpingalien.model.Utilities;
+import jumpingalien.model.Vector;
 import jumpingalien.model.reactions.CollisionDamager;
+import jumpingalien.model.world.Tile;
+import jumpingalien.model.world.TileType;
+import jumpingalien.model.world.World;
 import jumpingalien.util.Sprite;
 import be.kuleuven.cs.som.annotate.*;
 

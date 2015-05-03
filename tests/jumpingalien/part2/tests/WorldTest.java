@@ -8,14 +8,14 @@ import java.util.Set;
 
 import jumpingalien.common.sprites.JumpingAlienSprites;
 import jumpingalien.model.Constants;
-import jumpingalien.model.GameObject;
-import jumpingalien.model.Mazub;
-import jumpingalien.model.Shark;
-import jumpingalien.model.Tile;
-import jumpingalien.model.TileType;
 import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
-import jumpingalien.model.World;
+import jumpingalien.model.gameobject.GameObject;
+import jumpingalien.model.gameobject.Mazub;
+import jumpingalien.model.gameobject.Shark;
+import jumpingalien.model.world.Tile;
+import jumpingalien.model.world.TileType;
+import jumpingalien.model.world.World;
 import jumpingalien.util.ModelException;
 
 import org.junit.After;

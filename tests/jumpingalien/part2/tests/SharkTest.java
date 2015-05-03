@@ -2,14 +2,14 @@ package jumpingalien.part2.tests;
 
 import static org.junit.Assert.*;
 import jumpingalien.model.Constants;
-import jumpingalien.model.Mazub;
-import jumpingalien.model.School;
-import jumpingalien.model.Shark;
-import jumpingalien.model.Slime;
-import jumpingalien.model.TileType;
 import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
-import jumpingalien.model.World;
+import jumpingalien.model.gameobject.Mazub;
+import jumpingalien.model.gameobject.School;
+import jumpingalien.model.gameobject.Shark;
+import jumpingalien.model.gameobject.Slime;
+import jumpingalien.model.world.TileType;
+import jumpingalien.model.world.World;
 
 import org.junit.After;
 import org.junit.AfterClass;

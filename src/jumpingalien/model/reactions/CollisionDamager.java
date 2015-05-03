@@ -1,7 +1,7 @@
 package jumpingalien.model.reactions;
 
 import jumpingalien.model.Collidable;
-import jumpingalien.model.GameObject;
+import jumpingalien.model.gameobject.GameObject;
 
 /**
  * A class handling the administration of registering damage to it's owner.

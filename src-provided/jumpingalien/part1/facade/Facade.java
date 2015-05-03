@@ -1,7 +1,7 @@
 package jumpingalien.part1.facade;
 
-import jumpingalien.model.Mazub;
 import jumpingalien.model.Vector;
+import jumpingalien.model.gameobject.Mazub;
 import jumpingalien.util.Sprite;
 
 public class Facade implements IFacade {

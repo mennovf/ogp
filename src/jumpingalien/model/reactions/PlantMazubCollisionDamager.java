@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import jumpingalien.model.Collidable;
-import jumpingalien.model.GameObject;
-import jumpingalien.model.Mazub;
+import jumpingalien.model.gameobject.GameObject;
+import jumpingalien.model.gameobject.Mazub;
 
 /**
  * A class specifically meant for the plant being eaten by Mazub. It needs

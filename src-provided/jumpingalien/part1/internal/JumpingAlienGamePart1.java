@@ -8,7 +8,7 @@ import jumpingalien.common.game.JumpingAlienGame;
 import jumpingalien.common.game.WorldInfoProvider;
 import jumpingalien.common.sprites.JumpingAlienSprites;
 import jumpingalien.part1.facade.IFacade;
-import jumpingalien.model.Mazub;
+import jumpingalien.model.gameobject.Mazub;
 import jumpingalien.util.Sprite;
 
 public class JumpingAlienGamePart1 extends JumpingAlienGame {

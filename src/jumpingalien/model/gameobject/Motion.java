@@ -1,5 +1,6 @@
-package jumpingalien.model;
+package jumpingalien.model.gameobject;
 
+import jumpingalien.model.Vector;
 import be.kuleuven.cs.som.annotate.*;
 
 /**

@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import jumpingalien.model.Collidable;
-import jumpingalien.model.GameObject;
+import jumpingalien.model.gameobject.GameObject;
 
 /**
  * A class handling the administration for a collision with a GameObject.

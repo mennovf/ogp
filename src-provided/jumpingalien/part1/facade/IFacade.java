@@ -1,6 +1,6 @@
 package jumpingalien.part1.facade;
 
-import jumpingalien.model.Mazub;
+import jumpingalien.model.gameobject.Mazub;
 import jumpingalien.util.Sprite;
 
 /**

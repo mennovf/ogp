@@ -1,5 +1,8 @@
-package jumpingalien.model;
+package jumpingalien.model.world;
 
+import jumpingalien.model.Collidable;
+import jumpingalien.model.Utilities;
+import jumpingalien.model.Vector;
 import be.kuleuven.cs.som.annotate.*;
 
 /**

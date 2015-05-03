@@ -9,11 +9,11 @@ import java.util.HashMap;
 import jumpingalien.common.gui.AlienGUIUtils;
 import jumpingalien.common.gui.painters.AbstractAlienPainter;
 import jumpingalien.common.sprites.ImageSprite;
-import jumpingalien.model.Gore;
-import jumpingalien.model.Plant;
-import jumpingalien.model.School;
-import jumpingalien.model.Shark;
-import jumpingalien.model.Slime;
+import jumpingalien.model.gameobject.Gore;
+import jumpingalien.model.gameobject.Plant;
+import jumpingalien.model.gameobject.School;
+import jumpingalien.model.gameobject.Shark;
+import jumpingalien.model.gameobject.Slime;
 
 public final class GameObjectPainter extends
 		AbstractAlienPainter<Part2GameScreen> {

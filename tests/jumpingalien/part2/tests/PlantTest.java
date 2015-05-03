@@ -2,10 +2,10 @@ package jumpingalien.part2.tests;
 
 import static org.junit.Assert.*;
 import jumpingalien.model.Constants;
-import jumpingalien.model.Mazub;
-import jumpingalien.model.Plant;
 import jumpingalien.model.Vector;
-import jumpingalien.model.World;
+import jumpingalien.model.gameobject.Mazub;
+import jumpingalien.model.gameobject.Plant;
+import jumpingalien.model.world.World;
 import jumpingalien.part2.internal.Resources;
 import jumpingalien.util.Sprite;
 

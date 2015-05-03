@@ -1,7 +1,7 @@
 package jumpingalien.part2.tests;
 
 import static org.junit.Assert.*;
-import jumpingalien.model.TileType;
+import jumpingalien.model.world.TileType;
 
 import org.junit.After;
 import org.junit.AfterClass;

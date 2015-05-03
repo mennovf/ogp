@@ -849,6 +849,7 @@ public abstract class GameObject implements Collidable {
 			Set<Tile> collidingTiles = this.getWorld().getTilesCollidingWithObject(this);
 			
 			this.handleCollisions(collidingObjects, collidingTiles);
+
 			this.getWorld().getCommandQueue().execute();
 		}
 		

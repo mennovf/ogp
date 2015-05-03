@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import jumpingalien.model.command.CommandQueue;
 import jumpingalien.util.ModelException;
 import be.kuleuven.cs.som.annotate.*;
 
@@ -51,6 +52,10 @@ public class World {
 	private Set<GameObject> objects = new HashSet<>();
 	
 	
+	/**
+	 * A command queue holding command to execute after warning each object of a collision.
+	 */
+	private CommandQueue commandQueue = new CommandQueue();
 	
 	/**
 	 * Creates a new world with the given parameters.
@@ -719,5 +724,10 @@ public class World {
 		}
 		
 		this.objects.removeAll(deaths);
+	}
+	
+
+	public CommandQueue getCommandQueue() {
+		return this.commandQueue;
 	}
 }

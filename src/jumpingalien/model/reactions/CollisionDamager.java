@@ -62,7 +62,7 @@ public abstract class CollisionDamager {
 	public void reactTo(Collidable obj){
 		assert this.doesReactTo(obj);
 		if (this.canTakeDamage()){
-			owner.takeDamage(this.damage);
+			this.owner.getWorld().getCommandQueue().add(()->{owner.takeDamage(this.damage);});
 			this.timeSince = 0;
 		}
 	}

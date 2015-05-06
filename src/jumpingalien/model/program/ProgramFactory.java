@@ -48,7 +48,7 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 
 	@Override
 	public Expression createDirectionConstant(
-			jumpingalien.part3.programs.IProgramFactory.Direction value,
+			Direction value,
 			SourceLocation sourceLocation) {
 		// TODO Auto-generated method stub
 		return null;
@@ -282,10 +282,10 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 	@Override
 	public Statement createForEach(
 			String variableName,
-			jumpingalien.part3.programs.IProgramFactory.Kind variableKind,
+			Kind variableKind,
 			Expression where,
 			Expression sort,
-			jumpingalien.part3.programs.IProgramFactory.SortDirection sortDirection,
+			SortDirection sortDirection,
 			Statement body, SourceLocation sourceLocation) {
 		// TODO Auto-generated method stub
 		return null;

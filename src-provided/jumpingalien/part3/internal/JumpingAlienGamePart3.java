@@ -19,9 +19,10 @@ import jumpingalien.common.game.WorldInfoProvider;
 import jumpingalien.common.sprites.ImageSprite;
 import jumpingalien.common.sprites.JumpingAlienSprites;
 import jumpingalien.model.gameobject.Buzam;
+import jumpingalien.model.gameobject.Gore;
 import jumpingalien.model.gameobject.Mazub;
 import jumpingalien.model.gameobject.Plant;
-import jumpingalien.model.Program;
+import jumpingalien.model.program.Program;
 import jumpingalien.model.gameobject.School;
 import jumpingalien.model.gameobject.Shark;
 import jumpingalien.model.gameobject.Slime;
@@ -589,6 +590,28 @@ public class JumpingAlienGamePart3 extends JumpingAlienGame {
 			@Override
 			public Optional<School> getSchool(Slime slime) {
 				return catchErrorGet(() -> getFacade().getSchool(slime));
+			}
+
+			// We added this!
+			@Override
+			public Optional<int[]> getLocation(Gore gore) {
+				return Optional.of(getFacade().getLocation(gore));
+			}
+
+			// We added this!
+			@Override
+			public Optional<ImageSprite> getCurrentSprite(Gore gore) {
+				return Optional.of((ImageSprite) getFacade().getCurrentSprite(gore));
+			}
+
+			// We added this!
+			@Override
+			public Collection<Gore> getGore() {
+				Collection<Gore> result = getFacade().getGore(world);
+				if (result == null) {
+					result = Collections.emptyList();
+				}
+				return result;
 			}
 
 		};

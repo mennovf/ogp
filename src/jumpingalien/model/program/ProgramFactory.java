@@ -7,18 +7,18 @@ import jumpingalien.model.gameobject.GameObject;
 import jumpingalien.part3.programs.IProgramFactory;
 import jumpingalien.part3.programs.SourceLocation;
 
-public class ProgramFactory implements IProgramFactory<Expression, Statement, Type<?>, Program> {
+public class ProgramFactory implements IProgramFactory<Expression<?>, Statement, Type<?>, Program> {
 
 	@Override
-	public Expression createReadVariable(String variableName, Type<?> variableType,
+	public Expression<?> createReadVariable(String variableName, Type<?> variableType,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
+		//TODO: Implement this
 		return null;
 	}
 
 	@Override
-	public Expression createDoubleConstant(double value, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
+	public Expression<Type<Double>> createDoubleConstant(double value, SourceLocation sourceLocation) {
+		//TODO: Implement this
 		return null;
 	}
 
@@ -366,32 +366,27 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 
 	@Override
 	public Type<Double> getDoubleType() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Type<Double>();
 	}
 
 	@Override
 	public Type<Boolean> getBoolType() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Type<Boolean>();
 	}
 
 	@Override
 	public Type<GameObject> getGameObjectType() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Type<GameObject>();
 	}
 
 	@Override
 	public Type<Direction> getDirectionType() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Type<Direction>();
 	}
 
 	@Override
 	public Program createProgram(Statement mainStatement, Map<String, Type<?>> globalVariables) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Program(mainStatement, globalVariables);
 	}
 
 }

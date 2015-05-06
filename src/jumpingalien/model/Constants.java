@@ -86,6 +86,21 @@ public class Constants {
 	public final static double mazubInitialJumpSpeed = 8;
 	
 	/**
+	 * The initial horizontal speed Mazub gets when he starts running.
+	 */
+	public final static double mazubInitialHorizontalSpeed = 1.0;
+	
+	/**
+	 * The maximum horizontal speed Mazub can have while running.
+	 */
+	public final static double mazubMaxHorizontalSpeed = 3.0;
+	
+	/**
+	 * The begin direction in the world for Mazub.
+	 */
+	public final static double mazubBeginDirection = 1.0;
+	
+	/**
 	 * Mazub's maximum horizontal speed while ducking.
 	 */
 	public final static double mazubMaxSpeedDucking = 1.0;

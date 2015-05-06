@@ -3,6 +3,7 @@ package jumpingalien.part2.facade;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import jumpingalien.model.Constants;
 import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
 import jumpingalien.model.gameobject.Gore;
@@ -21,7 +22,8 @@ public class Facade implements IFacadePart2 {
 	@Override
 	public Mazub createMazub(int x, int y, Sprite[] sprites) {
 		return new Mazub(new Vector<>(Utilities.pixelsToMeters(x), Utilities.pixelsToMeters(y)),
-				sprites, 1.0, 3.0, 1.0);
+				sprites, Constants.mazubInitialHorizontalSpeed, Constants.mazubMaxHorizontalSpeed,
+				Constants.mazubBeginDirection);
 	}
 
 	@Override

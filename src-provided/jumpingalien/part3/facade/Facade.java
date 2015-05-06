@@ -1,5 +1,8 @@
 package jumpingalien.part3.facade;
 
+import jumpingalien.model.Constants;
+import jumpingalien.model.Utilities;
+import jumpingalien.model.Vector;
 import jumpingalien.model.gameobject.Buzam;
 import jumpingalien.model.gameobject.Plant;
 import jumpingalien.model.gameobject.School;
@@ -14,8 +17,7 @@ public class Facade extends jumpingalien.part2.facade.Facade implements IFacadeP
 
 	@Override
 	public Buzam createBuzam(int pixelLeftX, int pixelBottomY, Sprite[] sprites) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Buzam(Utilities.pixelsVectorToMeters(new Vector<>(pixelLeftX, pixelBottomY)), sprites, 1.0, 3.0, 1.0);
 	}
 
 	@Override
@@ -66,38 +68,32 @@ public class Facade extends jumpingalien.part2.facade.Facade implements IFacadeP
 
 	@Override
 	public int[] getLocation(Buzam alien) {
-		// TODO Auto-generated method stub
-		return null;
+		return Utilities.intVectorToArray(alien.getPositionInPixels());
 	}
 
 	@Override
 	public double[] getVelocity(Buzam alien) {
-		// TODO Auto-generated method stub
-		return null;
+		return Utilities.doubleVectorToArray(alien.getSpeed());
 	}
 
 	@Override
 	public double[] getAcceleration(Buzam alien) {
-		// TODO Auto-generated method stub
-		return null;
+		return Utilities.doubleVectorToArray(alien.getAcceleration());
 	}
 
 	@Override
 	public int[] getSize(Buzam alien) {
-		// TODO Auto-generated method stub
-		return null;
+		return Utilities.intVectorToArray(alien.getSizeInPixels());
 	}
 
 	@Override
 	public Sprite getCurrentSprite(Buzam alien) {
-		// TODO Auto-generated method stub
-		return null;
+		return alien.getCurrentSprite();
 	}
 
 	@Override
 	public int getNbHitPoints(Buzam alien) {
-		// TODO Auto-generated method stub
-		return 0;
+		return alien.getHealth();
 	}
 
 }

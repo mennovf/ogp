@@ -4,10 +4,11 @@ import java.util.List;
 import java.util.Map;
 
 import jumpingalien.model.gameobject.GameObject;
+import jumpingalien.model.program.expression.Expression;
 import jumpingalien.part3.programs.IProgramFactory;
 import jumpingalien.part3.programs.SourceLocation;
 
-public class ProgramFactory implements IProgramFactory<Expression<?>, Statement, Type<?>, Program> {
+public class ProgramFactory implements IProgramFactory<Expression<?>, Statement, Object, Program> {
 
 	@Override
 	public Expression<?> createReadVariable(String variableName, Type<?> variableType,

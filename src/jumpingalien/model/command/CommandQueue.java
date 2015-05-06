@@ -3,6 +3,8 @@ package jumpingalien.model.command;
 import java.util.LinkedList;
 
 public class CommandQueue {
+
+	@FunctionalInterface
 	public static interface Command {
 		void execute();
 	}

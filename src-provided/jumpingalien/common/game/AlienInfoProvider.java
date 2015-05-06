@@ -4,8 +4,10 @@ import java.util.Optional;
 
 import jumpingalien.util.Sprite;
 
-public interface AlienInfoProvider {
+public interface AlienInfoProvider<T> {
 
+	public T getAlien();
+	
 	public Optional<int[]> getAlienXY();
 
 	public Optional<int[]> getAlienSize();

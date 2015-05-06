@@ -67,8 +67,13 @@ public class JumpingAlienGamePart1 extends JumpingAlienGame {
 	}
 
 	@Override
-	protected AlienInfoProvider createAlienInfoProvider() {
-		return new AlienInfoProvider() {
+	protected AlienInfoProvider<Mazub> createAlienInfoProvider() {
+		return new AlienInfoProvider<Mazub>() {
+			
+			@Override
+			public Mazub getAlien() {
+				return alien;
+			}
 
 			@Override
 			public Optional<int[]> getAlienXY() {

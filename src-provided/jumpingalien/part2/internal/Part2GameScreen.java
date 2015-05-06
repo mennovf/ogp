@@ -87,7 +87,8 @@ public class Part2GameScreen extends
 	protected void setupPainters() {
 		addPainter(new SolidBackgroundPainter(Color.BLACK, this));
 
-		addPainter(new TilePainter(this));
+		addPainter(new TilePainter(this, getGame().getMap(), getGame()
+				.getWorldInfoProvider()));
 
 		if (getOptions().getDebugShowInfo()) {
 			DebugInfoPainter debugInfoPainter = new DebugInfoPainter(this);
@@ -138,19 +139,21 @@ public class Part2GameScreen extends
 			addPainter(new HistoryPainter(this));
 		}
 
-		addPainter(new GameObjectPainter(this));
+		addPainter(new GameObjectPainter(this,
+				getGame().getAlienInfoProvider(), getGame()
+						.getObjectInfoProvider()));
 
 		addPainter(new PlayerPainter(this));
-		addPainter(new ImmunityPainter(this));
+		addPainter(new ImmunityPainter(this, getGame().getAlienInfoProvider()));
 
 		addPainter(new WorldBorderPainter(this));
 
-		addPainter(new HealthPainter(this));
+		addPainter(new HealthPainter(this, getGame().getAlienInfoProvider()));
 
 		addPainter(new MessagePainter<Part2GameScreen>(this,
 				getGame()::getCurrentMessage));
 
-		addPainter(new GameOverPainter(this));
+		addPainter(new GameOverPainter(this, getGame().getWorldInfoProvider()));
 	}
 
 	@Override

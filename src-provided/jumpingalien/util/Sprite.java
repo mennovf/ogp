@@ -26,7 +26,7 @@ public class Sprite {
 
 	@Override
 	public String toString() {
-		return String.format("Sprite '%s' (size %dx%d)", name, width, height);
+		return String.format("Sprite '%s' (width %d x height %d)", name, width, height);
 	}
 
 }

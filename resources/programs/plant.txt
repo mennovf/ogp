@@ -1,0 +1,10 @@
+
+while true do
+  start_run right;
+  wait (0.5 - 0.001);
+  stop_run right;
+  start_run left;
+  wait (0.5 - 0.001);
+  stop_run left;
+done
+

@@ -7,6 +7,7 @@ import java.awt.Stroke;
 import java.util.HashMap;
 
 import jumpingalien.common.gui.AlienGUIUtils;
+import jumpingalien.common.gui.AlienGameScreen;
 import jumpingalien.common.gui.painters.AbstractAlienPainter;
 import jumpingalien.common.sprites.ImageSprite;
 import jumpingalien.model.gameobject.Gore;
@@ -16,15 +17,17 @@ import jumpingalien.model.gameobject.Shark;
 import jumpingalien.model.gameobject.Slime;
 
 public final class GameObjectPainter extends
-		AbstractAlienPainter<Part2GameScreen> {
+		AbstractAlienPainter<AlienGameScreen<?, ?>> {
 
-	public GameObjectPainter(Part2GameScreen screen) {
+	private final AlienInfoProvider2<?> alienInfoProvider;
+	private final ObjectInfoProvider objectInfoProvider;
+
+	public GameObjectPainter(AlienGameScreen<?, ?> screen,
+			AlienInfoProvider2<?> alienInfoProvider,
+			ObjectInfoProvider objectInfoProvider) {
 		super(screen);
-	}
-
-	@Override
-	protected JumpingAlienGamePart2 getGame() {
-		return (JumpingAlienGamePart2) super.getGame();
+		this.alienInfoProvider = alienInfoProvider;
+		this.objectInfoProvider = objectInfoProvider;
 	}
 
 	@Override
@@ -39,37 +42,32 @@ public final class GameObjectPainter extends
 		paintSharks(g);
 		paintSlimes(g);
 		
-		//TODO: We added this!!!
+		//TODO: We added this!
 		paintBlood(g);
 	}
 
 	protected void paintMazubDebugInfo(Graphics2D g) {
-		AlienInfoProvider2 aip = getGame().getAlienInfoProvider();
-		aip.getAlienXY().ifPresent(
-				xy -> paintDebugInfo(g, getGame().getAlien(), xy));
+		alienInfoProvider.getAlienXY().ifPresent(
+				xy -> paintDebugInfo(g, alienInfoProvider.getAlien(), xy));
 	}
 	
-	
-	//TODO: We added this!!!
+	//TODO: We added this!
 	protected void paintBlood(Graphics2D g) {
-		ObjectInfoProvider oip = getGame().getObjectInfoProvider();
-		for (Gore blood : oip.getBlood()) {
-			oip.getLocation(blood).ifPresent(
+		for (Gore gore: objectInfoProvider.getGore()) {
+			objectInfoProvider.getLocation(gore).ifPresent(
 					xy -> {
-						oip.getCurrentSprite(blood).ifPresent(
+						objectInfoProvider.getCurrentSprite(gore).ifPresent(
 								sprite -> paintSprite(g, sprite, xy));
-						paintDebugInfo(g, blood, xy);
+						paintDebugInfo(g, gore, xy);
 					});
 		}
 	}
-	
 
 	protected void paintSharks(Graphics2D g) {
-		ObjectInfoProvider oip = getGame().getObjectInfoProvider();
-		for (Shark shark : oip.getSharks()) {
-			oip.getLocation(shark).ifPresent(
+		for (Shark shark : objectInfoProvider.getSharks()) {
+			objectInfoProvider.getLocation(shark).ifPresent(
 					xy -> {
-						oip.getCurrentSprite(shark).ifPresent(
+						objectInfoProvider.getCurrentSprite(shark).ifPresent(
 								sprite -> paintSprite(g, sprite, xy));
 						paintDebugInfo(g, shark, xy);
 					});
@@ -84,22 +82,28 @@ public final class GameObjectPainter extends
 	}
 
 	protected void paintSlimes(Graphics2D g) {
-		ObjectInfoProvider oip = getGame().getObjectInfoProvider();
-		for (Slime slime : oip.getSlimes()) {
-			oip.getLocation(slime).ifPresent(
-					xy -> {
-						oip.getCurrentSprite(slime).ifPresent(
-								sprite -> oip.getSchool(slime).ifPresent(
-										school -> paintSprite(g, sprite
-												.shiftHue(getHueShift(school)),
-												xy)));
-						paintDebugInfo(g, slime, xy);
-					});
+		for (Slime slime : objectInfoProvider.getSlimes()) {
+			objectInfoProvider
+					.getLocation(slime)
+					.ifPresent(
+							xy -> {
+								objectInfoProvider
+										.getCurrentSprite(slime)
+										.ifPresent(
+												sprite -> objectInfoProvider
+														.getSchool(slime)
+														.ifPresent(
+																school -> paintSprite(
+																		g,
+																		sprite.shiftHue(getHueShift(school)),
+																		xy)));
+								paintDebugInfo(g, slime, xy);
+							});
 		}
 	}
 
 	private void paintDebugInfo(Graphics2D g, Object object, int[] xy) {
-		if (getOptions().getDebugShowObjectString()) {
+		if (getOptions().getDebugShowObjectString() && object != null) {
 			// need to flip y
 			g.scale(1, -1);
 			g.setColor(Color.BLACK);
@@ -112,11 +116,10 @@ public final class GameObjectPainter extends
 	}
 
 	protected void paintPlants(Graphics2D g) {
-		ObjectInfoProvider oip = getGame().getObjectInfoProvider();
-		for (Plant plant : oip.getPlants()) {
-			oip.getLocation(plant).ifPresent(
+		for (Plant plant : objectInfoProvider.getPlants()) {
+			objectInfoProvider.getLocation(plant).ifPresent(
 					xy -> {
-						oip.getCurrentSprite(plant).ifPresent(
+						objectInfoProvider.getCurrentSprite(plant).ifPresent(
 								sprite -> paintSprite(g, sprite, xy));
 						paintDebugInfo(g, plant, xy);
 					});

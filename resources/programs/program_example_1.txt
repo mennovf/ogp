@@ -1,0 +1,13 @@
+object o := null;
+
+while (! isdead (self)) do
+  o := searchobj ( left );
+  if (isslime(o)) then
+    start_run left;
+    wait(0.1);
+  else
+    start_duck();
+    start_run (right);
+  fi
+done
+

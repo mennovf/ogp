@@ -79,7 +79,7 @@ class TMXFileSAXHandler extends DefaultHandler {
 				if (currentObject != null) {
 					currentObject.setAttribute(name, attributes.getValue("value"));
 				} else {
-					System.out.println("UNHANDLED ATTRIBUTE: " + name);
+					map.setAttribute(name, attributes.getValue("value"));
 				}
 			}
 			}

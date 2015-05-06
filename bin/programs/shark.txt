@@ -1,0 +1,42 @@
+
+double t;
+double d;
+direction dir;
+
+double j;
+double jn := 0;
+
+while true do
+  t := -1;
+
+  while (t < 1) do
+    t := random 4;
+  done
+
+  d := random 2;
+  if (d <= 1) then
+    dir := left;
+  else
+    dir := (right);
+  fi
+
+  if jn >= 4 then
+    j := random 2;
+  else
+    j := 0;
+  fi
+
+  start_run dir;
+  if (j > 1) then
+    start_jump;
+    t := 0;
+  else
+    t := t + 1;
+  fi
+  wait t;
+  if (j > 1) then
+    stop_jump;
+  fi
+  stop_run dir;
+done
+

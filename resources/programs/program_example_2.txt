@@ -1,0 +1,33 @@
+object nearestPlant;
+double distanceToNearestPlant;
+double x;
+double y;
+double ox;
+double oy;
+double distance;
+object o;
+
+while true do
+  x := getx self;
+  y := gety self;
+  nearestPlant := null;
+  foreach(plant, o) do
+    if (! isdead (o)) then
+      ox := getx o;
+      oy := gety o;
+      distance := sqrt((((x - ox) * (x - ox)) + ((y - oy) * (y - oy))));
+      if (nearestPlant == null) then
+        nearestPlant := o;
+        distanceToNearestPlant := distance;
+      else
+        if (distance < distanceToNearestPlant) then
+          nearestPlant := o;
+          distanceToNearestPlant := distance;
+        fi
+      fi
+    fi
+  done
+  if (nearestPlant != null) then
+    print distanceToNearestPlant;
+  fi
+done

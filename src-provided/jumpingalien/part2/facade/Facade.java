@@ -278,7 +278,7 @@ public class Facade implements IFacadePart2 {
 	
 	//TODO: We added this!!!
 	@Override
-	public Collection<Gore> getBlood(World world) {
+	public Collection<Gore> getGore(World world) {
 		return world.getGameObjectsWithClass(Gore.class);
 	}
 	

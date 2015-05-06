@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import jumpingalien.model.gameobject.Mazub;
 import jumpingalien.util.ModelException;
 import ogp.framework.command.Command;
 import ogp.framework.game.Game;
@@ -42,7 +43,7 @@ public abstract class JumpingAlienGame extends Game {
 	public JumpingAlienGameOptions getOptions() {
 		return (JumpingAlienGameOptions) super.getOptions();
 	}
-	
+
 	public void restart() {
 		start();
 	}
@@ -61,7 +62,7 @@ public abstract class JumpingAlienGame extends Game {
 	public void setPause(boolean value) {
 		running = !value;
 	}
-	
+
 	public void stop() {
 		running = false;
 	}
@@ -178,15 +179,15 @@ public abstract class JumpingAlienGame extends Game {
 		return visibleScreenHeight;
 	}
 
-	private final AlienInfoProvider alienInfoProvider;
+	private final AlienInfoProvider<Mazub> alienInfoProvider;
 
-	protected abstract AlienInfoProvider createAlienInfoProvider();
+	protected abstract AlienInfoProvider<Mazub> createAlienInfoProvider();
 
 	private final WorldInfoProvider worldInfoProvider;
 
 	protected abstract WorldInfoProvider createWorldInfoProvider();
 
-	public AlienInfoProvider getAlienInfoProvider() {
+	public AlienInfoProvider<Mazub> getAlienInfoProvider() {
 		return alienInfoProvider;
 	}
 

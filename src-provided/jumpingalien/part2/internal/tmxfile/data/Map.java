@@ -1,6 +1,7 @@
 package jumpingalien.part2.internal.tmxfile.data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -13,6 +14,9 @@ public class Map {
 	private final List<Layer> layers = new ArrayList<>();
 	private final List<ObjectGroup> objectGroups = new ArrayList<>();
 
+
+	private final java.util.Map<String, String> attributes = new HashMap<String, String>();
+	
 	private final int nbTilesY;
 	private final int nbTilesX;
 	private final int tileSizeX;
@@ -139,5 +143,17 @@ public class Map {
 
 	public Set<MapObject> getObjects() {
 		return getObjectGroups().stream().flatMap(og -> og.getObjects().stream()).collect(Collectors.toSet());
+	}
+
+	public void setAttribute(String name, String value) {
+		attributes.put(name, value);
+	}
+	
+	public String getAttribute(String name) {
+		return attributes.get(name);
+	}
+
+	public boolean hasAttribute(String name) {
+		return attributes.containsKey(name);
 	}
 }

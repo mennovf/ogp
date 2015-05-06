@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import jumpingalien.common.game.AlienInfoProvider;
 
-public interface AlienInfoProvider2 extends AlienInfoProvider {
+public interface AlienInfoProvider2<T> extends AlienInfoProvider<T> {
 
 	public Optional<Integer> getAlienHealth();
 	

@@ -1,0 +1,41 @@
+
+bool b        := true;
+direction dir := left;
+double d      := 0.001;
+object o      := null;
+
+while (b) do
+  if (! (! b)) then
+    start_run right;
+    skip;
+    skip;
+    wait 0.1;
+    stop_run left;
+  fi
+  if (((! b))) then
+    start_run left;
+    wait 0.1;
+    skip;
+    skip;
+    stop_run right;
+  fi
+  foreach (any, o)
+    where (isplant o || isair o)
+    sort getwidth o * getheight o * getx o / gety o descending
+    do
+      if o != null then
+        d := getheight o;
+        d := sqrt d;
+        b := ismoving (o, up);
+        dir := right;
+        while dir == left do
+          if (ismoving (o, down)) then
+            dir := left;
+          else
+            dir := down;
+          fi
+        done
+      fi
+    done
+done
+

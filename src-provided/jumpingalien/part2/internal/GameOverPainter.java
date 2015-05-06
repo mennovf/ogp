@@ -8,26 +8,25 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.font.TextLayout;
 
+import jumpingalien.common.gui.AlienGameScreen;
 import jumpingalien.common.gui.painters.AbstractAlienPainter;
 
 public final class GameOverPainter extends
-		AbstractAlienPainter<Part2GameScreen> {
+		AbstractAlienPainter<AlienGameScreen<?, ?>> {
 
-	public GameOverPainter(Part2GameScreen screen) {
+	private final Part2WorldInfoProvider worldInfoProvider;
+
+	public GameOverPainter(AlienGameScreen<?, ?> screen,
+			Part2WorldInfoProvider worldInfoProvider) {
 		super(screen);
-	}
-
-	@Override
-	protected JumpingAlienGamePart2 getGame() {
-		return (JumpingAlienGamePart2) super.getGame();
+		this.worldInfoProvider = worldInfoProvider;
 	}
 
 	@Override
 	public void paintScreenPost(Graphics2D g) {
-		Part2WorldInfoProvider wip = getGame().getWorldInfoProvider();
-		wip.isGameOver().ifPresent(gameOver -> {
+		worldInfoProvider.isGameOver().ifPresent(gameOver -> {
 			if (gameOver) {
-				wip.didPlayerWin().ifPresent(winner -> {
+				worldInfoProvider.didPlayerWin().ifPresent(winner -> {
 					if (winner) {
 						paintGameOverWinner(g);
 					} else {

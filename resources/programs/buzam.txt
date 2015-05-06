@@ -1,0 +1,99 @@
+
+direction currentxdir := up;
+direction newxdir := left;
+
+bool haveenemy := false;
+direction newydir := up;
+
+object nearestSS := null;
+double distanceToNearestSS;
+double x;
+double y;
+double ox;
+double oy;
+double distance;
+object o;
+
+
+while true do
+
+
+  currentxdir := up;
+  if (ismoving (self, left)) then currentxdir := left; fi
+  if (ismoving (self, right)) then currentxdir := right; fi
+
+
+  if (nearestSS != null && distanceToNearestSS <= 100) then
+    haveenemy := true;
+    if (gety nearestSS > gety self) then
+      newydir := up;
+    fi
+    if (gety nearestSS < gety self) then
+      newydir := down;
+    fi
+    if (getx nearestSS > getx self) then
+      newxdir := right;
+    fi
+    if (getx nearestSS < gety self) then
+      newydir := left;
+    fi
+  else
+    haveenemy := false;
+  fi
+
+
+  if (! isjumping self &&
+      ispassable(gettile(getx self, gety self))) then
+    newxdir := right;
+  fi
+  if (! isjumping self &&
+      ispassable(gettile((getx self) + (getwidth self) - 1, gety self))) then
+    newxdir := left;
+  fi
+
+
+  if (isjumping self && (! haveenemy || ismoving (self, down))) then
+    stop_jump;
+  fi
+  if (currentxdir != up && currentxdir != newxdir) then
+    stop_run currentxdir;
+    if (! haveenemy) then
+      wait (random 2);
+    fi
+    start_run newxdir;
+    currentxdir := newxdir;
+  fi
+  if (currentxdir == up) then
+    start_run newxdir;
+    currentxdir := newxdir;
+  fi
+  if currentxdir == newxdir then
+    if (haveenemy && newydir == up && ! isjumping self) then
+      start_jump;
+    fi
+  fi
+
+
+  x := getx self;
+  y := gety self;
+  nearestSS := null;
+  foreach (any, o) where (isshark o || isslime o) do
+    if (! isdead (o)) then
+      ox := getx o;
+      oy := gety o;
+      distance := sqrt((((x - ox) * (x - ox)) + ((y - oy) * (y - oy))));
+      if (nearestSS == null) then
+        nearestSS := o;
+        distanceToNearestSS := distance;
+      else
+        if (distance < distanceToNearestSS) then
+          nearestSS := o;
+          distanceToNearestSS := distance;
+        fi
+      fi
+    fi
+  done
+
+
+done
+

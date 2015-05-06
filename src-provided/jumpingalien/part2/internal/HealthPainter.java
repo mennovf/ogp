@@ -2,28 +2,28 @@ package jumpingalien.part2.internal;
 
 import java.awt.Graphics2D;
 
+import jumpingalien.common.gui.AlienGameScreen;
 import jumpingalien.common.gui.painters.AbstractAlienPainter;
 import jumpingalien.common.sprites.ImageSprite;
 
-public final class HealthPainter extends AbstractAlienPainter<Part2GameScreen> {
+public class HealthPainter extends AbstractAlienPainter<AlienGameScreen<?, ?>> {
 
 	private static final int H_MARGIN = 30;
 	private static final int WIDTH = 30;
 	private static final int V_MARGIN = 30;
 
-	public HealthPainter(Part2GameScreen screen) {
-		super(screen);
-	}
+	private final AlienInfoProvider2<?> alienInfoProvider;
 
-	@Override
-	protected JumpingAlienGamePart2 getGame() {
-		return (JumpingAlienGamePart2) super.getGame();
+	public HealthPainter(AlienGameScreen<?, ?> screen,
+			AlienInfoProvider2<?> alienInfoProvider) {
+		super(screen);
+		this.alienInfoProvider = alienInfoProvider;
 	}
 
 	@Override
 	public void paintScreenPost(Graphics2D g) {
-		getGame().getAlienInfoProvider().getAlienHealth()
-				.ifPresent(health -> paintHealth(g, health));
+		alienInfoProvider.getAlienHealth().ifPresent(
+				health -> paintHealth(g, health));
 	}
 
 	private void paintHealth(Graphics2D g, Integer health) {
@@ -44,7 +44,7 @@ public final class HealthPainter extends AbstractAlienPainter<Part2GameScreen> {
 			g.drawImage(image.getImage(), getScreenWidth() - H_MARGIN - count
 					* WIDTH, V_MARGIN, null);
 		}
-		
+
 		if (origHealth >= 66) {
 			g.drawImage(Resources.HEALTH_FULL.getImage(), getScreenWidth()
 					- H_MARGIN - count * WIDTH

@@ -19,10 +19,10 @@ import jumpingalien.part2.internal.tmxfile.data.Map;
 import jumpingalien.part2.internal.tmxfile.data.MapObject;
 import jumpingalien.part2.internal.tmxfile.data.ImageTile.TileType;
 import jumpingalien.model.gameobject.Gore;
-import jumpingalien.model.gameobject.Mazub;
 import jumpingalien.model.gameobject.Plant;
 import jumpingalien.model.gameobject.School;
 import jumpingalien.model.gameobject.Shark;
+import jumpingalien.model.gameobject.Mazub;
 import jumpingalien.model.gameobject.Slime;
 import jumpingalien.model.world.World;
 import jumpingalien.util.Sprite;
@@ -226,14 +226,19 @@ public class JumpingAlienGamePart2 extends JumpingAlienGame {
 	}
 
 	@Override
-	public AlienInfoProvider2 getAlienInfoProvider() {
-		return (AlienInfoProvider2) super.getAlienInfoProvider();
+	public AlienInfoProvider2<Mazub> getAlienInfoProvider() {
+		return (AlienInfoProvider2<Mazub>) super.getAlienInfoProvider();
 	}
 
 	@Override
-	protected AlienInfoProvider2 createAlienInfoProvider() {
-		return new AlienInfoProvider2() {
+	protected AlienInfoProvider2<Mazub> createAlienInfoProvider() {
+		return new AlienInfoProvider2<Mazub>() {
 
+			@Override
+			public Mazub getAlien() {
+				return alien;
+			}
+			
 			@Override
 			public Optional<int[]> getAlienXY() {
 				return catchErrorGet(() -> getFacade().getLocation(getAlien()));
@@ -348,30 +353,27 @@ public class JumpingAlienGamePart2 extends JumpingAlienGame {
 	protected ObjectInfoProvider createObjectInfoProvider() {
 		return new ObjectInfoProvider() {
 			
-			//TODO: We added this!!!
+			//TODO: We added this!
 			@Override
-			public Collection<Gore> getBlood() {
-				Collection<Gore> result = getFacade().getBlood(world);
+			public Collection<Gore> getGore() {
+				Collection<Gore> result = getFacade().getGore(world);
 				if (result == null) {
 					result = Collections.emptyList();
 				}
 				return result;
 			}
 			
-			//TODO: We added this!!!
+			//TODO: We added this!
 			@Override
-			public Optional<int[]> getLocation(Gore blood) {
-				// TODO Auto-generated method stub
-				return Optional.of(getFacade().getLocation(blood));
+			public Optional<int[]> getLocation(Gore gore) {
+				return Optional.of(getFacade().getLocation(gore));
 			}
 			
-			//TODO: We added this!!!
+			//TODO: We added this!
 			@Override
-			public Optional<ImageSprite> getCurrentSprite(Gore blood) {
-				return Optional.of((ImageSprite) getFacade().getCurrentSprite(
-						blood));
+			public Optional<ImageSprite> getCurrentSprite(Gore gore) {
+				return Optional.of((ImageSprite) getFacade().getCurrentSprite(gore));
 			}
-			
 
 			@Override
 			public Collection<Slime> getSlimes() {

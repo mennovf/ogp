@@ -128,7 +128,11 @@ public class Mazub extends GameObject {
 		if (!Mazub.isValidDirection(direction)) {
 			throw new IllegalArgumentException("direction is not valid.");
 		}
-		assert sprites != null;
+		
+		if (sprites == null) {
+			throw new NullPointerException("The given spriteset is null.");
+		}
+		
 		assert sprites.length > 8;
 		assert (sprites.length % 2) == 0;
 		assert vxInit >= 1.0;

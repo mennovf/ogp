@@ -112,6 +112,15 @@ public class Constants {
 	
 	
 	
+	// BUZAM
+	
+	/**
+	 * The amount of hitpoints a new Buzam has.
+	 */
+	public final static int buzamBeginHealth = 500;
+	
+	
+	
 	// PLANT
 	
 	/**

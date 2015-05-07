@@ -5,6 +5,7 @@ import java.util.Map;
 
 import jumpingalien.model.gameobject.GameObject;
 import jumpingalien.model.program.expression.Expression;
+import jumpingalien.model.program.expression.Value;
 import jumpingalien.part3.programs.IProgramFactory;
 import jumpingalien.part3.programs.SourceLocation;
 
@@ -18,27 +19,23 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	}
 
 	@Override
-	public Expression<Type<Double>> createDoubleConstant(double value, SourceLocation sourceLocation) {
-		//TODO: Implement this
-		return null;
+	public Expression<Double> createDoubleConstant(double value, SourceLocation sourceLocation) {
+		return new Value<>(value);
 	}
 
 	@Override
-	public Expression createTrue(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression<Boolean> createTrue(SourceLocation sourceLocation) {
+		return new Value<>(true);
 	}
 
 	@Override
-	public Expression createFalse(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression<Boolean> createFalse(SourceLocation sourceLocation) {
+		return new Value<>(false);
 	}
 
 	@Override
-	public Expression createNull(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression<GameObject> createNull(SourceLocation sourceLocation) {
+		return new Value<>(null);
 	}
 
 	@Override
@@ -48,11 +45,10 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	}
 
 	@Override
-	public Expression createDirectionConstant(
+	public Expression<Direction> createDirectionConstant(
 			Direction value,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Value<>(value);
 	}
 
 	@Override

@@ -4,61 +4,57 @@ import java.util.List;
 import java.util.Map;
 
 import jumpingalien.model.gameobject.GameObject;
+import jumpingalien.model.program.expression.BinaryOperation;
 import jumpingalien.model.program.expression.Expression;
+import jumpingalien.model.program.expression.Value;
 import jumpingalien.part3.programs.IProgramFactory;
 import jumpingalien.part3.programs.SourceLocation;
 
 public class ProgramFactory implements IProgramFactory<Expression<?>, Statement, Object, Program> {
 
 	@Override
-	public Expression<?> createReadVariable(String variableName, Type<?> variableType,
+	public Expression<?> createReadVariable(String variableName, Object variableType,
 			SourceLocation sourceLocation) {
 		//TODO: Implement this
 		return null;
 	}
 
 	@Override
-	public Expression<Type<Double>> createDoubleConstant(double value, SourceLocation sourceLocation) {
-		//TODO: Implement this
-		return null;
+	public Expression<Double> createDoubleConstant(double value, SourceLocation sourceLocation) {
+		return new Value<Double>(value);
 	}
 
 	@Override
-	public Expression createTrue(SourceLocation sourceLocation) {
+	public Expression<Boolean> createTrue(SourceLocation sourceLocation) {
+		return new Value<Boolean>(false);
+	}
+
+	@Override
+	public Expression<Boolean> createFalse(SourceLocation sourceLocation) {
+		return new Value<Boolean>(false);
+	}
+
+	@Override
+	public Expression<GameObject> createNull(SourceLocation sourceLocation) {
+		return new Value<GameObject>(null);
+	}
+
+	@Override
+	public Expression<GameObject> createSelf(SourceLocation sourceLocation) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Expression createFalse(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Expression createNull(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Expression createSelf(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Expression createDirectionConstant(
+	public Expression<Direction> createDirectionConstant(
 			Direction value,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Value<Direction>(value);
 	}
 
 	@Override
-	public Expression createAddition(Expression left, Expression right, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression<Double> createAddition(Expression<Double> left, Expression<Double> right, SourceLocation sourceLocation) {
+		return new BinaryOperation<>(left, right, (a, b) -> a + b);
 	}
 
 	@Override
@@ -268,7 +264,7 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	}
 
 	@Override
-	public Statement createAssignment(String variableName, Type<?> variableType, Expression value,
+	public Statement createAssignment(String variableName, Object variableType, Expression value,
 			SourceLocation sourceLocation) {
 		// TODO Auto-generated method stub
 		return null;
@@ -366,27 +362,27 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	}
 
 	@Override
-	public Type<Double> getDoubleType() {
-		return new Type<Double>();
+	public Double getDoubleType() {
+		return new Double(0);
 	}
 
 	@Override
-	public Type<Boolean> getBoolType() {
-		return new Type<Boolean>();
+	public Boolean getBoolType() {
+		return new Boolean(true);
 	}
 
 	@Override
-	public Type<GameObject> getGameObjectType() {
-		return new Type<GameObject>();
+	public GameObject getGameObjectType() {
+		return null;
 	}
 
 	@Override
-	public Type<Direction> getDirectionType() {
-		return new Type<Direction>();
+	public Direction getDirectionType() {
+		return Direction.DOWN;
 	}
 
 	@Override
-	public Program createProgram(Statement mainStatement, Map<String, Type<?>> globalVariables) {
+	public Program createProgram(Statement mainStatement, Map<String, Object> globalVariables) {
 		return new Program(mainStatement, globalVariables);
 	}
 

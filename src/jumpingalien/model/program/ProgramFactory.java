@@ -6,12 +6,13 @@ import java.util.Map;
 import jumpingalien.model.gameobject.GameObject;
 import jumpingalien.model.program.expression.BinaryOperation;
 import jumpingalien.model.program.expression.Expression;
+import jumpingalien.model.program.expression.UnaryOperation;
 import jumpingalien.model.program.expression.Value;
 import jumpingalien.part3.programs.IProgramFactory;
 import jumpingalien.part3.programs.SourceLocation;
 
 public class ProgramFactory implements IProgramFactory<Expression<?>, Statement, Object, Program> {
-
+	
 	@Override
 	public Expression<?> createReadVariable(String variableName, Object variableType,
 			SourceLocation sourceLocation) {
@@ -58,89 +59,77 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	}
 
 	@Override
-	public Expression createSubtraction(Expression left, Expression right, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression<Double> createSubtraction(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
+		return new BinaryOperation<Double, Double, Double>((Expression<Double>)left, (Expression<Double>)right, (a, b) -> (Double)a - (Double)b);
 	}
 
 	@Override
-	public Expression createMultiplication(Expression left, Expression right, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression<Double> createMultiplication(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
+		return new BinaryOperation<Double, Double, Double>((Expression<Double>)left, (Expression<Double>)right, (a, b) -> (Double)a * (Double)b);
 	}
 
 	@Override
-	public Expression createDivision(Expression left, Expression right, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression<Double> createDivision(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
+		return new BinaryOperation<Double, Double, Double>((Expression<Double>)left, (Expression<Double>)right, (a, b) -> (Double)a / (Double)b);
 	}
 
 	@Override
-	public Expression createSqrt(Expression expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression<Double> createSqrt(Expression<?> expr, SourceLocation sourceLocation) {
+		return new UnaryOperation<Double, Double>((Expression<Double>)expr, Math::sqrt);
 	}
 
 	@Override
-	public Expression createRandom(Expression maxValue, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression<Double> createRandom(Expression<?> maxValue, SourceLocation sourceLocation) {
+		return new UnaryOperation<Double, Double>((Expression<Double>)maxValue, (a) -> Math.random() * a);
 	}
 
 	@Override
-	public Expression createAnd(Expression left, Expression right, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression<Boolean> createAnd(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
+		return new BinaryOperation<Boolean, Boolean, Boolean>((Expression<Boolean>)left, (Expression<Boolean>)right,
+															  (a, b) -> a && b);
 	}
 
 	@Override
-	public Expression createOr(Expression left, Expression right, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression<Boolean> createOr(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
+		return new BinaryOperation<Boolean, Boolean, Boolean>((Expression<Boolean>)left, (Expression<Boolean>)right,
+															  (a, b) -> a || b);
 	}
 
 	@Override
-	public Expression createNot(Expression expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression<Boolean> createNot(Expression<?> expr, SourceLocation sourceLocation) {
+		return new UnaryOperation<Boolean, Boolean>((Expression<Boolean>)expr, (a) -> !a);
 	}
 
 	@Override
-	public Expression createLessThan(Expression left, Expression right, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression<Boolean> createLessThan(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
+		return new BinaryOperation<Boolean, Double, Double>((Expression<Double>)left, (Expression<Double>)right, (a, b) -> a < b);
 	}
 
 	@Override
-	public Expression createLessThanOrEqualTo(Expression left, Expression right,
+	public Expression<Boolean> createLessThanOrEqualTo(Expression<?> left, Expression<?> right,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new BinaryOperation<Boolean, Double, Double>((Expression<Double>)left, (Expression<Double>)right, (a, b) -> a <= b);
 	}
 
 	@Override
-	public Expression createGreaterThan(Expression left, Expression right, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression<Boolean> createGreaterThan(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
+		return new BinaryOperation<Boolean, Double, Double>((Expression<Double>)left, (Expression<Double>)right, (a, b) -> a > b);
 	}
 
 	@Override
-	public Expression createGreaterThanOrEqualTo(Expression left, Expression right,
+	public Expression<Boolean> createGreaterThanOrEqualTo(Expression<?> left, Expression<?> right,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new BinaryOperation<Boolean, Double, Double>((Expression<Double>)left, (Expression<Double>)right, (a, b) -> a >= b);
 	}
 
 	@Override
-	public Expression createEquals(Expression left, Expression right, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression<Boolean> createEquals(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
+		return new BinaryOperation<Boolean, Object, Object>((Expression<Object>)left, (Expression<Object>)right, (a, b) -> a.equals(b));
 	}
 
 	@Override
-	public Expression createNotEquals(Expression left, Expression right, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression<Boolean> createNotEquals(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
+		return new BinaryOperation<Boolean, Object, Object>((Expression<Object>)left, (Expression<Object>)right, (a, b) -> ! a.equals(b));
 	}
 
 	@Override

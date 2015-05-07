@@ -53,8 +53,8 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	}
 
 	@Override
-	public Expression<Double> createAddition(Expression<Double> left, Expression<Double> right, SourceLocation sourceLocation) {
-		return new BinaryOperation<>(left, right, (a, b) -> a + b);
+	public Expression<Double> createAddition(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
+		return new BinaryOperation<Double, Double, Double>((Expression<Double>)left, (Expression<Double>)right, (a, b) -> (Double)a + (Double)b);
 	}
 
 	@Override

@@ -3,11 +3,18 @@ package jumpingalien.model.program;
 import java.util.List;
 import java.util.Map;
 
+import jumpingalien.model.Collidable;
 import jumpingalien.model.gameobject.GameObject;
+import jumpingalien.model.gameobject.Mazub;
+import jumpingalien.model.gameobject.Plant;
+import jumpingalien.model.gameobject.Shark;
+import jumpingalien.model.gameobject.Slime;
 import jumpingalien.model.program.expression.BinaryOperation;
 import jumpingalien.model.program.expression.Expression;
 import jumpingalien.model.program.expression.UnaryOperation;
 import jumpingalien.model.program.expression.Value;
+import jumpingalien.model.world.Tile;
+import jumpingalien.model.world.TileType;
 import jumpingalien.part3.programs.IProgramFactory;
 import jumpingalien.part3.programs.SourceLocation;
 
@@ -157,9 +164,8 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	}
 
 	@Override
-	public Expression createGetHitPoints(Expression expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression<Double> createGetHitPoints(Expression<?> expr, SourceLocation sourceLocation) {
+		return new UnaryOperation<Double, GameObject>((Expression<GameObject>)expr, (a) -> (double)a.getHealth());
 	}
 
 	@Override
@@ -175,63 +181,53 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	}
 
 	@Override
-	public Expression createIsMazub(Expression expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression<Boolean> createIsMazub(Expression<?> expr, SourceLocation sourceLocation) {
+		return new UnaryOperation<Boolean, Object>((Expression<Object>)expr, (a) -> a instanceof Mazub);
 	}
 
 	@Override
-	public Expression createIsShark(Expression expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression<Boolean> createIsShark(Expression<?> expr, SourceLocation sourceLocation) {
+		return new UnaryOperation<Boolean, Object>((Expression<Object>)expr, (a) -> a instanceof Shark);
 	}
 
 	@Override
-	public Expression createIsSlime(Expression expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression<Boolean> createIsSlime(Expression<?> expr, SourceLocation sourceLocation) {
+		return new UnaryOperation<Boolean, Object>((Expression<Object>)expr, (a) -> a instanceof Slime);
 	}
 
 	@Override
-	public Expression createIsPlant(Expression expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression<Boolean> createIsPlant(Expression<?> expr, SourceLocation sourceLocation) {
+		return new UnaryOperation<Boolean, Object>((Expression<Object>)expr, (a) -> a instanceof Plant);
 	}
 
 	@Override
-	public Expression createIsDead(Expression expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression<Boolean> createIsDead(Expression<?> expr, SourceLocation sourceLocation) {
+		return new UnaryOperation<Boolean, GameObject>((Expression<GameObject>)expr, (a) -> a.isAlive());
 	}
 
 	@Override
-	public Expression createIsTerrain(Expression expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression<Boolean> createIsTerrain(Expression<?> expr, SourceLocation sourceLocation) {
+		return new UnaryOperation<Boolean, Object>((Expression<Object>)expr, (a) -> a instanceof Tile);
 	}
 
 	@Override
-	public Expression createIsPassable(Expression expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression<Boolean> createIsPassable(Expression<?> expr, SourceLocation sourceLocation) {
+		return new UnaryOperation<Boolean, Collidable>((Expression<Collidable>)expr, (a) -> a.isPassable());
 	}
 
 	@Override
-	public Expression createIsWater(Expression expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression<Boolean> createIsWater(Expression<?> expr, SourceLocation sourceLocation) {
+		return new UnaryOperation<Boolean, Object>((Expression<Object>)expr, (a) -> (a instanceof Tile) && ((Tile)a).getType() == TileType.WATER);
 	}
 
 	@Override
-	public Expression createIsMagma(Expression expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression<Boolean> createIsMagma(Expression<?> expr, SourceLocation sourceLocation) {
+		return new UnaryOperation<Boolean, Object>((Expression<Object>)expr, (a) -> (a instanceof Tile) && ((Tile)a).getType() == TileType.MAGMA);
 	}
 
 	@Override
-	public Expression createIsAir(Expression expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression<Boolean> createIsAir(Expression<?> expr, SourceLocation sourceLocation) {
+		return new UnaryOperation<Boolean, Object>((Expression<Object>)expr, (a) -> (a instanceof Tile) && ((Tile)a).getType() == TileType.AIR);
 	}
 
 	@Override

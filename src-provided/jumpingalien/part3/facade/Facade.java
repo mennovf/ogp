@@ -1,5 +1,7 @@
 package jumpingalien.part3.facade;
 
+import java.util.Optional;
+
 import jumpingalien.model.Constants;
 import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
@@ -9,8 +11,12 @@ import jumpingalien.model.gameobject.School;
 import jumpingalien.model.gameobject.Shark;
 import jumpingalien.model.gameobject.Slime;
 import jumpingalien.model.program.Program;
+import jumpingalien.model.program.ProgramFactory;
+import jumpingalien.model.program.Statement;
+import jumpingalien.model.program.expression.Expression;
 import jumpingalien.model.world.World;
 import jumpingalien.part3.programs.ParseOutcome;
+import jumpingalien.part3.programs.ProgramParser;
 import jumpingalien.util.Sprite;
 
 public class Facade extends jumpingalien.part2.facade.Facade implements IFacadePart3 {
@@ -52,8 +58,17 @@ public class Facade extends jumpingalien.part2.facade.Facade implements IFacadeP
 
 	@Override
 	public ParseOutcome<?> parse(String text) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		ProgramFactory factory = new ProgramFactory();
+		ProgramParser<Expression<?>, Statement, Object, Program> parser = new ProgramParser<>(factory);
+		
+		Optional<Program> parseResult = parser.parseString(text);
+		
+		if (parseResult.isPresent()) {
+			return ParseOutcome.success(parseResult.get());
+		} else {
+			return ParseOutcome.failure(parser.getErrors());
+		}
 	}
 
 	@Override

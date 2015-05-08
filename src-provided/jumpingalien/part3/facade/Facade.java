@@ -1,5 +1,7 @@
 package jumpingalien.part3.facade;
 
+import java.util.Optional;
+
 import jumpingalien.model.Constants;
 import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
@@ -9,8 +11,12 @@ import jumpingalien.model.gameobject.School;
 import jumpingalien.model.gameobject.Shark;
 import jumpingalien.model.gameobject.Slime;
 import jumpingalien.model.program.Program;
+import jumpingalien.model.program.ProgramFactory;
+import jumpingalien.model.program.Statement;
+import jumpingalien.model.program.expression.Expression;
 import jumpingalien.model.world.World;
 import jumpingalien.part3.programs.ParseOutcome;
+import jumpingalien.part3.programs.ProgramParser;
 import jumpingalien.util.Sprite;
 
 public class Facade extends jumpingalien.part2.facade.Facade implements IFacadePart3 {
@@ -25,35 +31,41 @@ public class Facade extends jumpingalien.part2.facade.Facade implements IFacadeP
 	@Override
 	public Buzam createBuzamWithProgram(int pixelLeftX, int pixelBottomY,
 			Sprite[] sprites, Program program) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Buzam(Utilities.pixelsVectorToMeters(new Vector<>(pixelLeftX, pixelBottomY)), sprites,
+				Constants.mazubInitialHorizontalSpeed, Constants.mazubMaxHorizontalSpeed,
+				Constants.mazubBeginDirection, program);
 	}
 
 	@Override
 	public Plant createPlantWithProgram(int x, int y, Sprite[] sprites,
 			Program program) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Plant(new Vector<>(Utilities.pixelsToMeters(x), Utilities.pixelsToMeters(y)),
+				sprites, program);
 	}
 
 	@Override
 	public Shark createSharkWithProgram(int x, int y, Sprite[] sprites,
 			Program program) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Shark(new Vector<>(Utilities.pixelsToMeters(x), Utilities.pixelsToMeters(y)),
+				sprites, program);
 	}
 
 	@Override
 	public Slime createSlimeWithProgram(int x, int y, Sprite[] sprites,
 			School school, Program program) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Slime(new Vector<>(Utilities.pixelsToMeters(x), Utilities.pixelsToMeters(y)),
+				sprites, school, program);
 	}
 
 	@Override
 	public ParseOutcome<?> parse(String text) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		ProgramFactory factory = new ProgramFactory();
+		ProgramParser<Expression<?>, Statement, Object, Program> parser = new ProgramParser<>(factory);
+		
+		Optional<Program> parseResult = parser.parseString(text);
+		
+		return parseResult.isPresent() ? ParseOutcome.success(parseResult.get()) : ParseOutcome.failure(parser.getErrors());
 	}
 
 	@Override
@@ -64,8 +76,7 @@ public class Facade extends jumpingalien.part2.facade.Facade implements IFacadeP
 
 	@Override
 	public void addBuzam(World world, Buzam buzam) {
-		// TODO Auto-generated method stub
-		
+		world.addGameObject(buzam);
 	}
 
 	@Override

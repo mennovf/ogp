@@ -9,6 +9,7 @@ import jumpingalien.model.Collidable;
 import jumpingalien.model.Constants;
 import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
+import jumpingalien.model.program.Program;
 import jumpingalien.model.reactions.GameObjectCollisionDamager;
 import jumpingalien.model.reactions.TerrainCollisionDamager;
 import jumpingalien.model.reactions.TerrainCollisionDamager.TerrainDamageInfo;
@@ -39,6 +40,7 @@ public class Slime extends GameObject {
 	private School school;
 	
 	
+	
 	/**
 	 * Creates a new slime with the given positions, sprites and school.
 	 * 
@@ -59,7 +61,31 @@ public class Slime extends GameObject {
 	 */ 
 	public Slime(Vector<Double> position, Sprite[] sprites, School school) throws IllegalArgumentException {
 		
-		super(Constants.slimeBeginHealth, Constants.slimeMaxHealth, position, sprites);
+		this(position, sprites, school, null);
+	}
+	
+	
+	/**
+	 * Creates a new slime with the given positions, sprites and school.
+	 * 
+	 * @param position
+	 * 			The position of the slime.
+	 * 
+	 * @param sprites
+	 * 			The sprites of the slime.
+	 * 
+	 * @param school
+	 * 			The school of the slime.
+	 * 
+	 * @effect Sets the school of the slime.
+	 * 			| this.setSchool(school)
+	 * 
+	 * @effect Calls GameObject's constructor.
+	 * 			| super(Constants.slimeBeginHealth, Constants.slimeMaxHealth, position, sprites)
+	 */ 
+	public Slime(Vector<Double> position, Sprite[] sprites, School school, Program program) throws IllegalArgumentException {
+		
+		super(Constants.slimeBeginHealth, Constants.slimeMaxHealth, position, sprites, program);
 		
 		this.setSchool(school);
 		

@@ -10,6 +10,7 @@ import jumpingalien.model.Constants;
 import jumpingalien.model.Settings;
 import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
+import jumpingalien.model.program.Program;
 import jumpingalien.model.reactions.CollisionDamager;
 import jumpingalien.model.world.Tile;
 import jumpingalien.model.world.TileType;
@@ -93,6 +94,42 @@ public abstract class GameObject implements Collidable {
 	 */
 	private Set<CollisionDamager> collisionDamagers = new HashSet<CollisionDamager>();
 	
+	
+	/**
+	 * The program controlling this game object.
+	 */
+	private Program program;
+	
+	
+	
+//	/**
+//	 * Creates a new game object with the given health, maxHealth, position and sprites.
+//	 * 
+//	 * @param health
+//	 * 			The health of the game object.
+//	 * 
+//	 * @param maxHealth
+//	 * 			The max health of the game object.
+//	 * 
+//	 * @param position
+//	 * 			The position of the game object in meters.
+//	 * 
+//	 * @param sprites
+//	 * 			The set of sprites of the game object.
+//	 * 
+//	 * @effect GameObject(health, maxHealth, position, sprites, false)
+//	 * 
+//	 * @post Passable will be set to false.
+//	 * 			| new.isPassable() == false
+//	 * 
+//	 * @throws IllegalArgumentException
+//	 */
+//	protected GameObject(int health, int maxHealth, Vector<Double> position, Sprite[] sprites)
+//			throws IllegalArgumentException {
+//		this(health, maxHealth, position, sprites, null, false);
+//	}
+//	
+//	
 	/**
 	 * Creates a new game object with the given health, maxHealth, position and sprites.
 	 * 
@@ -115,9 +152,9 @@ public abstract class GameObject implements Collidable {
 	 * 
 	 * @throws IllegalArgumentException
 	 */
-	protected GameObject(int health, int maxHealth, Vector<Double> position, Sprite[] sprites)
+	protected GameObject(int health, int maxHealth, Vector<Double> position, Sprite[] sprites, Program program)
 			throws IllegalArgumentException {
-		this(health, maxHealth, position, sprites, false);
+		this(health, maxHealth, position, sprites, program, false);
 	}
 	
 	
@@ -169,7 +206,7 @@ public abstract class GameObject implements Collidable {
 	 * 			Throws an IllegalArgumentException when the given position is not valid.
 	 * 			| !isValidPosition(position)
 	 */
-	protected GameObject(int health, int maxHealth, Vector<Double> position, Sprite[] sprites, boolean passable)
+	protected GameObject(int health, int maxHealth, Vector<Double> position, Sprite[] sprites, Program program, boolean passable)
 				throws IllegalArgumentException {
 		
 		if (!this.isValidPosition(position)){
@@ -178,6 +215,7 @@ public abstract class GameObject implements Collidable {
 		
 		// maxHealth has to be set before setHealth because it uses maxHealth.
 		this.setFacing(1);
+		this.program = program;
 		this.passable = passable;
 		this.maxHealth = maxHealth;
 		this.health = 1;
@@ -801,6 +839,7 @@ public abstract class GameObject implements Collidable {
 	 * Returns the size of this game object in meters.
 	 * 
 	 * @return The size of this game object in meters.
+	 * 			| Utilities.pixelsVectorToMeters(this.getSizeInPixels())
 	 */
 	public Vector<Double> getSizeInMeters() {
 		return Utilities.pixelsVectorToMeters(this.getSizeInPixels());
@@ -816,6 +855,15 @@ public abstract class GameObject implements Collidable {
 	@Override
 	public Vector<Integer> getBoundingBoxSizeInPixels() {
 		return this.getSizeInPixels();
+	}
+	
+	
+	/**
+	 * Returns the program controlling this game object.
+	 */
+	@Basic
+	public Program getProgram() {
+		return this.program;
 	}
 	
 	

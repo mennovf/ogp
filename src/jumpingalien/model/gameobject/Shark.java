@@ -9,6 +9,7 @@ import jumpingalien.model.Constants;
 import jumpingalien.model.Settings;
 import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
+import jumpingalien.model.program.Program;
 import jumpingalien.model.reactions.GameObjectCollisionDamager;
 import jumpingalien.model.reactions.TerrainCollisionDamager;
 import jumpingalien.model.reactions.TerrainCollisionDamager.TerrainDamageInfo;
@@ -59,7 +60,25 @@ public class Shark extends GameObject {
 	 * 			| super(Constants.sharkBeginHealth, Constants.sharkMaxHealth, position, sprites)
 	 */
 	public Shark(Vector<Double> position, Sprite[] sprites) {
-		super(Constants.sharkBeginHealth, Constants.sharkMaxHealth, position, sprites);
+		
+		this(position, sprites, null);
+	}
+	
+	
+	/**
+	 * Creates a shark with the given position and sprites.
+	 * 
+	 * @param position
+	 * 			The position in the game world in pixels.
+	 * 
+	 * @param sprites
+	 * 			The sprite list.
+	 * 
+	 * @effect Calling GameObject's constructor.
+	 * 			| super(Constants.sharkBeginHealth, Constants.sharkMaxHealth, position, sprites)
+	 */
+	public Shark(Vector<Double> position, Sprite[] sprites, Program program) {
+		super(Constants.sharkBeginHealth, Constants.sharkMaxHealth, position, sprites, program);
 		
 		Collection<TerrainDamageInfo> terrainInfos= new HashSet<>();
 		terrainInfos.add(new TerrainDamageInfo(TileType.MAGMA, Constants.magmaDamage, 0));

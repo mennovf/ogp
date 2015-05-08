@@ -8,6 +8,7 @@ import jumpingalien.model.Constants;
 import jumpingalien.model.Settings;
 import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
+import jumpingalien.model.command.CommandQueue;
 import jumpingalien.model.gameobject.GameObject;
 import jumpingalien.model.gameobject.Mazub;
 import jumpingalien.util.ModelException;
@@ -56,7 +57,10 @@ public class World {
 	 */
 	private Set<GameObject> objects = new HashSet<>();
 	
-	
+	/**
+	 * A command queue holding command to execute after warning each object of a collision.
+	 */
+	private CommandQueue commandQueue = new CommandQueue();
 	
 	/**
 	 * Creates a new world with the given parameters.
@@ -725,5 +729,10 @@ public class World {
 		}
 		
 		this.objects.removeAll(deaths);
+	}
+
+	@Basic
+	public CommandQueue getCommandQueue() {
+		return this.commandQueue;
 	}
 }

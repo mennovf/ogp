@@ -117,7 +117,7 @@ public class TerrainCollisionDamager extends CollisionDamager {
 			for (TerrainDamageInfo info : this.infos) {
 				if (tile.getType() == info.type
 					&& (this.timeSince - info.timeDelay + info.timeIn >= (info.timeDelay + this.timeInterval))){
-					owner.takeDamage(info.damage);
+					this.owner.getWorld().getCommandQueue().add(()->{owner.takeDamage(info.damage);});
 					this.timeSince -= this.timeInterval;
 					break;
 				}

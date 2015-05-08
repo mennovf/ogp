@@ -13,7 +13,7 @@ import jumpingalien.util.Sprite;
 public class Gore extends GameObject {
 	
 	public Gore(Vector<Double> position, Sprite[] sprites) {
-		super(1, 1, position, sprites, true);
+		super(1, 1, position, sprites, null, true);
 		this.setSpeed(Vector.scale(new Vector<>(Math.random() - 0.5, Math.random()), 5.0));
 		
 		Set<TerrainCollisionDamager.TerrainDamageInfo> infos = new HashSet<>();

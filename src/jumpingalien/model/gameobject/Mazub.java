@@ -10,6 +10,7 @@ import jumpingalien.model.Collidable;
 import jumpingalien.model.Constants;
 import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
+import jumpingalien.model.program.Program;
 import jumpingalien.model.reactions.GameObjectCollisionDamager;
 import jumpingalien.model.reactions.TerrainCollisionDamager;
 import jumpingalien.model.reactions.TerrainCollisionDamager.TerrainDamageInfo;
@@ -122,8 +123,58 @@ public class Mazub extends GameObject {
 			double vxInit, double vxMax, double direction)
 			throws NullPointerException, IllegalArgumentException{
 		
+		this(position, sprites, vxInit, vxMax, direction, null);
+	}
+	
+	
+	/**
+	 * @param x
+	 * 			The x position of this Mazub.
+	 * 
+	 * @param y
+	 * 			The y position of this Mazub.
+	 * 
+	 * @param sprites
+	 * 			An array of sprites containing Mazubs animations.
+	 * 
+	 * @param vxInit
+	 * 			Mazubs initial speed when starting to walk.
+	 * 
+	 * @param vxMax
+	 * 			Mazubs maximum speed while walking.
+	 * 
+	 * @param direction
+	 * 			The direction Mazub is facing. -1 means he's facing left, +1 means he's facing right.
+	 * 
+	 * @pre The sprites should not be null
+	 * 			| sprites != null
+	 * 
+	 * @pre The amount of sprites should be bigger than or 8 and even.
+	 * 			| sprites.length > 8 && (sprites.length % 2) == 0
+	 * 
+	 * @throws NullPointerException
+	 * 			Throws a NullPointerException when sprites is null.
+	 * 			| sprites == null
+	 * 
+	 * @throws IllegalArgumentException
+	 * 			Throws an IllegalArgumentException when the position and/or direction are not valid.
+	 * 			| !Mazub.isValidPosition(new Vector<>(x, y)) || !Mazub.isValidDirection(direction)
+	 * 
+	 * @effect 
+	 * 			| setPositionInMeters(position)
+	 * 
+	 * @effect
+	 * 			| setFacing(direction)
+	 * 
+	 * @post The currentSprite will be sprite 0.
+	 * 			| new.getCurrentSprite() == sprites[0]
+	 */
+	protected Mazub(Vector<Double> position, Sprite[] sprites,
+			double vxInit, double vxMax, double direction, Program program)
+			throws NullPointerException, IllegalArgumentException{
+		
 		super(Constants.mazubBeginHealth, Constants.mazubMaxHealth,
-				position, sprites);
+				position, sprites, program);
 		
 		if (!Mazub.isValidDirection(direction)) {
 			throw new IllegalArgumentException("direction is not valid.");

@@ -6,6 +6,7 @@ import java.util.Set;
 import jumpingalien.common.sprites.ImageSprite;
 import jumpingalien.model.Constants;
 import jumpingalien.model.Vector;
+import jumpingalien.model.program.Program;
 import jumpingalien.model.reactions.PlantMazubCollisionDamager;
 import jumpingalien.model.world.TileType;
 import jumpingalien.util.Sprite;
@@ -24,6 +25,7 @@ public class Plant extends GameObject {
 	
 	private double directionTime = Constants.plantMoveTime;
 	
+	
 	/**
 	 * Creates a plant with the given position and sprites.
 	 * 
@@ -41,7 +43,28 @@ public class Plant extends GameObject {
 	 */
 	public Plant(Vector<Double> position, Sprite[] sprites){
 		
-		super(1, 1, position, sprites, true);
+		this(position, sprites, null);
+	}
+	
+	
+	/**
+	 * Creates a plant with the given position and sprites.
+	 * 
+	 * @param position
+	 * 			The position of the plant in meters.
+	 * 
+	 * @param sprites
+	 * 			The sprites of the plant.
+	 * 
+	 * @effect The GameObject constructor will be called.
+	 * 			| super(1, 1, position, sprites, true);
+	 * 
+	 * @effect The plant will start moving to the right with a speed of Constants.plantSpeed.
+	 * 			| plant.setSpeed(this.getSpeed().setX(Constants.plantSpeed))
+	 */
+	public Plant(Vector<Double> position, Sprite[] sprites, Program program){
+		
+		super(1, 1, position, sprites, program, true);
 		this.setSpeed(this.getSpeed().setX(Constants.plantSpeed));
 		
 		this.addCollisionDamager(new PlantMazubCollisionDamager(this, -1, 0));

@@ -31,29 +31,30 @@ public class Facade extends jumpingalien.part2.facade.Facade implements IFacadeP
 	@Override
 	public Buzam createBuzamWithProgram(int pixelLeftX, int pixelBottomY,
 			Sprite[] sprites, Program program) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Buzam(Utilities.pixelsVectorToMeters(new Vector<>(pixelLeftX, pixelBottomY)), sprites,
+				Constants.mazubInitialHorizontalSpeed, Constants.mazubMaxHorizontalSpeed,
+				Constants.mazubBeginDirection, program);
 	}
 
 	@Override
 	public Plant createPlantWithProgram(int x, int y, Sprite[] sprites,
 			Program program) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Plant(new Vector<>(Utilities.pixelsToMeters(x), Utilities.pixelsToMeters(y)),
+				sprites, program);
 	}
 
 	@Override
 	public Shark createSharkWithProgram(int x, int y, Sprite[] sprites,
 			Program program) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Shark(new Vector<>(Utilities.pixelsToMeters(x), Utilities.pixelsToMeters(y)),
+				sprites, program);
 	}
 
 	@Override
 	public Slime createSlimeWithProgram(int x, int y, Sprite[] sprites,
 			School school, Program program) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Slime(new Vector<>(Utilities.pixelsToMeters(x), Utilities.pixelsToMeters(y)),
+				sprites, school, program);
 	}
 
 	@Override
@@ -64,11 +65,7 @@ public class Facade extends jumpingalien.part2.facade.Facade implements IFacadeP
 		
 		Optional<Program> parseResult = parser.parseString(text);
 		
-		if (parseResult.isPresent()) {
-			return ParseOutcome.success(parseResult.get());
-		} else {
-			return ParseOutcome.failure(parser.getErrors());
-		}
+		return parseResult.isPresent() ? ParseOutcome.success(parseResult.get()) : ParseOutcome.failure(parser.getErrors());
 	}
 
 	@Override
@@ -79,8 +76,7 @@ public class Facade extends jumpingalien.part2.facade.Facade implements IFacadeP
 
 	@Override
 	public void addBuzam(World world, Buzam buzam) {
-		// TODO Auto-generated method stub
-		
+		world.addGameObject(buzam);
 	}
 
 	@Override

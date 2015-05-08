@@ -2,6 +2,8 @@ package jumpingalien.model.program;
 
 import java.util.Map;
 
+import jumpingalien.model.gameobject.GameObject;
+
 /**
  * A class representing a program.
  * 
@@ -18,6 +20,13 @@ public class Program {
 	 * A map with the variables of the program.
 	 */
 	private Map<String, Object> globalVariables;
+	
+	/**
+	 * The game object this program is controlling.
+	 */
+	private GameObject gameObject;
+	
+	
 
 	/**
 	 * Creates a new program with the given parameters.
@@ -40,5 +49,30 @@ public class Program {
 		
 		this.mainStatement = mainStatement;
 		this.globalVariables = globalVariables;
+	}
+	
+	
+	/**
+	 * Returns the game object this program is controlling.
+	 */
+	public GameObject getGameObject() {
+		return this.gameObject;
+	}
+	
+	
+	/**
+	 * Sets the game object this program is controlling.
+	 * 
+	 * @param gameObject
+	 * 			The game object to set.
+	 * 
+	 * @post The game object this program is controlling will be the given game object.
+	 * 			| new.getGameObject() == (new gameObject)
+	 * 
+	 * @post This program will be the program controlling the game object.
+	 * 			| (new gameObject).getProgram() == new
+	 */
+	public void setGameObject(GameObject gameObject) {
+		this.gameObject = gameObject;
 	}
 }

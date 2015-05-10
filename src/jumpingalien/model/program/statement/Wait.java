@@ -1,10 +1,19 @@
 package jumpingalien.model.program.statement;
 
+/**
+ * A class representing the 'Wait' action.
+ */
 public class Wait implements Statement {
 	
 	private final double waitTime;
 	private double timeWaited;
 	
+	/**
+	 * Constructs a new Wait Statement.
+	 * 
+	 * @param waitTime
+	 * 			The amount of time to wait before finishing.
+	 */
 	public Wait(double waitTime) {
 		this.waitTime = waitTime;
 		reset();

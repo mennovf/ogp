@@ -1,31 +1,47 @@
 package jumpingalien.model.program.statement;
 
+import be.kuleuven.cs.som.annotate.*;
+
 
 /**
  * A class handling the execution of a list of statements.
  */
 public class Statements implements Statement {
 	
+	/**
+	 * The list of statements.
+	 */
 	private Statement[] statements;
+	
+	/**
+	 * The index of the current statement.
+	 */
 	private int currentStatementIndex;
 	
 	
 	/**
-	 * Constructs a new Statements.
+	 * Constructs a new Statements object.
 	 * 
 	 * @param statements
 	 * 			The statements to control.
+	 * 
+	 * @throws NullPointerException
+	 * 			Throws a NullPointerException when the given statements list is null.
 	 */
-	public Statements(Statement[] statements) {
+	public Statements(Statement[] statements) throws NullPointerException {
+		
+		if (statements == null) {
+			throw new NullPointerException("The given statements list is null.");
+		}
+		
 		this.statements = statements;
 		reset();
 	}
 
 	/**
 	 * Returns The statement being executed.
-	 * 
-	 * @return The statement being executed.
 	 */
+	@Basic
 	private Statement currentStatement() {
 		return this.statements[this.currentStatementIndex];
 	}

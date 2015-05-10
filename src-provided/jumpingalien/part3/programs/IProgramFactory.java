@@ -3,6 +3,9 @@ package jumpingalien.part3.programs;
 import java.util.List;
 import java.util.Map;
 
+import be.kuleuven.cs.som.annotate.Basic;
+import jumpingalien.model.Vector;
+
 /**
  * A interface for a factory to create a program, which consists of expressions,
  * statements and types.
@@ -31,7 +34,24 @@ public interface IProgramFactory<E, S, T, P> {
 
 	/** Direction enum */
 	public enum Direction {
-		LEFT, RIGHT, UP, DOWN
+		LEFT(new Vector<>(-1.0, 0.0)),
+		RIGHT(new Vector<>(1.0, 0.0)),
+		UP(new Vector<>(0.0, 1.0)),
+		DOWN(new Vector<>(0.0, -1.0));
+		
+		private final Vector<Double> vector;
+		
+		Direction(Vector<Double> vector) {
+			this.vector = vector;
+		}
+		
+		/**
+		 * Returns the vector representation of this direction.
+		 */
+		@Basic
+		public Vector<Double> getVectorValue() {
+			return this.vector;
+		}
 	}
 
 	/** Kind enum */

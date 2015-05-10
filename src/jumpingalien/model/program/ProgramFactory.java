@@ -231,21 +231,19 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	}
 
 	@Override
-	public Expression createIsMoving(Expression expr, Expression direction, SourceLocation sourceLocation) {
-		//TODO: Now using double as direction, but should be Direction?
-		return new BinaryOperation<>((Expression<GameObject>) expr, (Expression<Double>) direction,
+	public Expression<Boolean> createIsMoving(Expression<?> expr, Expression<?> direction, SourceLocation sourceLocation) {
+		return new BinaryOperation<>((Expression<GameObject>) expr, (Expression<Direction>) direction,
 				(a, b) -> a.isMoving(b));
 	}
 
 	@Override
-	public Expression createIsDucking(Expression expr, SourceLocation sourceLocation) {
+	public Expression<Boolean> createIsDucking(Expression<?> expr, SourceLocation sourceLocation) {
 		return new UnaryOperation<>((Expression<Mazub>) expr, (a) -> a.isDucking());
 	}
 
 	@Override
-	public Expression createIsJumping(Expression expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression<Boolean> createIsJumping(Expression<?> expr, SourceLocation sourceLocation) {
+		return new UnaryOperation<>((Expression<GameObject>) expr, (a) -> !a.onGround());
 	}
 
 	@Override

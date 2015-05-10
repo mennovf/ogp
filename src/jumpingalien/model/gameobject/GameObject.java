@@ -15,6 +15,7 @@ import jumpingalien.model.reactions.CollisionDamager;
 import jumpingalien.model.world.Tile;
 import jumpingalien.model.world.TileType;
 import jumpingalien.model.world.World;
+import jumpingalien.part3.programs.IProgramFactory;
 import jumpingalien.util.Sprite;
 import be.kuleuven.cs.som.annotate.*;
 
@@ -683,14 +684,13 @@ public abstract class GameObject implements Collidable {
 	 * @return true if the game object's speed is not (0, 0)
 	 * 			| Math.signum(this.getSpeed().x) == direction
 	 * 			| || Math.signum(this.getSpeed().y) == direction
-	 * 
-	 * @pre The direction must be valid.
-	 * 			| isValidDirection(direction)
 	 */
-	public boolean isMoving(double direction) {
-		assert isValidDirection(direction);
-		return Math.signum(this.getSpeed().x) == direction
-				|| Math.signum(this.getSpeed().y) == direction;
+	public boolean isMoving(IProgramFactory.Direction direction) {
+		
+		Vector<Double> dir = direction.getVectorValue();
+		
+		return Math.signum(this.getSpeed().x) == dir.x
+				|| Math.signum(this.getSpeed().y) == dir.y;
 	}
 	
 	

@@ -2,8 +2,8 @@ package jumpingalien.model.program.statement;
 
 /**
  * A class representing a for each loop.
- * @author rugheid
- *
+ * 
+ * @author Rugen Heidbuchel, Menno Vanfrachem
  */
 public class ForEachLoop implements Statement {
 

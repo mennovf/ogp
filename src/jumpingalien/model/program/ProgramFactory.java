@@ -232,7 +232,8 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 
 	@Override
 	public Expression createIsMoving(Expression expr, Expression direction, SourceLocation sourceLocation) {
-		return new BinaryOperation<>((Expression<GameObject>) expr, (Expression<Direction>) direction,
+		//TODO: Now using double as direction, but should be Direction?
+		return new BinaryOperation<>((Expression<GameObject>) expr, (Expression<Double>) direction,
 				(a, b) -> a.isMoving(b));
 	}
 

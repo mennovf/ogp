@@ -92,7 +92,7 @@ public class Tile implements Collidable {
 	 */
 	@Immutable
 	public Vector<Integer> getPositionInPixels() {
-		return Vector.scale(this.getPositionInTiles(), this.getSizeInPixels());
+		return Vector.scale(this.getPositionInTiles(), this.getSideSizeInPixels());
 	}
 	
 	
@@ -109,20 +109,6 @@ public class Tile implements Collidable {
 	
 	
 	/**
-	 * Returns the position of the bottom left pixel of this
-	 * tile in pixels.
-	 * 
-	 * @return The position of the bottom left pixel of this
-	 * 			tile in pixels.
-	 * 			| this.getPositionInPixels()
-	 */
-	@Override
-	public Vector<Integer> getBoundingBoxPositionInPixels() {
-		return this.getPositionInPixels();
-	}
-	
-	
-	/**
 	 * Returns the position of the top right pixel of this tile in pixels.
 	 * 
 	 * @return The position of the top right pixel of this tile in pixels.
@@ -130,7 +116,7 @@ public class Tile implements Collidable {
 	 */
 	@Immutable
 	public Vector<Integer> getTopRightPixel() {
-		return Vector.add(this.getPositionInPixels(), new Vector<>(this.getSizeInPixels(), this.getSizeInPixels()));
+		return Vector.add(this.getPositionInPixels(), this.getSizeInPixels());
 	}
 	
 	
@@ -140,7 +126,7 @@ public class Tile implements Collidable {
 	 * @return The size of this tile in pixels.
 	 */
 	@Basic @Immutable
-	public int getSizeInPixels() {
+	public int getSideSizeInPixels() {
 		return this.size;
 	}
 	
@@ -152,20 +138,8 @@ public class Tile implements Collidable {
 	 * 			| new Vector<>(this.getSizeInPixels(), this.getSizeInPixels())
 	 */
 	@Immutable
-	public Vector<Integer> getSizeVectorInPixels() {
-		return new Vector<>(this.getSizeInPixels(), this.getSizeInPixels());
-	}
-	
-	
-	/**
-	 * Returns the size of the bounding box of this tile in pixels.
-	 * 
-	 * @return The size of the bounding box of this tile in pixels.
-	 * 			| this.getSizeVectorInPixels()
-	 */
-	@Override
-	public Vector<Integer> getBoundingBoxSizeInPixels() {
-		return this.getSizeVectorInPixels();
+	public Vector<Integer> getSizeInPixels() {
+		return new Vector<>(this.getSideSizeInPixels(), this.getSideSizeInPixels());
 	}
 	
 	

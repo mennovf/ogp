@@ -22,7 +22,7 @@ public interface Collidable {
 	 * @return The bottom left positition of the bounding
 	 * 			box of the collidable in pixels.
 	 */
-	Vector<Integer> getBoundingBoxPositionInPixels();
+	Vector<Integer> getPositionInPixels();
 	
 	
 	/**
@@ -32,5 +32,5 @@ public interface Collidable {
 	 * @return The size of the bounding box of the collidable
 	 * 			in pixels.
 	 */
-	Vector<Integer> getBoundingBoxSizeInPixels();
+	Vector<Integer> getSizeInPixels();
 }

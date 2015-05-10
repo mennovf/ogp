@@ -482,20 +482,6 @@ public abstract class GameObject implements Collidable {
 	public Vector<Integer> getPositionInPixels() {
 		return Utilities.metersVectorToPixels(this.getPositionInMeters());
 	}
-	
-	
-	/**
-	 * Returns the position of the bottom left pixel of this
-	 * game object in pixels.
-	 * 
-	 * @return The position of the bottom left pixel of this
-	 * 			game object in pixels.
-	 * 			| this.getPositionInPixels()
-	 */
-	@Override
-	public Vector<Integer> getBoundingBoxPositionInPixels() {
-		return this.getPositionInPixels();
-	}
 
 
 	/**
@@ -868,18 +854,6 @@ public abstract class GameObject implements Collidable {
 	
 	
 	/**
-	 * Returns the size of the bounding box of this game object.
-	 * 
-	 * @return The size of the bounding box of this game object.
-	 * 			| this.getSizeInPixels()
-	 */
-	@Override
-	public Vector<Integer> getBoundingBoxSizeInPixels() {
-		return this.getSizeInPixels();
-	}
-	
-	
-	/**
 	 * Returns the program controlling this game object.
 	 */
 	@Basic
@@ -1097,8 +1071,8 @@ public abstract class GameObject implements Collidable {
 	 * 			| !(collidable instanceof Tile || collidable instanceof GameObject)
 	 */
 	protected Vector<Integer> getKindOfOverlapWith(Collidable collidable) throws IllegalArgumentException {
-		return this.getKindOfOverlapWithRect(collidable.getBoundingBoxPositionInPixels(),
-				collidable.getBoundingBoxSizeInPixels());
+		return this.getKindOfOverlapWithRect(collidable.getPositionInPixels(),
+				collidable.getSizeInPixels());
 	}
 	
 	
@@ -1140,37 +1114,19 @@ public abstract class GameObject implements Collidable {
 	
 	
 	/**
-	 * Returns whether this game object overlaps with the given game object.
+	 * Returns whether this game object overlaps with the given collidable.
 	 * 
-	 * @param object
-	 * 			The game object to check overlap with.
+	 * @param collidable
+	 * 			The collidable to check overlap with.
 	 * 
-	 * @return true if this game object overlaps with the given game object.
-	 * 			| !(object.getPositionInPixels().x + object.getSize().x <= self.getPositionInPixels().x
-				|	|| object.getPositionInPixels().x >= self.getPositionInPixels().x + self.getSize().x
-				|	|| object.getPositionInPixels().y + object.getSize().y <= self.getPositionInPixels().y
-				|	|| object.getPositionInPixels().y >= self.getPositionInPixels().y + self.getSize().y)
+	 * @return true if this game object overlaps with the given collidable.
+	 * 			| !(collidable.getPositionInPixels().x + collidable.getSize().x <= self.getPositionInPixels().x
+				|	|| collidable.getPositionInPixels().x >= self.getPositionInPixels().x + self.getSize().x
+				|	|| collidable.getPositionInPixels().y + collidable.getSize().y <= self.getPositionInPixels().y
+				|	|| collidable.getPositionInPixels().y >= self.getPositionInPixels().y + self.getSize().y)
 	 */
-	public boolean doesOverlapWith(GameObject object) {
-		return this.doesOverlapWithRect(object.getPositionInPixels(), object.getSizeInPixels());
-	}
-	
-	
-	/**
-	 * Returns whether this game object overlaps with the given tile.
-	 * 
-	 * @param tile
-	 * 			The tile to check overlap with.
-	 * 
-	 * @return true if this game object overlaps with the given tile.
-	 * 			| !(tile.getPositionInPixels().x + tile.getSize() <= self.getPositionInPixels().x
-				|	|| tile.getPositionInPixels().x >= self.getPositionInPixels().x + self.getSize().x
-				|	|| tile.getPositionInPixels().y + tile.getSize() <= self.getPositionInPixels().y
-				|	|| tile.getPositionInPixels().y >= self.getPositionInPixels().y + self.getSize().y)
-	 */
-	public boolean doesOverlapWith(Tile tile) {
-		return this.doesOverlapWithRect(tile.getPositionInPixels(),
-				new Vector<>(tile.getSizeInPixels(), tile.getSizeInPixels()));
+	public boolean doesOverlapWith(Collidable collidable) {
+		return this.doesOverlapWithRect(collidable.getPositionInPixels(), collidable.getSizeInPixels());
 	}
 	
 	

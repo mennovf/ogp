@@ -10,7 +10,7 @@
 			<attribute name="javadoc_location" value="http://www.cs.kuleuven.be/books/OOPWithJava/doc/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Menno/Projects/Unief/Bach 2/Semester II/OOP/eclipse/ogp/lib/antlr-4.5-complete.jar">
+	<classpathentry kind="lib" path="/Users/rugheid/Dropbox/Documents/Rugen Dropbox/Downloads Rugen/jumpingalien-part3/lib/antlr-4.5-complete.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="http://www.antlr.org/api/Java/"/>
 		</attributes>

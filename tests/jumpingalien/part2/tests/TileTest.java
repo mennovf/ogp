@@ -85,14 +85,14 @@ public class TileTest {
 	
 	@Test
 	public void getBoundingBoxPositionInPixels() {
-		assertEquals(Vector.scale(position, size), tile.getBoundingBoxPositionInPixels());
+		assertEquals(Vector.scale(position, size), tile.getPositionInPixels());
 	}
 	
 	
 	
 	@Test
 	public void getTopRightPixel() {
-		assertEquals(Vector.add(tile.getPositionInPixels(), tile.getSizeVectorInPixels()),
+		assertEquals(Vector.add(tile.getPositionInPixels(), tile.getSizeInPixels()),
 				tile.getTopRightPixel());
 	}
 	
@@ -107,14 +107,14 @@ public class TileTest {
 	
 	@Test
 	public void getSizeVectorInPixels() {
-		assertEquals(new Vector<>(size, size), tile.getSizeVectorInPixels());
+		assertEquals(new Vector<>(size, size), tile.getSizeInPixels());
 	}
 	
 	
 	
 	@Test
 	public void getBoundingBoxSizeInPixels() {
-		assertEquals(tile.getSizeVectorInPixels(), tile.getBoundingBoxSizeInPixels());
+		assertEquals(tile.getSizeInPixels(), tile.getSizeInPixels());
 	}
 	
 	

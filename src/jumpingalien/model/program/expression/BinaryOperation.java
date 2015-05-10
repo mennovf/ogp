@@ -13,7 +13,7 @@ import java.util.function.BiFunction;
  * 
  * @param <V1> The type of the first parameter of this operation.
  * 
- * @param <V2> The Type of the second paramter of this operation.
+ * @param <V2> The Type of the second parameter of this operation.
  */
 public class BinaryOperation<R, V1, V2> implements Expression<R> {
 	

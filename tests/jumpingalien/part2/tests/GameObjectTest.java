@@ -298,7 +298,7 @@ public class GameObjectTest {
 	
 	@Test
 	public void getBoundingBoxPositionInPixels() {
-		assertEquals(mazub.getPositionInPixels(), mazub.getBoundingBoxPositionInPixels());
+		assertEquals(mazub.getPositionInPixels(), mazub.getPositionInPixels());
 	}
 	
 	
@@ -509,7 +509,7 @@ public class GameObjectTest {
 	
 	@Test
 	public void getBoundingBoxSizeInPixels() {
-		assertEquals(mazub.getSizeInPixels(), mazub.getBoundingBoxSizeInPixels());
+		assertEquals(mazub.getSizeInPixels(), mazub.getSizeInPixels());
 	}
 	
 	

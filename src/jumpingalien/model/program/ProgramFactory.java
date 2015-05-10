@@ -232,14 +232,13 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 
 	@Override
 	public Expression createIsMoving(Expression expr, Expression direction, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new BinaryOperation<>((Expression<GameObject>) expr, (Expression<Direction>) direction,
+				(a, b) -> a.isMoving(b));
 	}
 
 	@Override
 	public Expression createIsDucking(Expression expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new UnaryOperation<>((Expression<Mazub>) expr, (a) -> a.isDucking());
 	}
 
 	@Override

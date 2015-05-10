@@ -463,6 +463,15 @@ public class Mazub extends GameObject {
 			this.isDucking = false;
 		}
 	}
+	
+	
+	/**
+	 * Returns whether this Mazub is ducking.
+	 */
+	@Basic
+	public boolean isDucking() {
+		return this.isDucking;
+	}
 
 	
 	/**

@@ -67,10 +67,7 @@ public class Program {
 	 * 			The game object to set.
 	 * 
 	 * @post The game object this program is controlling will be the given game object.
-	 * 			| new.getGameObject() == (new gameObject)
-	 * 
-	 * @post This program will be the program controlling the game object.
-	 * 			| (new gameObject).getProgram() == new
+	 * 			| new.getGameObject() == gameObject
 	 */
 	public void setGameObject(GameObject gameObject) {
 		this.gameObject = gameObject;

@@ -216,6 +216,7 @@ public abstract class GameObject implements Collidable {
 		// maxHealth has to be set before setHealth because it uses maxHealth.
 		this.setFacing(1);
 		this.program = program;
+		this.program.setGameObject(this);
 		this.passable = passable;
 		this.maxHealth = maxHealth;
 		this.health = 1;
@@ -684,6 +685,26 @@ public abstract class GameObject implements Collidable {
 	@Basic
 	protected void setSpeed(Vector<Double> speed) {
 		this.motion.setSpeed(speed);
+	}
+	
+	
+	/**
+	 * Returns whether this game object is moving in the given direction.
+	 * 
+	 * @param direction
+	 * 			The direction in which to check movement.
+	 * 
+	 * @return true if the game object's speed is not (0, 0)
+	 * 			| Math.signum(this.getSpeed().x) == direction
+	 * 			| || Math.signum(this.getSpeed().y) == direction
+	 * 
+	 * @pre The direction must be valid.
+	 * 			| isValidDirection(direction)
+	 */
+	public boolean isMoving(double direction) {
+		assert isValidDirection(direction);
+		return Math.signum(this.getSpeed().x) == direction
+				|| Math.signum(this.getSpeed().y) == direction;
 	}
 	
 	

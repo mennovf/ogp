@@ -22,7 +22,6 @@ public interface Statement {
 	 * 
 	 * @return The amount of time *not* consumed by advancing this statement.
 	 */
-	@Basic
 	double advanceTime(double dt);
 
 	
@@ -39,6 +38,5 @@ public interface Statement {
 	 * @post The statement isn't finished.
 	 * 			| new.isFinished() == false
 	 */
-	@Basic
 	void reset();
 }

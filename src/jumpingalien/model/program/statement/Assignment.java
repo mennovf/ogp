@@ -11,7 +11,7 @@ import jumpingalien.model.program.expression.Expression;
 public class Assignment extends SimpleStatement {
 
 	private final String identifier;
-	private final Expression<Object> valueExpr;
+	private final Expression<?> valueExpr;
 	
 	/**
 	 * Constructs a new Assignment Statement.
@@ -22,7 +22,7 @@ public class Assignment extends SimpleStatement {
 	 * @param valueExpr
 	 * 			The expression which's result is assigned to identifier.
 	 */
-	public Assignment(String identifier, Expression<Object> valueExpr) {
+	public Assignment(String identifier, Expression<?> valueExpr) {
 		super();
 		this.identifier = identifier;
 		this.valueExpr = valueExpr;

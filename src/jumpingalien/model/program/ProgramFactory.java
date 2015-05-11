@@ -29,7 +29,7 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	@Override
 	public Expression<Object> createReadVariable(String variableName, Object variableType,
 			SourceLocation sourceLocation) {
-		return new Variable(variableName);
+		return new Variable<Object>(variableName);
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 
 	@Override
 	public Expression<Object> createSelf(SourceLocation sourceLocation) {
-		return new Variable("self");
+		return new Variable<Object>("self");
 	}
 
 	@Override

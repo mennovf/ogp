@@ -7,7 +7,7 @@ import jumpingalien.model.program.exception.JumpingAlienLanguageRuntimeException
 /**
  * A class representing the value of a variable.
  */
-public class Variable implements Expression<Object> {
+public class Variable<R> implements Expression<R> {
 	
 	private final String identifier;
 	
@@ -22,10 +22,16 @@ public class Variable implements Expression<Object> {
 	}
 
 	@Override
-	public Object evaluate(Map<String, Object> globals) {
+	public R evaluate(Map<String, Object> globals) {
 		if (!globals.containsKey(this.identifier)) {
 			throw new JumpingAlienLanguageRuntimeException("Undefined identifier '" + this.identifier + "'.");
 		}
-		return globals.get(this.identifier);
+
+		try {
+			return (R)globals.get(this.identifier);
+		}
+		catch (ClassCastException e) {
+			throw new JumpingAlienLanguageRuntimeException("Cannot cast " + this.identifier + " in expression.");
+		}
 	}
 }

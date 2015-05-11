@@ -12,7 +12,7 @@ import jumpingalien.model.gameobject.Shark;
 import jumpingalien.model.gameobject.Slime;
 import jumpingalien.model.program.Program;
 import jumpingalien.model.program.ProgramFactory;
-import jumpingalien.model.program.Statement;
+import jumpingalien.model.program.statement.Statement;
 import jumpingalien.model.program.expression.Expression;
 import jumpingalien.model.world.World;
 import jumpingalien.part3.programs.ParseOutcome;

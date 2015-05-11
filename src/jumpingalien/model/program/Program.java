@@ -3,6 +3,7 @@ package jumpingalien.model.program;
 import java.util.Map;
 
 import jumpingalien.model.gameobject.GameObject;
+import jumpingalien.model.program.statement.Statement;
 
 /**
  * A class representing a program.

@@ -21,6 +21,7 @@ import jumpingalien.model.world.TileType;
 import jumpingalien.part3.programs.IProgramFactory;
 import jumpingalien.part3.programs.SourceLocation;
 
+@SuppressWarnings("unchecked")
 public class ProgramFactory implements IProgramFactory<Expression<?>, Statement, Object, Program> {
 	
 	@Override
@@ -143,25 +144,25 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	}
 
 	@Override
-	public Expression createGetX(Expression expr, SourceLocation sourceLocation) {
+	public Expression<Double> createGetX(Expression<?> expr, SourceLocation sourceLocation) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Expression createGetY(Expression expr, SourceLocation sourceLocation) {
+	public Expression<Double> createGetY(Expression<?> expr, SourceLocation sourceLocation) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Expression createGetWidth(Expression expr, SourceLocation sourceLocation) {
+	public Expression<Double> createGetWidth(Expression<?> expr, SourceLocation sourceLocation) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Expression createGetHeight(Expression expr, SourceLocation sourceLocation) {
+	public Expression<Double> createGetHeight(Expression<?> expr, SourceLocation sourceLocation) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -172,13 +173,13 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	}
 
 	@Override
-	public Expression createGetTile(Expression x, Expression y, SourceLocation sourceLocation) {
+	public Expression<Tile> createGetTile(Expression<?> x, Expression<?> y, SourceLocation sourceLocation) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Expression createSearchObject(Expression direction, SourceLocation sourceLocation) {
+	public Expression<Collidable> createSearchObject(Expression<?> direction, SourceLocation sourceLocation) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -250,7 +251,7 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	}
 
 	@Override
-	public Statement createAssignment(String variableName, Object variableType, Expression value,
+	public Statement createAssignment(String variableName, Object variableType, Expression<?> value,
 			SourceLocation sourceLocation) {
 		// TODO Auto-generated method stub
 		return null;
@@ -279,26 +280,26 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	}
 
 	@Override
-	public Statement createIf(Expression condition, Statement ifBody, Statement elseBody,
+	public Statement createIf(Expression<?> condition, Statement ifBody, Statement elseBody,
 			SourceLocation sourceLocation) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Statement createPrint(Expression value, SourceLocation sourceLocation) {
+	public Statement createPrint(Expression<?> value, SourceLocation sourceLocation) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Statement createStartRun(Expression direction, SourceLocation sourceLocation) {
+	public Statement createStartRun(Expression<?> direction, SourceLocation sourceLocation) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Statement createStopRun(Expression direction, SourceLocation sourceLocation) {
+	public Statement createStopRun(Expression<?> direction, SourceLocation sourceLocation) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -328,7 +329,7 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	}
 
 	@Override
-	public Statement createWait(Expression duration, SourceLocation sourceLocation) {
+	public Statement createWait(Expression<?> duration, SourceLocation sourceLocation) {
 		// TODO Auto-generated method stub
 		return null;
 	}

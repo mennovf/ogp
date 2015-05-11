@@ -28,6 +28,11 @@ public class Program {
 	private GameObject gameObject;
 	
 	
+	/**
+	 * Contains the time not yet consumed by statements.
+	 */
+	private double excessTime; 
+	
 
 	/**
 	 * Creates a new program with the given parameters.
@@ -50,6 +55,7 @@ public class Program {
 		
 		this.mainStatement = mainStatement;
 		this.globalVariables = globalVariables;
+		this.excessTime = 0;
 	}
 	
 	
@@ -72,5 +78,19 @@ public class Program {
 	 */
 	public void setGameObject(GameObject gameObject) {
 		this.gameObject = gameObject;
+		this.globalVariables.put("self", gameObject);
+	}
+	
+	/**
+	 * Advance the main statement.
+	 * 
+	 * @param dt
+	 * 			The amount of gameworld time that has passed since the last call.
+	 * @effect Advances the time of mainStatement by (dt + excessTime)
+	 * 			| this.excessTime = this.mainStatement.advanceTime(dt + this.excessTime, this.globalVariables)
+	 * 			
+	 */
+	public void advanceTime(double dt) {
+		this.excessTime = this.mainStatement.advanceTime(dt + this.excessTime, this.globalVariables);
 	}
 }

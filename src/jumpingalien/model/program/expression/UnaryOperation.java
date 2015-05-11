@@ -1,5 +1,6 @@
 package jumpingalien.model.program.expression;
 
+import java.util.Map;
 import java.util.function.Function;
 
 /**
@@ -38,7 +39,7 @@ public class UnaryOperation<R, V> implements Expression<R> {
 	 * @return the result of operation applied to operand.
 	 */
 	@Override
-	public R evaluate() {
-		return this.operation.apply(this.operand.evaluate());
+	public R evaluate(Map<String, Object> globals) {
+		return this.operation.apply(this.operand.evaluate(globals));
 	}
 }

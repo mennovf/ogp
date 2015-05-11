@@ -1,5 +1,6 @@
 package jumpingalien.model.program.expression;
 
+import java.util.Map;
 import java.util.function.BiFunction;
 
 
@@ -46,7 +47,7 @@ public class BinaryOperation<R, V1, V2> implements Expression<R> {
 	 * 			| op.apply(left.evaluate(), right.evaluate())
 	 */
 	@Override
-	public R evaluate() {
-		return operation.apply(left.evaluate(), right.evaluate());
+	public R evaluate(Map<String, Object> globals) {
+		return operation.apply(left.evaluate(globals), right.evaluate(globals));
 	}
 }

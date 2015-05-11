@@ -1,5 +1,7 @@
 package jumpingalien.model.program.statement;
 
+import java.util.Map;
+
 /**
  * A class representing the 'Wait' action.
  */
@@ -20,7 +22,7 @@ public class Wait implements Statement {
 	}
 
 	@Override
-	public double advanceTime(double dt) {
+	public double advanceTime(double dt, Map<String, Object> globals) {
 		double timeLeft = waitTime - timeWaited;
 
 		this.timeWaited += dt;

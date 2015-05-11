@@ -1,5 +1,7 @@
 package jumpingalien.model.program.statement;
 
+import java.util.Map;
+
 /**
  * A class representing a for each loop.
  * 
@@ -8,7 +10,7 @@ package jumpingalien.model.program.statement;
 public class ForEachLoop implements Statement {
 
 	@Override
-	public double advanceTime(double dt) {
+	public double advanceTime(double dt, Map<String, Object> globals) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

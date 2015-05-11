@@ -1,5 +1,7 @@
 package jumpingalien.model.program.statement;
 
+import java.util.Map;
+
 import be.kuleuven.cs.som.annotate.*;
 
 
@@ -48,10 +50,10 @@ public class Statements implements Statement {
 
 	
 	@Override
-	public double advanceTime(double dt) {
+	public double advanceTime(double dt, Map<String, Object> globals) {
 		double timeLeft = dt;
 		while (timeLeft >= Statement.defaultTime && ! this.isFinished()) {
-			timeLeft = this.currentStatement().advanceTime(timeLeft);
+			timeLeft = this.currentStatement().advanceTime(timeLeft, globals);
 	        if (this.currentStatement().isFinished()) {
 	                this.currentStatementIndex += 1;
 	        }

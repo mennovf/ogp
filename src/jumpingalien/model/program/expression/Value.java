@@ -1,5 +1,7 @@
 package jumpingalien.model.program.expression;
 
+import java.util.Map;
+
 /**
  * A expression representing a value.
  * 
@@ -28,7 +30,7 @@ public class Value<T> implements Expression<T> {
 	 * @return Returns the stored value.
 	 */
 	@Override
-	public T evaluate() {
+	public T evaluate(Map<String, Object> globals) {
 		return val;
 	}
 }

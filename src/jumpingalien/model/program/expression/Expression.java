@@ -1,5 +1,7 @@
 package jumpingalien.model.program.expression;
 
+import java.util.Map;
+
 /**
  * An interface representing an expression.
  * 
@@ -13,8 +15,9 @@ public interface Expression<T> {
 	
 	/**
 	 * Recursively evaluates this expression and returns it result.
+	 * @param globals TODO
 	 * 
 	 * @return The result evaluating this expression.
 	 */
-	T evaluate();
+	T evaluate(Map<String, Object> globals);
 }

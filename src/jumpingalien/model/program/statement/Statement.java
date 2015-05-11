@@ -1,5 +1,7 @@
 package jumpingalien.model.program.statement;
 
+import java.util.Map;
+
 import be.kuleuven.cs.som.annotate.*;
 
 /**
@@ -19,10 +21,11 @@ public interface Statement {
 	 * 
 	 * @param dt
 	 * 			The amount of time to advance.
+	 * @param globals TODO
 	 * 
 	 * @return The amount of time *not* consumed by advancing this statement.
 	 */
-	double advanceTime(double dt);
+	double advanceTime(double dt, Map<String, Object> globals);
 
 	
 	/**

@@ -14,6 +14,7 @@ import jumpingalien.model.program.expression.Expression;
 import jumpingalien.model.program.expression.UnaryOperation;
 import jumpingalien.model.program.expression.Value;
 import jumpingalien.model.program.expression.Variable;
+import jumpingalien.model.program.statement.Assignment;
 import jumpingalien.model.program.statement.ForEachLoop;
 import jumpingalien.model.program.statement.WhileLoop;
 import jumpingalien.model.program.statement.Statement;
@@ -252,8 +253,7 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	@Override
 	public Statement createAssignment(String variableName, Object variableType, Expression<?> value,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Assignment(variableName, (Expression<Object>)value);
 	}
 
 	@Override

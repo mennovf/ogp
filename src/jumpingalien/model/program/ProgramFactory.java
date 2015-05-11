@@ -13,6 +13,7 @@ import jumpingalien.model.program.expression.BinaryOperation;
 import jumpingalien.model.program.expression.Expression;
 import jumpingalien.model.program.expression.UnaryOperation;
 import jumpingalien.model.program.expression.Value;
+import jumpingalien.model.program.expression.Variable;
 import jumpingalien.model.program.statement.ForEachLoop;
 import jumpingalien.model.program.statement.WhileLoop;
 import jumpingalien.model.program.statement.Statement;
@@ -25,10 +26,9 @@ import jumpingalien.part3.programs.SourceLocation;
 public class ProgramFactory implements IProgramFactory<Expression<?>, Statement, Object, Program> {
 	
 	@Override
-	public Expression<?> createReadVariable(String variableName, Object variableType,
+	public Expression<Object> createReadVariable(String variableName, Object variableType,
 			SourceLocation sourceLocation) {
-		//TODO: Implement this
-		return null;
+		return new Variable(variableName);
 	}
 
 	@Override
@@ -52,9 +52,8 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	}
 
 	@Override
-	public Expression<GameObject> createSelf(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression<Object> createSelf(SourceLocation sourceLocation) {
+		return new Variable("self");
 	}
 
 	@Override

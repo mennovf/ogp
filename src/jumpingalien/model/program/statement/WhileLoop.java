@@ -67,8 +67,8 @@ public class WhileLoop implements Statement {
 		while (timeLeft >= Statement.defaultTime) {
 			if (!conditionEvaluated && this.conditionEvaluation) {
 				this.conditionEvaluation = condition.evaluate();
-				timeLeft -= Statement.defaultTime;
-			} else if (this.conditionEvaluation) {
+			}
+			if (this.conditionEvaluation) {
 				timeLeft = statement.advanceTime(timeLeft);
 				if (statement.isFinished()) {
 					this.conditionEvaluated = false;

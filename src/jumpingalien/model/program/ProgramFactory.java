@@ -13,6 +13,9 @@ import jumpingalien.model.program.expression.BinaryOperation;
 import jumpingalien.model.program.expression.Expression;
 import jumpingalien.model.program.expression.UnaryOperation;
 import jumpingalien.model.program.expression.Value;
+import jumpingalien.model.program.statement.ForEachLoop;
+import jumpingalien.model.program.statement.WhileLoop;
+import jumpingalien.model.program.statement.Statement;
 import jumpingalien.model.world.Tile;
 import jumpingalien.model.world.TileType;
 import jumpingalien.part3.programs.IProgramFactory;
@@ -254,21 +257,19 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	}
 
 	@Override
-	public Statement createWhile(Expression condition, Statement body, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public Statement createWhile(Expression<?> condition, Statement body, SourceLocation sourceLocation) {
+		return new WhileLoop((Expression<Boolean>) condition, body);
 	}
 
 	@Override
 	public Statement createForEach(
 			String variableName,
 			Kind variableKind,
-			Expression where,
-			Expression sort,
+			Expression<?> where,
+			Expression<?> sort,
 			SortDirection sortDirection,
 			Statement body, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ForEachLoop(variableKind, variableName, (Expression<Boolean>) where, (Expression<Boolean>) sort, sortDirection, body);
 	}
 
 	@Override

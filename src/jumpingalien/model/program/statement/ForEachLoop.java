@@ -11,19 +11,19 @@ import jumpingalien.part3.programs.IProgramFactory.SortDirection;
  * 
  * @author Rugen Heidbuchel, Menno Vanfrachem
  */
-public class ForEachLoop implements Statement {
+public class ForEachLoop extends Loop {
 
 	
 	private final Kind kind;
 	private final String variable;
 	private final Expression<Boolean> whereExpression;
-	private final Expression<Boolean> sortExpression;
+	private final Expression<Double> sortExpression;
 	private final SortDirection sortDirection;
 	private final Statement body;
 	
 	
 	public ForEachLoop(Kind kind, String variable, Expression<Boolean> whereExpression,
-			Expression<Boolean> sortExpression, SortDirection sortDirection, Statement body) {
+			Expression<Double> sortExpression, SortDirection sortDirection, Statement body) {
 		this.kind = kind;
 		this.variable = variable;
 		this.whereExpression = whereExpression;
@@ -50,6 +50,13 @@ public class ForEachLoop implements Statement {
 	
 	@Override
 	public void reset() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void forceFinish() {
 		// TODO Auto-generated method stub
 		
 	}

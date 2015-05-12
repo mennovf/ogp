@@ -53,5 +53,11 @@ public abstract class SimpleStatement implements Statement {
 	public void reset() {
 		this.completed = false;
 	}
+	
+	
+	@Override
+	public void forceFinish() {
+		completed = true;
+	}
 
 }

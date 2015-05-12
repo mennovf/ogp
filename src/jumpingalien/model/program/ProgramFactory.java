@@ -262,7 +262,7 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 			Expression<?> sort,
 			SortDirection sortDirection,
 			Statement body, SourceLocation sourceLocation) {
-		return new ForEachLoop(variableKind, variableName, (Expression<Boolean>) where, (Expression<Boolean>) sort, sortDirection, body);
+		return new ForEachLoop(variableKind, variableName, (Expression<Boolean>) where, (Expression<Double>) sort, sortDirection, body);
 	}
 
 	@Override

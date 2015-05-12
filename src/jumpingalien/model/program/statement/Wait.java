@@ -10,6 +10,8 @@ public class Wait implements Statement {
 	private final double waitTime;
 	private double timeWaited;
 	
+	
+	
 	/**
 	 * Constructs a new Wait Statement.
 	 * 
@@ -21,6 +23,8 @@ public class Wait implements Statement {
 		reset();
 	}
 
+	
+	
 	@Override
 	public double advanceTime(double dt, Map<String, Object> globals, CallStack callStack) {
 		double timeLeft = waitTime - timeWaited;
@@ -33,13 +37,21 @@ public class Wait implements Statement {
 		return (dt - timeLeft);
 	}
 
+	
 	@Override
 	public boolean isFinished() {
 		return (this.timeWaited >= this.waitTime);
 	}
 
+	
 	@Override
 	public void reset() {
 		this.timeWaited = 0;
+	}
+
+	
+	@Override
+	public void forceFinish() {
+		this.timeWaited = this.waitTime;
 	}
 }

@@ -45,6 +45,15 @@ public interface Statement {
 	
 	
 	/**
+	 * Forces this statement to finish.
+	 * 
+	 * @post This statement will be finished.
+	 * 			| new.isFinished()
+	 */
+	void forceFinish();
+	
+	
+	/**
 	 * Breaks this statement. This means it stops the execution of this statement
 	 * and it's parents up until the first loop.
 	 */

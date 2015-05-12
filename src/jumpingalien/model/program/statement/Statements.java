@@ -21,6 +21,7 @@ public class Statements implements Statement {
 	private int currentStatementIndex;
 	
 	
+	
 	/**
 	 * Constructs a new Statements object.
 	 * 
@@ -40,6 +41,8 @@ public class Statements implements Statement {
 		reset();
 	}
 
+	
+	
 	/**
 	 * Returns The statement being executed.
 	 */
@@ -61,16 +64,24 @@ public class Statements implements Statement {
 		return timeLeft;
 	}
 
+	
 	@Override
 	public boolean isFinished() {
-		return (currentStatementIndex == statements.length);
+		return (currentStatementIndex == this.statements.length);
 	}
 
+	
 	@Override
 	public void reset() {
 		for (Statement statement: this.statements) {
 			statement.reset();
 		}
 		this.currentStatementIndex = 0;
+	}
+
+	
+	@Override
+	public void forceFinish() {
+		this.currentStatementIndex = this.statements.length;
 	}
 }

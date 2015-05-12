@@ -9,20 +9,24 @@ import jumpingalien.model.program.expression.Expression;
  */
 public class If implements Statement {
 	
-	private boolean conditionEvaluated;
-	private boolean conditionEvaluation;
+	private boolean conditionEvaluated = false;
+	private boolean conditionEvaluation = false;
+	private boolean forceFinished = false;
 	
 	private Expression<Boolean> condition;
 	private Statement trueBranch;
 	private Statement falseBranch;
 	
+	
+	
 	public If(Expression<Boolean> condition, Statement trueBranch, Statement falseBranch) {
 		this.condition = condition;
 		this.trueBranch = trueBranch;
 		this.falseBranch = falseBranch;
-		this.reset();
 	}
 
+	
+	
 	@Override
 	public double advanceTime(double dt, Map<String, Object> globals, CallStack callStack) {
 		if (! this.conditionEvaluated) {
@@ -32,19 +36,29 @@ public class If implements Statement {
 		return currentBranch().advanceTime(dt, globals, callStack.append(this));
 	}
 
+	
 	private Statement currentBranch() {
 		return this.conditionEvaluation ? trueBranch : falseBranch;
 	}
 
+	
 	@Override
 	public boolean isFinished() {
-		return this.conditionEvaluated && this.currentBranch().isFinished();
+		return this.forceFinished || (this.conditionEvaluated && this.currentBranch().isFinished());
 	}
 
+	
 	@Override
 	public void reset() {
 		this.currentBranch().reset();
 		this.conditionEvaluated = false;
 		this.conditionEvaluation = false;
+		this.forceFinished = false;
+	}
+
+	
+	@Override
+	public void forceFinish() {
+		this.forceFinished = true;
 	}
 }

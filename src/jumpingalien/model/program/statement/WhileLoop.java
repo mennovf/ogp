@@ -9,7 +9,7 @@ import jumpingalien.model.program.expression.Expression;
  * 
  * @author Rugen Heidbuchel, Menno Vanfrachem
  */
-public class WhileLoop implements Statement {
+public class WhileLoop extends Loop {
 	
 	/**
 	 * The expression to evaluate for the condition
@@ -92,6 +92,12 @@ public class WhileLoop implements Statement {
 		this.conditionEvaluated = false;
 		this.conditionEvaluation = true;
 		statement.reset();
+	}
+
+
+	@Override
+	public void forceFinish() {
+		this.conditionEvaluated = true;
 	}
 
 }

@@ -13,6 +13,8 @@ public class Assignment extends SimpleStatement {
 	private final String identifier;
 	private final Expression<?> valueExpr;
 	
+	
+	
 	/**
 	 * Constructs a new Assignment Statement.
 	 * 
@@ -28,6 +30,8 @@ public class Assignment extends SimpleStatement {
 		this.valueExpr = valueExpr;
 	}
 
+	
+	
 	/**
 	 * Stores the result of this.valueExpr in globals under this.identifier.
 	 * 

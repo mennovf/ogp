@@ -8,7 +8,7 @@ import be.kuleuven.cs.som.annotate.*;
 /**
  * A class handling the execution of a list of statements.
  */
-public class Statements implements Statement {
+public class Sequence implements Statement {
 	
 	/**
 	 * The list of statements.
@@ -31,7 +31,7 @@ public class Statements implements Statement {
 	 * @throws NullPointerException
 	 * 			Throws a NullPointerException when the given statements list is null.
 	 */
-	public Statements(Statement[] statements) throws NullPointerException {
+	public Sequence(Statement[] statements) throws NullPointerException {
 		
 		if (statements == null) {
 			throw new NullPointerException("The given statements list is null.");

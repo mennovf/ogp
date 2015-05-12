@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import jumpingalien.model.Collidable;
+import jumpingalien.model.Vector;
 import jumpingalien.model.gameobject.GameObject;
 import jumpingalien.model.gameobject.Mazub;
 import jumpingalien.model.gameobject.Plant;
@@ -13,6 +14,7 @@ import jumpingalien.model.program.expression.*;
 import jumpingalien.model.program.statement.*;
 import jumpingalien.model.world.Tile;
 import jumpingalien.model.world.TileType;
+import jumpingalien.model.world.World;
 import jumpingalien.part3.programs.IProgramFactory;
 import jumpingalien.part3.programs.SourceLocation;
 
@@ -163,8 +165,16 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 
 	@Override
 	public Expression<Tile> createGetTile(Expression<?> x, Expression<?> y, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Expression<Tile>() {
+			
+			@Override
+			public Tile evaluate(Map<String, Object> globals, CallStack callStack) {
+				World world = callStack.getProgram().getGameObject().getWorld();
+				Vector<Integer> pixelPosition = new Vector<>(((Expression<Double>) x).evaluate(globals, callStack).intValue(),
+						((Expression<Double>) y).evaluate(globals, callStack).intValue());
+				return new Tile(world.getTileContainingPixel(pixelPosition), world.getTileSize(), world.getTileTypeOfPixel(pixelPosition));
+			}
+		};
 	}
 
 	@Override
@@ -284,7 +294,7 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 			
 			@Override
 			protected void run(Map<String, Object> globals, CallStack callStack) {
-				System.out.println(value.evaluate(globals));
+				System.out.println(value.evaluate(globals, callStack));
 			}
 		};
 	}

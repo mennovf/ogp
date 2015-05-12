@@ -2,6 +2,8 @@ package jumpingalien.model.program.expression;
 
 import java.util.Map;
 
+import jumpingalien.model.program.statement.CallStack;
+
 /**
  * A expression representing a value.
  * 
@@ -30,7 +32,7 @@ public class Value<T> implements Expression<T> {
 	 * @return Returns the stored value.
 	 */
 	@Override
-	public T evaluate(Map<String, Object> globals) {
+	public T evaluate(Map<String, Object> globals, CallStack callStack) {
 		return val;
 	}
 }

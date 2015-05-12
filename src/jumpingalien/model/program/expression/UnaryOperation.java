@@ -3,6 +3,8 @@ package jumpingalien.model.program.expression;
 import java.util.Map;
 import java.util.function.Function;
 
+import jumpingalien.model.program.statement.CallStack;
+
 /**
  * A class representing an unary operation.
  * 
@@ -39,7 +41,7 @@ public class UnaryOperation<R, V> implements Expression<R> {
 	 * @return the result of operation applied to operand.
 	 */
 	@Override
-	public R evaluate(Map<String, Object> globals) {
-		return this.operation.apply(this.operand.evaluate(globals));
+	public R evaluate(Map<String, Object> globals, CallStack callStack) {
+		return this.operation.apply(this.operand.evaluate(globals, callStack));
 	}
 }

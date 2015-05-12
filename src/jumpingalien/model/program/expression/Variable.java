@@ -3,6 +3,7 @@ package jumpingalien.model.program.expression;
 import java.util.Map;
 
 import jumpingalien.model.program.exception.JumpingAlienLanguageRuntimeException;
+import jumpingalien.model.program.statement.CallStack;
 
 /**
  * A class representing the value of a variable.
@@ -23,7 +24,7 @@ public class Variable<R> implements Expression<R> {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public R evaluate(Map<String, Object> globals) {
+	public R evaluate(Map<String, Object> globals, CallStack callStack) {
 		if (!globals.containsKey(this.identifier)) {
 			throw new JumpingAlienLanguageRuntimeException("Undefined identifier '" + this.identifier + "'.");
 		}

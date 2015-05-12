@@ -30,10 +30,10 @@ public class If implements Statement {
 	@Override
 	public double advanceTime(double dt, Map<String, Object> globals, CallStack callStack) {
 		if (! this.conditionEvaluated) {
-			this.conditionEvaluation = condition.evaluate(globals);
+			this.conditionEvaluation = condition.evaluate(globals, this.getOwnCallStack(callStack));
 			this.conditionEvaluated = true;
 		}
-		return currentBranch().advanceTime(dt, globals, callStack.append(this));
+		return currentBranch().advanceTime(dt, globals, this.getOwnCallStack(callStack));
 	}
 
 	

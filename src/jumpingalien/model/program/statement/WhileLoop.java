@@ -68,10 +68,10 @@ public class WhileLoop extends Loop {
 		double timeLeft = dt;
 		while (timeLeft >= Statement.defaultTime) {
 			if (!conditionEvaluated && this.conditionEvaluation) {
-				this.conditionEvaluation = condition.evaluate(globals);
+				this.conditionEvaluation = condition.evaluate(globals, this.getOwnCallStack(callStack));
 				timeLeft -= Statement.defaultTime;
 			} else if (this.conditionEvaluation) {
-				timeLeft = statement.advanceTime(timeLeft, globals, callStack.append(this));
+				timeLeft = statement.advanceTime(timeLeft, globals, this.getOwnCallStack(callStack));
 				if (statement.isFinished()) {
 					this.conditionEvaluated = false;
 				}

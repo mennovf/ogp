@@ -33,7 +33,7 @@ public class Wait implements Statement {
 	public double advanceTime(double dt, Map<String, Object> globals, CallStack callStack) {
 		
 		if (!waitTimeEvaluated) {
-			this.waitTime = this.durationExpression.evaluate(globals);
+			this.waitTime = this.durationExpression.evaluate(globals, this.getOwnCallStack(callStack));
 		}
 		double timeLeft = this.waitTime - this.timeWaited;
 

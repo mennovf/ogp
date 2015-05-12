@@ -60,4 +60,9 @@ public interface Statement {
 	default void executeBreak(CallStack callStack) {
 		callStack.pop().executeBreak(callStack);
 	}
+	
+	
+	default CallStack getOwnCallStack(CallStack callStack) {
+		return callStack.append(this);
+	}
 }

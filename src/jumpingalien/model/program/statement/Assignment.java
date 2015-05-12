@@ -43,6 +43,6 @@ public class Assignment extends SimpleStatement {
 		if (! globals.containsKey(this.identifier)) {
 			throw new JumpingAlienLanguageRuntimeException("Undefined identifier '" + this.identifier + "' in assignment.");
 		}
-		globals.put(this.identifier, valueExpr.evaluate(globals));
+		globals.put(this.identifier, valueExpr.evaluate(globals, this.getOwnCallStack(callStack)));
 	}
 }

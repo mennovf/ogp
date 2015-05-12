@@ -338,7 +338,7 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 
 	@Override
 	public Statement createSequence(List<Statement> statements, SourceLocation sourceLocation) {
-		return new Statements((Statement[]) statements.toArray());
+		return new Sequence((Statement[]) statements.toArray());
 	}
 
 	@Override

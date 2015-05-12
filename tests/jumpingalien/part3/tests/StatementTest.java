@@ -159,21 +159,37 @@ public class StatementTest {
 	
 	
 	@Test
-	public void WhileLoop_ok() {
+	public void WhileLoop_cond() {
 		globals.put("cond", true);
 		globals.put("result", true);
-		WhileLoop w = new WhileLoop(new Value<Boolean>(true), new Sequence(new Statement[]{new Wait(new Value<Double>(0.1)), new Assignment("cond", new Value<Boolean>(false)), new Assignment("result", new Value<Boolean>(false))}));
+		WhileLoop w = new WhileLoop(new Variable<Boolean>("cond"), new Sequence(new Statement[]{new Wait(new Value<Double>(0.1)), new Assignment("cond", new Value<Boolean>(false)), new Assignment("result", new Value<Boolean>(false))}));
 		Program p = createProgram(w);
 		
 		p.advanceTime(0.1);
+		p.advanceTime(Statement.defaultTime);
 		assertFalse(w.isFinished());
 		assertTrue((Boolean)globals.get("result"));
 		assertTrue((Boolean)globals.get("cond"));
 		
 		p.advanceTime(0.1);
 		assertTrue(w.isFinished());
-		assertTrue((Boolean)globals.get("result"));
 		assertFalse((Boolean)globals.get("cond"));
+		assertFalse((Boolean)globals.get("result"));
+	}
+	
+	
+	@Test
+	public void WhileLoop_keepGoing() {
+		globals.put("i", new Value<Double>(0.0));
+		WhileLoop w = new WhileLoop(new Value<Boolean>(true), new Sequence(new Statement[]{new Assignment("i", new BinaryOperation<Double, Double, Double>(new Variable<Double>("i"), new Value<Double>(1.0), (a, b)->a+b))}));
+		Program p = createProgram(w);
 		
+		p.advanceTime(Statement.defaultTime * 2);
+		assertEquals(1.0, (Double)globals.get("i"), 1e-7);
+		assertFalse(w.isFinished());
+
+		p.advanceTime(Statement.defaultTime * 2);
+		assertEquals(2.0, (Double)globals.get("i"), 1e-7);
+		assertFalse(w.isFinished());
 	}
 }

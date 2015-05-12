@@ -284,7 +284,6 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 			
 			@Override
 			protected void run(Map<String, Object> globals, CallStack callStack) {
-				//TODO: Check whether this works
 				System.out.println(value.evaluate(globals));
 			}
 		};

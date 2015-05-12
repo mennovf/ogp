@@ -2,6 +2,7 @@ package jumpingalien.model.program;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 import jumpingalien.model.Collidable;
 import jumpingalien.model.gameobject.GameObject;
@@ -9,15 +10,8 @@ import jumpingalien.model.gameobject.Mazub;
 import jumpingalien.model.gameobject.Plant;
 import jumpingalien.model.gameobject.Shark;
 import jumpingalien.model.gameobject.Slime;
-import jumpingalien.model.program.expression.BinaryOperation;
-import jumpingalien.model.program.expression.Expression;
-import jumpingalien.model.program.expression.UnaryOperation;
-import jumpingalien.model.program.expression.Value;
-import jumpingalien.model.program.expression.Variable;
-import jumpingalien.model.program.statement.Assignment;
-import jumpingalien.model.program.statement.ForEachLoop;
-import jumpingalien.model.program.statement.WhileLoop;
-import jumpingalien.model.program.statement.Statement;
+import jumpingalien.model.program.expression.*;
+import jumpingalien.model.program.statement.*;
 import jumpingalien.model.world.Tile;
 import jumpingalien.model.world.TileType;
 import jumpingalien.part3.programs.IProgramFactory;
@@ -274,8 +268,13 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 
 	@Override
 	public Statement createBreak(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new SimpleStatement() {
+			
+			@Override
+			protected void run(Map<String, Object> globals, Stack<Statement> callStack) {
+				callStack.pop().executeBreak(callStack);
+			}
+		};
 	}
 
 	@Override

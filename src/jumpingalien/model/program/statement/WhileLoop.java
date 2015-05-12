@@ -1,6 +1,7 @@
 package jumpingalien.model.program.statement;
 
 import java.util.Map;
+import java.util.Stack;
 
 import jumpingalien.model.program.expression.Expression;
 
@@ -64,7 +65,7 @@ public class WhileLoop implements Statement {
 	
 
 	@Override
-	public double advanceTime(double dt, Map<String, Object> globals) {
+	public double advanceTime(double dt, Map<String, Object> globals, Stack<Statement> callStack) {
 		double timeLeft = dt;
 		while (timeLeft >= Statement.defaultTime) {
 			if (!conditionEvaluated && this.conditionEvaluation) {

@@ -280,8 +280,14 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 
 	@Override
 	public Statement createPrint(Expression<?> value, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new SimpleStatement() {
+			
+			@Override
+			protected void run(Map<String, Object> globals, CallStack callStack) {
+				//TODO: Check whether this works
+				System.out.println(value.evaluate(globals));
+			}
+		};
 	}
 
 	@Override

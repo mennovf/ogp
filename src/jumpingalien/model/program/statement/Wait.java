@@ -2,12 +2,16 @@ package jumpingalien.model.program.statement;
 
 import java.util.Map;
 
+import jumpingalien.model.program.expression.Expression;
+
 /**
  * A class representing the 'Wait' action.
  */
 public class Wait implements Statement {
 	
-	private final double waitTime;
+	private double waitTime;
+	private boolean waitTimeEvaluated = false;
+	private final Expression<Double> durationExpression;
 	private double timeWaited;
 	
 	
@@ -18,8 +22,8 @@ public class Wait implements Statement {
 	 * @param waitTime
 	 * 			The amount of time to wait before finishing.
 	 */
-	public Wait(double waitTime) {
-		this.waitTime = waitTime;
+	public Wait(Expression<Double> duration) {
+		this.durationExpression = duration;
 		reset();
 	}
 
@@ -27,7 +31,11 @@ public class Wait implements Statement {
 	
 	@Override
 	public double advanceTime(double dt, Map<String, Object> globals, CallStack callStack) {
-		double timeLeft = waitTime - timeWaited;
+		
+		if (!waitTimeEvaluated) {
+			this.waitTime = this.durationExpression.evaluate(globals);
+		}
+		double timeLeft = this.waitTime - this.timeWaited;
 
 		this.timeWaited += dt;
 
@@ -40,18 +48,20 @@ public class Wait implements Statement {
 	
 	@Override
 	public boolean isFinished() {
-		return (this.timeWaited >= this.waitTime);
+		return this.waitTimeEvaluated && (this.timeWaited >= this.waitTime);
 	}
 
 	
 	@Override
 	public void reset() {
 		this.timeWaited = 0;
+		this.waitTimeEvaluated = false;
 	}
 
 	
 	@Override
 	public void forceFinish() {
+		this.waitTimeEvaluated = true;
 		this.timeWaited = this.waitTime;
 	}
 }

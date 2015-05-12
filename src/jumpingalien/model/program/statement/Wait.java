@@ -32,8 +32,9 @@ public class Wait implements Statement, Action {
 	@Override
 	public double advanceTime(double dt, Map<String, Object> globals, CallStack callStack) {
 		
-		if (!waitTimeEvaluated) {
+		if (!this.waitTimeEvaluated) {
 			this.waitTime = this.durationExpression.evaluate(globals, this.getOwnCallStack(callStack));
+			this.waitTimeEvaluated = true;
 		}
 		double timeLeft = this.waitTime - this.timeWaited;
 

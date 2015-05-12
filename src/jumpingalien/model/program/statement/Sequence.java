@@ -20,6 +20,11 @@ public class Sequence implements Statement {
 	 */
 	private int currentStatementIndex;
 	
+	/**
+	 * A boolean to indicate this statement has been force finished.
+	 */
+	private boolean forceFinished = false;
+	
 	
 	
 	/**
@@ -55,11 +60,13 @@ public class Sequence implements Statement {
 	@Override
 	public double advanceTime(double dt, Map<String, Object> globals, CallStack callStack) {
 		double timeLeft = dt;
-		while (timeLeft >= Statement.defaultTime && ! this.isFinished()) {
-			timeLeft = this.currentStatement().advanceTime(timeLeft, globals, callStack.append(this));
-	        if (this.currentStatement().isFinished()) {
-	                this.currentStatementIndex += 1;
-	        }
+		if (!this.forceFinished) {
+			while (timeLeft >= Statement.defaultTime && ! this.isFinished()) {
+				timeLeft = this.currentStatement().advanceTime(timeLeft, globals, this.getOwnCallStack(callStack));
+		        if (this.currentStatement().isFinished()) {
+		                this.currentStatementIndex += 1;
+		        }
+			}
 		}
 		return timeLeft;
 	}
@@ -67,7 +74,7 @@ public class Sequence implements Statement {
 	
 	@Override
 	public boolean isFinished() {
-		return (currentStatementIndex == this.statements.length);
+		return this.forceFinished || (currentStatementIndex == this.statements.length);
 	}
 
 	
@@ -77,12 +84,13 @@ public class Sequence implements Statement {
 			statement.reset();
 		}
 		this.currentStatementIndex = 0;
+		this.forceFinished = false;
 	}
 
 	
 	@Override
 	public void forceFinish() {
-		this.currentStatementIndex = this.statements.length;
+		this.forceFinished = true;
 	}
 
 

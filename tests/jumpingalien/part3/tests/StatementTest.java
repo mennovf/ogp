@@ -125,7 +125,7 @@ public class StatementTest {
 		WhileLoop w = new WhileLoop(new Value<Boolean>(true), new Sequence(new Statement[]{new Break(), new Assignment("result", new Value<Boolean>(false))}));
 		Program p = createProgram(w);
 
-		p.advanceTime(Statement.defaultTime);
+		p.advanceTime(2*Statement.defaultTime);
 		assertTrue(w.isFinished());
 		
 		p.advanceTime(Statement.defaultTime * 1.1);

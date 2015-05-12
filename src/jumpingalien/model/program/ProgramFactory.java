@@ -138,31 +138,27 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 
 	@Override
 	public Expression<Double> createGetX(Expression<?> expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new UnaryOperation<>((Expression<Collidable>) expr, (a) -> (double) a.getPositionInPixels().x);
 	}
 
 	@Override
 	public Expression<Double> createGetY(Expression<?> expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new UnaryOperation<>((Expression<Collidable>) expr, (a) -> (double) a.getPositionInPixels().y);
 	}
 
 	@Override
 	public Expression<Double> createGetWidth(Expression<?> expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new UnaryOperation<>((Expression<Collidable>) expr, (a) -> (double) a.getSizeInPixels().x);
 	}
 
 	@Override
 	public Expression<Double> createGetHeight(Expression<?> expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new UnaryOperation<>((Expression<Collidable>) expr, (a) -> (double) a.getSizeInPixels().y);
 	}
 
 	@Override
 	public Expression<Double> createGetHitPoints(Expression<?> expr, SourceLocation sourceLocation) {
-		return new UnaryOperation<Double, GameObject>((Expression<GameObject>)expr, (a) -> (double)a.getHealth());
+		return new UnaryOperation<Double, GameObject>((Expression<GameObject>)expr, (a) -> (double) a.getHealth());
 	}
 
 	@Override

@@ -72,4 +72,20 @@ public class StatementTest {
 		Program p = new Program(new Sequence(new Statement[]{new Wait(new Value<Double>(0.2))}), globals);
 		assertTrue(p.isWellFormed());
 	}
+	
+	@Test
+	public void If_ok() {
+		globals.put("result", new Value<Boolean>(null));
+
+		If mainStatement = new If(new Value<Boolean>(true) , new Assignment("result", new Value<Boolean>(true)), new Assignment("result", new Value<Boolean>(false)));
+		Program p = new Program(mainStatement, globals);
+		p.advanceTime(Statement.defaultTime);
+		assertTrue((Boolean)globals.get("result"));
+		
+		mainStatement = new If(new Value<Boolean>(false) , new Assignment("result", new Value<Boolean>(true)), new Assignment("result", new Value<Boolean>(false)));
+		p = new Program(mainStatement, globals);
+		p.advanceTime(Statement.defaultTime);
+		assertFalse((Boolean)globals.get("result"));
+		
+	}
 }

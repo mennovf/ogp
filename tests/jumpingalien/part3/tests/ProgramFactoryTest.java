@@ -3,7 +3,6 @@ package jumpingalien.part3.tests;
 import static org.junit.Assert.*;
 import jumpingalien.model.gameobject.GameObject;
 import jumpingalien.model.program.ProgramFactory;
-import jumpingalien.model.program.Type;
 
 import org.junit.After;
 import org.junit.AfterClass;

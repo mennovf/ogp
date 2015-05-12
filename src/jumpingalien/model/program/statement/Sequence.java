@@ -60,13 +60,11 @@ public class Sequence implements Statement {
 	@Override
 	public double advanceTime(double dt, Map<String, Object> globals, CallStack callStack) {
 		double timeLeft = dt;
-		if (!this.forceFinished) {
-			while (timeLeft >= Statement.defaultTime && ! this.isFinished()) {
-				timeLeft = this.currentStatement().advanceTime(timeLeft, globals, this.getOwnCallStack(callStack));
-		        if (this.currentStatement().isFinished()) {
-		                this.currentStatementIndex += 1;
-		        }
-			}
+		while (timeLeft >= Statement.defaultTime && ! this.isFinished()) {
+			timeLeft = this.currentStatement().advanceTime(timeLeft, globals, this.getOwnCallStack(callStack));
+	        if (this.currentStatement().isFinished()) {
+	                this.currentStatementIndex += 1;
+	        }
 		}
 		return timeLeft;
 	}

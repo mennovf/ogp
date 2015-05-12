@@ -71,20 +71,18 @@ public class WhileLoop extends Loop {
 	@Override
 	public double advanceTime(double dt, Map<String, Object> globals, CallStack callStack) {
 		double timeLeft = dt;
-		if (!this.forceFinished) {
-			while (timeLeft >= Statement.defaultTime) {
-				if (!conditionEvaluated) {
-					this.conditionEvaluation = condition.evaluate(globals, this.getOwnCallStack(callStack));
-					this.conditionEvaluated = true;
-					timeLeft -= Statement.defaultTime;
-				} else if (this.conditionEvaluation && !body.isFinished()) {
-					timeLeft = body.advanceTime(timeLeft, globals, this.getOwnCallStack(callStack));
-					if (body.isFinished()) {
-						this.conditionEvaluated = false;
-					}
-				} else {
-					break;
+		while (timeLeft >= Statement.defaultTime && ! this.isFinished()) {
+			if (!conditionEvaluated) {
+				this.conditionEvaluation = condition.evaluate(globals, this.getOwnCallStack(callStack));
+				this.conditionEvaluated = true;
+				timeLeft -= Statement.defaultTime;
+			} else if (this.conditionEvaluation && !body.isFinished()) {
+				timeLeft = body.advanceTime(timeLeft, globals, this.getOwnCallStack(callStack));
+				if (body.isFinished()) {
+					this.conditionEvaluated = false;
 				}
+			} else {
+				break;
 			}
 		}
 		return timeLeft;

@@ -138,31 +138,27 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 
 	@Override
 	public Expression<Double> createGetX(Expression<?> expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new UnaryOperation<>((Expression<Collidable>) expr, (a) -> (double) a.getPositionInPixels().x);
 	}
 
 	@Override
 	public Expression<Double> createGetY(Expression<?> expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new UnaryOperation<>((Expression<Collidable>) expr, (a) -> (double) a.getPositionInPixels().y);
 	}
 
 	@Override
 	public Expression<Double> createGetWidth(Expression<?> expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new UnaryOperation<>((Expression<Collidable>) expr, (a) -> (double) a.getSizeInPixels().x);
 	}
 
 	@Override
 	public Expression<Double> createGetHeight(Expression<?> expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new UnaryOperation<>((Expression<Collidable>) expr, (a) -> (double) a.getSizeInPixels().y);
 	}
 
 	@Override
 	public Expression<Double> createGetHitPoints(Expression<?> expr, SourceLocation sourceLocation) {
-		return new UnaryOperation<Double, GameObject>((Expression<GameObject>)expr, (a) -> (double)a.getHealth());
+		return new UnaryOperation<Double, GameObject>((Expression<GameObject>)expr, (a) -> (double) a.getHealth());
 	}
 
 	@Override
@@ -279,8 +275,7 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	@Override
 	public Statement createIf(Expression<?> condition, Statement ifBody, Statement elseBody,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new If((Expression<Boolean>) condition, ifBody, elseBody);
 	}
 
 	@Override
@@ -327,20 +322,17 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 
 	@Override
 	public Statement createWait(Expression<?> duration, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Wait((Expression<Double>) duration);
 	}
 
 	@Override
 	public Statement createSkip(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Wait(new Value<>(Statement.defaultTime));
 	}
 
 	@Override
 	public Statement createSequence(List<Statement> statements, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Statements((Statement[]) statements.toArray());
 	}
 
 	@Override

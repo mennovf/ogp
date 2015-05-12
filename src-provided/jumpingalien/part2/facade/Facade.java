@@ -59,27 +59,27 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public void endJump(Mazub alien) {
-		alien.endJump();
+		alien.stopJump();
 	}
 
 	@Override
 	public void startMoveLeft(Mazub alien) {
-		alien.startMove(-1);
+		alien.startRun(-1);
 	}
 
 	@Override
 	public void endMoveLeft(Mazub alien) {
-		alien.endMove();
+		alien.stopRun();
 	}
 
 	@Override
 	public void startMoveRight(Mazub alien) {
-		alien.startMove(1);
+		alien.startRun(1);
 	}
 
 	@Override
 	public void endMoveRight(Mazub alien) {
-		alien.endMove();
+		alien.stopRun();
 	}
 
 	@Override
@@ -89,7 +89,7 @@ public class Facade implements IFacadePart2 {
 
 	@Override
 	public void endDuck(Mazub alien) {
-		alien.endDuck();
+		alien.stopDuck();
 	}
 
 	@Override

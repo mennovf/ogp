@@ -28,7 +28,7 @@ import jumpingalien.model.world.TileType;
  * @author Rugen Heidbuchel & Menno Vanfrachem
  * @version 1.0
  */
-public class Mazub extends GameObject {
+public class Mazub extends GameObject implements MovementProgrammable {
 	
 	/**
 	 * The horizontal speed Mazub gets when he start
@@ -373,7 +373,8 @@ public class Mazub extends GameObject {
 	 * @effect Sets the facing to the given direction.
 	 * 			| setFacing(direction)
 	 */
-	public void startMove(double direction) {
+	@Override
+	public void startRun(double direction) {
 		assert Mazub.isValidDirection(direction);
 		this.isMoving = true;
 		this.setFacing(direction);
@@ -395,7 +396,8 @@ public class Mazub extends GameObject {
 	 * @post Horizontal acceleration will be zero.
 	 * 			| new.getAcceleration().x == 0
 	 */
-	public void endMove() {
+	@Override
+	public void stopRun() {
 		this.amountOfTimesStartMoveCalled -= 1;
 		if (amountOfTimesStartMoveCalled == 0){
 			this.isMoving = false;
@@ -414,6 +416,7 @@ public class Mazub extends GameObject {
 	 * 			| if old.onGround():
 	 * 			| 	new.getSpeed().y == Constants.mazubInitialJumpSpeed
 	 */
+	@Override
 	public void startJump() {
 		if (onGround()){
 			this.setSpeed(this.getSpeed().setY(Constants.mazubInitialJumpSpeed));
@@ -432,7 +435,8 @@ public class Mazub extends GameObject {
 	 * 			| if (this.getSpeed().y <= 0)
 	 * 			|	new.getSpeed().y == this.getSpeed().y
 	 */
-	public void endJump() {
+	@Override
+	public void stopJump() {
 		if (this.getSpeed().y > 0) {
 			this.setSpeed(this.getSpeed().setY(0.0));
 		}
@@ -445,6 +449,7 @@ public class Mazub extends GameObject {
 	 * @post The velocity will be smaller than or equal to the maximum duck velocity.
 	 * 			| new.getSpeed().x <= this.getMaxSpeedWhileDucking()
 	 */
+	@Override
 	public void startDuck() {
 		this.isDucking = true;
 		this.wantsToStandUp = false;
@@ -457,7 +462,8 @@ public class Mazub extends GameObject {
 	 * @post If mazub can stand up where he is right now, he'll stand up.
 	 * 		 Otherwise he'll stand up as soon as he can.
 	 */
-	public void endDuck() {
+	@Override
+	public void stopDuck() {
 		this.wantsToStandUp = true;
 		if (this.canStand()){
 			this.isDucking = false;

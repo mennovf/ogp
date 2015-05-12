@@ -10,7 +10,7 @@ package jumpingalien.model.gameobject;
 public interface MovementProgrammable {
 	
 	public void startRun(double direction);
-	public void stopRun(double direction);
+	public void stopRun();
 	
 	public void startJump();
 	public void stopJump();

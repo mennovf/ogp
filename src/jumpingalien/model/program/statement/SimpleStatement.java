@@ -2,6 +2,8 @@ package jumpingalien.model.program.statement;
 
 import java.util.Map;
 
+import be.kuleuven.cs.som.annotate.Immutable;
+
 /**
  * A class representing a simple Statement. A simple Statement is a 
  * statement which has finished after advancing the time once.
@@ -60,4 +62,9 @@ public abstract class SimpleStatement implements Statement {
 		completed = true;
 	}
 
+	@Override
+	@Immutable
+	public boolean isWellFormed(CallStack callStack) {
+		return true;
+	}
 }

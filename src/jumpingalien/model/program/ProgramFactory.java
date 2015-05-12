@@ -273,13 +273,7 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 
 	@Override
 	public Statement createBreak(SourceLocation sourceLocation) {
-		return new SimpleStatement() {
-			
-			@Override
-			protected void run(Map<String, Object> globals, CallStack callStack) {
-				callStack.pop().executeBreak(callStack);
-			}
-		};
+		return new Break();
 	}
 
 	@Override

@@ -54,15 +54,45 @@ public interface Statement {
 	
 	
 	/**
-	 * Breaks this statement. This means it stops the execution of this statement
-	 * and it's parents up until the first loop.
+	 * Breaks this statement. That means that this statement is forced to finish. If this 
+	 * Statement is not breakable, then the break will be propagated to the parent Statement.
 	 */
 	default void executeBreak(CallStack callStack) {
-		callStack.pop().executeBreak(callStack);
+		this.forceFinish();
+		if (!this.isBreakable()) {
+			callStack.pop().executeBreak(callStack);
+		}
 	}
 	
 	
 	default CallStack getOwnCallStack(CallStack callStack) {
 		return callStack.append(this);
+	}
+	
+	boolean isWellFormed(CallStack callStack);
+	
+
+	/**
+	 * Returns whether or not this statement allows an Action as a nested Statement.
+	 * 
+	 * @return whether or not this statement allows an Action as a nested Statement.
+	 */
+	@Immutable
+	@Basic
+	default boolean isActionAllowed() {
+		return true;
+	}
+	
+	
+	/**
+	 * Returns whether or not this Statement is breakable. Breakable means that a break statement
+	 * stops propagating it's forceFinish up the stack at this statement.
+	 * 
+	 * @return whether or not this Statement is breakable.
+	 */
+	@Immutable
+	@Basic
+	default boolean isBreakable() {
+		return false;
 	}
 }

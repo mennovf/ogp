@@ -84,4 +84,16 @@ public class Sequence implements Statement {
 	public void forceFinish() {
 		this.currentStatementIndex = this.statements.length;
 	}
+
+
+
+	@Override
+	public boolean isWellFormed(CallStack callStack) {
+		for (Statement statement : this.statements) {
+			if (!statement.isWellFormed(this.getOwnCallStack(callStack))) {
+				return false;
+			}
+		}
+		return true;
+	}
 }

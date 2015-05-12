@@ -61,4 +61,15 @@ public class ForEachLoop extends Loop {
 		
 	}
 
+
+
+	@Override
+	public boolean isWellFormed(CallStack callStack) {
+		return this.body.isWellFormed(this.getOwnCallStack(callStack));
+	}
+
+	@Override
+	public boolean isActionAllowed() {
+		return false;
+	}
 }

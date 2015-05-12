@@ -96,4 +96,16 @@ public class Program {
 	public void advanceTime(double dt) {
 		this.excessTime = this.mainStatement.advanceTime(dt + this.excessTime, this.globalVariables, new CallStack(this));
 	}
+	
+	
+	/**
+	 * Returns whether this program is well-formed.
+	 * Well-formed means every break statement is embedded in either a While or a ForEach and that
+	 * a ForEach may not contain any Actions.
+	 * 
+	 * @return whether this program is well-formed.
+	 */
+	public boolean isWellFormed() {
+		return this.mainStatement.isWellFormed(new CallStack(this));
+	}
 }

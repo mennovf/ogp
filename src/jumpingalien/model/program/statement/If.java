@@ -61,4 +61,12 @@ public class If implements Statement {
 	public void forceFinish() {
 		this.forceFinished = true;
 	}
+
+
+
+	@Override
+	public boolean isWellFormed(CallStack callStack) {
+		return this.trueBranch.isWellFormed(this.getOwnCallStack(callStack))
+			&& this.falseBranch.isWellFormed(this.getOwnCallStack(callStack));
+	}
 }

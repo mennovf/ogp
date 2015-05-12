@@ -19,7 +19,7 @@ public class WhileLoop extends Loop {
 	/**
 	 * The statement to evaluate every iteration.
 	 */
-	private final Statement statement;
+	private final Statement body;
 	
 	/**
 	 * Indicates whether the condition has been evaluated.
@@ -58,7 +58,7 @@ public class WhileLoop extends Loop {
 		}
 		
 		this.condition = condition;
-		this.statement = statement;
+		this.body = statement;
 	}
 	
 	
@@ -71,8 +71,8 @@ public class WhileLoop extends Loop {
 				this.conditionEvaluation = condition.evaluate(globals, this.getOwnCallStack(callStack));
 				timeLeft -= Statement.defaultTime;
 			} else if (this.conditionEvaluation) {
-				timeLeft = statement.advanceTime(timeLeft, globals, this.getOwnCallStack(callStack));
-				if (statement.isFinished()) {
+				timeLeft = body.advanceTime(timeLeft, globals, this.getOwnCallStack(callStack));
+				if (body.isFinished()) {
 					this.conditionEvaluated = false;
 				}
 			}
@@ -91,13 +91,20 @@ public class WhileLoop extends Loop {
 	public void reset() {
 		this.conditionEvaluated = false;
 		this.conditionEvaluation = true;
-		statement.reset();
+		body.reset();
 	}
 
 
 	@Override
 	public void forceFinish() {
 		this.conditionEvaluated = true;
+	}
+
+
+
+	@Override
+	public boolean isWellFormed(CallStack callStack) {
+		return body.isWellFormed(this.getOwnCallStack(callStack));
 	}
 
 }

@@ -2,6 +2,7 @@ package jumpingalien.model.program.statement;
 
 import java.util.Map;
 
+import be.kuleuven.cs.som.annotate.Immutable;
 import jumpingalien.model.program.exception.JumpingAlienLanguageRuntimeException;
 import jumpingalien.model.program.expression.Expression;
 
@@ -44,5 +45,13 @@ public class Assignment extends SimpleStatement {
 			throw new JumpingAlienLanguageRuntimeException("Undefined identifier '" + this.identifier + "' in assignment.");
 		}
 		globals.put(this.identifier, valueExpr.evaluate(globals, this.getOwnCallStack(callStack)));
+	}
+
+
+
+	@Override
+	@Immutable
+	public boolean isWellFormed(CallStack callStack) {
+		return true;
 	}
 }

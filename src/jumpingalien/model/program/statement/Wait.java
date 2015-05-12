@@ -7,7 +7,7 @@ import jumpingalien.model.program.expression.Expression;
 /**
  * A class representing the 'Wait' action.
  */
-public class Wait implements Statement {
+public class Wait implements Statement, Action {
 	
 	private double waitTime;
 	private boolean waitTimeEvaluated = false;

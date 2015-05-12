@@ -39,6 +39,11 @@ public class StatementTest {
 	}
 
 
+	private Program createProgram(Statement mainStatement) {
+		return new Program(mainStatement, globals);
+	}
+
+
 	@Test
 	public void isWellFormed_BreakInWhile() {
 		Program p = new Program(new WhileLoop(new Value<Boolean>(true), new Break()), globals);
@@ -87,5 +92,43 @@ public class StatementTest {
 		p.advanceTime(Statement.defaultTime);
 		assertFalse((Boolean)globals.get("result"));
 		
+	}
+	
+	@Test
+	public void Assignment_ok() {
+		globals.put("result", false);
+		Program p = createProgram(new Assignment("result", new Value<Boolean>(true)));
+		p.advanceTime(Statement.defaultTime);
+		
+		assertTrue((Boolean)globals.get("result"));
+	}
+	
+	@Test
+	public void Sequence() {
+		globals.put("done", false);
+		Sequence seq = new Sequence(new Statement[]{new Wait(new Value<Double>(0.1)), new Assignment("done", new Value<Boolean>(true))});
+		Program p = createProgram(seq);
+
+		p.advanceTime(0.1);
+		assertFalse(seq.isFinished());
+		assertFalse((Boolean)globals.get("done"));
+
+		p.advanceTime(Statement.defaultTime);
+		assertTrue(seq.isFinished());
+		assertTrue((Boolean)globals.get("done"));
+	}
+	
+
+	@Test
+	public void Break_WhileOk() {
+		globals.put("result", true);
+		WhileLoop w = new WhileLoop(new Value<Boolean>(true), new Sequence(new Statement[]{new Break(), new Assignment("result", new Value<Boolean>(false))}));
+		Program p = createProgram(w);
+
+		p.advanceTime(Statement.defaultTime);
+		assertTrue(w.isFinished());
+		
+		p.advanceTime(Statement.defaultTime * 1.1);
+		assertTrue((Boolean)globals.get("result"));
 	}
 }

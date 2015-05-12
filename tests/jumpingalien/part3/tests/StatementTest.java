@@ -104,7 +104,7 @@ public class StatementTest {
 	}
 	
 	@Test
-	public void Sequence() {
+	public void Sequence_ok() {
 		globals.put("done", false);
 		Sequence seq = new Sequence(new Statement[]{new Wait(new Value<Double>(0.1)), new Assignment("done", new Value<Boolean>(true))});
 		Program p = createProgram(seq);
@@ -130,5 +130,50 @@ public class StatementTest {
 		
 		p.advanceTime(Statement.defaultTime * 1.1);
 		assertTrue((Boolean)globals.get("result"));
+	}
+	
+	
+	@Test
+	public void Break_ForEachOk() {
+		globals.put("result", true);
+		ForEachLoop fel = new ForEachLoop(Kind.ANY, "o", new Value<Boolean>(true), new Value<Double>(0.0), SortDirection.ASCENDING, new Sequence(new Statement[]{new Break(), new Assignment("result", new Value<Boolean>(false))}));
+		Program p = createProgram(fel);
+
+		p.advanceTime(2*Statement.defaultTime);
+		assertTrue(fel.isFinished());
+		
+		p.advanceTime(Statement.defaultTime * 1.1);
+		assertTrue((Boolean)globals.get("result"));
+	}
+	
+	@Test
+	public void Wait_ok() {
+		Wait w = new Wait(new Value<Double>(0.1));
+		Program p = createProgram(w);
+		
+		p.advanceTime(0.09);
+		assertFalse(w.isFinished());
+		p.advanceTime(0.02);
+		assertTrue(w.isFinished());
+	}
+	
+	
+	@Test
+	public void WhileLoop_ok() {
+		globals.put("cond", true);
+		globals.put("result", true);
+		WhileLoop w = new WhileLoop(new Value<Boolean>(true), new Sequence(new Statement[]{new Wait(new Value<Double>(0.1)), new Assignment("cond", new Value<Boolean>(false)), new Assignment("result", new Value<Boolean>(false))}));
+		Program p = createProgram(w);
+		
+		p.advanceTime(0.1);
+		assertFalse(w.isFinished());
+		assertTrue((Boolean)globals.get("result"));
+		assertTrue((Boolean)globals.get("cond"));
+		
+		p.advanceTime(0.1);
+		assertTrue(w.isFinished());
+		assertTrue((Boolean)globals.get("result"));
+		assertFalse((Boolean)globals.get("cond"));
+		
 	}
 }

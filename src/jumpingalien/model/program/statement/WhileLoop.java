@@ -31,6 +31,11 @@ public class WhileLoop extends Loop {
 	 */
 	private boolean conditionEvaluation = true;
 	
+	/**
+	 * A boolean value to indicate this loop has been force finished.
+	 */
+	private boolean forceFinished = false;
+	
 	
 	/**
 	 * Creates a new while loop with the given condition expression
@@ -66,14 +71,18 @@ public class WhileLoop extends Loop {
 	@Override
 	public double advanceTime(double dt, Map<String, Object> globals, CallStack callStack) {
 		double timeLeft = dt;
-		while (timeLeft >= Statement.defaultTime) {
-			if (!conditionEvaluated && this.conditionEvaluation) {
-				this.conditionEvaluation = condition.evaluate(globals, this.getOwnCallStack(callStack));
-				timeLeft -= Statement.defaultTime;
-			} else if (this.conditionEvaluation) {
-				timeLeft = body.advanceTime(timeLeft, globals, this.getOwnCallStack(callStack));
-				if (body.isFinished()) {
-					this.conditionEvaluated = false;
+		if (!this.forceFinished) {
+			while (timeLeft >= Statement.defaultTime) {
+				if (!conditionEvaluated) {
+					this.conditionEvaluation = condition.evaluate(globals, this.getOwnCallStack(callStack));
+					timeLeft -= Statement.defaultTime;
+				} else if (this.conditionEvaluation && !body.isFinished()) {
+					timeLeft = body.advanceTime(timeLeft, globals, this.getOwnCallStack(callStack));
+					if (body.isFinished()) {
+						this.conditionEvaluated = false;
+					}
+				} else {
+					break;
 				}
 			}
 		}
@@ -83,7 +92,7 @@ public class WhileLoop extends Loop {
 	
 	@Override
 	public boolean isFinished() {
-		return !this.conditionEvaluation;
+		return this.forceFinished || (this.conditionEvaluated && (!this.conditionEvaluation || body.isFinished()));
 	}
 
 	
@@ -91,13 +100,14 @@ public class WhileLoop extends Loop {
 	public void reset() {
 		this.conditionEvaluated = false;
 		this.conditionEvaluation = true;
+		this.forceFinished = false;
 		body.reset();
 	}
 
 
 	@Override
 	public void forceFinish() {
-		this.conditionEvaluated = true;
+		this.forceFinished = true;
 	}
 
 

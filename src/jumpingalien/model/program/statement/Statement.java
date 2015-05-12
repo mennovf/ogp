@@ -1,7 +1,6 @@
 package jumpingalien.model.program.statement;
 
 import java.util.Map;
-import java.util.Stack;
 
 import be.kuleuven.cs.som.annotate.*;
 
@@ -26,7 +25,7 @@ public interface Statement {
 	 * 
 	 * @return The amount of time *not* consumed by advancing this statement.
 	 */
-	double advanceTime(double dt, Map<String, Object> globals, Stack<Statement> callStack);
+	double advanceTime(double dt, Map<String, Object> globals, CallStack callStack);
 
 	
 	/**
@@ -49,7 +48,7 @@ public interface Statement {
 	 * Breaks this statement. This means it stops the execution of this statement
 	 * and it's parents up until the first loop.
 	 */
-	default void executeBreak(Stack<Statement> callStack) {
-		//TODO: Implement default break behaviour here
+	default void executeBreak(CallStack callStack) {
+		callStack.pop().executeBreak(callStack);
 	}
 }

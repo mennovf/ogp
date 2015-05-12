@@ -1,7 +1,6 @@
 package jumpingalien.model.program.statement;
 
 import java.util.Map;
-import java.util.Stack;
 
 import jumpingalien.model.program.expression.Expression;
 import jumpingalien.part3.programs.IProgramFactory.Kind;
@@ -36,7 +35,7 @@ public class ForEachLoop implements Statement {
 	
 	
 	@Override
-	public double advanceTime(double dt, Map<String, Object> globals, Stack<Statement> callStack) {
+	public double advanceTime(double dt, Map<String, Object> globals, CallStack callStack) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

@@ -22,7 +22,7 @@ public class Wait implements Statement {
 	}
 
 	@Override
-	public double advanceTime(double dt, Map<String, Object> globals) {
+	public double advanceTime(double dt, Map<String, Object> globals, CallStack callStack) {
 		double timeLeft = waitTime - timeWaited;
 
 		this.timeWaited += dt;

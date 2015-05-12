@@ -24,12 +24,12 @@ public class If implements Statement {
 	}
 
 	@Override
-	public double advanceTime(double dt, Map<String, Object> globals) {
+	public double advanceTime(double dt, Map<String, Object> globals, CallStack callStack) {
 		if (! this.conditionEvaluated) {
 			this.conditionEvaluation = condition.evaluate(globals);
 			this.conditionEvaluated = true;
 		}
-		return currentBranch().advanceTime(dt, globals);
+		return currentBranch().advanceTime(dt, globals, callStack.append(this));
 	}
 
 	private Statement currentBranch() {

@@ -1,7 +1,6 @@
 package jumpingalien.model.program.statement;
 
 import java.util.Map;
-import java.util.Stack;
 
 /**
  * A class representing a simple Statement. A simple Statement is a 
@@ -27,7 +26,7 @@ public abstract class SimpleStatement implements Statement {
 
 	
 	@Override
-	public double advanceTime(double dt, Map<String, Object> globals, Stack<Statement> callStack) {
+	public double advanceTime(double dt, Map<String, Object> globals, CallStack callStack) {
 		if (dt < Statement.defaultTime) {
 			return dt;
 		}
@@ -41,7 +40,7 @@ public abstract class SimpleStatement implements Statement {
 	/**
 	 * Execute the statements 'body'.
 	 */
-	protected abstract void run(Map<String, Object> globals, Stack<Statement> callStack);
+	protected abstract void run(Map<String, Object> globals, CallStack callStack);
 
 	
 	@Override

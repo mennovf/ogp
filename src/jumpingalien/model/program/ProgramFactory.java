@@ -2,7 +2,6 @@ package jumpingalien.model.program;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 
 import jumpingalien.model.Collidable;
 import jumpingalien.model.gameobject.GameObject;
@@ -271,7 +270,7 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 		return new SimpleStatement() {
 			
 			@Override
-			protected void run(Map<String, Object> globals, Stack<Statement> callStack) {
+			protected void run(Map<String, Object> globals, CallStack callStack) {
 				callStack.pop().executeBreak(callStack);
 			}
 		};

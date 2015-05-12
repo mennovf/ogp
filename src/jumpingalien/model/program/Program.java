@@ -1,9 +1,9 @@
 package jumpingalien.model.program;
 
 import java.util.Map;
-import java.util.Stack;
 
 import jumpingalien.model.gameobject.GameObject;
+import jumpingalien.model.program.statement.CallStack;
 import jumpingalien.model.program.statement.Statement;
 
 /**
@@ -93,6 +93,6 @@ public class Program {
 	 * 			
 	 */
 	public void advanceTime(double dt) {
-		this.excessTime = this.mainStatement.advanceTime(dt + this.excessTime, this.globalVariables, new Stack<>());
+		this.excessTime = this.mainStatement.advanceTime(dt + this.excessTime, this.globalVariables, new CallStack());
 	}
 }

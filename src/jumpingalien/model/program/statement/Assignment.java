@@ -35,7 +35,7 @@ public class Assignment extends SimpleStatement {
 	 * 			The map of global variables to mutate.
 	 */
 	@Override
-	protected void run(Map<String, Object> globals) {
+	protected void run(Map<String, Object> globals, CallStack callStack) {
 		if (! globals.containsKey(this.identifier)) {
 			throw new JumpingAlienLanguageRuntimeException("Undefined identifier '" + this.identifier + "' in assignment.");
 		}

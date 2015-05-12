@@ -217,7 +217,9 @@ public abstract class GameObject implements Collidable {
 		// maxHealth has to be set before setHealth because it uses maxHealth.
 		this.setFacing(1);
 		this.program = program;
-		this.program.setGameObject(this);
+		if (program != null) {
+			this.program.setGameObject(this);
+		}
 		this.passable = passable;
 		this.maxHealth = maxHealth;
 		this.health = 1;

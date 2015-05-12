@@ -22,6 +22,7 @@ public class Variable<R> implements Expression<R> {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public R evaluate(Map<String, Object> globals) {
 		if (!globals.containsKey(this.identifier)) {
 			throw new JumpingAlienLanguageRuntimeException("Undefined identifier '" + this.identifier + "'.");

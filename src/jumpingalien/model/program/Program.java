@@ -94,6 +94,6 @@ public class Program {
 	 * 			
 	 */
 	public void advanceTime(double dt) {
-		this.excessTime = this.mainStatement.advanceTime(dt + this.excessTime, this.globalVariables, new CallStack());
+		this.excessTime = this.mainStatement.advanceTime(dt + this.excessTime, this.globalVariables, new CallStack(this));
 	}
 }

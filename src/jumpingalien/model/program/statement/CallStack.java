@@ -2,6 +2,9 @@ package jumpingalien.model.program.statement;
 
 import java.util.Stack;
 
+import be.kuleuven.cs.som.annotate.*;
+import jumpingalien.model.program.Program;
+
 /**
  * A class representing a call stack.
  * 
@@ -9,6 +12,34 @@ import java.util.Stack;
  */
 @SuppressWarnings("serial")
 public class CallStack extends Stack<Statement> {
+	
+	/**
+	 * The program calling this call stack's root statement.
+	 */
+	private final Program program;
+	
+	
+	/**
+	 * Creates a new call stack with the given program.
+	 * 
+	 * @param program
+	 * 			The program in which the root statement is being called.
+	 */
+	public CallStack(Program program) {
+		this.program = program;
+	}
+	
+	
+	
+	/**
+	 * Returns the root of this call stack. This is the program in which this
+	 * call stack's root statement is being called.
+	 */
+	@Basic
+	public Program getProgram() {
+		return this.program;
+	}
+	
 
 	/**
 	 * Returns the parent stack. This means the stack without the upper element.

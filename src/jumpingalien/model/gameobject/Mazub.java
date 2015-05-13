@@ -28,7 +28,7 @@ import jumpingalien.model.world.TileType;
  * @author Rugen Heidbuchel & Menno Vanfrachem
  * @version 1.0
  */
-public class Mazub extends GameObject implements MovementProgrammable {
+public class Mazub extends GameObject implements RunProgrammable, JumpProgrammable, DuckProgrammable {
 	
 	/**
 	 * The horizontal speed Mazub gets when he start

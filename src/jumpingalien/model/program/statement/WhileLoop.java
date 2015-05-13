@@ -80,6 +80,7 @@ public class WhileLoop extends Loop {
 				timeLeft = body.advanceTime(timeLeft, globals, this.getOwnCallStack(callStack));
 				if (body.isFinished()) {
 					this.conditionEvaluated = false;
+					body.reset();
 				}
 			} else {
 				break;
@@ -91,7 +92,7 @@ public class WhileLoop extends Loop {
 	
 	@Override
 	public boolean isFinished() {
-		return this.forceFinished || (this.conditionEvaluated && (!this.conditionEvaluation || body.isFinished()));
+		return this.forceFinished || (this.conditionEvaluated && !this.conditionEvaluation);
 	}
 
 	

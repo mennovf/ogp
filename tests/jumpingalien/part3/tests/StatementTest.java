@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BinaryOperator;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -180,8 +181,8 @@ public class StatementTest {
 	
 	@Test
 	public void WhileLoop_keepGoing() {
-		globals.put("i", new Value<Double>(0.0));
-		WhileLoop w = new WhileLoop(new Value<Boolean>(true), new Sequence(new Statement[]{new Assignment("i", new BinaryOperation<Double, Double, Double>(new Variable<Double>("i"), new Value<Double>(1.0), (a, b)->a+b))}));
+		globals.put("i", 0.0);
+		WhileLoop w = new WhileLoop(new Value<Boolean>(true), new Sequence(new Statement[]{new Assignment("i", new BinaryOperation<Double, Double, Double>(new Variable<Double>("i"), new Value<Double>(1.0), (Double a, Double b)->a+b))}));
 		Program p = createProgram(w);
 		
 		p.advanceTime(Statement.defaultTime * 2);
@@ -191,5 +192,10 @@ public class StatementTest {
 		p.advanceTime(Statement.defaultTime * 2);
 		assertEquals(2.0, (Double)globals.get("i"), 1e-7);
 		assertFalse(w.isFinished());
+	}
+
+
+	@Test
+	public void BinaryAddition_ok() {
 	}
 }

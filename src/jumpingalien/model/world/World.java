@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import jumpingalien.model.Collidable;
 import jumpingalien.model.Constants;
 import jumpingalien.model.Settings;
 import jumpingalien.model.Utilities;
@@ -734,5 +735,33 @@ public class World {
 	@Basic
 	public CommandQueue getCommandQueue() {
 		return this.commandQueue;
+	}
+	
+	
+	/**
+	 * Return a set of Tiles in this world.
+	 * 
+	 * @return A set of tiles in this world.
+	 */
+	public Set<Tile> getTiles() {
+		HashSet<Tile> tiles = new HashSet<>();
+		for (int x = 0; x < this.tiles.length; ++x) {
+			for (int y = 0; y < this.tiles[x].length; ++y) {
+				tiles.add(new Tile(new Vector<Integer>(x, y), this.getTileSize(), this.tiles[x][y]));
+			}
+		}
+		return tiles;
+	}
+	
+	
+	/**
+	 * Returns a set of all the Collidables in this world. This means either a GameObject or a Tile.
+	 * @return a set of all the Collidables in this world.
+	 */
+	public Set<? extends Collidable> getCollidables() {
+		Set<Collidable> result = new HashSet<>();
+		result.addAll(this.getTiles());
+		result.addAll(this.getGameObjects());
+		return result;
 	}
 }

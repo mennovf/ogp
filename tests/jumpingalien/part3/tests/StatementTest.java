@@ -12,15 +12,23 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import jumpingalien.model.Utilities;
+import jumpingalien.model.Vector;
+import jumpingalien.model.gameobject.Plant;
+import jumpingalien.model.gameobject.Shark;
 import jumpingalien.model.program.Program;
 import jumpingalien.model.program.statement.*;
 import jumpingalien.model.program.expression.*;
+import jumpingalien.model.world.World;
+import jumpingalien.part3.internal.Resources;
 import jumpingalien.part3.programs.IProgramFactory.Kind;
 import jumpingalien.part3.programs.IProgramFactory.SortDirection;
+import jumpingalien.util.Sprite;
 
 public class StatementTest {
 	
 	private Map<String, Object> globals;
+	private World world;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -33,6 +41,7 @@ public class StatementTest {
 	@Before
 	public void setUp() throws Exception {
 		this.globals = new HashMap<String, Object>();
+		this.world = new World(70, 20, 12, 1024, 751, 19, 11);
 	}
 
 	@After
@@ -140,6 +149,10 @@ public class StatementTest {
 		ForEachLoop fel = new ForEachLoop(Kind.ANY, "o", new Value<Boolean>(true), new Value<Double>(0.0), SortDirection.ASCENDING, new Sequence(new Statement[]{new Break(), new Assignment("result", new Value<Boolean>(false))}));
 		Program p = createProgram(fel);
 
+		Plant plant = new Plant(new Vector<>(0.0, 0.0), new Sprite[]{Resources.PLANT_SPRITE_LEFT, Resources.PLANT_SPRITE_RIGHT}, p);
+		plant.setWorld(this.world);
+		
+
 		p.advanceTime(2*Statement.defaultTime);
 		assertTrue(fel.isFinished());
 		
@@ -192,10 +205,5 @@ public class StatementTest {
 		p.advanceTime(Statement.defaultTime * 2);
 		assertEquals(2.0, (Double)globals.get("i"), 1e-7);
 		assertFalse(w.isFinished());
-	}
-
-
-	@Test
-	public void BinaryAddition_ok() {
 	}
 }

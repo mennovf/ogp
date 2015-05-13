@@ -5,14 +5,14 @@ import java.util.Map;
 
 import jumpingalien.model.Collidable;
 import jumpingalien.model.Vector;
-import jumpingalien.model.gameobject.DuckProgrammable;
 import jumpingalien.model.gameobject.GameObject;
-import jumpingalien.model.gameobject.JumpProgrammable;
 import jumpingalien.model.gameobject.Mazub;
 import jumpingalien.model.gameobject.Plant;
-import jumpingalien.model.gameobject.RunProgrammable;
 import jumpingalien.model.gameobject.Shark;
 import jumpingalien.model.gameobject.Slime;
+import jumpingalien.model.gameobject.programmable.DuckProgrammable;
+import jumpingalien.model.gameobject.programmable.JumpProgrammable;
+import jumpingalien.model.gameobject.programmable.RunProgrammable;
 import jumpingalien.model.program.expression.*;
 import jumpingalien.model.program.statement.*;
 import jumpingalien.model.world.Tile;

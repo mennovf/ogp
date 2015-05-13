@@ -6,6 +6,7 @@ import java.util.Set;
 import jumpingalien.common.sprites.ImageSprite;
 import jumpingalien.model.Constants;
 import jumpingalien.model.Vector;
+import jumpingalien.model.gameobject.programmable.RunProgrammable;
 import jumpingalien.model.program.Program;
 import jumpingalien.model.reactions.PlantMazubCollisionDamager;
 import jumpingalien.model.world.TileType;

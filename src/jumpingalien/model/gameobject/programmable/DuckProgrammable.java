@@ -1,4 +1,4 @@
-package jumpingalien.model.gameobject;
+package jumpingalien.model.gameobject.programmable;
 
 /**
  * An interface to indicate the object's ducking behaviour can be controlled by a program.

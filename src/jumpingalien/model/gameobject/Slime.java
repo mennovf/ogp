@@ -9,6 +9,7 @@ import jumpingalien.model.Collidable;
 import jumpingalien.model.Constants;
 import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
+import jumpingalien.model.gameobject.programmable.RunProgrammable;
 import jumpingalien.model.program.Program;
 import jumpingalien.model.reactions.GameObjectCollisionDamager;
 import jumpingalien.model.reactions.TerrainCollisionDamager;

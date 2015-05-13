@@ -9,6 +9,7 @@ import jumpingalien.model.Collidable;
 import jumpingalien.model.Constants;
 import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
+import jumpingalien.model.gameobject.programmable.RunProgrammable;
 import jumpingalien.model.program.Program;
 import jumpingalien.model.reactions.GameObjectCollisionDamager;
 import jumpingalien.model.reactions.TerrainCollisionDamager;
@@ -27,7 +28,7 @@ import jumpingalien.util.Sprite;
  * 
  * @invar See GameObject.
  */
-public class Slime extends GameObject {
+public class Slime extends GameObject implements RunProgrammable {
 	
 	/**
 	 * The time left in the current movement period of this slime.
@@ -218,10 +219,10 @@ public class Slime extends GameObject {
 		
 		if (moveTimeLeft <= 0) {
 			
-			this.stopMove();
+			this.stopRun();
 			
 			double direction = Math.rint(Math.random()) == 0 ? -1.0 : 1.0;
-			this.startMove(direction);
+			this.startRun(direction);
 			
 		} else {
 			
@@ -269,7 +270,8 @@ public class Slime extends GameObject {
 	 * 			The direction of the movement. 1.0 for movement to the right,
 	 * 			-1.0 for movement to the left.
 	 */
-	private void startMove(double direction) {
+	@Override
+	public void startRun(double direction) {
 		
 		this.setFacing(direction);
 		this.setAcceleration(this.getAcceleration().setX(Constants.slimeHorizontalAcceleration * direction));
@@ -281,7 +283,8 @@ public class Slime extends GameObject {
 	/**
 	 * Stops the movement of this slime.
 	 */
-	private void stopMove() {
+	@Override
+	public void stopRun() {
 		
 		this.setSpeed(this.getSpeed().setX(0.0));
 	}

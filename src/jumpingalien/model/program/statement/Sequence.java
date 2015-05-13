@@ -1,5 +1,6 @@
 package jumpingalien.model.program.statement;
 
+import java.util.List;
 import java.util.Map;
 
 import be.kuleuven.cs.som.annotate.*;
@@ -13,12 +14,12 @@ public class Sequence implements Statement {
 	/**
 	 * The list of statements.
 	 */
-	private Statement[] statements;
+	private List<Statement> statements;
 	
 	/**
 	 * The index of the current statement.
 	 */
-	private int currentStatementIndex;
+	private int currentStatementIndex = 0;
 	
 	/**
 	 * A boolean to indicate this statement has been force finished.
@@ -36,14 +37,13 @@ public class Sequence implements Statement {
 	 * @throws NullPointerException
 	 * 			Throws a NullPointerException when the given statements list is null.
 	 */
-	public Sequence(Statement[] statements) throws NullPointerException {
+	public Sequence(List<Statement> statements) throws NullPointerException {
 		
 		if (statements == null) {
 			throw new NullPointerException("The given statements list is null.");
 		}
 		
 		this.statements = statements;
-		reset();
 	}
 
 	
@@ -53,7 +53,7 @@ public class Sequence implements Statement {
 	 */
 	@Basic
 	private Statement currentStatement() {
-		return this.statements[this.currentStatementIndex];
+		return this.statements.get(this.currentStatementIndex);
 	}
 
 	
@@ -72,7 +72,7 @@ public class Sequence implements Statement {
 	
 	@Override
 	public boolean isFinished() {
-		return this.forceFinished || (currentStatementIndex == this.statements.length);
+		return this.forceFinished || (currentStatementIndex == this.statements.size());
 	}
 
 	

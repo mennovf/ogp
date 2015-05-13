@@ -2,7 +2,9 @@ package jumpingalien.part3.tests;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.BinaryOperator;
 
@@ -70,7 +72,9 @@ public class StatementTest {
 
 	@Test
 	public void isWellFormed_BreakInNotALoop() {
-		Program p = new Program(new Sequence(new Statement[]{new Break()}), globals);
+		List<Statement> statements = new ArrayList<>();
+		statements.add(new Break());
+		Program p = new Program(new Sequence(statements), globals);
 		assertFalse(p.isWellFormed());
 	}
 	
@@ -84,7 +88,9 @@ public class StatementTest {
 
 	@Test
 	public void isWellFormed_ActionInNotAForEach() {
-		Program p = new Program(new Sequence(new Statement[]{new Wait(new Value<Double>(0.2))}), globals);
+		List<Statement> statements = new ArrayList<>();
+		statements.add(new Wait(new Value<Double>(0.2)));
+		Program p = new Program(new Sequence(statements), globals);
 		assertTrue(p.isWellFormed());
 	}
 	
@@ -116,7 +122,10 @@ public class StatementTest {
 	@Test
 	public void Sequence_ok() {
 		globals.put("done", false);
-		Sequence seq = new Sequence(new Statement[]{new Wait(new Value<Double>(0.1)), new Assignment("done", new Value<Boolean>(true))});
+		List<Statement> statements = new ArrayList<>();
+		statements.add(new Wait(new Value<Double>(0.1)));
+		statements.add(new Assignment("done", new Value<Boolean>(true)));
+		Sequence seq = new Sequence(statements);
 		Program p = createProgram(seq);
 
 		p.advanceTime(0.1);
@@ -132,7 +141,10 @@ public class StatementTest {
 	@Test
 	public void Break_WhileOk() {
 		globals.put("result", true);
-		WhileLoop w = new WhileLoop(new Value<Boolean>(true), new Sequence(new Statement[]{new Break(), new Assignment("result", new Value<Boolean>(false))}));
+		List<Statement> statements = new ArrayList<>();
+		statements.add(new Break());
+		statements.add(new Assignment("result", new Value<Boolean>(false)));
+		WhileLoop w = new WhileLoop(new Value<Boolean>(true), new Sequence(statements));
 		Program p = createProgram(w);
 
 		p.advanceTime(2*Statement.defaultTime);
@@ -146,7 +158,10 @@ public class StatementTest {
 	@Test
 	public void Break_ForEachOk() {
 		globals.put("result", true);
-		ForEachLoop fel = new ForEachLoop(Kind.ANY, "o", new Value<Boolean>(true), new Value<Double>(0.0), SortDirection.ASCENDING, new Sequence(new Statement[]{new Break(), new Assignment("result", new Value<Boolean>(false))}));
+		List<Statement> statements = new ArrayList<>();
+		statements.add(new Break());
+		statements.add(new Assignment("result", new Value<Boolean>(false)));
+		ForEachLoop fel = new ForEachLoop(Kind.ANY, "o", new Value<Boolean>(true), new Value<Double>(0.0), SortDirection.ASCENDING, new Sequence(statements));
 		Program p = createProgram(fel);
 
 		Plant plant = new Plant(new Vector<>(0.0, 0.0), new Sprite[]{Resources.PLANT_SPRITE_LEFT, Resources.PLANT_SPRITE_RIGHT}, p);
@@ -176,7 +191,11 @@ public class StatementTest {
 	public void WhileLoop_cond() {
 		globals.put("cond", true);
 		globals.put("result", true);
-		WhileLoop w = new WhileLoop(new Variable<Boolean>("cond"), new Sequence(new Statement[]{new Wait(new Value<Double>(0.1)), new Assignment("cond", new Value<Boolean>(false)), new Assignment("result", new Value<Boolean>(false))}));
+		List<Statement> statements = new ArrayList<>();
+		statements.add(new Wait(new Value<Double>(0.1)));
+		statements.add(new Assignment("cond", new Value<Boolean>(false)));
+		statements.add(new Assignment("result", new Value<Boolean>(false)));
+		WhileLoop w = new WhileLoop(new Variable<Boolean>("cond"), new Sequence(statements));
 		Program p = createProgram(w);
 		
 		p.advanceTime(0.1);
@@ -195,7 +214,9 @@ public class StatementTest {
 	@Test
 	public void WhileLoop_keepGoing() {
 		globals.put("i", 0.0);
-		WhileLoop w = new WhileLoop(new Value<Boolean>(true), new Sequence(new Statement[]{new Assignment("i", new BinaryOperation<Double, Double, Double>(new Variable<Double>("i"), new Value<Double>(1.0), (Double a, Double b)->a+b))}));
+		List<Statement> statements = new ArrayList<>();
+		statements.add(new Assignment("i", new BinaryOperation<Double, Double, Double>(new Variable<Double>("i"), new Value<Double>(1.0), (Double a, Double b)->a+b)));
+		WhileLoop w = new WhileLoop(new Value<Boolean>(true), new Sequence(statements));
 		Program p = createProgram(w);
 		
 		p.advanceTime(Statement.defaultTime * 2);

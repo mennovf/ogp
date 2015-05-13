@@ -10,6 +10,9 @@ import jumpingalien.model.Collidable;
 import jumpingalien.model.Constants;
 import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
+import jumpingalien.model.gameobject.programmable.DuckProgrammable;
+import jumpingalien.model.gameobject.programmable.JumpProgrammable;
+import jumpingalien.model.gameobject.programmable.RunProgrammable;
 import jumpingalien.model.program.Program;
 import jumpingalien.model.reactions.GameObjectCollisionDamager;
 import jumpingalien.model.reactions.TerrainCollisionDamager;
@@ -28,7 +31,7 @@ import jumpingalien.model.world.TileType;
  * @author Rugen Heidbuchel & Menno Vanfrachem
  * @version 1.0
  */
-public class Mazub extends GameObject implements MovementProgrammable {
+public class Mazub extends GameObject implements RunProgrammable, JumpProgrammable, DuckProgrammable {
 	
 	/**
 	 * The horizontal speed Mazub gets when he start

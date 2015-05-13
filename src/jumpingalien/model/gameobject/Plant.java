@@ -21,7 +21,7 @@ import jumpingalien.util.Sprite;
  * 
  * @invar See GameObject.
  */
-public class Plant extends GameObject {
+public class Plant extends GameObject implements RunProgrammable {
 	
 	private double directionTime = Constants.plantMoveTime;
 	
@@ -112,8 +112,20 @@ public class Plant extends GameObject {
 		directionTime = (directionTime + dt) % Constants.plantMoveTime;
 		
 		if (dt > timeLeft){
-			this.setSpeed(this.getSpeed().setX(this.getFacing() * Constants.plantSpeed));
-			this.setFacing(this.getFacing() * -1);
+			this.startRun(this.getFacing() * -1);
 		}
+	}
+
+
+	@Override
+	public void startRun(double direction) {
+		this.setFacing(direction);
+		this.setSpeed(this.getSpeed().setX(this.getFacing() * Constants.plantSpeed));
+	}
+
+
+	@Override
+	public void stopRun() {
+		this.setSpeed(this.getSpeed().setX(0.0));
 	}
 }

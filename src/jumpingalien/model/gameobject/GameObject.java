@@ -622,7 +622,12 @@ public abstract class GameObject implements Collidable {
 	 */
 	@Basic
 	public boolean collidesWithGameObjectClass(Class<? extends GameObject> objectClass) {
-		return this.getCollidableObjectClasses().contains(objectClass);
+		for (Class<? extends GameObject> cls : this.getCollidableObjectClasses()) {
+			if (cls.isAssignableFrom(objectClass)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	

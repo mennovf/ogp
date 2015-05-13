@@ -28,7 +28,7 @@ import jumpingalien.util.Sprite;
  * 
  * @invar See GameObject.
  */
-public class Shark extends GameObject {
+public class Shark extends GameObject implements RunProgrammable, JumpProgrammable {
 	
 	/**
 	 * How much time there is left in the current movement period.
@@ -207,10 +207,10 @@ public class Shark extends GameObject {
 		
 		if (moveTimeLeft <= 0) {
 			
-			this.stopMove();
+			this.stopRun();
 			
 			double direction = Math.rint(Math.random()) == 0 ? -1.0 : 1.0;
-			this.startMove(direction);
+			this.startRun(direction);
 			
 		} else {
 			
@@ -240,7 +240,8 @@ public class Shark extends GameObject {
 	 * 			The direction to start moving in.
 	 * 			1.0 means to the right, -1.0 means to the left.
 	 */
-	private void startMove(double direction) {
+	@Override
+	public void startRun(double direction) {
 		
 		this.setFacing(direction);
 		this.setAcceleration(this.getAcceleration().setX(Constants.sharkHorizontalAcceleration * direction));
@@ -265,7 +266,8 @@ public class Shark extends GameObject {
 	/**
 	 * Stops the movement of this shark.
 	 */
-	private void stopMove() {
+	@Override
+	public void stopRun() {
 		
 		this.setSpeed(this.getSpeed().setX(0.0));
 		this.stopMoveVertical();
@@ -276,7 +278,8 @@ public class Shark extends GameObject {
 	/**
 	 * Starts the jump of this shark.
 	 */
-	private void startJump() {
+	@Override
+	public void startJump() {
 		
 		this.setSpeed(this.getSpeed().setY(Constants.sharkInitialJumpSpeed));
 		this.jumping = true;
@@ -289,7 +292,8 @@ public class Shark extends GameObject {
 	 * to zero if the vertical speed is bigger than zero (when it's not
 	 * falling).
 	 */
-	private void stopJump() {
+	@Override
+	public void stopJump() {
 		
 		if (this.getSpeed().y > 0) {
 			this.setSpeed(this.getSpeed().setY(0.0));

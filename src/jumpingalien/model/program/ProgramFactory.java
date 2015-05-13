@@ -5,9 +5,12 @@ import java.util.Map;
 
 import jumpingalien.model.Collidable;
 import jumpingalien.model.Vector;
+import jumpingalien.model.gameobject.DuckProgrammable;
 import jumpingalien.model.gameobject.GameObject;
+import jumpingalien.model.gameobject.JumpProgrammable;
 import jumpingalien.model.gameobject.Mazub;
 import jumpingalien.model.gameobject.Plant;
+import jumpingalien.model.gameobject.RunProgrammable;
 import jumpingalien.model.gameobject.Shark;
 import jumpingalien.model.gameobject.Slime;
 import jumpingalien.model.program.expression.*;
@@ -295,38 +298,74 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 
 	@Override
 	public Statement createStartRun(Expression<?> direction, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new SimpleStatement() {
+			
+			@Override
+			protected void run(Map<String, Object> globals, CallStack callStack) {
+				RunProgrammable object = (RunProgrammable) callStack.getProgram().getGameObject();
+				object.startRun(((Expression<Double>) direction).evaluate(globals, this.getOwnCallStack(callStack)));
+			}
+		};
 	}
 
 	@Override
 	public Statement createStopRun(Expression<?> direction, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new SimpleStatement() {
+			
+			@Override
+			protected void run(Map<String, Object> globals, CallStack callStack) {
+				RunProgrammable object = (RunProgrammable) callStack.getProgram().getGameObject();
+				object.stopRun();
+			}
+		};
 	}
 
 	@Override
 	public Statement createStartJump(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new SimpleStatement() {
+			
+			@Override
+			protected void run(Map<String, Object> globals, CallStack callStack) {
+				JumpProgrammable object = (JumpProgrammable) callStack.getProgram().getGameObject();
+				object.startJump();
+			}
+		};
 	}
 
 	@Override
 	public Statement createStopJump(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new SimpleStatement() {
+			
+			@Override
+			protected void run(Map<String, Object> globals, CallStack callStack) {
+				JumpProgrammable object = (JumpProgrammable) callStack.getProgram().getGameObject();
+				object.stopJump();
+			}
+		};
 	}
 
 	@Override
 	public Statement createStartDuck(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new SimpleStatement() {
+			
+			@Override
+			protected void run(Map<String, Object> globals, CallStack callStack) {
+				DuckProgrammable object = (DuckProgrammable) callStack.getProgram().getGameObject();
+				object.startDuck();
+			}
+		};
 	}
 
 	@Override
 	public Statement createStopDuck(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new SimpleStatement() {
+			
+			@Override
+			protected void run(Map<String, Object> globals, CallStack callStack) {
+				DuckProgrammable object = (DuckProgrammable) callStack.getProgram().getGameObject();
+				object.stopDuck();
+			}
+		};
 	}
 
 	@Override

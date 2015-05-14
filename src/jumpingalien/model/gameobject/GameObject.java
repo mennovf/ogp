@@ -870,6 +870,17 @@ public abstract class GameObject implements Collidable {
 	
 	
 	/**
+	 * Returns whether this game object is being controlled by a proper program.
+	 * 
+	 * @return The program can't be null.
+	 * 			| this.getProgram() != null
+	 */
+	public boolean hasProperProgram() {
+		return this.getProgram() != null;
+	}
+	
+	
+	/**
 	 * Advances the time of this game object and adjusts it's position,
 	 * speed and acceleration accordingly. Small steps will be performed
 	 * to handle collisions as well.
@@ -894,7 +905,12 @@ public abstract class GameObject implements Collidable {
 			time += stepTime;
 			
 			this.handleStats(stepTime);
-			this.handleStep(stepTime);
+			
+			if (this.hasProperProgram()) {
+				this.getProgram().advanceTime(stepTime);
+			} else {
+				this.handleStep(stepTime);
+			}
 			
 			if (this.isHealthZero()) {
 				deathTime += stepTime;

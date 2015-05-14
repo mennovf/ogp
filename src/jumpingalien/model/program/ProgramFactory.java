@@ -303,7 +303,7 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 			@Override
 			protected void run(Map<String, Object> globals, CallStack callStack) {
 				RunProgrammable object = (RunProgrammable) callStack.getProgram().getGameObject();
-				object.startRun(((Expression<Double>) direction).evaluate(globals, this.getOwnCallStack(callStack)));
+				object.startRun(((Expression<Direction>) direction).evaluate(globals, this.getOwnCallStack(callStack)).getVectorValue().x);
 			}
 		};
 	}

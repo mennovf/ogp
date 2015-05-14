@@ -14,7 +14,6 @@ import jumpingalien.model.program.Program;
 import jumpingalien.model.reactions.GameObjectCollisionDamager;
 import jumpingalien.model.reactions.TerrainCollisionDamager;
 import jumpingalien.model.reactions.TerrainCollisionDamager.TerrainDamageInfo;
-import jumpingalien.model.world.Tile;
 import jumpingalien.model.world.TileType;
 import jumpingalien.util.Sprite;
 
@@ -215,6 +214,14 @@ public class Slime extends GameObject implements RunProgrammable {
 	
 	
 	@Override
+	protected void handleStats(double dt) {
+		if (!this.onGround()) {
+			this.setAcceleration(this.getAcceleration().setY(Constants.gravityAcceleration));
+		}
+	}
+	
+	
+	@Override
 	protected void handleStep(double dt) {
 		
 		if (moveTimeLeft <= 0) {
@@ -222,6 +229,9 @@ public class Slime extends GameObject implements RunProgrammable {
 			this.stopRun();
 			
 			double direction = Math.rint(Math.random()) == 0 ? -1.0 : 1.0;
+			moveTimeLeft = Constants.slimeMinMoveTime + Math.random() *
+					(Constants.slimeMaxMoveTime - Constants.slimeMinMoveTime);
+			
 			this.startRun(direction);
 			
 		} else {
@@ -252,17 +262,6 @@ public class Slime extends GameObject implements RunProgrammable {
 	}
 	
 	
-	@Override
-	protected void handleCollisions(Set<GameObject> collidingObjects,
-			Set<Tile> collidingTiles) {
-		super.handleCollisions(collidingObjects, collidingTiles);
-		
-		if (!this.onGround()) {
-			this.setAcceleration(this.getAcceleration().setY(Constants.gravityAcceleration));
-		}
-	}
-	
-	
 	/**
 	 * Starts the movement of this slime in the given direction.
 	 * 
@@ -272,11 +271,8 @@ public class Slime extends GameObject implements RunProgrammable {
 	 */
 	@Override
 	public void startRun(double direction) {
-		
 		this.setFacing(direction);
 		this.setAcceleration(this.getAcceleration().setX(Constants.slimeHorizontalAcceleration * direction));
-		moveTimeLeft = Constants.slimeMinMoveTime + Math.random() *
-				(Constants.slimeMaxMoveTime - Constants.slimeMinMoveTime);
 	}
 	
 	
@@ -285,7 +281,6 @@ public class Slime extends GameObject implements RunProgrammable {
 	 */
 	@Override
 	public void stopRun() {
-		
 		this.setSpeed(this.getSpeed().setX(0.0));
 	}
 

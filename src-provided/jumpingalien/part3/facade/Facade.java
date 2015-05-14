@@ -10,7 +10,7 @@ import jumpingalien.model.gameobject.Plant;
 import jumpingalien.model.gameobject.School;
 import jumpingalien.model.gameobject.Shark;
 import jumpingalien.model.gameobject.Slime;
-import jumpingalien.model.program.Program;
+import jumpingalien.model.program.LanguageProgram;
 import jumpingalien.model.program.ProgramFactory;
 import jumpingalien.model.program.statement.Statement;
 import jumpingalien.model.program.expression.Expression;
@@ -30,7 +30,7 @@ public class Facade extends jumpingalien.part2.facade.Facade implements IFacadeP
 
 	@Override
 	public Buzam createBuzamWithProgram(int pixelLeftX, int pixelBottomY,
-			Sprite[] sprites, Program program) {
+			Sprite[] sprites, LanguageProgram program) {
 		return new Buzam(Utilities.pixelsVectorToMeters(new Vector<>(pixelLeftX, pixelBottomY)), sprites,
 				Constants.mazubInitialHorizontalSpeed, Constants.mazubMaxHorizontalSpeed,
 				Constants.mazubBeginDirection, program);
@@ -38,21 +38,21 @@ public class Facade extends jumpingalien.part2.facade.Facade implements IFacadeP
 
 	@Override
 	public Plant createPlantWithProgram(int x, int y, Sprite[] sprites,
-			Program program) {
+			LanguageProgram program) {
 		return new Plant(new Vector<>(Utilities.pixelsToMeters(x), Utilities.pixelsToMeters(y)),
 				sprites, program);
 	}
 
 	@Override
 	public Shark createSharkWithProgram(int x, int y, Sprite[] sprites,
-			Program program) {
+			LanguageProgram program) {
 		return new Shark(new Vector<>(Utilities.pixelsToMeters(x), Utilities.pixelsToMeters(y)),
 				sprites, program);
 	}
 
 	@Override
 	public Slime createSlimeWithProgram(int x, int y, Sprite[] sprites,
-			School school, Program program) {
+			School school, LanguageProgram program) {
 		return new Slime(new Vector<>(Utilities.pixelsToMeters(x), Utilities.pixelsToMeters(y)),
 				sprites, school, program);
 	}
@@ -61,15 +61,15 @@ public class Facade extends jumpingalien.part2.facade.Facade implements IFacadeP
 	public ParseOutcome<?> parse(String text) {
 		
 		ProgramFactory factory = new ProgramFactory();
-		ProgramParser<Expression<?>, Statement, Object, Program> parser = new ProgramParser<>(factory);
+		ProgramParser<Expression<?>, Statement, Object, LanguageProgram> parser = new ProgramParser<>(factory);
 		
-		Optional<Program> parseResult = parser.parseString(text);
+		Optional<LanguageProgram> parseResult = parser.parseString(text);
 		
 		return parseResult.isPresent() ? ParseOutcome.success(parseResult.get()) : ParseOutcome.failure(parser.getErrors());
 	}
 
 	@Override
-	public boolean isWellFormed(Program program) {
+	public boolean isWellFormed(LanguageProgram program) {
 		// TODO Auto-generated method stub
 		return false;
 	}

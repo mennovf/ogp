@@ -2,7 +2,7 @@ package jumpingalien.model.gameobject;
 
 import jumpingalien.model.Constants;
 import jumpingalien.model.Vector;
-import jumpingalien.model.program.Program;
+import jumpingalien.model.program.LanguageProgram;
 import jumpingalien.util.Sprite;
 
 /**
@@ -78,7 +78,7 @@ public class Buzam extends Mazub {
 	 * 			| !isValidPosition(position) || !isValidDirection(direction)
 	 */
 	public Buzam(Vector<Double> position, Sprite[] sprites, double vxInit,
-			double vxMax, double direction, Program program) throws NullPointerException,
+			double vxMax, double direction, LanguageProgram program) throws NullPointerException,
 			IllegalArgumentException {
 		
 		super(position, sprites, vxInit, vxMax, direction, program);

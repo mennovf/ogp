@@ -18,7 +18,7 @@ import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
 import jumpingalien.model.gameobject.Plant;
 import jumpingalien.model.gameobject.Shark;
-import jumpingalien.model.program.Program;
+import jumpingalien.model.program.LanguageProgram;
 import jumpingalien.model.program.statement.*;
 import jumpingalien.model.program.expression.*;
 import jumpingalien.model.world.World;
@@ -51,21 +51,21 @@ public class StatementTest {
 	}
 
 
-	private Program createProgram(Statement mainStatement) {
-		return new Program(mainStatement, globals);
+	private LanguageProgram createProgram(Statement mainStatement) {
+		return new LanguageProgram(mainStatement, globals);
 	}
 
 
 	@Test
 	public void isWellFormed_BreakInWhile() {
-		Program p = new Program(new WhileLoop(new Value<Boolean>(true), new Break()), globals);
+		LanguageProgram p = new LanguageProgram(new WhileLoop(new Value<Boolean>(true), new Break()), globals);
 		assertTrue(p.isWellFormed());
 	}
 
 
 	@Test
 	public void isWellFormed_BreakInForEach() {
-		Program p = new Program(new ForEachLoop(Kind.ANY, "", new Value<Boolean>(true), new Value<Double>(0.0), SortDirection.ASCENDING, new Break()), globals);
+		LanguageProgram p = new LanguageProgram(new ForEachLoop(Kind.ANY, "", new Value<Boolean>(true), new Value<Double>(0.0), SortDirection.ASCENDING, new Break()), globals);
 		assertTrue(p.isWellFormed());
 	}
 	
@@ -74,14 +74,14 @@ public class StatementTest {
 	public void isWellFormed_BreakInNotALoop() {
 		List<Statement> statements = new ArrayList<>();
 		statements.add(new Break());
-		Program p = new Program(new Sequence(statements), globals);
+		LanguageProgram p = new LanguageProgram(new Sequence(statements), globals);
 		assertFalse(p.isWellFormed());
 	}
 	
 
 	@Test
 	public void isWellFormed_ActionInForEach() {
-		Program p = new Program(new ForEachLoop(Kind.ANY, "", new Value<Boolean>(true), new Value<Double>(0.0), SortDirection.ASCENDING, new Wait(new Value<Double>(0.1))), globals);
+		LanguageProgram p = new LanguageProgram(new ForEachLoop(Kind.ANY, "", new Value<Boolean>(true), new Value<Double>(0.0), SortDirection.ASCENDING, new Wait(new Value<Double>(0.1))), globals);
 		assertFalse(p.isWellFormed());
 	}
 	
@@ -90,7 +90,7 @@ public class StatementTest {
 	public void isWellFormed_ActionInNotAForEach() {
 		List<Statement> statements = new ArrayList<>();
 		statements.add(new Wait(new Value<Double>(0.2)));
-		Program p = new Program(new Sequence(statements), globals);
+		LanguageProgram p = new LanguageProgram(new Sequence(statements), globals);
 		assertTrue(p.isWellFormed());
 	}
 	
@@ -99,12 +99,12 @@ public class StatementTest {
 		globals.put("result", new Value<Boolean>(null));
 
 		If mainStatement = new If(new Value<Boolean>(true) , new Assignment("result", new Value<Boolean>(true)), new Assignment("result", new Value<Boolean>(false)));
-		Program p = new Program(mainStatement, globals);
+		LanguageProgram p = new LanguageProgram(mainStatement, globals);
 		p.advanceTime(Statement.defaultTime);
 		assertTrue((Boolean)globals.get("result"));
 		
 		mainStatement = new If(new Value<Boolean>(false) , new Assignment("result", new Value<Boolean>(true)), new Assignment("result", new Value<Boolean>(false)));
-		p = new Program(mainStatement, globals);
+		p = new LanguageProgram(mainStatement, globals);
 		p.advanceTime(Statement.defaultTime);
 		assertFalse((Boolean)globals.get("result"));
 		
@@ -113,7 +113,7 @@ public class StatementTest {
 	@Test
 	public void Assignment_ok() {
 		globals.put("result", false);
-		Program p = createProgram(new Assignment("result", new Value<Boolean>(true)));
+		LanguageProgram p = createProgram(new Assignment("result", new Value<Boolean>(true)));
 		p.advanceTime(Statement.defaultTime);
 		
 		assertTrue((Boolean)globals.get("result"));
@@ -126,7 +126,7 @@ public class StatementTest {
 		statements.add(new Wait(new Value<Double>(0.1)));
 		statements.add(new Assignment("done", new Value<Boolean>(true)));
 		Sequence seq = new Sequence(statements);
-		Program p = createProgram(seq);
+		LanguageProgram p = createProgram(seq);
 
 		p.advanceTime(0.1);
 		assertFalse(seq.isFinished());
@@ -145,7 +145,7 @@ public class StatementTest {
 		statements.add(new Break());
 		statements.add(new Assignment("result", new Value<Boolean>(false)));
 		WhileLoop w = new WhileLoop(new Value<Boolean>(true), new Sequence(statements));
-		Program p = createProgram(w);
+		LanguageProgram p = createProgram(w);
 
 		p.advanceTime(2*Statement.defaultTime);
 		assertTrue(w.isFinished());
@@ -162,7 +162,7 @@ public class StatementTest {
 		statements.add(new Break());
 		statements.add(new Assignment("result", new Value<Boolean>(false)));
 		ForEachLoop fel = new ForEachLoop(Kind.ANY, "o", new Value<Boolean>(true), new Value<Double>(0.0), SortDirection.ASCENDING, new Sequence(statements));
-		Program p = createProgram(fel);
+		LanguageProgram p = createProgram(fel);
 
 		Plant plant = new Plant(new Vector<>(0.0, 0.0), new Sprite[]{Resources.PLANT_SPRITE_LEFT, Resources.PLANT_SPRITE_RIGHT}, p);
 		plant.setWorld(this.world);
@@ -178,7 +178,7 @@ public class StatementTest {
 	@Test
 	public void Wait_ok() {
 		Wait w = new Wait(new Value<Double>(0.1));
-		Program p = createProgram(w);
+		LanguageProgram p = createProgram(w);
 		
 		p.advanceTime(0.09);
 		assertFalse(w.isFinished());
@@ -196,7 +196,7 @@ public class StatementTest {
 		statements.add(new Assignment("cond", new Value<Boolean>(false)));
 		statements.add(new Assignment("result", new Value<Boolean>(false)));
 		WhileLoop w = new WhileLoop(new Variable<Boolean>("cond"), new Sequence(statements));
-		Program p = createProgram(w);
+		LanguageProgram p = createProgram(w);
 		
 		p.advanceTime(0.1);
 		p.advanceTime(Statement.defaultTime);
@@ -217,7 +217,7 @@ public class StatementTest {
 		List<Statement> statements = new ArrayList<>();
 		statements.add(new Assignment("i", new BinaryOperation<Double, Double, Double>(new Variable<Double>("i"), new Value<Double>(1.0), (Double a, Double b)->a+b)));
 		WhileLoop w = new WhileLoop(new Value<Boolean>(true), new Sequence(statements));
-		Program p = createProgram(w);
+		LanguageProgram p = createProgram(w);
 		
 		p.advanceTime(Statement.defaultTime * 2);
 		assertEquals(1.0, (Double)globals.get("i"), 1e-7);

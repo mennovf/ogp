@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import java.util.HashMap;
 import java.util.Random;
 
-import jumpingalien.model.program.Program;
+import jumpingalien.model.program.LanguageProgram;
 import jumpingalien.model.program.ProgramFactory;
 import jumpingalien.model.program.expression.*;
 import jumpingalien.model.program.statement.*;
@@ -41,12 +41,12 @@ public class ExpressionTest {
 	public void tearDown() throws Exception {
 	}
 
-	private Program createProgram(Statement mainStatement) {
-		return new Program(mainStatement, globals);
+	private LanguageProgram createProgram(Statement mainStatement) {
+		return new LanguageProgram(mainStatement, globals);
 	}
 	
 	private <R> R runExpression(Expression<R> expr) {
-		Program p = new Program(new Break(), globals);
+		LanguageProgram p = new LanguageProgram(new Break(), globals);
 		return expr.evaluate(this.globals, new CallStack(p));
 	}
 	

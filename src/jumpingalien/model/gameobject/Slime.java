@@ -10,7 +10,7 @@ import jumpingalien.model.Constants;
 import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
 import jumpingalien.model.gameobject.programmable.RunProgrammable;
-import jumpingalien.model.program.Program;
+import jumpingalien.model.program.LanguageProgram;
 import jumpingalien.model.reactions.GameObjectCollisionDamager;
 import jumpingalien.model.reactions.TerrainCollisionDamager;
 import jumpingalien.model.reactions.TerrainCollisionDamager.TerrainDamageInfo;
@@ -83,7 +83,7 @@ public class Slime extends GameObject implements RunProgrammable {
 	 * @effect Calls GameObject's constructor.
 	 * 			| super(Constants.slimeBeginHealth, Constants.slimeMaxHealth, position, sprites)
 	 */ 
-	public Slime(Vector<Double> position, Sprite[] sprites, School school, Program program) throws IllegalArgumentException {
+	public Slime(Vector<Double> position, Sprite[] sprites, School school, LanguageProgram program) throws IllegalArgumentException {
 		
 		super(Constants.slimeBeginHealth, Constants.slimeMaxHealth, position, sprites, program);
 		

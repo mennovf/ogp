@@ -7,7 +7,7 @@ import jumpingalien.common.sprites.ImageSprite;
 import jumpingalien.model.Constants;
 import jumpingalien.model.Vector;
 import jumpingalien.model.gameobject.programmable.RunProgrammable;
-import jumpingalien.model.program.Program;
+import jumpingalien.model.program.LanguageProgram;
 import jumpingalien.model.reactions.PlantMazubCollisionDamager;
 import jumpingalien.model.world.TileType;
 import jumpingalien.util.Sprite;
@@ -63,7 +63,7 @@ public class Plant extends GameObject implements RunProgrammable {
 	 * @effect The plant will start moving to the right with a speed of Constants.plantSpeed.
 	 * 			| plant.setSpeed(this.getSpeed().setX(Constants.plantSpeed))
 	 */
-	public Plant(Vector<Double> position, Sprite[] sprites, Program program){
+	public Plant(Vector<Double> position, Sprite[] sprites, LanguageProgram program){
 		
 		super(1, 1, position, sprites, program, true);
 		

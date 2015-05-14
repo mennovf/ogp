@@ -2,7 +2,7 @@ package jumpingalien.part3.programs;
 
 import java.util.List;
 
-import jumpingalien.model.program.Program;
+import jumpingalien.model.program.LanguageProgram;
 
 /**
  * A class that represents the outcome of parsing a string.
@@ -13,7 +13,7 @@ import jumpingalien.model.program.Program;
  * </ul>
  * 
  * Instances of this class can only be created using the static
- *  {@link ParseOutcome#success(Program)} and {@link ParseOutcome#failure(List)} methods.
+ *  {@link ParseOutcome#success(LanguageProgram)} and {@link ParseOutcome#failure(List)} methods.
  *  
  * @param <T> The type of the result stored in the outcome;
  * can be either a Program (for success) or a List&lt;String&gt; of error messages (for failure).
@@ -32,7 +32,7 @@ public abstract class ParseOutcome<T> {
 	 * Create a new ParseOutcome that denotes success.
 	 * The parse result is a Program object that represents the parsed program.
 	 */
-	public static Success success(Program program) {
+	public static Success success(LanguageProgram program) {
 		return new Success(program);
 	}
 
@@ -49,8 +49,8 @@ public abstract class ParseOutcome<T> {
 
 	}
 
-	public static class Success extends ParseOutcome<Program> {
-		private Success(Program program) {
+	public static class Success extends ParseOutcome<LanguageProgram> {
+		private Success(LanguageProgram program) {
 			super(program);
 		}
 

@@ -10,6 +10,7 @@ import jumpingalien.model.Constants;
 import jumpingalien.model.Settings;
 import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
+import jumpingalien.model.program.LanguageProgram;
 import jumpingalien.model.program.Program;
 import jumpingalien.model.reactions.CollisionDamager;
 import jumpingalien.model.world.Tile;
@@ -153,7 +154,7 @@ public abstract class GameObject implements Collidable {
 	 * 
 	 * @throws IllegalArgumentException
 	 */
-	protected GameObject(int health, int maxHealth, Vector<Double> position, Sprite[] sprites, Program program)
+	protected GameObject(int health, int maxHealth, Vector<Double> position, Sprite[] sprites, LanguageProgram program)
 			throws IllegalArgumentException {
 		this(health, maxHealth, position, sprites, program, false);
 	}
@@ -207,7 +208,7 @@ public abstract class GameObject implements Collidable {
 	 * 			Throws an IllegalArgumentException when the given position is not valid.
 	 * 			| !isValidPosition(position)
 	 */
-	protected GameObject(int health, int maxHealth, Vector<Double> position, Sprite[] sprites, Program program, boolean passable)
+	protected GameObject(int health, int maxHealth, Vector<Double> position, Sprite[] sprites, LanguageProgram program, boolean passable)
 				throws IllegalArgumentException {
 		
 		if (!this.isValidPosition(position)){
@@ -216,10 +217,15 @@ public abstract class GameObject implements Collidable {
 		
 		// maxHealth has to be set before setHealth because it uses maxHealth.
 		this.setFacing(1);
-		this.program = program;
+
 		if (program != null) {
-			this.program.setGameObject(this);
+			program.setGameObject(this);
+			this.program = program;
 		}
+		else {
+			this.program = this.getDefaultProgram();
+		}
+
 		this.passable = passable;
 		this.maxHealth = maxHealth;
 		this.health = 1;
@@ -906,11 +912,7 @@ public abstract class GameObject implements Collidable {
 			
 			this.handleStats(stepTime);
 			
-			if (this.hasProperProgram()) {
-				this.getProgram().advanceTime(stepTime);
-			} else {
-				this.handleStep(stepTime);
-			}
+			this.getProgram().advanceTime(stepTime);
 			
 			if (this.isHealthZero()) {
 				deathTime += stepTime;
@@ -1001,6 +1003,20 @@ public abstract class GameObject implements Collidable {
 	 */
 	protected void handleStep(double dt) {}
 	
+	
+	/**
+	 * Returns the program to be used when no program is specified.
+	 * This program implements the default behaviour of the GameObject.
+	 * @return The program to be used when no program is specified.
+	 */
+	private Program getDefaultProgram() {
+		return new Program() {
+			@Override
+			public void advanceTime(double dt) {
+				GameObject.this.handleStep(dt);
+			}
+		};
+	}
 	
 	/**
 	 * Handles the collisions for this game object and updates motion and other properties accordingly.

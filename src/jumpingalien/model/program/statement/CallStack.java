@@ -3,7 +3,7 @@ package jumpingalien.model.program.statement;
 import java.util.Stack;
 
 import be.kuleuven.cs.som.annotate.*;
-import jumpingalien.model.program.Program;
+import jumpingalien.model.program.LanguageProgram;
 
 /**
  * A class representing a call stack.
@@ -16,7 +16,7 @@ public class CallStack extends Stack<Statement> {
 	/**
 	 * The program calling this call stack's root statement.
 	 */
-	private final Program program;
+	private final LanguageProgram program;
 	
 	
 	/**
@@ -25,7 +25,7 @@ public class CallStack extends Stack<Statement> {
 	 * @param program
 	 * 			The program in which the root statement is being called.
 	 */
-	public CallStack(Program program) {
+	public CallStack(LanguageProgram program) {
 		this.program = program;
 	}
 	
@@ -36,7 +36,7 @@ public class CallStack extends Stack<Statement> {
 	 * call stack's root statement is being called.
 	 */
 	@Basic
-	public Program getProgram() {
+	public LanguageProgram getProgram() {
 		return this.program;
 	}
 	

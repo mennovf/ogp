@@ -22,7 +22,7 @@ import jumpingalien.part3.programs.IProgramFactory;
 import jumpingalien.part3.programs.SourceLocation;
 
 @SuppressWarnings("unchecked")
-public class ProgramFactory implements IProgramFactory<Expression<?>, Statement, Object, Program> {
+public class ProgramFactory implements IProgramFactory<Expression<?>, Statement, Object, LanguageProgram> {
 	
 	@Override
 	public Expression<Object> createReadVariable(String variableName, Object variableType,
@@ -404,8 +404,8 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	}
 
 	@Override
-	public Program createProgram(Statement mainStatement, Map<String, Object> globalVariables) {
-		return new Program(mainStatement, globalVariables);
+	public LanguageProgram createProgram(Statement mainStatement, Map<String, Object> globalVariables) {
+		return new LanguageProgram(mainStatement, globalVariables);
 	}
 
 }

@@ -11,7 +11,7 @@ import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
 import jumpingalien.model.gameobject.programmable.JumpProgrammable;
 import jumpingalien.model.gameobject.programmable.RunProgrammable;
-import jumpingalien.model.program.Program;
+import jumpingalien.model.program.LanguageProgram;
 import jumpingalien.model.reactions.GameObjectCollisionDamager;
 import jumpingalien.model.reactions.TerrainCollisionDamager;
 import jumpingalien.model.reactions.TerrainCollisionDamager.TerrainDamageInfo;
@@ -79,7 +79,7 @@ public class Shark extends GameObject implements RunProgrammable, JumpProgrammab
 	 * @effect Calling GameObject's constructor.
 	 * 			| super(Constants.sharkBeginHealth, Constants.sharkMaxHealth, position, sprites)
 	 */
-	public Shark(Vector<Double> position, Sprite[] sprites, Program program) {
+	public Shark(Vector<Double> position, Sprite[] sprites, LanguageProgram program) {
 		super(Constants.sharkBeginHealth, Constants.sharkMaxHealth, position, sprites, program);
 		
 		Collection<TerrainDamageInfo> terrainInfos= new HashSet<>();

@@ -3,7 +3,7 @@ package jumpingalien.part3.facade;
 import jumpingalien.model.gameobject.Buzam;
 import jumpingalien.model.gameobject.Mazub;
 import jumpingalien.model.gameobject.Plant;
-import jumpingalien.model.program.Program;
+import jumpingalien.model.program.LanguageProgram;
 import jumpingalien.model.gameobject.School;
 import jumpingalien.model.gameobject.Shark;
 import jumpingalien.model.gameobject.Slime;
@@ -129,7 +129,7 @@ public interface IFacadePart3 extends IFacadePart2 {
 	 *            program.
 	 */
 	public Buzam createBuzamWithProgram(int pixelLeftX, int pixelBottomY,
-			Sprite[] sprites, Program program);
+			Sprite[] sprites, LanguageProgram program);
 
 	/**
 	 * /**
@@ -150,7 +150,7 @@ public interface IFacadePart3 extends IFacadePart2 {
 	 *         should not belong to a world.
 	 */
 	public Plant createPlantWithProgram(int x, int y, Sprite[] sprites,
-			Program program);
+			LanguageProgram program);
 
 	/**
 	 * Creates a new shark, located at the provided pixel location (x, y).
@@ -170,7 +170,7 @@ public interface IFacadePart3 extends IFacadePart2 {
 	 *         should not belong to a world.
 	 */
 	public Shark createSharkWithProgram(int x, int y, Sprite[] sprites,
-			Program program);
+			LanguageProgram program);
 
 	/**
 	 * Creates a new slime, located at the provided pixel location (x, y).
@@ -192,7 +192,7 @@ public interface IFacadePart3 extends IFacadePart2 {
 	 *         given school. The returned slime should not belong to a world.
 	 */
 	public Slime createSlimeWithProgram(int x, int y, Sprite[] sprites,
-			School school, Program program);
+			School school, LanguageProgram program);
 
 	/**
 	 * Parse the given text into the program.
@@ -215,7 +215,7 @@ public interface IFacadePart3 extends IFacadePart2 {
 	 *            The program to check.
 	 * @return true if the program is well-formed; false otherwise.
 	 */
-	boolean isWellFormed(Program program);
+	boolean isWellFormed(LanguageProgram program);
 
 	/**
 	 * Add the given Buzam to the given world.

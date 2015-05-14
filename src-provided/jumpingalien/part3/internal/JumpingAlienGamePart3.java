@@ -22,7 +22,7 @@ import jumpingalien.model.gameobject.Buzam;
 import jumpingalien.model.gameobject.Gore;
 import jumpingalien.model.gameobject.Mazub;
 import jumpingalien.model.gameobject.Plant;
-import jumpingalien.model.program.Program;
+import jumpingalien.model.program.LanguageProgram;
 import jumpingalien.model.gameobject.School;
 import jumpingalien.model.gameobject.Shark;
 import jumpingalien.model.gameobject.Slime;
@@ -157,7 +157,7 @@ public class JumpingAlienGamePart3 extends JumpingAlienGame {
 		}
 		int buzamX = Integer.parseInt(map.getAttribute(ATTR_BUZAM_INITIAL_X));
 		int buzamY = Integer.parseInt(map.getAttribute(ATTR_BUZAM_INITIAL_Y));
-		Optional<Program> program = parseProgram(Resources.BUZAM_PROGRAM_FILENAME);
+		Optional<LanguageProgram> program = parseProgram(Resources.BUZAM_PROGRAM_FILENAME);
 		if (program.isPresent() && random.nextBoolean()) {
 			buzam = getFacade().createBuzamWithProgram(buzamX, buzamY,
 					Resources.BUZAM_SPRITESET, program.get());
@@ -170,14 +170,14 @@ public class JumpingAlienGamePart3 extends JumpingAlienGame {
 	}
 
 	@SuppressWarnings("unchecked")
-	private Optional<Program> parseProgram(String filename) {
+	private Optional<LanguageProgram> parseProgram(String filename) {
 		try {
 			InputStream is = GUIUtils.openResource(filename);
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
 			String text = br.lines().collect(Collectors.joining("\n"));
 			ParseOutcome<?> outcome = getFacade().parse(text);
 			if (outcome.isSuccess()) {
-				return Optional.ofNullable((Program) outcome.getResult());
+				return Optional.ofNullable((LanguageProgram) outcome.getResult());
 			} else {
 				System.out.println("Errors while parsing program '" + filename
 						+ "':");
@@ -237,7 +237,7 @@ public class JumpingAlienGamePart3 extends JumpingAlienGame {
 	}
 
 	private void addPlant(MapObject obj) {
-		Optional<Program> program = parseProgram(Resources.PLANT_PROGRAM_FILENAME);
+		Optional<LanguageProgram> program = parseProgram(Resources.PLANT_PROGRAM_FILENAME);
 		if (program.isPresent() && random.nextBoolean()) {
 			getFacade().addPlant(
 					getWorld(),
@@ -259,7 +259,7 @@ public class JumpingAlienGamePart3 extends JumpingAlienGame {
 	}
 
 	private void addShark(MapObject obj) {
-		Optional<Program> program = parseProgram(Resources.SHARK_PROGRAM_FILENAME);
+		Optional<LanguageProgram> program = parseProgram(Resources.SHARK_PROGRAM_FILENAME);
 		if (program.isPresent() && random.nextBoolean()) {
 			getFacade().addShark(
 					getWorld(),
@@ -281,7 +281,7 @@ public class JumpingAlienGamePart3 extends JumpingAlienGame {
 	}
 
 	private void addSlime(MapObject obj) {
-		Optional<Program> program = parseProgram(Resources.SLIME_PROGRAM_FILENAME);
+		Optional<LanguageProgram> program = parseProgram(Resources.SLIME_PROGRAM_FILENAME);
 		int school = obj.getIntAttribute("school").orElse(0);
 		if (program.isPresent() && random.nextBoolean()) {
 			getFacade().addSlime(

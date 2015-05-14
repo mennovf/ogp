@@ -2,7 +2,7 @@ package jumpingalien.part3.tests;
 
 import static org.junit.Assert.*;
 import static org.junit.Assume.*;
-import jumpingalien.model.program.Program;
+import jumpingalien.model.program.LanguageProgram;
 import jumpingalien.part3.facade.Facade;
 import jumpingalien.part3.facade.IFacadePart3;
 import jumpingalien.part3.programs.ParseOutcome;
@@ -30,7 +30,7 @@ public class PartialFacadeTest {
 		IFacadePart3 facade = new Facade();
 		ParseOutcome<?> outcome = facade.parse("double d := 1.0; break;");
 		assumeTrue(outcome.isSuccess());
-		assertFalse(facade.isWellFormed((Program) outcome.getResult()));
+		assertFalse(facade.isWellFormed((LanguageProgram) outcome.getResult()));
 	}
 	
 	@Test
@@ -38,6 +38,6 @@ public class PartialFacadeTest {
 		IFacadePart3 facade = new Facade();
 		ParseOutcome<?> outcome = facade.parse("double d := 1.0; while d < 3 do if random 2 <= 1 then break; fi done");
 		assumeTrue(outcome.isSuccess());
-		assertTrue(facade.isWellFormed((Program) outcome.getResult()));
+		assertTrue(facade.isWellFormed((LanguageProgram) outcome.getResult()));
 	}
 }

@@ -13,7 +13,7 @@ import jumpingalien.model.Vector;
 import jumpingalien.model.gameobject.programmable.DuckProgrammable;
 import jumpingalien.model.gameobject.programmable.JumpProgrammable;
 import jumpingalien.model.gameobject.programmable.RunProgrammable;
-import jumpingalien.model.program.Program;
+import jumpingalien.model.program.LanguageProgram;
 import jumpingalien.model.reactions.GameObjectCollisionDamager;
 import jumpingalien.model.reactions.TerrainCollisionDamager;
 import jumpingalien.model.reactions.TerrainCollisionDamager.TerrainDamageInfo;
@@ -173,7 +173,7 @@ public class Mazub extends GameObject implements RunProgrammable, JumpProgrammab
 	 * 			| new.getCurrentSprite() == sprites[0]
 	 */
 	protected Mazub(Vector<Double> position, Sprite[] sprites,
-			double vxInit, double vxMax, double direction, Program program)
+			double vxInit, double vxMax, double direction, LanguageProgram program)
 			throws NullPointerException, IllegalArgumentException{
 		
 		super(Constants.mazubBeginHealth, Constants.mazubMaxHealth,

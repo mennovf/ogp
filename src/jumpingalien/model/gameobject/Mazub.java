@@ -302,7 +302,7 @@ public class Mazub extends GameObject implements RunProgrammable, JumpProgrammab
 	
 	
 	@Override
-	protected void handleStep(double dt) {
+	protected void handleStats(double dt) {
 		
 		if (isDucking && wantsToStandUp && canStand()){
 			this.isDucking = false;

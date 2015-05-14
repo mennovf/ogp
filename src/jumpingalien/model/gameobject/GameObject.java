@@ -893,6 +893,7 @@ public abstract class GameObject implements Collidable {
 			double stepTime = this.motion.step(dt - time);
 			time += stepTime;
 			
+			this.handleStats(stepTime);
 			this.handleStep(stepTime);
 			
 			if (this.isHealthZero()) {
@@ -964,12 +965,25 @@ public abstract class GameObject implements Collidable {
 	
 	
 	/**
-	 * Handles a time step of dt and updates properties accordingly.
+	 * Updates all properties that are not dependent of the running program.
+	 * This method gets called before handleStep.
+	 * 
+	 * @param dt
+	 * 			The time step that has passed since the last update.
+	 */
+	protected void handleStats(double dt) {}
+	
+	
+	/**
+	 * Handles a time step of dt and updates properties accordingly. This only gets called
+	 * when the game object is not being controlled by a program. All stats that should be
+	 * updated even when there is a program running should be updated in handleStats. This method
+	 * gets called after handleStats.
 	 * 
 	 * @param dt
 	 * 			The length of the time step.
 	 */
-	protected abstract void handleStep(double dt);
+	protected void handleStep(double dt) {}
 	
 	
 	/**

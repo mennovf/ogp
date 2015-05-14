@@ -205,32 +205,49 @@ public class Shark extends GameObject implements RunProgrammable, JumpProgrammab
 	
 	
 	@Override
-	protected void handleStep(double dt) {
-		
-		if (moveTimeLeft <= 0) {
-			
-			this.stopRun();
-			
-			double direction = Math.rint(Math.random()) == 0 ? -1.0 : 1.0;
-			this.startRun(direction);
-			
-		} else {
-			
-			moveTimeLeft -= dt;
-		}
-	}	
-	
-	
-	@Override
-	protected void handleCollisions(Set<GameObject> collidingObjects,
-			Set<Tile> collidingTiles) {
-		super.handleCollisions(collidingObjects, collidingTiles);
-		
+	protected void handleStats(double dt) {
 		if (!(this.onGround() || this.topInWater())) {
 			this.setAcceleration(this.getAcceleration().setY(Constants.gravityAcceleration));
 		} else if (this.getAcceleration().y == Constants.gravityAcceleration) {
 			this.setSpeed(this.getSpeed().setY(0.0));
 			this.setAcceleration(this.getAcceleration().setY(0.0));
+		}
+	}
+	
+	
+	@Override
+	protected void handleStep(double dt) {
+		
+		if (moveTimeLeft <= 0) {
+			
+			this.stopRun();
+			this.stopMoveVertical();
+			this.stopJump();
+			
+			double direction = Math.rint(Math.random()) == 0 ? -1.0 : 1.0;
+			moveTimeLeft = Constants.sharkMinMoveTime + Math.random() *
+					(Constants.sharkMaxMoveTime - Constants.sharkMinMoveTime);
+			
+			this.startRun(direction);
+			
+			// If there have been 4 move periods, jump 50% of the times
+			if (movePeriodCount > 4 && Math.rint(Math.random()) == 0
+					&& (this.onGround() || this.bottomInWater())) {
+				
+				movePeriodCount = 0;
+				this.startJump();
+			
+			// Otherwise move up or down
+			} else {
+				
+				double vertAccDir = Math.rint(Math.random()) == 0 ? -1.0 : 1.0;
+				movePeriodCount += 1;
+				this.startMoveVertical(vertAccDir);
+			}
+			
+		} else {
+			
+			moveTimeLeft -= dt;
 		}
 	}
 	
@@ -244,24 +261,8 @@ public class Shark extends GameObject implements RunProgrammable, JumpProgrammab
 	 */
 	@Override
 	public void startRun(double direction) {
-		
 		this.setFacing(direction);
 		this.setAcceleration(this.getAcceleration().setX(Constants.sharkHorizontalAcceleration * direction));
-		moveTimeLeft = Constants.sharkMinMoveTime + Math.random() *
-				(Constants.sharkMaxMoveTime - Constants.sharkMinMoveTime);
-		
-		// If there have been 4 move periods, jump 50% of the times
-		if (movePeriodCount > 4 && Math.rint(Math.random()) == 0
-				&& (this.onGround() || this.bottomInWater())) {
-			
-			this.startJump();
-		
-		// Otherwise move up or down
-		} else {
-			
-			double vertAccDir = Math.rint(Math.random()) == 0 ? -1.0 : 1.0;
-			this.startMoveVertical(vertAccDir);
-		}
 	}
 	
 	
@@ -270,10 +271,7 @@ public class Shark extends GameObject implements RunProgrammable, JumpProgrammab
 	 */
 	@Override
 	public void stopRun() {
-		
 		this.setSpeed(this.getSpeed().setX(0.0));
-		this.stopMoveVertical();
-		this.stopJump();
 	}
 	
 	
@@ -282,10 +280,8 @@ public class Shark extends GameObject implements RunProgrammable, JumpProgrammab
 	 */
 	@Override
 	public void startJump() {
-		
 		this.setSpeed(this.getSpeed().setY(Constants.sharkInitialJumpSpeed));
 		this.jumping = true;
-		movePeriodCount = 0;
 	}
 	
 	
@@ -296,7 +292,6 @@ public class Shark extends GameObject implements RunProgrammable, JumpProgrammab
 	 */
 	@Override
 	public void stopJump() {
-		
 		if (this.getSpeed().y > 0) {
 			this.setSpeed(this.getSpeed().setY(0.0));
 		}
@@ -312,9 +307,7 @@ public class Shark extends GameObject implements RunProgrammable, JumpProgrammab
 	 * 			1.0 means up, -1.0 means down.
 	 */
 	private void startMoveVertical(double direction) {
-		
 		this.setAcceleration(this.getAcceleration().setY(Constants.sharkVerticalAcceleration * direction));
-		movePeriodCount += 1;
 	}
 	
 	

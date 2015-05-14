@@ -19,7 +19,33 @@ public class If implements Statement {
 	
 	
 	
-	public If(Expression<Boolean> condition, Statement trueBranch, Statement falseBranch) {
+	/**
+	 * Creates a new if statement with the given properties.
+	 * 
+	 * @param condition
+	 * 			The condition of the if statement.
+	 * 
+	 * @param trueBranch
+	 * 			The statement that needs to be executed when the condition
+	 * 			evaluates to true.
+	 * 
+	 * @param falseBranch
+	 * 			The statement that needs to be executed when the condition
+	 * 			evaluates to false.
+	 * 
+	 * @throws NullPointerException
+	 * 			Throws a NullPointerException when either of the condition or the trueBranch is null.
+	 * 			| condition == null || trueBranch == null
+	 */
+	public If(Expression<Boolean> condition, Statement trueBranch, Statement falseBranch) throws NullPointerException {
+		
+		if (condition == null) {
+			throw new NullPointerException("The condition can not be null.");
+		}
+		if (trueBranch == null) {
+			throw new NullPointerException("The true branch can not be null.");
+		}
+		
 		this.condition = condition;
 		this.trueBranch = trueBranch;
 		this.falseBranch = falseBranch;
@@ -33,7 +59,10 @@ public class If implements Statement {
 			this.conditionEvaluation = condition.evaluate(globals, this.getOwnCallStack(callStack));
 			this.conditionEvaluated = true;
 		}
-		return currentBranch().advanceTime(dt, globals, this.getOwnCallStack(callStack));
+		if (this.currentBranch() == null) {
+			return dt;
+		}
+		return this.currentBranch().advanceTime(dt, globals, this.getOwnCallStack(callStack));
 	}
 
 	
@@ -44,13 +73,15 @@ public class If implements Statement {
 	
 	@Override
 	public boolean isFinished() {
-		return this.forceFinished || (this.conditionEvaluated && this.currentBranch().isFinished());
+		return this.forceFinished || (this.conditionEvaluated && (this.currentBranch() == null || this.currentBranch().isFinished()));
 	}
 
 	
 	@Override
 	public void reset() {
-		this.currentBranch().reset();
+		if (this.currentBranch() != null) {
+			this.currentBranch().reset();
+		}
 		this.conditionEvaluated = false;
 		this.conditionEvaluation = false;
 		this.forceFinished = false;
@@ -67,6 +98,6 @@ public class If implements Statement {
 	@Override
 	public boolean isWellFormed(CallStack callStack) {
 		return this.trueBranch.isWellFormed(this.getOwnCallStack(callStack))
-			&& this.falseBranch.isWellFormed(this.getOwnCallStack(callStack));
+			&& (this.falseBranch == null || this.falseBranch.isWellFormed(this.getOwnCallStack(callStack)));
 	}
 }

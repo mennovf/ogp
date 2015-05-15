@@ -685,6 +685,23 @@ public class World {
 	
 	
 	/**
+	 * Returns a set of all collidables (game objects and tiles) colliding with the given object.
+	 * 
+	 * @param object
+	 * 			The object to get colliding collidables with.
+	 * 
+	 * @return A set containing all collidables the given object collides with.
+	 */
+	public Set<Collidable> getCollidablesCollidingWithObject(GameObject object) {
+		
+		Set<Collidable> collidables = new HashSet<Collidable>();
+		collidables.addAll(this.getObjectsCollidingWithObject(object));
+		collidables.addAll(this.getTilesCollidingWithObject(object));
+		return collidables;
+	}
+	
+	
+	/**
 	 * Advances the time in this game world with the given time interval and updates
 	 * position, speed and acceleration of all game objects in this game world.
 	 * 

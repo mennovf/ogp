@@ -922,10 +922,9 @@ public abstract class GameObject implements Collidable {
 				damager.advanceTime(stepTime);
 			}
 
-			Set<GameObject> collidingObjects = this.getWorld().getObjectsCollidingWithObject(this);
-			Set<Tile> collidingTiles = this.getWorld().getTilesCollidingWithObject(this);
+			Set<Collidable> collidables = this.getWorld().getCollidablesCollidingWithObject(this);
 			
-			this.handleCollisions(collidingObjects, collidingTiles);
+			this.handleCollisions(collidables);
 
 			this.getWorld().getCommandQueue().execute();
 		}
@@ -943,11 +942,7 @@ public abstract class GameObject implements Collidable {
 	 * @param collidingTiles
 	 * 			The tiles with which the game object is colliding.
 	 */
-	private void handleBasicMovementCollisions(Set<GameObject> collidingObjects, Set<Tile> collidingTiles) {
-		
-		Set<Collidable> collidables = new HashSet<Collidable>();
-		collidables.addAll(collidingObjects);
-		collidables.addAll(collidingTiles);
+	private void handleBasicMovementCollisions(Set<Collidable> collidables) {
 		
 		Set<Collidable> hardOnes = new HashSet<Collidable>();
 		
@@ -1027,13 +1022,9 @@ public abstract class GameObject implements Collidable {
 	 * @param collidingTiles
 	 * 			The tiles this game object collides with.
 	 */
-	protected void handleCollisions(Set<GameObject> collidingObjects, Set<Tile> collidingTiles){
+	private void handleCollisions(Set<Collidable> collidables){
 		
-		this.handleBasicMovementCollisions(collidingObjects, collidingTiles);
-
-		Set<Collidable> collidables = new HashSet<Collidable>();
-		collidables.addAll(collidingObjects);
-		collidables.addAll(collidingTiles);
+		this.handleBasicMovementCollisions(collidables);
 		
 		for (Collidable collidable : collidables){
 			//Delegate the collision to both parties involved

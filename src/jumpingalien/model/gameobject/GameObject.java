@@ -1178,7 +1178,7 @@ public abstract class GameObject implements Collidable {
 	 * 
 	 * @return true if this game object and the rectangle overlap.
 	 */
-	private boolean doesOverlapWithRect(Vector<Integer> pos, Vector<Integer> size) {
+	public boolean doesOverlapWithRect(Vector<Integer> pos, Vector<Integer> size) {
 		
 		Vector<Integer> selfPos = this.getPositionInPixels();
 		Vector<Integer> selfSize = this.getSizeInPixels();

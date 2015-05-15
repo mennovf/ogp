@@ -2,9 +2,11 @@ package jumpingalien.model.program;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import jumpingalien.model.Collidable;
 import jumpingalien.model.Vector;
+import jumpingalien.model.Utilities;
 import jumpingalien.model.gameobject.GameObject;
 import jumpingalien.model.gameobject.Mazub;
 import jumpingalien.model.gameobject.Plant;
@@ -182,8 +184,54 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 
 	@Override
 	public Expression<Collidable> createSearchObject(Expression<?> direction, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Expression<Collidable>() {
+			
+			@Override
+			public Collidable evaluate(Map<String, Object> globals, CallStack callStack) {
+				GameObject gameObject = callStack.getProgram().getGameObject();
+				World world = gameObject.getWorld();
+				
+				Vector<Integer> bottomLeft = new Vector<>(0, 0);
+				Vector<Integer> size = new Vector<>(0, 0);
+				
+				switch (((Expression<Direction>) direction).evaluate(globals, callStack)) {
+				case LEFT:
+					bottomLeft = new Vector<>(0, gameObject.getPositionInPixels().y);
+					size = new Vector<>(gameObject.getPositionInPixels().x, gameObject.getSizeInPixels().y);
+					break;
+					
+				case RIGHT:
+					bottomLeft = new Vector<>(gameObject.getTopRightPixel().x, gameObject.getPositionInPixels().y);
+					size = new Vector<>(world.getSizeInPixels().x - gameObject.getTopRightPixel().x, gameObject.getSizeInPixels().y);
+					break;
+					
+				case UP:
+					bottomLeft = new Vector<>(gameObject.getPositionInPixels().x, gameObject.getTopRightPixel().y);
+					size = new Vector<>(gameObject.getSizeInPixels().x, world.getSizeInPixels().y - gameObject.getTopRightPixel().y);
+					break;
+					
+				case DOWN:
+					bottomLeft = new Vector<>(gameObject.getPositionInPixels().x, 0);
+					size = new Vector<>(gameObject.getSizeInPixels().x, gameObject.getPositionInPixels().y);
+					break;
+
+				default:
+					break;
+				}
+				
+				Set<Collidable> collidables = world.getCollidablesInRectangle(bottomLeft, size);
+				
+				return collidables.stream().reduce(null, (a, b) -> {
+					if (a == null) return b;
+					if (Utilities.distanceBetween(a.getCenterInPixels(), gameObject.getCenterInPixels()) <
+							Utilities.distanceBetween(b.getCenterInPixels(), gameObject.getCenterInPixels())) {
+						return a;
+					} else {
+						return b;
+					}
+				});
+			}
+		};
 	}
 
 	@Override

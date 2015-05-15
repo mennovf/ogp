@@ -702,6 +702,52 @@ public class World {
 	
 	
 	/**
+	 * Returns a set of all collidables in the given rectangle.
+	 * 
+	 * @param bottomLeft
+	 * 			The bottom left pixel's location in pixels.
+	 * 
+	 * @param size
+	 * 			The size of the rectangle in pixels.
+	 * 
+	 * @return A set of all collidables in the given rectangle.
+	 * 
+	 * @throws NullPointerException
+	 * 			Throws a NullPointerException when either of the paramaters is null.
+	 * 			| bottomLeft == null || size == null
+	 */
+	public Set<Collidable> getCollidablesInRectangle(Vector<Integer> bottomLeft, Vector<Integer> size) throws NullPointerException {
+		
+		if (bottomLeft == null || size == null) {
+			throw new NullPointerException("The rectangle's parameters can not be null.");
+		}
+		
+		Set<Collidable> collidables = new HashSet<Collidable>();
+		
+		for (GameObject obj : this.getGameObjects()) {
+			
+			if (obj.doesOverlapWithRect(bottomLeft, size)) {
+				
+				collidables.add(obj);
+			}
+		}
+		
+		ArrayList<Vector<Integer>> positions = this.getTilePositionsInRectangle(bottomLeft,
+				Vector.add(bottomLeft, size));
+		
+		for (Vector<Integer> position : positions) {
+			TileType type = this.getTileTypeOfTile(position);
+			if (!type.isPassable()) {
+				Tile tile = new Tile(position, this.getTileSize(), type);
+				collidables.add(tile);
+			}
+		}
+		
+		return collidables;
+	}
+	
+	
+	/**
 	 * Advances the time in this game world with the given time interval and updates
 	 * position, speed and acceleration of all game objects in this game world.
 	 * 

@@ -124,4 +124,20 @@ public class Utilities {
 		double[] vs = {v.x, v.y};
 		return vs;
 	}
+	
+	/**
+	 * Calculates the distance between the two given vectors.
+	 * 
+	 * @param a
+	 * 			The first vector.
+	 * 
+	 * @param b
+	 * 			The second vector.
+	 * 
+	 * @return The distance between the two vectors.
+	 * 			| Math.sqrt(Math.pow(a.x.doubleValue() - b.x.doubleValue(), 2.0) + Math.pow(a.y.doubleValue() - b.y.doubleValue(), 2.0))
+	 */
+	public static double distanceBetween(Vector<Integer> a, Vector<Integer> b) {
+		return Math.sqrt(Math.pow(a.x.doubleValue() - b.x.doubleValue(), 2.0) + Math.pow(a.y.doubleValue() - b.y.doubleValue(), 2.0));
+	}
 }

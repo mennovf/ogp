@@ -944,19 +944,12 @@ public abstract class GameObject implements Collidable {
 	 */
 	private void handleBasicMovementCollisions(Set<Collidable> collidables) {
 		
-		Set<Collidable> hardOnes = new HashSet<Collidable>();
-		
 		for (Collidable collidable: collidables) {
 			if (!collidable.isPassable()) {
 
 				Vector<Integer> overlap = getKindOfOverlapWith(collidable);
 
-				if (overlap.x == 0 || overlap.y == 0) {
-					continue;
-				}
-
-				if (Math.abs(overlap.x) == Math.abs(overlap.y)) {
-					hardOnes.add(collidable);
+				if (overlap.x == 0 || overlap.y == 0 || Math.abs(overlap.x) == Math.abs(overlap.y)) {
 					continue;
 				}
 

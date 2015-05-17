@@ -3,6 +3,7 @@ package jumpingalien.model.program;
 import java.util.Map;
 
 import jumpingalien.model.gameobject.GameObject;
+import jumpingalien.model.program.exception.JumpingAlienLanguageRuntimeException;
 import jumpingalien.model.program.statement.CallStack;
 import jumpingalien.model.program.statement.Statement;
 
@@ -34,6 +35,13 @@ public class LanguageProgram implements Program{
 	 */
 	private double excessTime; 
 	
+	
+	/**
+	 * Rememberers whether a JumpingAlienLanguageRuntimeException has occurred during
+	 * previous excecutions.
+	 */
+	private boolean errorOcurred;
+	
 
 	/**
 	 * Creates a new program with the given parameters.
@@ -57,6 +65,7 @@ public class LanguageProgram implements Program{
 		this.mainStatement = mainStatement;
 		this.globalVariables = globalVariables;
 		this.excessTime = 0;
+		this.errorOcurred = false;
 	}
 	
 	
@@ -95,7 +104,15 @@ public class LanguageProgram implements Program{
 	 */
 	@Override
 	public void advanceTime(double dt) {
-		this.excessTime = this.mainStatement.advanceTime(dt + this.excessTime, this.globalVariables, new CallStack(this));
+		if (!this.errorOcurred) {
+			try {
+				this.excessTime = this.mainStatement.advanceTime(dt + this.excessTime, this.globalVariables, new CallStack(this));
+			}
+			catch (JumpingAlienLanguageRuntimeException e) {
+				this.errorOcurred = true;
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	

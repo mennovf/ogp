@@ -5,7 +5,7 @@ import java.util.Map;
 import jumpingalien.model.program.expression.Expression;
 
 /**
- * A class represnting a while loop.
+ * A class representing a while loop.
  * 
  * @author Rugen Heidbuchel, Menno Vanfrachem
  */

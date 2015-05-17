@@ -46,12 +46,4 @@ public class Assignment extends SimpleStatement {
 		}
 		globals.put(this.identifier, valueExpr.evaluate(globals, this.getOwnCallStack(callStack)));
 	}
-
-
-
-	@Override
-	@Immutable
-	public boolean isWellFormed(CallStack callStack) {
-		return true;
-	}
 }

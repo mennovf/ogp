@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import jumpingalien.model.Collidable;
 import jumpingalien.model.gameobject.*;
@@ -95,20 +96,25 @@ public class ForEachLoop extends Loop {
 		World world = callStack.getProgram().getGameObject().getWorld();
 		this.objects = new ArrayList<>(this.getObjects(world));
 
-		this.objects = this.objects.stream()
+		Stream<? extends Collidable> processed = this.objects.stream()
 		.filter((object)->{
 			globals.put(this.variable, object);
 			return this.whereExpression.evaluate(globals, callStack);
-		})
-		.sorted((o1, o2)->{
-			globals.put(this.variable, o1);
-			Double left = this.sortExpression.evaluate(globals, callStack);
+		});
+		
+		if (sortExpression != null) {
+			processed = processed.sorted((o1, o2)->{
 
-			globals.put(this.variable, o2);
-			Double right = this.sortExpression.evaluate(globals, callStack);
-			
-			return (int)Math.signum(comparer.apply(left, right));
-		}).collect(Collectors.toList());
+				globals.put(this.variable, o1);
+				Double left = this.sortExpression.evaluate(globals, callStack);
+	
+				globals.put(this.variable, o2);
+				Double right = this.sortExpression.evaluate(globals, callStack);
+				
+				return (int)Math.signum(comparer.apply(left, right));
+			});
+		}
+		this.objects = processed.collect(Collectors.toList());
 
 		this.currentObjectIndex = 0;
 	}

@@ -1,6 +1,5 @@
 // Generated from JumpingAlienProg.g by ANTLR 4.5
 package jumpingalien.part3.programs.internal.generated;
-import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**

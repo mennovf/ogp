@@ -3,7 +3,6 @@ package jumpingalien.part3.tests;
 import static org.junit.Assert.*;
 
 import java.util.HashMap;
-import java.util.Random;
 
 import jumpingalien.model.program.LanguageProgram;
 import jumpingalien.model.program.ProgramFactory;

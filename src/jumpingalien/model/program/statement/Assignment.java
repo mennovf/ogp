@@ -2,7 +2,6 @@ package jumpingalien.model.program.statement;
 
 import java.util.Map;
 
-import be.kuleuven.cs.som.annotate.Immutable;
 import jumpingalien.model.program.exception.JumpingAlienLanguageRuntimeException;
 import jumpingalien.model.program.expression.Expression;
 

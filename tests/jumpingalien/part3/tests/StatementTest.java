@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BinaryOperator;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -14,10 +13,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import jumpingalien.model.Utilities;
 import jumpingalien.model.Vector;
 import jumpingalien.model.gameobject.Plant;
-import jumpingalien.model.gameobject.Shark;
 import jumpingalien.model.program.LanguageProgram;
 import jumpingalien.model.program.statement.*;
 import jumpingalien.model.program.expression.*;

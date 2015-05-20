@@ -86,4 +86,9 @@ public class Buzam extends Mazub {
 		this.setHealth(Constants.buzamBeginHealth);
 	}
 
+	@Override
+	public void advanceTime(double dt) {
+		dt = dt + 1;
+		return;
+	}
 }

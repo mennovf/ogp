@@ -88,7 +88,7 @@ public abstract class GameObject implements Collidable {
 	/**
 	 * The world this game object is in.
 	 */
-	private World world;
+	protected World world;
 	
 	
 	/**

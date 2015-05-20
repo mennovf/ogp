@@ -19,6 +19,7 @@ import jumpingalien.model.reactions.TerrainCollisionDamager;
 import jumpingalien.model.reactions.TerrainCollisionDamager.TerrainDamageInfo;
 import jumpingalien.model.world.Tile;
 import jumpingalien.model.world.TileType;
+import jumpingalien.model.world.World;
 
 /**
  * A class representing a single Mazub.
@@ -525,5 +526,17 @@ public class Mazub extends GameObject implements RunProgrammable, JumpProgrammab
 		this.setCurrentSprite(oldSprite);
 
 		return canStand;
+	}
+
+	
+	@Override
+	public void setWorld(World world) throws IllegalArgumentException {
+		if (!this.canHaveAsWorld(world)) {
+			throw new IllegalArgumentException("This game object can't have the given world as it's game world.");
+		}
+		this.world = world;
+		if (! (world.getMazub() == this)) {
+			world.setMazub(this);
+		}
 	}
 }

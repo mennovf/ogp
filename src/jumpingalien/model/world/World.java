@@ -468,9 +468,6 @@ public class World {
 	 */
 	public boolean containsGameObject(GameObject gameObject) {
 		//TODO: Deze documentatie moet nagekeken worden voor de @return en @Basic
-		if (gameObject instanceof Mazub) {
-			return this.getMazub() == (Mazub) gameObject;
-		}
 		return objects.contains(gameObject);
 	}
 	
@@ -514,15 +511,8 @@ public class World {
 			throw new IllegalArgumentException("The GameObject can't be null or terminated.");
 		}
 		
-		if (object instanceof Mazub) {
-			if (this.getMazub() != null) {
-				throw new IllegalArgumentException("This game world already has a mazub.");
-			}
-			this.setMazub((Mazub) object);
-		} else {
-			this.objects.add(object);
-			object.setWorld(this);
-		}
+		this.objects.add(object);
+		object.setWorld(this);
 	}
 	
 	

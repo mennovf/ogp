@@ -139,14 +139,22 @@ public class ForEachLoop extends Loop {
 	 * @return a set of collidables of Kind this.kind.
 	 */
 	private Set<? extends Collidable> getObjects(World world) {
+		Set<? extends Collidable> result;
 		switch (this.kind) {
 		case TERRAIN:
-			return world.getTiles();
+			result = world.getTiles();
+			break;
 		case ANY:
-			return world.getCollidables();
+			result = world.getCollidables();
+			break;
 		default:
-			return world.getGameObjectsWithClass(ForEachLoop.kindToClass.get(this.kind));
+			result = world.getGameObjectsWithClass(ForEachLoop.kindToClass.get(this.kind));
+			break;
 		}
+		if (this.kind != Kind.TERRAIN) {
+			result.remove(this);
+		}
+		return result;
 	}
 	
 	

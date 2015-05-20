@@ -2,6 +2,7 @@ package jumpingalien.model.program;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import jumpingalien.model.Collidable;
@@ -135,12 +136,12 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 
 	@Override
 	public Expression<Boolean> createEquals(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
-		return new BinaryOperation<Boolean, Object, Object>((Expression<Object>)left, (Expression<Object>)right, (a, b) -> a.equals(b));
+		return new BinaryOperation<Boolean, Object, Object>((Expression<Object>)left, (Expression<Object>)right, (a, b) -> Objects.equals(a, b));
 	}
 
 	@Override
 	public Expression<Boolean> createNotEquals(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
-		return new BinaryOperation<Boolean, Object, Object>((Expression<Object>)left, (Expression<Object>)right, (a, b) -> ! a.equals(b));
+		return new BinaryOperation<Boolean, Object, Object>((Expression<Object>)left, (Expression<Object>)right, (a, b) -> ! Objects.equals(a, b));
 	}
 
 	@Override

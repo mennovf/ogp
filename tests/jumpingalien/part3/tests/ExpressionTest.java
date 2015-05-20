@@ -4,10 +4,14 @@ import static org.junit.Assert.*;
 
 import java.util.HashMap;
 
+import jumpingalien.model.Utilities;
+import jumpingalien.model.Vector;
+import jumpingalien.model.gameobject.GameObject;
 import jumpingalien.model.program.LanguageProgram;
 import jumpingalien.model.program.ProgramFactory;
 import jumpingalien.model.program.expression.*;
 import jumpingalien.model.program.statement.*;
+import jumpingalien.part2.tests.TestUtilities;
 import jumpingalien.part3.programs.SourceLocation;
 
 import org.junit.After;
@@ -128,5 +132,17 @@ public class ExpressionTest {
 	public void Negation_ok() {
 		assertTrue(this.runExpression(pf.createNot(new Value<Boolean>(false), sl)));
 		assertFalse(this.runExpression(pf.createNot(new Value<Boolean>(true), sl)));
+	}
+	
+	
+	@Test
+	public void equalsNull() {
+		assertTrue(this.runExpression(pf.createEquals(new Value<GameObject>(null), new Value<GameObject>(null), sl)));
+	}
+	
+	
+	@Test
+	public void NotEqualsNull() {
+		assertTrue(this.runExpression(pf.createNotEquals(new Value<GameObject>(null), new Value<GameObject>(TestUtilities.shark(new Vector<>(0.0, 0.0))), sl)));
 	}
 }

@@ -101,6 +101,10 @@ public class Facade extends jumpingalien.part2.facade.Facade implements IFacadeP
 
 	@Override
 	public Sprite getCurrentSprite(Buzam alien) {
+		//TODO: Ugly hack to make buzam dissapear when he dies.
+		if (!alien.isAlive()) {
+			return null;
+		}
 		return alien.getCurrentSprite();
 	}
 

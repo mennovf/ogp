@@ -2,5 +2,3 @@
 	+ Plant Tests
 	+ Shark Tests
 - BUZAM FIXEN
-- Bij casten naar int (Double.toIntValue()) moet ook nog rekening worden gehouden met overflow
-  op een "total" manier.

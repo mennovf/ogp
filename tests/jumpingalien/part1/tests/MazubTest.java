@@ -346,11 +346,9 @@ public class MazubTest {
 		assertEquals(mazub.getHeight(), height);
 	}
 	
+	// Run this test a couple of times because it uses a Shark which is random.
 	@Test
 	public void duck_underObject(){
-		
-		// This test probably fails due to an error in JUnit
-		// It does pass when you run it in debug mode.
 		
 		Vector<Double> objPos = Utilities.pixelsVectorToMeters(new Vector<>(70, 145));
 		Shark shark = TestUtilities.shark(objPos);

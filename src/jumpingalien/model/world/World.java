@@ -294,7 +294,7 @@ public class World {
 		Vector<Integer> bottomLeftTile = this.getTileContainingPixel(bottomLeftPixel);
 		Vector<Integer> topRightTile = this.pixelInWorld(topRightRectPixel) ?
 				this.getTileContainingPixel(topRightRectPixel) :
-				this.getTileContainingPixel(Utilities.clipVectorInRange(new Vector<>(0, 0), this.getSizeInPixels(), topRightPixel));
+				this.getTileContainingPixel(Utilities.clipVectorInRange(new Vector<>(0, 0), Vector.add(this.getSizeInPixels(), new Vector<>(-1, -1)), topRightRectPixel));
 		
 		int blockWidth = topRightTile.x - bottomLeftTile.x + 1;
 		int blockHeight = topRightTile.y - bottomLeftTile.y + 1;

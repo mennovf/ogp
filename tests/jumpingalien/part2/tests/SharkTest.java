@@ -109,7 +109,7 @@ public class SharkTest {
 
 	@Test
 	public void mazubDamage() {
-		mazub.setPositionInMeters(new Vector<>(70 * 0.01, 70 * 0.01));
+		mazub.setPositionInMeters(new Vector<>(70 * 0.01, 70 * 0.01 + shark.getSizeInMeters().y - 0.01));
 		world.advanceTime(Constants.maxTimeInterval);
 		
 		assertEquals(Constants.sharkBeginHealth + Constants.sharkEnemyDamage, shark.getHealth());
@@ -121,6 +121,7 @@ public class SharkTest {
 		assertEquals(Constants.sharkBeginHealth + 2 * Constants.sharkEnemyDamage, shark.getHealth());
 	}
 
+	// Run this test about ten times, the randomness tends to make it fail.
 	@Test
 	public void slimeDamage() {
 		School school = new School();

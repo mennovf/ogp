@@ -396,7 +396,7 @@ public class WorldTest {
 		assertFalse(world.containsGameObject(shark));
 		
 		world.removeGameObject(mazub);
-		assertFalse(world.containsGameObject(mazub));
+		assertFalse(world.getMazub() == mazub);
 		
 		world.setMazub(mazub);
 		assertTrue(world.containsGameObject(mazub));

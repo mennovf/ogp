@@ -904,6 +904,7 @@ public abstract class GameObject implements Collidable {
 		double time = 0.0;
 		
 		this.handleStep(0.0);
+		this.handleStats(0.0);
 		
 		while (time < dt) {
 			

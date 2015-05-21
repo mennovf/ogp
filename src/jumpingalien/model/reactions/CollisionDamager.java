@@ -74,7 +74,7 @@ public abstract class CollisionDamager {
 	 * 			| (this.timeSince > this.timeInterval) && !(owner.isHealthZero())
 	 */
 	protected boolean canTakeDamage() {
-		return (this.timeSince > this.timeInterval) && !(owner.isHealthZero());
+		return (this.timeSince >= this.timeInterval) && !(owner.isHealthZero());
 	}
 
 	/**

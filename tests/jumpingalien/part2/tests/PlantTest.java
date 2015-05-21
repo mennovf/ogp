@@ -117,7 +117,6 @@ public class PlantTest {
 		mazub.setHealth(Constants.mazubMaxHealth - Constants.mazubPlantHealthGain + 1);
 		
 		world.advanceTime(Constants.maxTimeInterval);
-		world.advanceTime(Constants.maxTimeInterval);
 		
 		assertTrue(plant.isHealthZero());
 	}

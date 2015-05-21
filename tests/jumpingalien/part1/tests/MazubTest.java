@@ -498,7 +498,7 @@ public class MazubTest {
 	
 	@Test 
 	public void waterDamage(){
-		mazub.setPositionInMeters(Utilities.pixelsVectorToMeters(new Vector<>(70, 140)));
+		mazub.setPositionInMeters(Utilities.pixelsVectorToMeters(new Vector<>(70, 70)));
 		world.setTileType(new Vector<>(1, 1), TileType.WATER);
 		
 		double eps = 1e-5;

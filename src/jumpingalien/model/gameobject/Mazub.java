@@ -539,4 +539,14 @@ public class Mazub extends GameObject implements RunProgrammable, JumpProgrammab
 			world.setMazub(this);
 		}
 	}
+
+	/**
+	 * Returns whether this game object belongs to a game world.
+	 * 
+	 * @return true if a world contains this game object.
+	 * 			| this.getWorld() != null && this.getWorld().containsGameObject(this)
+	 */
+	public boolean inWorld() {
+		return this.getWorld() != null && this.getWorld().getMazub() == this;
+	}
 }

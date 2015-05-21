@@ -79,11 +79,12 @@ public class PlantTest {
 	
 	@Test
 	public void getEaten_ok() {
-		Mazub mazub = TestUtilities.mazub(startPos);
+		Mazub mazub = TestUtilities.mazub(Vector.add(startPos, new Vector<>(0.0, 27*0.01)));
 		world.setMazub(mazub);
 		
 		assertTrue(plant.isAlive());
 		
+		world.advanceTime(Constants.maxTimeInterval);
 		world.advanceTime(Constants.maxTimeInterval);
 		
 		assertTrue(plant.isAlive());
@@ -111,10 +112,11 @@ public class PlantTest {
 	
 	@Test
 	public void getEaten_mazubAlmostFull() {
-		Mazub mazub = TestUtilities.mazub(startPos);
+		Mazub mazub = TestUtilities.mazub(Vector.add(startPos, new Vector<>(0.0, 27*0.01)));
 		world.setMazub(mazub);
 		mazub.setHealth(Constants.mazubMaxHealth - Constants.mazubPlantHealthGain + 1);
 		
+		world.advanceTime(Constants.maxTimeInterval);
 		world.advanceTime(Constants.maxTimeInterval);
 		
 		assertTrue(plant.isHealthZero());

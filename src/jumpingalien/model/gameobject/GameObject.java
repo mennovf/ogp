@@ -260,7 +260,7 @@ public abstract class GameObject implements Collidable {
 	 * 			| this.getWorld().containsGameObject(this)
 	 */
 	public boolean hasProperWorld() {
-		return this.canHaveAsWorld(this.getWorld()) && this.getWorld().containsGameObject(this);
+		return this.canHaveAsWorld(this.getWorld()) && this.inWorld();
 	}
 	
 	/**

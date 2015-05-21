@@ -100,7 +100,7 @@ public class TileTest {
 	
 	@Test
 	public void getSizeInPixels() {
-		assertEquals(size, tile.getSizeInPixels());
+		assertEquals(size, tile.getSideSizeInPixels());
 	}
 	
 	

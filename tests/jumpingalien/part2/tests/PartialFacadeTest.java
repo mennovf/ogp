@@ -56,8 +56,9 @@ public class PartialFacadeTest {
 
 		int[][] actualTiles = facade
 				.getTilePositionsIn(world, 20, 20, 105, 105);
-		int[][] expectedTiles = { { 0, 0 }, { 1, 0 }, { 2, 0 }, { 0, 1 },
-				{ 1, 1 }, { 2, 1 }, { 0, 2 }, { 1, 2 }, { 2, 2 } };
+		int[][] expectedTiles = {{0, 0}, {0, 1}, {0, 2}, {1, 0},
+				{1, 1}, {1, 2}, {2, 0}, {2, 1}, {2, 2}};
+
 		assertArrayEquals(expectedTiles, actualTiles);
 	}
 

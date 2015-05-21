@@ -4,7 +4,9 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import jumpingalien.part1.facade.Facade;
 import jumpingalien.part1.facade.IFacade;
+import jumpingalien.part2.tests.TestUtilities;
 import jumpingalien.model.gameobject.Mazub;
+import jumpingalien.model.world.World;
 import jumpingalien.util.Sprite;
 import jumpingalien.util.Util;
 
@@ -59,7 +61,6 @@ public class PartialFacadeTest {
 		int m = 10;
 		Sprite[] sprites = spriteArrayForSize(2, 2, 10 + 2 * m);
 		Mazub alien = facade.createMazub(0, 0, sprites);
-
 		facade.startMoveRight(alien);
 
 		facade.advanceTime(alien, 0.005);

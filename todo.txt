@@ -1,3 +1,2 @@
 - onGround op Shark
-- plant move right bij init weg
 - damage van muzab

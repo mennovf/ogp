@@ -68,7 +68,9 @@ public class Plant extends GameObject implements RunProgrammable {
 		super(1, 1, position, sprites, program, true);
 		
 		//FIXME: This causes plants controlled by a program to start moving where they should be still
-		this.setSpeed(this.getSpeed().setX(Constants.plantSpeed));
+		if (program == null) {
+			this.setSpeed(this.getSpeed().setX(Constants.plantSpeed));
+		}
 		
 		this.addCollisionDamager(new PlantMazubCollisionDamager(this, -1, 0));
 	}

@@ -97,10 +97,8 @@ public class LanguageProgram implements Program{
 	 * @param dt
 	 * 			The amount of gameworld time that has passed since the last call.
 	 * 
-	 * @effect Advances the time of mainStatement by (dt + excessTime)
+	 * @effect Advances the time of mainStatement by (dt + excessTime). Here excessTime is the time left from the last execution.
 	 * 			| this.excessTime = this.mainStatement.advanceTime(dt + this.excessTime, this.globalVariables)
-	 * 			TODO: excessTime is private, so it should not be used here
-	 * 			
 	 */
 	@Override
 	public void advanceTime(double dt) {

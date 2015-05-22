@@ -1,2 +1,4 @@
-- onGround op Shark
-- damage van muzab
+- damage van buzam
+- collisions improvements
+- list of where certain concepts are used
+- class diagram

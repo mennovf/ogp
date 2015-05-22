@@ -21,7 +21,9 @@ public interface Statement {
 	 * 
 	 * @param dt
 	 * 			The amount of time to advance.
-	 * @param globals TODO
+	 * 
+	 * @param globals
+	 * 			A dictionary containing the global variables available for the execution.
 	 * 
 	 * @return The amount of time *not* consumed by advancing this statement.
 	 */

@@ -21,27 +21,4 @@ public class CommandQueue {
 			command.execute();
 		}
 	}
-	
-//	public static void main(String[] args) {
-//		LinkedList<String> heys = new LinkedList<String>();
-//		CommandQueue queue = new CommandQueue();
-//		queue.add(() -> {heys.add("Hello");});
-//		queue.add(() -> {heys.add("World");});
-//		
-//		try {
-//			queue.execute();
-//		} catch (IllegalAccessException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IllegalArgumentException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (InvocationTargetException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		for (String word : heys) {
-//			System.out.print(word);
-//		}
-//	}
 }

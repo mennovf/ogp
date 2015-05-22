@@ -73,7 +73,7 @@ public abstract class CollisionDamager {
 	 * @return Whether the owner can take damage.
 	 * 			| (this.timeSince > this.timeInterval) && !(owner.isHealthZero())
 	 */
-	protected boolean canTakeDamage() {
+	public boolean canTakeDamage() {
 		return (this.timeSince >= this.timeInterval) && !(owner.isHealthZero());
 	}
 

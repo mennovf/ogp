@@ -1202,4 +1202,21 @@ public abstract class GameObject implements Collidable {
 			this.getWorld().addGameObject(Gore.create(Utilities.pixelsVectorToMeters(this.getCenterInPixels()), sprite));
 		}
 	}
+	
+
+	/**
+	 * Returns whether or not this GameObject is immune to damage at this moment.
+	 * This GameObject is immune if it has taken damage from any source during the
+	 * previous damageInterval time.
+	 * 
+	 * @return whether or not this GameObject is immune to damage at this moment.
+	 */
+	public boolean isImmune() {
+		for (CollisionDamager d : this.collisionDamagers) {
+			if (! d.canTakeDamage()) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

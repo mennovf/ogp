@@ -459,7 +459,7 @@ public class World {
 	
 	/**
 	 * Returns whether this game world contains the given
-	 * game object.
+	 * game object. This does not work for Mazub.
 	 * 
 	 * @param gameObject
 	 * 			The game object to check.
@@ -467,7 +467,6 @@ public class World {
 	 * @return true if this game world contains the given game object.
 	 */
 	public boolean containsGameObject(GameObject gameObject) {
-		//TODO: Deze documentatie moet nagekeken worden voor de @return en @Basic
 		return objects.contains(gameObject);
 	}
 	

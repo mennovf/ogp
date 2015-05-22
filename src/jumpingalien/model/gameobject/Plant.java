@@ -67,7 +67,6 @@ public class Plant extends GameObject implements RunProgrammable {
 		
 		super(1, 1, position, sprites, program, true);
 		
-		//FIXME: This causes plants controlled by a program to start moving where they should be still
 		if (program == null) {
 			this.setSpeed(this.getSpeed().setX(Constants.plantSpeed));
 		}
@@ -92,9 +91,6 @@ public class Plant extends GameObject implements RunProgrammable {
 	
 	@Override
 	protected Set<Class<? extends GameObject>> getCollidableObjectClasses() {
-		
-		//TODO: Check whether it does not give problems returning an empty set here
-		//		because the interaction of a plant with Mazub will be handled by Mazub.
 		
 		return new HashSet<Class<? extends GameObject>>();
 	}

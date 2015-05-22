@@ -1,2 +1,5 @@
 - onGround op Shark
-- damage van muzab
+- damage van buzam
+- collisions improvements
+- anonymous expression classes as lambdas
+- list of where certain concepts are used

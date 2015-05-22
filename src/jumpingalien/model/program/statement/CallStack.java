@@ -40,20 +40,6 @@ public class CallStack extends Stack<Statement> {
 		return this.program;
 	}
 	
-
-	/**
-	 * Returns the parent stack. This means the stack without the upper element.
-	 * 
-	 * @return This stack without it's upper element.
-	 * 			| TODO: Write this
-	 */
-	public CallStack getParentCallStack() {
-		//TODO: Throw nice exception when the stack is empty
-		CallStack parentStack = (CallStack)this.clone();
-		parentStack.pop();
-		return parentStack;
-	}
-	
 	
 	/**
 	 * Returns a new call stack created by appending the given statement.

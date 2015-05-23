@@ -230,6 +230,7 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 
 	@Override
 	public UnaryOperation<Boolean, Object> createIsMazub(Expression<?> expr, SourceLocation sourceLocation) {
+		//FIXME: Should only detect Mazub, now it also detects Buzam?
 		return new UnaryOperation<Boolean, Object>((Expression<Object>)expr, (a) -> a instanceof Mazub);
 	}
 

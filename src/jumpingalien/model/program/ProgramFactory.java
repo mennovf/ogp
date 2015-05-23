@@ -28,145 +28,145 @@ import jumpingalien.part3.programs.SourceLocation;
 public class ProgramFactory implements IProgramFactory<Expression<?>, Statement, Object, LanguageProgram> {
 	
 	@Override
-	public Expression<Object> createReadVariable(String variableName, Object variableType,
+	public Variable<Object> createReadVariable(String variableName, Object variableType,
 			SourceLocation sourceLocation) {
 		return new Variable<Object>(variableName);
 	}
 
 	@Override
-	public Expression<Double> createDoubleConstant(double value, SourceLocation sourceLocation) {
+	public Value<Double> createDoubleConstant(double value, SourceLocation sourceLocation) {
 		return new Value<>(value);
 	}
 
 	@Override
-	public Expression<Boolean> createTrue(SourceLocation sourceLocation) {
+	public Value<Boolean> createTrue(SourceLocation sourceLocation) {
 		return new Value<>(true);
 	}
 
 	@Override
-	public Expression<Boolean> createFalse(SourceLocation sourceLocation) {
+	public Value<Boolean> createFalse(SourceLocation sourceLocation) {
 		return new Value<>(false);
 	}
 
 	@Override
-	public Expression<GameObject> createNull(SourceLocation sourceLocation) {
+	public Value<GameObject> createNull(SourceLocation sourceLocation) {
 		return new Value<>(null);
 	}
 
 	@Override
-	public Expression<Object> createSelf(SourceLocation sourceLocation) {
+	public Variable<Object> createSelf(SourceLocation sourceLocation) {
 		return new Variable<Object>("self");
 	}
 
 	@Override
-	public Expression<Direction> createDirectionConstant(
+	public Value<Direction> createDirectionConstant(
 			Direction value,
 			SourceLocation sourceLocation) {
 		return new Value<>(value);
 	}
 
 	@Override
-	public Expression<Double> createAddition(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
+	public BinaryOperation<Double, Double, Double> createAddition(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
 		return new BinaryOperation<Double, Double, Double>((Expression<Double>)left, (Expression<Double>)right, (a, b) -> (Double)a + (Double)b);
 	}
 
 	@Override
-	public Expression<Double> createSubtraction(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
+	public BinaryOperation<Double, Double, Double> createSubtraction(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
 		return new BinaryOperation<Double, Double, Double>((Expression<Double>)left, (Expression<Double>)right, (a, b) -> (Double)a - (Double)b);
 	}
 
 	@Override
-	public Expression<Double> createMultiplication(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
+	public BinaryOperation<Double, Double, Double> createMultiplication(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
 		return new BinaryOperation<Double, Double, Double>((Expression<Double>)left, (Expression<Double>)right, (a, b) -> (Double)a * (Double)b);
 	}
 
 	@Override
-	public Expression<Double> createDivision(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
+	public BinaryOperation<Double, Double, Double> createDivision(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
 		return new BinaryOperation<Double, Double, Double>((Expression<Double>)left, (Expression<Double>)right, (a, b) -> (Double)a / (Double)b);
 	}
 
 	@Override
-	public Expression<Double> createSqrt(Expression<?> expr, SourceLocation sourceLocation) {
+	public UnaryOperation<Double, Double> createSqrt(Expression<?> expr, SourceLocation sourceLocation) {
 		return new UnaryOperation<Double, Double>((Expression<Double>)expr, Math::sqrt);
 	}
 
 	@Override
-	public Expression<Double> createRandom(Expression<?> maxValue, SourceLocation sourceLocation) {
+	public UnaryOperation<Double, Double> createRandom(Expression<?> maxValue, SourceLocation sourceLocation) {
 		return new UnaryOperation<Double, Double>((Expression<Double>)maxValue, (a) -> Math.random() * a);
 	}
 
 	@Override
-	public Expression<Boolean> createAnd(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
+	public BinaryOperation<Boolean, Boolean, Boolean> createAnd(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
 		return new BinaryOperation<Boolean, Boolean, Boolean>((Expression<Boolean>)left, (Expression<Boolean>)right,
 															  (a, b) -> a && b);
 	}
 
 	@Override
-	public Expression<Boolean> createOr(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
+	public BinaryOperation<Boolean, Boolean, Boolean> createOr(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
 		return new BinaryOperation<Boolean, Boolean, Boolean>((Expression<Boolean>)left, (Expression<Boolean>)right,
 															  (a, b) -> a || b);
 	}
 
 	@Override
-	public Expression<Boolean> createNot(Expression<?> expr, SourceLocation sourceLocation) {
+	public UnaryOperation<Boolean, Boolean> createNot(Expression<?> expr, SourceLocation sourceLocation) {
 		return new UnaryOperation<Boolean, Boolean>((Expression<Boolean>)expr, (a) -> !a);
 	}
 
 	@Override
-	public Expression<Boolean> createLessThan(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
+	public BinaryOperation<Boolean, Double, Double> createLessThan(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
 		return new BinaryOperation<Boolean, Double, Double>((Expression<Double>)left, (Expression<Double>)right, (a, b) -> a < b);
 	}
 
 	@Override
-	public Expression<Boolean> createLessThanOrEqualTo(Expression<?> left, Expression<?> right,
+	public BinaryOperation<Boolean, Double, Double> createLessThanOrEqualTo(Expression<?> left, Expression<?> right,
 			SourceLocation sourceLocation) {
 		return new BinaryOperation<Boolean, Double, Double>((Expression<Double>)left, (Expression<Double>)right, (a, b) -> a <= b);
 	}
 
 	@Override
-	public Expression<Boolean> createGreaterThan(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
+	public BinaryOperation<Boolean, Double, Double> createGreaterThan(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
 		return new BinaryOperation<Boolean, Double, Double>((Expression<Double>)left, (Expression<Double>)right, (a, b) -> a > b);
 	}
 
 	@Override
-	public Expression<Boolean> createGreaterThanOrEqualTo(Expression<?> left, Expression<?> right,
+	public BinaryOperation<Boolean, Double, Double> createGreaterThanOrEqualTo(Expression<?> left, Expression<?> right,
 			SourceLocation sourceLocation) {
 		return new BinaryOperation<Boolean, Double, Double>((Expression<Double>)left, (Expression<Double>)right, (a, b) -> a >= b);
 	}
 
 	@Override
-	public Expression<Boolean> createEquals(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
+	public BinaryOperation<Boolean, Object, Object> createEquals(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
 		return new BinaryOperation<Boolean, Object, Object>((Expression<Object>)left, (Expression<Object>)right, (a, b) -> Objects.equals(a, b));
 	}
 
 	@Override
-	public Expression<Boolean> createNotEquals(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
+	public BinaryOperation<Boolean, Object, Object> createNotEquals(Expression<?> left, Expression<?> right, SourceLocation sourceLocation) {
 		return new BinaryOperation<Boolean, Object, Object>((Expression<Object>)left, (Expression<Object>)right, (a, b) -> ! Objects.equals(a, b));
 	}
 
 	@Override
-	public Expression<Double> createGetX(Expression<?> expr, SourceLocation sourceLocation) {
+	public UnaryOperation<Double, Collidable> createGetX(Expression<?> expr, SourceLocation sourceLocation) {
 		return new UnaryOperation<>((Expression<Collidable>) expr, (a) -> (double) a.getPositionInPixels().x);
 	}
 
 	@Override
-	public Expression<Double> createGetY(Expression<?> expr, SourceLocation sourceLocation) {
+	public UnaryOperation<Double, Collidable> createGetY(Expression<?> expr, SourceLocation sourceLocation) {
 		return new UnaryOperation<>((Expression<Collidable>) expr, (a) -> (double) a.getPositionInPixels().y);
 	}
 
 	@Override
-	public Expression<Double> createGetWidth(Expression<?> expr, SourceLocation sourceLocation) {
+	public UnaryOperation<Double, Collidable> createGetWidth(Expression<?> expr, SourceLocation sourceLocation) {
 		return new UnaryOperation<>((Expression<Collidable>) expr, (a) -> (double) a.getSizeInPixels().x);
 	}
 
 	@Override
-	public Expression<Double> createGetHeight(Expression<?> expr, SourceLocation sourceLocation) {
+	public UnaryOperation<Double, Collidable> createGetHeight(Expression<?> expr, SourceLocation sourceLocation) {
 		return new UnaryOperation<>((Expression<Collidable>) expr, (a) -> (double) a.getSizeInPixels().y);
 	}
 
 	@Override
-	public Expression<Double> createGetHitPoints(Expression<?> expr, SourceLocation sourceLocation) {
-		return new UnaryOperation<Double, GameObject>((Expression<GameObject>)expr, (a) -> (double) a.getHealth());
+	public UnaryOperation<Double, GameObject> createGetHitPoints(Expression<?> expr, SourceLocation sourceLocation) {
+		return new UnaryOperation<>((Expression<GameObject>)expr, (a) -> (double) a.getHealth());
 	}
 
 	@Override
@@ -229,84 +229,84 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	}
 
 	@Override
-	public Expression<Boolean> createIsMazub(Expression<?> expr, SourceLocation sourceLocation) {
+	public UnaryOperation<Boolean, Object> createIsMazub(Expression<?> expr, SourceLocation sourceLocation) {
 		return new UnaryOperation<Boolean, Object>((Expression<Object>)expr, (a) -> a instanceof Mazub);
 	}
 
 	@Override
-	public Expression<Boolean> createIsShark(Expression<?> expr, SourceLocation sourceLocation) {
+	public UnaryOperation<Boolean, Object> createIsShark(Expression<?> expr, SourceLocation sourceLocation) {
 		return new UnaryOperation<Boolean, Object>((Expression<Object>)expr, (a) -> a instanceof Shark);
 	}
 
 	@Override
-	public Expression<Boolean> createIsSlime(Expression<?> expr, SourceLocation sourceLocation) {
+	public UnaryOperation<Boolean, Object> createIsSlime(Expression<?> expr, SourceLocation sourceLocation) {
 		return new UnaryOperation<Boolean, Object>((Expression<Object>)expr, (a) -> a instanceof Slime);
 	}
 
 	@Override
-	public Expression<Boolean> createIsPlant(Expression<?> expr, SourceLocation sourceLocation) {
+	public UnaryOperation<Boolean, Object> createIsPlant(Expression<?> expr, SourceLocation sourceLocation) {
 		return new UnaryOperation<Boolean, Object>((Expression<Object>)expr, (a) -> a instanceof Plant);
 	}
 
 	@Override
-	public Expression<Boolean> createIsDead(Expression<?> expr, SourceLocation sourceLocation) {
+	public UnaryOperation<Boolean, GameObject> createIsDead(Expression<?> expr, SourceLocation sourceLocation) {
 		return new UnaryOperation<Boolean, GameObject>((Expression<GameObject>)expr, (a) -> a.isAlive());
 	}
 
 	@Override
-	public Expression<Boolean> createIsTerrain(Expression<?> expr, SourceLocation sourceLocation) {
+	public UnaryOperation<Boolean, Object> createIsTerrain(Expression<?> expr, SourceLocation sourceLocation) {
 		return new UnaryOperation<Boolean, Object>((Expression<Object>)expr, (a) -> a instanceof Tile);
 	}
 
 	@Override
-	public Expression<Boolean> createIsPassable(Expression<?> expr, SourceLocation sourceLocation) {
+	public UnaryOperation<Boolean, Collidable> createIsPassable(Expression<?> expr, SourceLocation sourceLocation) {
 		return new UnaryOperation<Boolean, Collidable>((Expression<Collidable>)expr, (a) -> a.isPassable());
 	}
 
 	@Override
-	public Expression<Boolean> createIsWater(Expression<?> expr, SourceLocation sourceLocation) {
+	public UnaryOperation<Boolean, Object> createIsWater(Expression<?> expr, SourceLocation sourceLocation) {
 		return new UnaryOperation<Boolean, Object>((Expression<Object>)expr, (a) -> (a instanceof Tile) && ((Tile)a).getType() == TileType.WATER);
 	}
 
 	@Override
-	public Expression<Boolean> createIsMagma(Expression<?> expr, SourceLocation sourceLocation) {
+	public UnaryOperation<Boolean, Object> createIsMagma(Expression<?> expr, SourceLocation sourceLocation) {
 		return new UnaryOperation<Boolean, Object>((Expression<Object>)expr, (a) -> (a instanceof Tile) && ((Tile)a).getType() == TileType.MAGMA);
 	}
 
 	@Override
-	public Expression<Boolean> createIsAir(Expression<?> expr, SourceLocation sourceLocation) {
+	public UnaryOperation<Boolean, Object> createIsAir(Expression<?> expr, SourceLocation sourceLocation) {
 		return new UnaryOperation<Boolean, Object>((Expression<Object>)expr, (a) -> (a instanceof Tile) && ((Tile)a).getType() == TileType.AIR);
 	}
 
 	@Override
-	public Expression<Boolean> createIsMoving(Expression<?> expr, Expression<?> direction, SourceLocation sourceLocation) {
+	public BinaryOperation<Boolean, GameObject, Direction> createIsMoving(Expression<?> expr, Expression<?> direction, SourceLocation sourceLocation) {
 		return new BinaryOperation<>((Expression<GameObject>) expr, (Expression<Direction>) direction,
 				(a, b) -> a.isMoving(b));
 	}
 
 	@Override
-	public Expression<Boolean> createIsDucking(Expression<?> expr, SourceLocation sourceLocation) {
+	public UnaryOperation<Boolean, Mazub> createIsDucking(Expression<?> expr, SourceLocation sourceLocation) {
 		return new UnaryOperation<>((Expression<Mazub>) expr, (a) -> a.isDucking());
 	}
 
 	@Override
-	public Expression<Boolean> createIsJumping(Expression<?> expr, SourceLocation sourceLocation) {
+	public UnaryOperation<Boolean, GameObject> createIsJumping(Expression<?> expr, SourceLocation sourceLocation) {
 		return new UnaryOperation<>((Expression<GameObject>) expr, (a) -> !a.onGround());
 	}
 
 	@Override
-	public Statement createAssignment(String variableName, Object variableType, Expression<?> value,
+	public Assignment createAssignment(String variableName, Object variableType, Expression<?> value,
 			SourceLocation sourceLocation) {
 		return new Assignment(variableName, (Expression<Object>)value);
 	}
 
 	@Override
-	public Statement createWhile(Expression<?> condition, Statement body, SourceLocation sourceLocation) {
+	public WhileLoop createWhile(Expression<?> condition, Statement body, SourceLocation sourceLocation) {
 		return new WhileLoop((Expression<Boolean>) condition, body);
 	}
 
 	@Override
-	public Statement createForEach(
+	public ForEachLoop createForEach(
 			String variableName,
 			Kind variableKind,
 			Expression<?> where,
@@ -317,18 +317,18 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	}
 
 	@Override
-	public Statement createBreak(SourceLocation sourceLocation) {
+	public Break createBreak(SourceLocation sourceLocation) {
 		return new Break();
 	}
 
 	@Override
-	public Statement createIf(Expression<?> condition, Statement ifBody, Statement elseBody,
+	public If createIf(Expression<?> condition, Statement ifBody, Statement elseBody,
 			SourceLocation sourceLocation) {
 		return new If((Expression<Boolean>) condition, ifBody, elseBody);
 	}
 
 	@Override
-	public Statement createPrint(Expression<?> value, SourceLocation sourceLocation) {
+	public SimpleStatement createPrint(Expression<?> value, SourceLocation sourceLocation) {
 		return new SimpleStatement() {
 			
 			@Override
@@ -339,7 +339,7 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	}
 
 	@Override
-	public Statement createStartRun(Expression<?> direction, SourceLocation sourceLocation) {
+	public SimpleStatement createStartRun(Expression<?> direction, SourceLocation sourceLocation) {
 		return new SimpleStatement() {
 			
 			@Override
@@ -351,7 +351,7 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	}
 
 	@Override
-	public Statement createStopRun(Expression<?> direction, SourceLocation sourceLocation) {
+	public SimpleStatement createStopRun(Expression<?> direction, SourceLocation sourceLocation) {
 		return new SimpleStatement() {
 			
 			@Override
@@ -363,7 +363,7 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	}
 
 	@Override
-	public Statement createStartJump(SourceLocation sourceLocation) {
+	public SimpleStatement createStartJump(SourceLocation sourceLocation) {
 		return new SimpleStatement() {
 			
 			@Override
@@ -375,7 +375,7 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	}
 
 	@Override
-	public Statement createStopJump(SourceLocation sourceLocation) {
+	public SimpleStatement createStopJump(SourceLocation sourceLocation) {
 		return new SimpleStatement() {
 			
 			@Override
@@ -387,7 +387,7 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	}
 
 	@Override
-	public Statement createStartDuck(SourceLocation sourceLocation) {
+	public SimpleStatement createStartDuck(SourceLocation sourceLocation) {
 		return new SimpleStatement() {
 			
 			@Override
@@ -399,7 +399,7 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	}
 
 	@Override
-	public Statement createStopDuck(SourceLocation sourceLocation) {
+	public SimpleStatement createStopDuck(SourceLocation sourceLocation) {
 		return new SimpleStatement() {
 			
 			@Override
@@ -411,17 +411,17 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	}
 
 	@Override
-	public Statement createWait(Expression<?> duration, SourceLocation sourceLocation) {
+	public Wait createWait(Expression<?> duration, SourceLocation sourceLocation) {
 		return new Wait((Expression<Double>) duration);
 	}
 
 	@Override
-	public Statement createSkip(SourceLocation sourceLocation) {
+	public Wait createSkip(SourceLocation sourceLocation) {
 		return new Wait(new Value<>(Statement.defaultTime));
 	}
 
 	@Override
-	public Statement createSequence(List<Statement> statements, SourceLocation sourceLocation) {
+	public Sequence createSequence(List<Statement> statements, SourceLocation sourceLocation) {
 		return new Sequence(statements);
 	}
 

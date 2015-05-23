@@ -1,4 +1,4 @@
-package jumpingalien.part2.tests;
+package jumpingalien.tests.util;
 
 import jumpingalien.model.Vector;
 import jumpingalien.model.gameobject.Mazub;

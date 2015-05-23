@@ -14,6 +14,7 @@ import jumpingalien.model.world.Tile;
 import jumpingalien.model.world.TileType;
 import jumpingalien.model.world.World;
 import jumpingalien.part2.internal.Resources;
+import jumpingalien.tests.util.TestUtilities;
 import jumpingalien.util.Sprite;
 
 import org.junit.After;

@@ -10,6 +10,7 @@ import jumpingalien.model.gameobject.Shark;
 import jumpingalien.model.gameobject.Slime;
 import jumpingalien.model.world.TileType;
 import jumpingalien.model.world.World;
+import jumpingalien.tests.util.TestUtilities;
 
 import org.junit.After;
 import org.junit.AfterClass;

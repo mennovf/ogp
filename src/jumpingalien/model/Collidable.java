@@ -68,6 +68,7 @@ public interface Collidable {
 	 * 			| !(collidable instanceof Tile || collidable instanceof GameObject)
 	 */
 	default Vector<Integer> getKindOfOverlapWith(Collidable collidable) throws IllegalArgumentException {
+		//FIXME: Exception?
 		return this.getKindOfOverlapWithRect(collidable.getPositionInPixels(),
 				collidable.getSizeInPixels());
 	}

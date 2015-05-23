@@ -969,6 +969,7 @@ public abstract class GameObject implements Collidable {
 	/**
 	 * Returns the program to be used when no program is specified.
 	 * This program implements the default behaviour of the GameObject.
+	 * 
 	 * @return The program to be used when no program is specified.
 	 */
 	private Program getDefaultProgram() {

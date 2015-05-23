@@ -104,34 +104,7 @@ public abstract class GameObject implements Collidable {
 	
 	
 	
-//	/**
-//	 * Creates a new game object with the given health, maxHealth, position and sprites.
-//	 * 
-//	 * @param health
-//	 * 			The health of the game object.
-//	 * 
-//	 * @param maxHealth
-//	 * 			The max health of the game object.
-//	 * 
-//	 * @param position
-//	 * 			The position of the game object in meters.
-//	 * 
-//	 * @param sprites
-//	 * 			The set of sprites of the game object.
-//	 * 
-//	 * @effect GameObject(health, maxHealth, position, sprites, false)
-//	 * 
-//	 * @post Passable will be set to false.
-//	 * 			| new.isPassable() == false
-//	 * 
-//	 * @throws IllegalArgumentException
-//	 */
-//	protected GameObject(int health, int maxHealth, Vector<Double> position, Sprite[] sprites)
-//			throws IllegalArgumentException {
-//		this(health, maxHealth, position, sprites, null, false);
-//	}
-//	
-//	
+
 	/**
 	 * Creates a new game object with the given health, maxHealth, position and sprites.
 	 * 

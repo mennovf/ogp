@@ -171,7 +171,7 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 
 	@Override
 	public Expression<Tile> createGetTile(Expression<?> x, Expression<?> y, SourceLocation sourceLocation) {
-		return (Expression<Tile>) (globals, callStack) -> {
+		return (globals, callStack) -> {
 			World world = callStack.getProgram().getGameObject().getWorld();
 			Vector<Integer> pixelPosition = new Vector<>(((Expression<Double>) x).evaluate(globals, callStack).intValue(),
 					((Expression<Double>) y).evaluate(globals, callStack).intValue());
@@ -181,7 +181,7 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 
 	@Override
 	public Expression<Collidable> createSearchObject(Expression<?> direction, SourceLocation sourceLocation) {
-		return (Expression<Collidable>) (globals, callStack) -> {
+		return (globals, callStack) -> {
 			
 			GameObject gameObject = callStack.getProgram().getGameObject();
 			World world = gameObject.getWorld();

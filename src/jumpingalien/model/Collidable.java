@@ -61,14 +61,8 @@ public interface Collidable {
 	 * 			| this.getKindOfOverlapWith((Tile) collidable)
 	 * 			When collidable is a GameObject object:
 	 * 			| this.getKindOfOverlapWith((GameObject) collidable)
-	 * 
-	 * @throws IllegalArgumentException
-	 * 			Throws an IllegalArgumentException when the collidable's type is unknown.
-	 * 			The type should be Tile or GameObject.
-	 * 			| !(collidable instanceof Tile || collidable instanceof GameObject)
 	 */
-	default Vector<Integer> getKindOfOverlapWith(Collidable collidable) throws IllegalArgumentException {
-		//FIXME: Exception?
+	default Vector<Integer> getKindOfOverlapWith(Collidable collidable) {
 		return this.getKindOfOverlapWithRect(collidable.getPositionInPixels(),
 				collidable.getSizeInPixels());
 	}

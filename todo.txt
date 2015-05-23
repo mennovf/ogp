@@ -1,3 +1,2 @@
 - damage van buzam
 - collisions improvements
-- class diagram

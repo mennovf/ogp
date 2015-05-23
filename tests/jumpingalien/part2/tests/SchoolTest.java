@@ -1,4 +1,5 @@
 package jumpingalien.part2.tests;
+
 import static org.junit.Assert.*;
 
 import java.util.HashSet;
@@ -7,6 +8,7 @@ import java.util.Set;
 import jumpingalien.model.Vector;
 import jumpingalien.model.gameobject.School;
 import jumpingalien.model.gameobject.Slime;
+import jumpingalien.tests.util.TestUtilities;
 
 import org.junit.After;
 import org.junit.AfterClass;

@@ -1,4 +1,3 @@
 - damage van buzam
 - collisions improvements
-- list of where certain concepts are used
 - class diagram

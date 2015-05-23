@@ -7,6 +7,7 @@ import jumpingalien.model.gameobject.Mazub;
 import jumpingalien.model.gameobject.Plant;
 import jumpingalien.model.world.World;
 import jumpingalien.part2.internal.Resources;
+import jumpingalien.tests.util.TestUtilities;
 import jumpingalien.util.Sprite;
 
 import org.junit.After;

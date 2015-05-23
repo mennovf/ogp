@@ -11,8 +11,8 @@ import jumpingalien.model.program.LanguageProgram;
 import jumpingalien.model.program.ProgramFactory;
 import jumpingalien.model.program.expression.*;
 import jumpingalien.model.program.statement.*;
-import jumpingalien.part2.tests.TestUtilities;
 import jumpingalien.part3.programs.SourceLocation;
+import jumpingalien.tests.util.TestUtilities;
 
 import org.junit.After;
 import org.junit.AfterClass;

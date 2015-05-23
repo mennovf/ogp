@@ -481,8 +481,7 @@ public class World {
 	 * 			| new.containsGameObject(gameObject) == false
 	 */
 	public void removeGameObject(GameObject gameObject) {
-		//FIXME: Should not check subclasses of Mazub, but only exaclty Mazub
-		if ((gameObject instanceof Mazub) && this.getMazub() == gameObject) {
+		if ((gameObject.getClass().equals(Mazub.class)) && this.getMazub() == gameObject) {
 			this.mazub = null;
 		} else if (this.objects.contains(gameObject)) {
 			this.objects.remove(gameObject);

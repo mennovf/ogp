@@ -6,6 +6,7 @@ import jumpingalien.model.Vector;
 import jumpingalien.model.gameobject.School;
 import jumpingalien.model.gameobject.Slime;
 import jumpingalien.part2.internal.Resources;
+import jumpingalien.tests.util.TestUtilities;
 import jumpingalien.util.Sprite;
 
 import org.junit.After;

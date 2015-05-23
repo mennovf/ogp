@@ -972,7 +972,7 @@ public abstract class GameObject implements Collidable {
 	 * @return The program to be used when no program is specified.
 	 */
 	private Program getDefaultProgram() {
-		return (dt) -> GameObject.this.handleStep(dt);
+		return GameObject.this::handleStep;
 	}
 	
 	/**

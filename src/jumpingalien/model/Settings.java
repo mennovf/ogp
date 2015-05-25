@@ -13,7 +13,7 @@ public class Settings {
 	/**
 	 * A boolean value to determine whether gore should be used.
 	 */
-	public static final boolean goreEnabled = true;
+	public static final boolean goreEnabled = false;
 	
 	/**
 	 * The number of blood particles used in the explosion of a game object.

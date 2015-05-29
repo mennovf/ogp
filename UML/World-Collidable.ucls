@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<class-diagram version="1.1.8" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
-  associations="true" dependencies="false" nesting-relationships="true">  
+<class-diagram version="1.1.8" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
   <class id="1" language="java" name="jumpingalien.model.world.World" project="Jumping Alien" 
     file="/Jumping Alien/src/jumpingalien/model/world/World.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="854" width="516" x="171" y="-74"/>    
@@ -56,24 +56,28 @@
     </display>  
   </interface>  
   <association id="7">    
-    <bendpoint x="876" y="357"/>    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="8" name="objects">        
-        <position height="18" width="47" x="991" y="278"/>      
+      <attribute id="8" name="commandQueue">        
+        <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="9" minimum="0" maximum="2147483647">        
-        <position height="16" width="23" x="1021" y="302"/>      
+      <multiplicity id="9" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
+    <end type="TARGET" refId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="10">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="11" name="tiles"/>      
-      <multiplicity id="12" minimum="0" maximum="2147483647"/>    
+    <bendpoint x="855" y="244"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="11" name="world">        
+        <position height="18" width="41" x="693" y="257"/>      
+      </attribute>      
+      <multiplicity id="12" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
+    <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="13">    
@@ -82,28 +86,36 @@
       <attribute id="14" name="queue">        
         <position height="18" width="43" x="-74" y="489"/>      
       </attribute>      
-      <multiplicity id="15" minimum="0" maximum="2147483647"/>    
+      <multiplicity id="15" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="16">    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="17" name="commandQueue"/>      
-      <multiplicity id="18" minimum="0" maximum="1"/>    
+      <attribute id="17" name="tiles">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="18" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
+    <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="19">    
-    <bendpoint x="855" y="244"/>    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="20" name="world">        
-        <position height="18" width="41" x="693" y="257"/>      
+    <bendpoint x="831" y="1015"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="20" name="mazub">        
+        <position height="18" width="45" x="1002" y="1084"/>      
       </attribute>      
-      <multiplicity id="21" minimum="0" maximum="1"/>    
+      <multiplicity id="21" minimum="0" maximum="1">        
+        <position height="16" width="25" x="1005" y="1116"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
+    <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <nesting id="22">    
@@ -111,23 +123,23 @@
     <end type="SOURCE" refId="5"/>    
     <end type="TARGET" refId="6"/>  
   </nesting>  
-  <generalization id="23">    
+  <association id="23">    
+    <bendpoint x="876" y="357"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="24" name="objects">        
+        <position height="18" width="47" x="991" y="278"/>      
+      </attribute>      
+      <multiplicity id="25" minimum="0" maximum="2147483647">        
+        <position height="16" width="23" x="1021" y="302"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="26">    
     <end type="SOURCE" refId="3"/>    
     <end type="TARGET" refId="2"/>  
   </generalization>  
-  <association id="24">    
-    <bendpoint x="831" y="1015"/>    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="25" name="mazub">        
-        <position height="18" width="45" x="1002" y="1084"/>      
-      </attribute>      
-      <multiplicity id="26" minimum="0" maximum="1">        
-        <position height="16" width="25" x="1005" y="1116"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    

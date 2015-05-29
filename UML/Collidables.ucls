@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.1.8" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
   realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
-  <interface id="1" language="java" name="jumpingalien.model.Collidable" project="ogp" 
-    file="/ogp/src/jumpingalien/model/Collidable.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="237" y="1"/>    
+  <interface id="1" language="java" name="jumpingalien.model.Collidable" project="Jumping Alien" 
+    file="/Jumping Alien/src/jumpingalien/model/Collidable.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="265" y="1"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="2" language="java" name="jumpingalien.model.gameobject.Gore" project="ogp" 
-    file="/ogp/src/jumpingalien/model/gameobject/Gore.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="-1155" y="1946"/>    
+  <class id="2" language="java" name="jumpingalien.model.gameobject.Gore" project="Jumping Alien" 
+    file="/Jumping Alien/src/jumpingalien/model/gameobject/Gore.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-861" y="1681"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="jumpingalien.model.gameobject.Plant" project="ogp" 
-    file="/ogp/src/jumpingalien/model/gameobject/Plant.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="3" language="java" name="jumpingalien.model.gameobject.Plant" project="Jumping Alien" 
+    file="/Jumping Alien/src/jumpingalien/model/gameobject/Plant.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="531" y="2173"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -28,8 +28,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="jumpingalien.model.gameobject.Shark" project="ogp" 
-    file="/ogp/src/jumpingalien/model/gameobject/Shark.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="4" language="java" name="jumpingalien.model.gameobject.Shark" project="Jumping Alien" 
+    file="/Jumping Alien/src/jumpingalien/model/gameobject/Shark.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="-85" y="2221"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -37,8 +37,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="5" language="java" name="jumpingalien.model.gameobject.Motion" project="ogp" 
-    file="/ogp/src/jumpingalien/model/gameobject/Motion.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="5" language="java" name="jumpingalien.model.gameobject.Motion" project="Jumping Alien" 
+    file="/Jumping Alien/src/jumpingalien/model/gameobject/Motion.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1015" y="1063"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -46,8 +46,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="jumpingalien.model.gameobject.GameObject" project="ogp" 
-    file="/ogp/src/jumpingalien/model/gameobject/GameObject.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="6" language="java" name="jumpingalien.model.gameobject.GameObject" project="Jumping Alien" 
+    file="/Jumping Alien/src/jumpingalien/model/gameobject/GameObject.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="250" y="1071"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -55,35 +55,35 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="7" language="java" name="jumpingalien.model.gameobject.Mazub" project="ogp" 
-    file="/ogp/src/jumpingalien/model/gameobject/Mazub.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="-819" y="2887"/>    
+  <class id="7" language="java" name="jumpingalien.model.gameobject.Mazub" project="Jumping Alien" 
+    file="/Jumping Alien/src/jumpingalien/model/gameobject/Mazub.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-817" y="2737"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="8" language="java" name="jumpingalien.model.gameobject.School" project="ogp" 
-    file="/ogp/src/jumpingalien/model/gameobject/School.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1446" y="1676"/>    
+  <class id="8" language="java" name="jumpingalien.model.gameobject.School" project="Jumping Alien" 
+    file="/Jumping Alien/src/jumpingalien/model/gameobject/School.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1505" y="1844"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="9" language="java" name="jumpingalien.model.gameobject.Buzam" project="ogp" 
-    file="/ogp/src/jumpingalien/model/gameobject/Buzam.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="-829" y="3283"/>    
+  <class id="9" language="java" name="jumpingalien.model.gameobject.Buzam" project="Jumping Alien" 
+    file="/Jumping Alien/src/jumpingalien/model/gameobject/Buzam.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-820" y="3173"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="10" language="java" name="jumpingalien.model.gameobject.Slime" project="ogp" 
-    file="/ogp/src/jumpingalien/model/gameobject/Slime.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="10" language="java" name="jumpingalien.model.gameobject.Slime" project="Jumping Alien" 
+    file="/Jumping Alien/src/jumpingalien/model/gameobject/Slime.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="941" y="1854"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -91,46 +91,48 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="11" language="java" name="jumpingalien.model.gameobject.programmable.JumpProgrammable" project="ogp" 
-    file="/ogp/src/jumpingalien/model/gameobject/programmable/JumpProgrammable.java" binary="false" 
+  <interface id="11" language="java" name="jumpingalien.model.gameobject.programmable.JumpProgrammable" 
+    project="Jumping Alien" file="/Jumping Alien/src/jumpingalien/model/gameobject/programmable/JumpProgrammable.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-69" y="2722"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="12" language="java" name="jumpingalien.model.gameobject.programmable.RunProgrammable" 
+    project="Jumping Alien" file="/Jumping Alien/src/jumpingalien/model/gameobject/programmable/RunProgrammable.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="665" y="2961"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="13" language="java" name="jumpingalien.model.gameobject.programmable.DuckProgrammable" 
+    project="Jumping Alien" file="/Jumping Alien/src/jumpingalien/model/gameobject/programmable/DuckProgrammable.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-255" y="3092"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="14" language="java" name="jumpingalien.model.reactions.GameObjectCollisionDamager" project="Jumping Alien" 
+    file="/Jumping Alien/src/jumpingalien/model/reactions/GameObjectCollisionDamager.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="40" y="2768"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </interface>  
-  <interface id="12" language="java" name="jumpingalien.model.gameobject.programmable.RunProgrammable" project="ogp" 
-    file="/ogp/src/jumpingalien/model/gameobject/programmable/RunProgrammable.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="706" y="2988"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </interface>  
-  <interface id="13" language="java" name="jumpingalien.model.gameobject.programmable.DuckProgrammable" project="ogp" 
-    file="/ogp/src/jumpingalien/model/gameobject/programmable/DuckProgrammable.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="380" y="2876"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </interface>  
-  <class id="14" language="java" name="jumpingalien.model.reactions.GameObjectCollisionDamager" project="ogp" 
-    file="/ogp/src/jumpingalien/model/reactions/GameObjectCollisionDamager.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1068" y="499"/>    
+    <position height="-1" width="-1" x="1043" y="514"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="15" language="java" name="jumpingalien.model.reactions.CollisionDamager" project="ogp" 
-    file="/ogp/src/jumpingalien/model/reactions/CollisionDamager.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="15" language="java" name="jumpingalien.model.reactions.CollisionDamager" project="Jumping Alien" 
+    file="/Jumping Alien/src/jumpingalien/model/reactions/CollisionDamager.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="944" y="245"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -138,8 +140,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="16" language="java" name="jumpingalien.model.reactions.PlantMazubCollisionDamager" project="ogp" 
-    file="/ogp/src/jumpingalien/model/reactions/PlantMazubCollisionDamager.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="16" language="java" name="jumpingalien.model.reactions.PlantMazubCollisionDamager" project="Jumping Alien" 
+    file="/Jumping Alien/src/jumpingalien/model/reactions/PlantMazubCollisionDamager.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1060" y="694"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -148,26 +151,27 @@
     </display>  
   </class>  
   <class id="17" language="java" name="jumpingalien.model.reactions.TerrainCollisionDamager.TerrainDamageInfo" 
-    project="ogp" file="/ogp/src/jumpingalien/model/reactions/TerrainCollisionDamager.java" binary="false" 
+    project="Jumping Alien" file="/Jumping Alien/src/jumpingalien/model/reactions/TerrainCollisionDamager.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1626" y="831"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="18" language="java" name="jumpingalien.model.reactions.TerrainCollisionDamager" project="Jumping Alien" 
+    file="/Jumping Alien/src/jumpingalien/model/reactions/TerrainCollisionDamager.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1521" y="842"/>    
+    <position height="-1" width="-1" x="1598" y="479"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="18" language="java" name="jumpingalien.model.reactions.TerrainCollisionDamager" project="ogp" 
-    file="/ogp/src/jumpingalien/model/reactions/TerrainCollisionDamager.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1514" y="500"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="19" language="java" name="jumpingalien.model.world.Tile" project="ogp" 
-    file="/ogp/src/jumpingalien/model/world/Tile.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="19" language="java" name="jumpingalien.model.world.Tile" project="Jumping Alien" 
+    file="/Jumping Alien/src/jumpingalien/model/world/Tile.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2272" y="-3"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -175,8 +179,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <enumeration id="20" language="java" name="jumpingalien.model.world.TileType" project="ogp" 
-    file="/ogp/src/jumpingalien/model/world/TileType.java" binary="false" corner="BOTTOM_RIGHT">    
+  <enumeration id="20" language="java" name="jumpingalien.model.world.TileType" project="Jumping Alien" 
+    file="/Jumping Alien/src/jumpingalien/model/world/TileType.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2277" y="389"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -184,170 +188,180 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </enumeration>  
-  <realization id="21">    
-    <end type="SOURCE" refId="10"/>    
-    <end type="TARGET" refId="12"/>  
-  </realization>  
-  <association id="22">    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="23" name="motion">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="24" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="25">    
+  <generalization id="21">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="14"/>  
+  </generalization>  
+  <generalization id="22">    
     <end type="SOURCE" refId="3"/>    
     <end type="TARGET" refId="6"/>  
   </generalization>  
-  <generalization id="26">    
+  <nesting id="23">    
+    <bendpoint x="1543" y="652"/>    
     <end type="SOURCE" refId="18"/>    
-    <end type="TARGET" refId="15"/>  
+    <end type="TARGET" refId="17"/>  
+  </nesting>  
+  <realization id="24">    
+    <bendpoint x="884" y="2459"/>    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="12"/>  
+  </realization>  
+  <generalization id="25">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="7"/>  
   </generalization>  
-  <association id="27">    
-    <end type="SOURCE" refId="10" navigable="false">      
-      <attribute id="28" name="school">        
-        <position height="0" width="0" x="0" y="0"/>      
+  <association id="26">    
+    <end type="SOURCE" refId="17" navigable="false">      
+      <attribute id="27" name="type">        
+        <position height="18" width="34" x="2120" y="456"/>      
       </attribute>      
-      <multiplicity id="29" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
+      <multiplicity id="28" minimum="0" maximum="1">        
+        <position height="16" width="25" x="2142" y="479"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="8" navigable="true"/>    
+    <end type="TARGET" refId="20" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="30">    
-    <end type="SOURCE" refId="15" navigable="false">      
-      <attribute id="31" name="owner">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="32" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="33">    
+  <association id="29">    
+    <bendpoint x="1679" y="630"/>    
     <end type="SOURCE" refId="18" navigable="false">      
-      <attribute id="34" name="infos">        
-        <position height="0" width="0" x="0" y="0"/>      
+      <attribute id="30" name="infos">        
+        <position height="0" width="0" x="105" y="-11"/>      
       </attribute>      
-      <multiplicity id="35" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="0" y="0"/>      
+      <multiplicity id="31" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="105" y="-11"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="17" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="36">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="11"/>  
-  </realization>  
-  <generalization id="37">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="6"/>  
-  </generalization>  
-  <association id="38">    
-    <end type="SOURCE" refId="17" navigable="false">      
-      <attribute id="39" name="type">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="40" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="20" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <realization id="41">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="13"/>  
-  </realization>  
-  <generalization id="42">    
-    <end type="SOURCE" refId="9"/>    
-    <end type="TARGET" refId="7"/>  
-  </generalization>  
-  <realization id="43">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="12"/>  
-  </realization>  
-  <association id="44">    
-    <end type="SOURCE" refId="19" navigable="false">      
-      <attribute id="45" name="type">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="46" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="20" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <realization id="47">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="12"/>  
-  </realization>  
-  <generalization id="48">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="6"/>  
-  </generalization>  
-  <generalization id="49">    
-    <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="6"/>  
-  </generalization>  
-  <nesting id="50">    
-    <end type="SOURCE" refId="18"/>    
-    <end type="TARGET" refId="17"/>  
-  </nesting>  
-  <realization id="51">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="12"/>  
-  </realization>  
-  <association id="52">    
+  <association id="32">    
+    <bendpoint x="636" y="1042"/>    
     <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="53" name="gameObject">        
+      <attribute id="33" name="gameObject">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="54" minimum="0" maximum="1">        
+      <multiplicity id="34" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="55">    
-    <end type="SOURCE" refId="14"/>    
+  <generalization id="35">    
+    <end type="SOURCE" refId="18"/>    
     <end type="TARGET" refId="15"/>  
   </generalization>  
-  <generalization id="56">    
-    <end type="SOURCE" refId="10"/>    
-    <end type="TARGET" refId="6"/>  
-  </generalization>  
-  <realization id="57">    
+  <association id="36">    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="37" name="type">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="38" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="20" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="39">    
     <end type="SOURCE" refId="7"/>    
     <end type="TARGET" refId="11"/>  
   </realization>  
-  <generalization id="58">    
-    <end type="SOURCE" refId="16"/>    
-    <end type="TARGET" refId="14"/>  
-  </generalization>  
-  <realization id="59">    
-    <end type="SOURCE" refId="19"/>    
-    <end type="TARGET" refId="1"/>  
+  <realization id="40">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="12"/>  
   </realization>  
-  <realization id="60">    
+  <realization id="41">    
+    <bendpoint x="-37" y="2910"/>    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="12"/>  
+  </realization>  
+  <generalization id="42">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="15"/>  
+  </generalization>  
+  <generalization id="43">    
+    <bendpoint x="-403" y="1971"/>    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <realization id="44">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="13"/>  
+  </realization>  
+  <association id="45">    
+    <bendpoint x="1256" y="1810"/>    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="46" name="slimes">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="47" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="48">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <realization id="49">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="12"/>  
+  </realization>  
+  <generalization id="50">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="51">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <realization id="52">    
     <end type="SOURCE" refId="6"/>    
     <end type="TARGET" refId="1"/>  
   </realization>  
+  <realization id="53">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="1"/>  
+  </realization>  
+  <realization id="54">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="11"/>  
+  </realization>  
+  <association id="55">    
+    <bendpoint x="514" y="390"/>    
+    <end type="SOURCE" refId="15" navigable="false">      
+      <attribute id="56" name="owner">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="57" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="58">    
+    <bendpoint x="1255" y="1888"/>    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="59" name="school">        
+        <position height="0" width="0" x="59" y="168"/>      
+      </attribute>      
+      <multiplicity id="60" minimum="0" maximum="1">        
+        <position height="0" width="0" x="59" y="168"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
   <association id="61">    
+    <bendpoint x="545" y="587"/>    
     <end type="SOURCE" refId="6" navigable="false">      
       <attribute id="62" name="collisionDamagers">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="18" width="110" x="678" y="365"/>      
       </attribute>      
       <multiplicity id="63" minimum="0" maximum="2147483647">        
         <position height="0" width="0" x="0" y="0"/>      
@@ -357,15 +371,16 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="64">    
-    <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="65" name="slimes">        
+    <bendpoint x="632" y="1105"/>    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="65" name="motion">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="66" minimum="0" maximum="2147483647">        
+      <multiplicity id="66" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="10" navigable="true"/>    
+    <end type="TARGET" refId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
